@@ -1,0 +1,712 @@
+{
+  "product": {
+    "id": "1-000091961",
+    "name": "Вакуумная термокружка «Sense», непротекаемая крышка, крафтовая упаковка, темно-синий",
+    "article": "827112W",
+    "settings": {
+      "productWarehouses": {
+        "main": {
+          "name": "Москва",
+          "summary": {
+            "stock": 1891,
+            "reserve": 330
+          },
+          "sizes": [
+            {
+              "id": "1-000091961",
+              "stock": 1891,
+              "reserve": 330
+            }
+          ]
+        },
+        "transit": {
+          "name": "В пути",
+          "summary": {
+            "stock": 0,
+            "reserve": 0
+          },
+          "sizes": [
+            {
+              "id": "1-000091961",
+              "stock": 1000,
+              "reserve": 0
+            }
+          ]
+        },
+        "fabric": {
+          "name": "На фабрике",
+          "summary": {
+            "stock": 1000,
+            "reserve": 0
+          },
+          "sizes": [
+            {
+              "id": "1-000091961",
+              "stock": 1000,
+              "reserve": 0
+            }
+          ]
+        }
+      }
+    },
+    "photosBlock": {
+      "types": [
+        {
+          "productId": "1-000091961",
+          "href": "/item/1-000091961",
+          "article": "арт. 827112W",
+          "name": "темно-синий",
+          "active": true,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/b3/6c/b348ecb1c3c42216.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/b3/6c/b348ecb1c3c42216.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/b3/6c/b348ecb1c3c42216.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/b3/6c/b348ecb1c3c42216.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000095002",
+          "href": "/item/1-000095002",
+          "article": "арт. 827127W",
+          "name": "стальной",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/f6/e9/a884d1c1da37e8e2.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/f6/e9/a884d1c1da37e8e2.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/f6/e9/a884d1c1da37e8e2.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/f6/e9/a884d1c1da37e8e2.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091955",
+          "href": "/item/1-000091955",
+          "article": "арт. 827111W",
+          "name": "красный",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/11/a0/8a045952a3879685.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/11/a0/8a045952a3879685.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/11/a0/8a045952a3879685.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/11/a0/8a045952a3879685.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091948",
+          "href": "/item/1-000091948",
+          "article": "арт. 827106W",
+          "name": "белый",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/af/7c/16970b40c8fd82ad.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/af/7c/16970b40c8fd82ad.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/af/7c/16970b40c8fd82ad.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/af/7c/16970b40c8fd82ad.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091950",
+          "href": "/item/1-000091950",
+          "article": "арт. 827131W",
+          "name": "винный",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/3a/38/3343fa417e75247a.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/3a/38/3343fa417e75247a.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/3a/38/3343fa417e75247a.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/3a/38/3343fa417e75247a.webp"
+          },
+          "price": {
+            "client": 782.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091963",
+          "href": "/item/1-000091963",
+          "article": "арт. 827107W",
+          "name": "черный",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/a9/f6/b83234e8c1ef76c3.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/a9/f6/b83234e8c1ef76c3.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/a9/f6/b83234e8c1ef76c3.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/a9/f6/b83234e8c1ef76c3.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091960",
+          "href": "/item/1-000091960",
+          "article": "арт. 827105W",
+          "name": "синий",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/aa/b3/976c05e6c76ac1dc.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/aa/b3/976c05e6c76ac1dc.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/aa/b3/976c05e6c76ac1dc.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/aa/b3/976c05e6c76ac1dc.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091956",
+          "href": "/item/1-000091956",
+          "article": "арт. 827108W",
+          "name": "оранжевый",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/a4/d6/2b97385c491c7acd.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/a4/d6/2b97385c491c7acd.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/a4/d6/2b97385c491c7acd.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/a4/d6/2b97385c491c7acd.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091953",
+          "href": "/item/1-000091953",
+          "article": "арт. 827103W",
+          "name": "зеленое яблоко",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/80/04/f5efcedea731d440.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/80/04/f5efcedea731d440.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/80/04/f5efcedea731d440.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/80/04/f5efcedea731d440.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091952",
+          "href": "/item/1-000091952",
+          "article": "арт. 827104W",
+          "name": "желтый",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/ae/33/1bd033f5120befa5.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/ae/33/1bd033f5120befa5.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/ae/33/1bd033f5120befa5.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/ae/33/1bd033f5120befa5.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091958",
+          "href": "/item/1-000091958",
+          "article": "арт. 827100W",
+          "name": "серебристый",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/a2/e3/d4c578638d30f381.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/a2/e3/d4c578638d30f381.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/a2/e3/d4c578638d30f381.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/a2/e3/d4c578638d30f381.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": null
+        },
+        {
+          "productId": "1-000091954",
+          "href": "/item/1-000091954",
+          "article": "арт. 827113W",
+          "name": "зеленый",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/a2/eb/a697033be40753e7.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/a2/eb/a697033be40753e7.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/a2/eb/a697033be40753e7.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/a2/eb/a697033be40753e7.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": "в пути"
+        },
+        {
+          "productId": "1-000091959",
+          "href": "/item/1-000091959",
+          "article": "арт. 827117W",
+          "name": "серый",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/68/ed/47a3ce9e41470f3a.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/68/ed/47a3ce9e41470f3a.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/68/ed/47a3ce9e41470f3a.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/68/ed/47a3ce9e41470f3a.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": "в пути"
+        },
+        {
+          "productId": "1-000091962",
+          "href": "/item/1-000091962",
+          "article": "арт. 827109W",
+          "name": "фиолетовый",
+          "active": false,
+          "img": {
+            "big": "https://s.a-5.ru/i/file/161/7/9e/da/6ddfe8dc46c22070.jpg",
+            "small": "https://s.a-5.ru/i/file/161/7/9e/da/6ddfe8dc46c22070.jpg",
+            "webp-big": "https://s.a-5.ru/i/file/161/7/9e/da/6ddfe8dc46c22070.webp",
+            "webp-small": "https://s.a-5.ru/i/file/161/7/9e/da/6ddfe8dc46c22070.webp"
+          },
+          "price": {
+            "client": 924.19
+          },
+          "reasonDisabled": "в пути"
+        }
+      ],
+      "productPhotos": [
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/b3/6c/b36ccf8cbd183e85.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/b3/6c/02e3933d7833a368.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/b3/6c/b36ccf8cbd183e85.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/b3/6c/02e3933d7833a368.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/b3/6c/827112w_0.jpg?force_download&frw=b36ccf8cbd183e85.jpg",
+                "target": "_blank"
+              }
+            },
+            {
+              "text": "Скачать изображение PNG",
+              "tooltip": "Скачать с прозрачным фоном. <br> Фон удален автоматически, возможны искажения!",
+              "attrs": {
+                "href": "/product/1-000091961/image-png"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/c0/78/c078cac1bceb44e6.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/c0/78/3afc5905ea67779f.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/c0/78/c078cac1bceb44e6.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/c0/78/3afc5905ea67779f.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/c0/78/827112w_a.jpg?force_download&frw=c078cac1bceb44e6.jpg",
+                "target": "_blank"
+              }
+            },
+            {
+              "text": "Скачать изображение PNG",
+              "tooltip": "Скачать с прозрачным фоном. <br> Фон удален автоматически, возможны искажения!",
+              "attrs": {
+                "href": "/product/1-000091961/image-png"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/60/29/602918a6e6291095.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/60/29/5cdd53b74fd345f4.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/60/29/602918a6e6291095.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/60/29/5cdd53b74fd345f4.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/60/29/827112w_b.jpg?force_download&frw=602918a6e6291095.jpg",
+                "target": "_blank"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/70/31/703108fcc8c559d3.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/70/31/8cb17773ccb4ca2d.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/70/31/703108fcc8c559d3.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/70/31/8cb17773ccb4ca2d.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/70/31/827112w_c.jpg?force_download&frw=703108fcc8c559d3.jpg",
+                "target": "_blank"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/7f/0d/7f0db67897f8abfd.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/7f/0d/a9cd4afb2b2adfe3.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/7f/0d/7f0db67897f8abfd.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/7f/0d/a9cd4afb2b2adfe3.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/7f/0d/827112w_d.jpg?force_download&frw=7f0db67897f8abfd.jpg",
+                "target": "_blank"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/42/d1/42d13bedafe08650.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/42/d1/9463b0a79b06a5b8.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/42/d1/42d13bedafe08650.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/42/d1/9463b0a79b06a5b8.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/42/d1/827112w_e.jpg?force_download&frw=42d13bedafe08650.jpg",
+                "target": "_blank"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/1d/9a/1d9a38a78f159f65.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/1d/9a/a2533466c76ab804.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/1d/9a/1d9a38a78f159f65.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/1d/9a/a2533466c76ab804.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/1d/9a/827112w_f.jpg?force_download&frw=1d9a38a78f159f65.jpg",
+                "target": "_blank"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/28/b4/28b474f562a9706b.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/28/b4/e4470ba0b0f6095c.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/28/b4/28b474f562a9706b.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/28/b4/e4470ba0b0f6095c.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/28/b4/827112w_x.jpg?force_download&frw=28b474f562a9706b.jpg",
+                "target": "_blank"
+              }
+            }
+          ]
+        },
+        {
+          "big": "https://s.a-5.ru/i/file/161/7/4c/71/4c71e62519940de6.jpg",
+          "small": "https://s.a-5.ru/i/file/161/7/4c/71/223b69d8b2a71f9f.jpg",
+          "webp-big": "https://s.a-5.ru/i/file/161/7/4c/71/4c71e62519940de6.jpg",
+          "webp-small": "https://s.a-5.ru/i/file/161/7/4c/71/223b69d8b2a71f9f.webp",
+          "otherLinks": [
+            {
+              "text": "Скачать изображение JPG",
+              "attrs": {
+                "href": "https://s.a-5.ru/i/file/161/7/4c/71/827112w_z.jpg?force_download&frw=4c71e62519940de6.jpg",
+                "target": "_blank"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "description": {
+      "overview": {
+        "main": [
+          {
+            "title": "Бренд",
+            "content": "<a href=\"/site/clck?from=product-brand-spec&amp;id=1-000091961&amp;url=%2Fbrands%2Fwaterline\" rel=\"nofollow\">Waterline</a>"
+          },
+          {
+            "id": "brandings",
+            "title": "Вид нанесения",
+            "content": "Трафаретная печать круговая, Тампопечать, Гравировка XL (СО2), Гравировка (CO2 лазер), Гравировка круговая (CO2 лазер), УФ DTF печать"
+          },
+          {
+            "title": "Вес",
+            "content": "186 г"
+          },
+          {
+            "title": "Производство",
+            "content": "Китай"
+          },
+          {
+            "title": "Ориентировочный пантон",
+            "content": "<a href=\"/categories?pantone=2757+C\" rel=\"nofollow\">2757 C</a>",
+            "tooltipContent": "Пантон указан ориентировочно, цвет может незначительно меняться в зависимости от партии. Подбор одного пантона не осуществляется."
+          },
+          {
+            "title": "Цвет товара",
+            "content": "темно-синий"
+          },
+          {
+            "title": "Материал товара",
+            "content": "нержавеющая сталь"
+          },
+          {
+            "title": "Особенности материалов",
+            "tooltipContent": "Информация про особенности товара",
+            "content": "<a href=\"https://s.a-5.ru/i/features-material/9c/83/6ff90aba1fdddb7f88850c11fb97.pdf\" rel=\"nofollow\" target=\"_blank\">нержавеющая cталь</a>"
+          },
+          {
+            "title": "Объем",
+            "content": "370 мл"
+          },
+          {
+            "title": "Цвет гравировки",
+            "content": "серебристый",
+            "tooltipContent": "При изменении поставщиком состава материала цвет может отличаться"
+          },
+          {
+            "title": "Размер товара (см)",
+            "content": "d8,3 x d8,8 x 12 см"
+          },
+          {
+            "title": "Герметичность",
+            "content": "да"
+          }
+        ],
+        "advanced": null,
+        "textBlock": [
+          {
+            "text": "Универсальная термокружка «Sense» понравится как любителям горячих напитков, так и холодных, ведь она сохраняет напитки горячими в течение 6 часов, а холодными - 12 часов. Этому способствует вакуумная изоляция и двойные стенки из качественной нержавеющей стали. Корпус термокружки имеет удобную обтекаемую форму. В наличии также имеется крышка-слайдер с силиконовым кольцом. Термокружка «Sense» эффектно будет смотреться на любом столе и станет незаменимым полезным аксессуаром.<br />\n<br />\n-Сохраняет напитки горячими 6 часов, холодными 12 часов.<br />\n-Пищевая долговечная сталь марки AISI 304.<br />\n-Двойные стенки с вакуумной изоляцией.<br />\n-Непротекаемая крышка-слайдер.<br />\n-Легко моется.<br />\n<br />\nНоминальный объем кружки 370 мл, при использовании непротекаемой крышки максимальный полезный объем составит 325 мл."
+          }
+        ],
+        "chartParams": [
+          {
+            "title": "График теплопотерь при температуре окружающей среды ≈ 25°",
+            "data": [
+              [
+                0,
+                94.7
+              ],
+              [
+                1,
+                77.6
+              ],
+              [
+                2,
+                64.2
+              ],
+              [
+                3,
+                55.8
+              ],
+              [
+                4,
+                48.7
+              ],
+              [
+                5,
+                44.1
+              ],
+              [
+                6,
+                40
+              ]
+            ],
+            "unitX": "ч.",
+            "unitY": "°"
+          }
+        ]
+      },
+      "packages": [
+        {
+          "name": "индивидуальная упаковка",
+          "items": [
+            {
+              "title": "Вид упаковки",
+              "content": "Упаковочная коробка",
+              "tooltipContent": null
+            },
+            {
+              "title": "Описание упаковки",
+              "content": "крафтовая коробка"
+            },
+            {
+              "title": "Размер товара в упаковке",
+              "content": "93x93x125 мм"
+            },
+            {
+              "title": "Вес с упаковкой",
+              "content": "228 г"
+            },
+            {
+              "title": "Объем единицы",
+              "content": "1080 см³"
+            }
+          ]
+        },
+        {
+          "name": "транспортная упаковка",
+          "items": [
+            {
+              "title": "Вид упаковки",
+              "content": "Транспортная упаковка",
+              "tooltipContent": null
+            },
+            {
+              "title": "Размер товара в упаковке",
+              "content": "470x150x470 мм"
+            },
+            {
+              "title": "Вес с упаковкой",
+              "content": "6200 г"
+            },
+            {
+              "title": "Количество в упаковке",
+              "content": "25 шт."
+            },
+            {
+              "title": "Объем единицы",
+              "content": "0.033135 м³"
+            }
+          ]
+        }
+      ],
+      "brandingAndLayouts": {
+        "brandings": [
+          {
+            "name": "Трафаретная печать круговая",
+            "href": null,
+            "free": true
+          },
+          {
+            "name": "Тампопечать",
+            "href": "/tipy-naneseniya/tamponnaya_pechat/modal",
+            "free": false
+          },
+          {
+            "name": "Гравировка XL (СО2)",
+            "href": "/tipy-naneseniya/gravirovka/modal",
+            "free": false
+          },
+          {
+            "name": "Гравировка (CO2 лазер)",
+            "href": "/tipy-naneseniya/gravirovka/modal",
+            "free": false
+          },
+          {
+            "name": "Гравировка круговая (CO2 лазер)",
+            "href": "/tipy-naneseniya/gravirovka/modal",
+            "free": false
+          },
+          {
+            "name": "УФ DTF печать",
+            "href": "/tipy-naneseniya/uv-dtf/modal",
+            "free": false
+          }
+        ],
+        "layouts": [
+          {
+            "href": "https://s.a-5.ru/i/file/161/26/23/be/827112W.cdr?frw=23becc4a29d2f42a.cdr",
+            "name": "Скачать макет CDR"
+          },
+          {
+            "href": "https://s.a-5.ru/i/file/161/27/32/bc/827112W.pdf?frw=32bc28e1f3e67468.pdf",
+            "name": "Скачать макет PDF"
+          },
+          {
+            "name": "Рекомендуемые технические требования к макету",
+            "href": "https://s.a-5.ru/i/article/a6/4d/9749b632ec68546b4ddcfa30d55e.pdf"
+          },
+          {
+            "name": "Критерии оценки качества",
+            "href": "/branding-reclamation/quality"
+          }
+        ]
+      },
+      "sizeTable": null,
+      "message": "Компания Oasis оставляет за собой право вносить изменения в характеристики товара и его упаковку без предварительного уведомления.",
+      "productFeatures": {
+        "title": "Особенности товара",
+        "text": "Особенности товара помогают сформировать ожидания по поводу качества товара, предупреждают об особенностях поведения материалов, из которых изготовлен товар, и нанесении при различных внешних воздействиях.",
+        "links": [
+          {
+            "text": "Особенности нанесения",
+            "url": "/branding-reclamation/type"
+          },
+          {
+            "text": "Особенности материала",
+            "url": "/branding-reclamation/Product_Requirements"
+          }
+        ]
+      }
+    },
+    "categories": {
+      "name": "Товар из категории",
+      "items": [
+        {
+          "name": "Термокружки",
+          "link": "/categories/kuhnya-i-posuda/termokruzhki-i-termosi/termokruzhki"
+        }
+      ]
+    }
+  },
+  "structured": {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": "Вакуумная термокружка «Sense», непротекаемая крышка, крафтовая упаковка, темно-синий",
+    "description": "Универсальная термокружка «Sense» понравится как любителям горячих напитков, так и холодных, ведь она сохраняет напитки горячими в течение 6 часов, а холодными - 12 часов. Этому способствует вакуумная изоляция и двойные стенки из качественной нержавеющей стали. Корпус термокружки имеет удобную обтекаемую форму. В наличии также имеется крышка-слайдер с силиконовым кольцом. Термокружка «Sense» эффектно будет смотреться на любом столе и станет незаменимым полезным аксессуаром.\n\n-Сохраняет напитки горячими 6 часов, холодными 12 часов.\n-Пищевая долговечная сталь марки AISI 304.\n-Двойные стенки с вакуумной изоляцией.\n-Непротекаемая крышка-слайдер.\n-Легко моется.\n\nНоминальный объем кружки 370 мл, при использовании непротекаемой крышки максимальный полезный объем составит 325 мл.",
+    "sku": "827112W",
+    "offers": {
+      "@type": "Offer",
+      "url": "https://www.oasiscatalog.com/item/1-000091961",
+      "priceCurrency": "RUB",
+      "price": 924.19,
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "https://schema.org/InStock",
+      "seller": {
+        "@type": "Organization",
+        "name": "Oasis"
+      }
+    },
+    "image": [
+      "https://s.a-5.ru/i/file/161/7/b3/6c/02e3933d7833a368.jpg",
+      "https://s.a-5.ru/i/file/161/7/c0/78/3afc5905ea67779f.jpg",
+      "https://s.a-5.ru/i/file/161/7/60/29/5cdd53b74fd345f4.jpg",
+      "https://s.a-5.ru/i/file/161/7/70/31/8cb17773ccb4ca2d.jpg",
+      "https://s.a-5.ru/i/file/161/7/7f/0d/a9cd4afb2b2adfe3.jpg",
+      "https://s.a-5.ru/i/file/161/7/42/d1/9463b0a79b06a5b8.jpg",
+      "https://s.a-5.ru/i/file/161/7/1d/9a/a2533466c76ab804.jpg",
+      "https://s.a-5.ru/i/file/161/7/28/b4/e4470ba0b0f6095c.jpg",
+      "https://s.a-5.ru/i/file/161/7/4c/71/223b69d8b2a71f9f.jpg"
+    ],
+    "brand": {
+      "@type": "Brand",
+      "name": "Waterline"
+    }
+  }
+}

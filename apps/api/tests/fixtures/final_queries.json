@@ -1,0 +1,30 @@
+{
+  "literal": [
+    ["карандаши 300 шт", "pencil", 300],
+    ["ручки 300 шт", "pen", 300],
+    ["синие бутылки 300 шт", "bottle", 300],
+    ["рюкзаки 200 шт", "backpack", 200],
+    ["зонты 100 шт", "umbrella", 100],
+    ["термосы 50 шт", "thermos", 50],
+    ["зарядки 100 шт", "charger", 100]
+  ],
+  "refinements": [
+    ["только металлические", "LOCAL_SEMANTIC_REFINE"],
+    ["желательно металлические", "LOCAL_RERANK"],
+    ["до 5000", "LOCAL_SEMANTIC_REFINE"],
+    ["не дороже 5000", "LOCAL_SEMANTIC_REFINE"],
+    ["от 5000", "LOCAL_SEMANTIC_REFINE"],
+    ["убери бутылки", "LOCAL_SEMANTIC_REFINE"],
+    ["оставь бутылки", "LOCAL_SEMANTIC_REFINE"],
+    ["более строгие", "LOCAL_RERANK"],
+    ["похожие на третий", "SIMILARITY_SEARCH"],
+    ["премиальные", "LOCAL_RERANK"],
+    ["минималистичные", "LOCAL_RERANK"],
+    ["технологичные", "LOCAL_RERANK"],
+    ["эко", "LOCAL_RERANK"],
+    ["не банальные", "LOCAL_RERANK"],
+    ["покажи всё найденное", "RESET_REFINEMENT"],
+    ["выбери по 5 лучших", "SELECT"]
+  ],
+  "ambiguous": ["мерч для IT конференции", "подарки сотрудникам", "что-то для руководителей"]
+}

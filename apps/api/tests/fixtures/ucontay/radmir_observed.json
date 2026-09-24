@@ -1,0 +1,549 @@
+{
+  "id": 427240230,
+  "url": "/product/termokruzhka-radmir-soft-touch",
+  "title": "Термокружка RADMIR soft touch 600 мл",
+  "option_names": [
+    {
+      "id": 1705727,
+      "position": 1,
+      "navigational": true,
+      "permalink": null,
+      "title": "Цвет",
+      "api_permalink": null
+    }
+  ],
+  "variants": [
+    {
+      "ozon_link": null,
+      "wildberries_link": null,
+      "id": 804087934,
+      "title": "Голубой",
+      "product_id": 427240230,
+      "sku": "RADMIR220",
+      "barcode": "2000000469775",
+      "dimensions": null,
+      "available": true,
+      "image_ids": [
+        3073676225
+      ],
+      "image_id": 3073676225,
+      "weight": null,
+      "created_at": "2025-02-24T17:11:19.000+05:00",
+      "updated_at": "2026-08-19T16:41:39.000+05:00",
+      "quantity": 1096,
+      "quantity_at_warehouse0": "1096.0",
+      "price": "5153.0",
+      "base_price": "5153.0",
+      "old_price": null,
+      "prices": [],
+      "variant_field_values": [
+        {
+          "id": 118303791,
+          "variant_field_id": 7690,
+          "value": "RADMIR220"
+        },
+        {
+          "id": 118303796,
+          "variant_field_id": 13383,
+          "value": "0.0"
+        },
+        {
+          "id": 118303797,
+          "variant_field_id": 13384,
+          "value": "0.0"
+        },
+        {
+          "id": 118303798,
+          "variant_field_id": 13385,
+          "value": "0.0"
+        },
+        {
+          "id": 118303799,
+          "variant_field_id": 13386,
+          "value": "0.0"
+        },
+        {
+          "id": 118303794,
+          "variant_field_id": 13314,
+          "value": "0.0"
+        },
+        {
+          "id": 118303792,
+          "variant_field_id": 13312,
+          "value": "1096.0"
+        },
+        {
+          "id": 118303795,
+          "variant_field_id": 13315,
+          "value": "1096.0"
+        },
+        {
+          "id": 118303793,
+          "variant_field_id": 13313,
+          "value": "0.0"
+        }
+      ],
+      "option_values": [
+        {
+          "id": 13637797,
+          "option_name_id": 1705727,
+          "position": 4,
+          "title": "Голубой",
+          "image_url": null,
+          "permalink": null
+        }
+      ]
+    },
+    {
+      "ozon_link": null,
+      "wildberries_link": null,
+      "id": 710296567,
+      "title": "Розовый",
+      "product_id": 427240230,
+      "sku": "RADMIR140",
+      "barcode": "2000000426013",
+      "dimensions": null,
+      "available": true,
+      "image_ids": [
+        2578164977,
+        2578165393,
+        2578165953,
+        2578166425,
+        2578166977
+      ],
+      "image_id": 2578164977,
+      "weight": null,
+      "created_at": "2024-03-13T21:41:33.000+05:00",
+      "updated_at": "2026-08-17T20:39:41.000+05:00",
+      "quantity": 1713,
+      "quantity_at_warehouse0": "1713.0",
+      "price": "5153.0",
+      "base_price": "5153.0",
+      "old_price": null,
+      "prices": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "variant_field_values": [
+        {
+          "id": 94627893,
+          "variant_field_id": 7690,
+          "value": "RADMIR140"
+        },
+        {
+          "id": 94627898,
+          "variant_field_id": 13383,
+          "value": "0.0"
+        },
+        {
+          "id": 94627899,
+          "variant_field_id": 13384,
+          "value": "0.0"
+        },
+        {
+          "id": 94627900,
+          "variant_field_id": 13385,
+          "value": "0.0"
+        },
+        {
+          "id": 94627901,
+          "variant_field_id": 13386,
+          "value": "0.0"
+        },
+        {
+          "id": 94627895,
+          "variant_field_id": 13313,
+          "value": "25.0"
+        },
+        {
+          "id": 94627896,
+          "variant_field_id": 13314,
+          "value": "0.0"
+        },
+        {
+          "id": 94627894,
+          "variant_field_id": 13312,
+          "value": "1738.0"
+        },
+        {
+          "id": 94627897,
+          "variant_field_id": 13315,
+          "value": "1713.0"
+        }
+      ],
+      "option_values": [
+        {
+          "id": 13749558,
+          "option_name_id": 1705727,
+          "position": 35,
+          "title": "Розовый",
+          "image_url": null,
+          "permalink": null
+        }
+      ]
+    },
+    {
+      "ozon_link": null,
+      "wildberries_link": null,
+      "id": 710296740,
+      "title": "Тёмно-синий",
+      "product_id": 427240230,
+      "sku": "RADMIR319",
+      "barcode": "2000000222202",
+      "dimensions": null,
+      "available": false,
+      "image_ids": [
+        2793959177,
+        2578189257,
+        2578189649,
+        2578189921,
+        2578190641
+      ],
+      "image_id": 2793959177,
+      "weight": null,
+      "created_at": "2024-03-13T21:41:49.000+05:00",
+      "updated_at": "2026-08-17T20:37:39.000+05:00",
+      "quantity": 0,
+      "quantity_at_warehouse0": "0.0",
+      "price": "5153.0",
+      "base_price": "5153.0",
+      "old_price": null,
+      "prices": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "variant_field_values": [
+        {
+          "id": 94627956,
+          "variant_field_id": 7690,
+          "value": "RADMIR003"
+        },
+        {
+          "id": 94627961,
+          "variant_field_id": 13383,
+          "value": "0.0"
+        },
+        {
+          "id": 94627962,
+          "variant_field_id": 13384,
+          "value": "0.0"
+        },
+        {
+          "id": 94627963,
+          "variant_field_id": 13385,
+          "value": "0.0"
+        },
+        {
+          "id": 94627964,
+          "variant_field_id": 13386,
+          "value": "0.0"
+        },
+        {
+          "id": 94627959,
+          "variant_field_id": 13314,
+          "value": "0.0"
+        },
+        {
+          "id": 94627960,
+          "variant_field_id": 13315,
+          "value": "0.0"
+        },
+        {
+          "id": 94627957,
+          "variant_field_id": 13312,
+          "value": "0.0"
+        },
+        {
+          "id": 94627958,
+          "variant_field_id": 13313,
+          "value": "0.0"
+        }
+      ],
+      "option_values": [
+        {
+          "id": 18410433,
+          "option_name_id": 1705727,
+          "position": 442,
+          "title": "Тёмно-синий",
+          "image_url": null,
+          "permalink": null
+        }
+      ]
+    }
+  ],
+  "images": [
+    {
+      "id": 2578164977,
+      "product_id": 427240230,
+      "external_id": null,
+      "position": 2,
+      "created_at": "2025-12-07T21:01:45.000+05:00",
+      "image_processing": false,
+      "title": "к2_роз",
+      "url": "https://cdn.insales-shop.ru/images/products/1/3313/2578164977/thumb_к2_роз.jpg",
+      "original_url": "https://cdn.insales-shop.ru/images/products/1/3313/2578164977/к2_роз.jpg",
+      "medium_url": "https://cdn.insales-shop.ru/images/products/1/3313/2578164977/medium_к2_роз.jpg",
+      "small_url": "https://cdn.insales-shop.ru/images/products/1/3313/2578164977/micro_к2_роз.jpg",
+      "thumb_url": "https://cdn.insales-shop.ru/images/products/1/3313/2578164977/thumb_к2_роз.jpg",
+      "compact_url": "https://cdn.insales-shop.ru/images/products/1/3313/2578164977/compact_к2_роз.jpg",
+      "large_url": "https://cdn.insales-shop.ru/images/products/1/3313/2578164977/large_к2_роз.jpg",
+      "filename": "к2_роз.jpg",
+      "has_bitmap_image": false,
+      "image_content_type": "image/jpeg"
+    },
+    {
+      "id": 2793959177,
+      "product_id": 427240230,
+      "external_id": null,
+      "position": 58,
+      "created_at": "2026-02-27T13:08:48.000+05:00",
+      "image_processing": false,
+      "title": "RADMIR319",
+      "url": "https://cdn.insales-shop.ru/images/products/1/3849/2793959177/thumb_RADMIR319.jpg",
+      "original_url": "https://cdn.insales-shop.ru/images/products/1/3849/2793959177/RADMIR319.jpg",
+      "medium_url": "https://cdn.insales-shop.ru/images/products/1/3849/2793959177/medium_RADMIR319.jpg",
+      "small_url": "https://cdn.insales-shop.ru/images/products/1/3849/2793959177/micro_RADMIR319.jpg",
+      "thumb_url": "https://cdn.insales-shop.ru/images/products/1/3849/2793959177/thumb_RADMIR319.jpg",
+      "compact_url": "https://cdn.insales-shop.ru/images/products/1/3849/2793959177/compact_RADMIR319.jpg",
+      "large_url": "https://cdn.insales-shop.ru/images/products/1/3849/2793959177/large_RADMIR319.jpg",
+      "filename": "RADMIR319.jpg",
+      "has_bitmap_image": false,
+      "image_content_type": "image/jpeg"
+    },
+    {
+      "id": 3073676225,
+      "product_id": 427240230,
+      "external_id": null,
+      "position": 66,
+      "created_at": "2026-05-28T16:47:37.000+05:00",
+      "image_processing": false,
+      "title": "RADMIR220b",
+      "url": "https://cdn.insales-shop.ru/images/products/1/5057/3073676225/thumb_RADMIR220b.jpg",
+      "original_url": "https://cdn.insales-shop.ru/images/products/1/5057/3073676225/RADMIR220b.jpg",
+      "medium_url": "https://cdn.insales-shop.ru/images/products/1/5057/3073676225/medium_RADMIR220b.jpg",
+      "small_url": "https://cdn.insales-shop.ru/images/products/1/5057/3073676225/micro_RADMIR220b.jpg",
+      "thumb_url": "https://cdn.insales-shop.ru/images/products/1/5057/3073676225/thumb_RADMIR220b.jpg",
+      "compact_url": "https://cdn.insales-shop.ru/images/products/1/5057/3073676225/compact_RADMIR220b.jpg",
+      "large_url": "https://cdn.insales-shop.ru/images/products/1/5057/3073676225/large_RADMIR220b.jpg",
+      "filename": "RADMIR220b.jpg",
+      "has_bitmap_image": false,
+      "image_content_type": "image/jpeg"
+    }
+  ],
+  "properties": [
+    {
+      "id": 24278798,
+      "position": 1,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": true,
+      "permalink": "label",
+      "title": "Метка"
+    },
+    {
+      "id": 24278840,
+      "position": 2,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": true,
+      "permalink": "brend",
+      "title": "Бренд"
+    },
+    {
+      "id": 36864507,
+      "position": 5,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "razmer-tovar",
+      "title": "Размер товар"
+    },
+    {
+      "id": 28541424,
+      "position": 9,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "material",
+      "title": "Материал"
+    },
+    {
+      "id": 36864499,
+      "position": 15,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "razmer-eksportnoy-korobki",
+      "title": "Размер экспортной коробки"
+    },
+    {
+      "id": 36864500,
+      "position": 18,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "ves-eksportnoy-korobki",
+      "title": "Вес экспортной коробки"
+    },
+    {
+      "id": 36864502,
+      "position": 21,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "obyom-eksportnoy-korobki",
+      "title": "Объём экспортной коробки"
+    },
+    {
+      "id": 36079961,
+      "position": 23,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "kol-vo-v-eksportnoy-korobke",
+      "title": "Кол-во в экспортной коробке"
+    },
+    {
+      "id": 36864501,
+      "position": 32,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "ves-odnogo-tovara",
+      "title": "Вес одного товара"
+    },
+    {
+      "id": 41269145,
+      "position": 34,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "osnovnoy-sklad",
+      "title": "Основной склад"
+    },
+    {
+      "id": 41331434,
+      "position": 36,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "konstruktor-naneseniya",
+      "title": "Конструктор нанесения"
+    },
+    {
+      "id": 54883229,
+      "position": 59,
+      "backoffice": false,
+      "is_hidden": false,
+      "is_navigational": false,
+      "permalink": "video",
+      "title": "Видео"
+    },
+    {
+      "id": 57230817,
+      "position": 64,
+      "backoffice": false,
+      "is_hidden": true,
+      "is_navigational": true,
+      "permalink": "skryt-v-poiske",
+      "title": "Скрыть в поиске"
+    }
+  ],
+  "characteristics": [
+    {
+      "id": 284412727,
+      "property_id": 54883229,
+      "position": 324,
+      "title": "https://youtu.be/B8XHU5KSMbg",
+      "permalink": "httpsyoutubeb8xhu5ksmbg"
+    },
+    {
+      "id": 273463770,
+      "property_id": 57230817,
+      "position": 3,
+      "title": "Нет",
+      "permalink": "hide-search-net"
+    },
+    {
+      "id": 113475444,
+      "property_id": 24278798,
+      "position": 2,
+      "title": "В Алма-Ате",
+      "permalink": "v-alma-ate"
+    },
+    {
+      "id": 114725833,
+      "property_id": 24278840,
+      "position": 123,
+      "title": "Ucontay",
+      "permalink": "ucontay"
+    },
+    {
+      "id": 149292090,
+      "property_id": 36864507,
+      "position": 43,
+      "title": "Размер 190*85 мм",
+      "permalink": "razmer-19085-mm"
+    },
+    {
+      "id": 111678737,
+      "property_id": 28541424,
+      "position": 29,
+      "title": "Нержавеющая сталь",
+      "permalink": "nerzhaveyuschaya-stal"
+    },
+    {
+      "id": 149292091,
+      "property_id": 36864501,
+      "position": 53,
+      "title": "0,310 кг.",
+      "permalink": "0310-kg"
+    },
+    {
+      "id": 149292092,
+      "property_id": 36864499,
+      "position": 47,
+      "title": "0,57*0,39*0,22 м.",
+      "permalink": "057039022-m"
+    },
+    {
+      "id": 149292093,
+      "property_id": 36864502,
+      "position": 44,
+      "title": "0,049 м3.",
+      "permalink": "0049-m3"
+    },
+    {
+      "id": 149284402,
+      "property_id": 36864500,
+      "position": 49,
+      "title": "9,000 кг.",
+      "permalink": "9000-kg"
+    },
+    {
+      "id": 149234362,
+      "property_id": 36079961,
+      "position": 32,
+      "title": "24 шт.",
+      "permalink": "24-sht"
+    },
+    {
+      "id": 168321118,
+      "property_id": 41331434,
+      "position": 74,
+      "title": "https://static.insales-cdn.com/files/1/5695/20289087/original/Термокружка_Radmir.pdf",
+      "permalink": "httpsstaticinsales-cdncomfiles1569520289087originaltermokruzhka_radmirpdf"
+    },
+    {
+      "id": 167670616,
+      "property_id": 41269145,
+      "position": 1,
+      "title": "В Алма-Ате",
+      "permalink": "v-alma-ate"
+    }
+  ]
+}
