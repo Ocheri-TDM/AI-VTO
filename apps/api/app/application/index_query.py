@@ -17,6 +17,7 @@ class IndexQueryService:
         products = []
         matcher = ProductCategoryMatcher()
         availability = ProcurementAvailabilityService()
+        retrieval_query = intent.normalized_query or intent.raw_query
         for p in candidates:
             match = next(
                 (
@@ -24,7 +25,7 @@ class IndexQueryService:
                     for c in intent.categories
                     if (
                         intent.discovery and p.category == c
-                        or matcher.match(p, c, intent.raw_query)
+                        or matcher.match(p, c, retrieval_query)
                         in {CategoryMatch.EXACT, CategoryMatch.STRONG_RELATED}
                     )
                 ),
@@ -41,7 +42,7 @@ class IndexQueryService:
             ):
                 continue
             p.metadata["matched_concept"] = match
-            p.metadata["category_match"] = matcher.match(p, match, intent.raw_query).value
+            p.metadata["category_match"] = matcher.match(p, match, retrieval_query).value
             if intent.quantity is not None:
                 derived = availability.derive(p.availability_records, intent.quantity)
                 p.metadata["procurement_availability"] = {

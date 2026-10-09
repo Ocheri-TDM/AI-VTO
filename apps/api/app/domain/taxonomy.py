@@ -27,10 +27,12 @@ SEEDS = {
     "marker": ("Маркеры", "маркер", "marker"),
     "highlighter": ("Текстовыделители", "текстовыделител", "highlighter"),
     "thermos": ("Термосы", "термос", "thermos"),
-    "mug": ("Кружки", "кружк", "mug"),
+    "mug": ("Кружки", "кружка", "кружк", "кружек", "mug"),
     "glass": ("Стаканы", "стакан", "glass"),
     "plate": ("Тарелки", "тарелк", "plate"),
     "tshirt": ("Футболки", "футболк", "t-shirt"),
+    "raincoat": ("Дождевики", "дождевик", "плащ дождевик", "raincoat"),
+    "socks": ("Носки", "носок", "носки", "sock"),
     "hoodie": ("Худи", "худи", "hoodie"),
     "blanket": ("Пледы", "плед", "blanket"),
     "clock": ("Часы", "часы", "clock"),
@@ -41,7 +43,7 @@ SEEDS = {
     "wallet": ("Кошельки", "кошел", "wallet"),
     "cardholder": ("Визитницы", "визитниц", "cardholder"),
     "organizer": ("Органайзеры", "органайзер", "organizer"),
-    "lanyard": ("Ланъярды", "ланъярд", "lanyard"),
+    "lanyard": ("Ланьярды", "ланьярд", "lanyard"),
 }
 
 
@@ -113,27 +115,41 @@ def resolve_cached(value: str) -> tuple[str, ...]:
     return tuple(UniversalCategoryResolver().resolve(value))
 
 
+@lru_cache(maxsize=1024)
+def requested_terms_cached(query: str) -> tuple[tuple[str, ...], tuple[tuple[str, ...], ...]]:
+    """Cache immutable query evidence shared by every candidate in a pool."""
+    requested = tuple(terms(UniversalCategoryResolver().concept(query)))
+    alternatives = tuple(tuple(value) for value in QueryVocabulary.alternatives(list(requested)))
+    return requested, alternatives
+
+
+@lru_cache(maxsize=50000)
+def product_evidence_terms_cached(
+    name: str, supplier_category: str, breadcrumbs: str, concepts: tuple[str, ...]
+) -> tuple[str, ...]:
+    """Normalize stable catalog evidence once across requests and positions."""
+    return tuple(terms(f"{name} {supplier_category} {breadcrumbs} {' '.join(concepts)}"))
+
+
 class ProductCategoryMatcher:
     def __init__(self):
         self.resolver = UniversalCategoryResolver()
 
     def match(self, product, category: str, query: str = "") -> CategoryMatch:
-        resolver = self.resolver
         if re.search(
             r"^(?:подарочн\w*\s+)?(?:набор|комплект|коробк\w*|футляр\w*|чехол|точилк\w*)\b",
             normalize_text(product.name),
         ) and category in ("pencil", "pen", "bottle"):
             return CategoryMatch.REJECTED
-        categories = resolve_cached(product.name)
         # Supplier text is first-class evidence for both open and known taxonomy.
         # This keeps products indexed with an older/missing canonical category in
         # recall without weakening hard quantity, price, colour or material rules.
-        requested = terms(resolver.concept(query))
-        evidence = terms(
-            product.name + " "
-            + str(product.metadata.get("supplier_category", "")) + " "
-            + str(product.metadata.get("breadcrumbs", ""))
-            + " " + " ".join(product.metadata.get("product_concepts", []))
+        requested, alternatives = requested_terms_cached(query)
+        evidence = product_evidence_terms_cached(
+            product.name,
+            str(product.metadata.get("supplier_category", "")),
+            str(product.metadata.get("breadcrumbs", "")),
+            tuple(product.metadata.get("product_concepts", [])),
         )
         def token_match(left: str, right: str) -> bool:
             return (
@@ -145,7 +161,6 @@ class ProductCategoryMatcher:
 
         if requested and all(any(token_match(t, r) for t in evidence) for r in requested):
             return CategoryMatch.EXACT
-        alternatives = QueryVocabulary.alternatives(requested)
         if any(
             all(any(token_match(t, r) for t in evidence) for r in alternative)
             for alternative in alternatives
@@ -156,6 +171,10 @@ class ProductCategoryMatcher:
             + " "
             + str(product.metadata.get("supplier_category", ""))
         )
+        # Name taxonomy resolution is only needed by the fallback. Performing
+        # it eagerly dominated cold full-pool Composite filtering even when
+        # direct catalog evidence had already accepted the product.
+        categories = resolve_cached(product.name)
         if category in resolve_cached(path) and not categories:
             return CategoryMatch.EXACT
         return CategoryMatch.REJECTED

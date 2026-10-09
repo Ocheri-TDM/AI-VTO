@@ -56,6 +56,8 @@ class ResearchPlanner:
         for pattern,material in [(r'дерев','дерев'),(r'алюмин','алюмин'),(r'сталь|стальн','сталь'),
                                  (r'бамбук','бамбук'),(r'пластик','пластик'),(r'металл','металл')]:
             if re.search(pattern,query.casefold()):
+                if re.search(rf"(?:без|не|кроме)\s+\w*{pattern}", query.casefold()):
+                    continue
                 if soft:
                     soft_terms.append(material)
                     base.material = None
@@ -85,4 +87,7 @@ class ResearchPlanner:
                 query_origin='dynamic' if c.startswith('dynamic:') else 'taxonomy',
                 query_reason='User product concept' if c.startswith('dynamic:') else 'Category alias')
                 for c in intent.categories for s in SUPPLIERS
-                for q in (expansion.expand(c, budget) or [UniversalCategoryResolver().concept(intent.raw_query)])]
+                for q in (
+                    expansion.expand(c, budget)
+                    or [UniversalCategoryResolver().concept(intent.normalized_query or intent.raw_query)]
+                )]

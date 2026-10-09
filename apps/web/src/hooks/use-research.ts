@@ -42,6 +42,8 @@ export function useResearch(chatId: string | null) {
     finally {operation.current=false;setBusy(false);}
   },[]);
   return {research,busy,running,error,setError,perform,
+    setResearch,
+    openResearch: async(id:string)=>{setBusy(true);setError('');try{setResearch(await researchApi.get(id));}catch(e){setError(e instanceof Error?e.message:'Не удалось открыть запрос.');}finally{setBusy(false);}},
     loadMore: async()=>{
       if(!research?.next_cursor || operation.current)return;
       operation.current=true;setBusy(true);const current=generation.current;

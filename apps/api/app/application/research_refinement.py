@@ -6,6 +6,7 @@ from app.ai.local import ModelUnavailable
 from app.application.research_analysis import current_products, facts, remember
 from app.application.research_planner import QUERIES
 from app.domain.intent import ColorIntentResolver
+from app.domain.models import ColorGroup
 from app.domain.research import RefinementAction, ResearchCoverage, ResearchDecision
 from app.domain.taxonomy import UniversalCategoryResolver
 
@@ -13,6 +14,69 @@ from app.domain.taxonomy import UniversalCategoryResolver
 class ResearchRefinementEngine:
     def __init__(self, service):
         self.service = service
+
+    def deterministic_command(self, message, research):
+        """Encoding-safe fast path for the conversational router."""
+        text = " ".join(message.casefold().replace("ё", "е").split())
+        if re.search(r"\b(?:покажи все|сбрось|сбросить|без фильтров|исходный выбор)\b", text):
+            return ResearchDecision(action="RESET_REFINEMENT")
+        if re.search(r"\b(?:назад|отмени|верни предыдущ)\w*", text):
+            return ResearchDecision(action="UNDO")
+        if re.search(r"\bобнов\w*", text):
+            return ResearchDecision(action="REFRESH_RESEARCH")
+        if re.search(r"\b(?:продолжи|поищи еще|ищи еще|расширь)\b", text):
+            return ResearchDecision(action="EXPAND_RESEARCH")
+        if re.search(r"\bпохож\w*|\bближе к\b", text):
+            visible = current_products(research)
+            positions = [int(value) for value in re.findall(r"\b\d+\b", text)]
+            ids = [visible[n - 1].id for n in positions if 0 < n <= len(visible)]
+            ids = ids or research.view.selected_ids
+            return ResearchDecision(action="SIMILARITY_SEARCH", product_ids=ids) if ids else ResearchDecision(action="SHOW")
+        if re.search(r"\bвыбери\b", text):
+            count = re.search(r"\d+", text)
+            return ResearchDecision(action="SELECT", count=int(count.group()) if count else 5)
+        if "сначала дешев" in text or "сначала дорог" in text:
+            return ResearchDecision(action="LOCAL_RERANK", sorting="price_asc" if "дешев" in text else "price_desc")
+        if re.search(r"\b(?:желательно|предпочтительно|лучше)\b", text):
+            for term in ("металл", "дерев", "матов", "бамбук", "темн"):
+                if term in text:
+                    return ResearchDecision(action="LOCAL_RERANK", preference=term)
+
+        filters = research.view.filters.model_copy(deep=True)
+        changed = False
+        color_patterns = {
+            ColorGroup.BLUE: r"\bсин\w*", ColorGroup.LIGHT_BLUE: r"\bголуб\w*",
+            ColorGroup.BLACK: r"\bчерн\w*", ColorGroup.WHITE: r"\bбел\w*",
+            ColorGroup.RED: r"\bкрасн\w*", ColorGroup.GREEN: r"\bзелен\w*",
+            ColorGroup.GREY: r"\bсер\w*", ColorGroup.YELLOW: r"\bжелт\w*",
+            ColorGroup.PINK: r"\bрозов\w*", ColorGroup.PURPLE: r"\bфиолет\w*",
+            ColorGroup.ORANGE: r"\bоранж\w*",
+        }
+        colors = [color for color, pattern in color_patterns.items() if re.search(pattern, text)]
+        if colors:
+            filters.colors = colors
+            changed = True
+        material_terms = {
+            "металл": r"\bметалл\w*", "дерев": r"\bдерев\w*",
+            "пластик": r"\bпластик\w*", "кожа": r"\bкож\w*", "хлопок": r"\bхлоп\w*",
+        }
+        removing = bool(re.search(r"\b(?:убери|без|исключи|не показывай)\b", text))
+        for term, pattern in material_terms.items():
+            if re.search(pattern, text):
+                target = filters.excluded_terms if removing else filters.required_terms
+                target[:] = list(dict.fromkeys([*target, term]))
+                changed = True
+        maximum = re.search(r"(?:до|дешевле)\s*(\d[\d ]*)|убери\s+все\s+дороже\s*(\d[\d ]*)", text)
+        if maximum:
+            filters.max_price = int((maximum.group(1) or maximum.group(2)).replace(" ", ""))
+            changed = True
+        minimum = re.search(r"(?<!все\s)(?:дороже|от)\s*(\d[\d ]*)", text)
+        if minimum and not re.search(r"\bшт", text[minimum.end():minimum.end() + 6]):
+            filters.min_price = int(minimum.group(1).replace(" ", ""))
+            changed = True
+        if changed:
+            return ResearchDecision(action="LOCAL_SEMANTIC_REFINE", filters=filters)
+        return None
 
     async def target(self, research, term, categories=None):
         if hasattr(self.service,'enqueue_target'):
@@ -128,7 +192,7 @@ class ResearchRefinementEngine:
         return None
 
     async def decide(self, message, research):
-        guarded = self.command(message, research)
+        guarded = self.deterministic_command(message, research) or self.command(message, research)
         if guarded:
             return guarded
         if self.service.model:

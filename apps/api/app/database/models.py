@@ -56,6 +56,7 @@ class SupplierOffer(Base):
     supplier: Mapped[str] = mapped_column(String(40), index=True)
     source_url: Mapped[str] = mapped_column(Text)
     payload: Mapped[dict] = mapped_column(JsonType)
+    normalized_colors: Mapped[list] = mapped_column(JsonType, default=list)
     lifecycle: Mapped[str] = mapped_column(String(30), default='ACTIVE', server_default='ACTIVE')
     missing_runs: Mapped[int] = mapped_column(Integer, default=0, server_default='0')
     metadata_hash: Mapped[str | None] = mapped_column(String(64))
@@ -213,7 +214,78 @@ class Project(Base):
     user_id: Mapped[str | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     name: Mapped[str] = mapped_column(String(300))
     client_name: Mapped[str | None] = mapped_column(String(300))
+    active_query_id: Mapped[str | None] = mapped_column(String(36), index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ProjectQuery(Base):
+    __tablename__ = "project_queries"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    project_id: Mapped[str] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), index=True)
+    research_session_id: Mapped[str | None] = mapped_column(
+        ForeignKey("research_sessions.id", ondelete="SET NULL"), index=True
+    )
+    type: Mapped[str] = mapped_column(String(20), default="STANDARD")
+    query_text: Mapped[str] = mapped_column(Text)
+    normalized_query: Mapped[str | None] = mapped_column(Text)
+    query_understanding: Mapped[dict] = mapped_column(JsonType, default=dict)
+    status: Mapped[str] = mapped_column(String(20), default="ACTIVE", index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class HardRequestRecord(Base):
+    __tablename__ = "hard_requests"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    project_id: Mapped[str] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), index=True)
+    query_id: Mapped[str] = mapped_column(ForeignKey("project_queries.id", ondelete="CASCADE"), unique=True)
+    original_text: Mapped[str] = mapped_column(Text)
+    parsed_plan: Mapped[dict] = mapped_column(JsonType, default=dict)
+    status: Mapped[str] = mapped_column(String(20), default="RUNNING", index=True)
+    target_cases: Mapped[int] = mapped_column(Integer)
+    completed_cases: Mapped[int] = mapped_column(Integer, default=0)
+    revision: Mapped[int] = mapped_column(Integer, default=1)
+    parent_request_id: Mapped[str | None] = mapped_column(String(36), index=True)
+    revision_number: Mapped[int] = mapped_column(Integer, default=1)
+    metrics: Mapped[dict] = mapped_column(JsonType, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class HardRequestCase(Base):
+    __tablename__ = "hard_request_cases"
+    __table_args__ = (Index("uq_hard_case_number", "hard_request_id", "case_number", unique=True),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    hard_request_id: Mapped[str] = mapped_column(ForeignKey("hard_requests.id", ondelete="CASCADE"), index=True)
+    case_number: Mapped[int] = mapped_column(Integer)
+    score: Mapped[Any] = mapped_column(Numeric(10, 4), default=0)
+    status: Mapped[str] = mapped_column(String(20), default="COMPLETE")
+
+
+class HardRequestPosition(Base):
+    __tablename__ = "hard_request_positions"
+    __table_args__ = (Index("uq_hard_position_number", "case_id", "position_number", unique=True),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    case_id: Mapped[str] = mapped_column(ForeignKey("hard_request_cases.id", ondelete="CASCADE"), index=True)
+    position_number: Mapped[int] = mapped_column(Integer)
+    concept_id: Mapped[str | None] = mapped_column(ForeignKey("product_concepts.id", ondelete="SET NULL"))
+    category_key: Mapped[str] = mapped_column(String(300))
+    category_label: Mapped[str] = mapped_column(String(300))
+    requested_candidates: Mapped[int] = mapped_column(Integer, default=3)
+
+
+class HardRequestCandidate(Base):
+    __tablename__ = "hard_request_candidates"
+    __table_args__ = (Index("uq_hard_candidate_offer", "position_id", "supplier_offer_id", unique=True),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    position_id: Mapped[str] = mapped_column(ForeignKey("hard_request_positions.id", ondelete="CASCADE"), index=True)
+    indexed_product_id: Mapped[str] = mapped_column(ForeignKey("indexed_products.id", ondelete="CASCADE"), index=True)
+    supplier_offer_id: Mapped[str] = mapped_column(ForeignKey("supplier_offers.id", ondelete="CASCADE"), index=True)
+    rank: Mapped[int] = mapped_column(Integer)
+    availability_tier: Mapped[str] = mapped_column(String(1), index=True)
+    score: Mapped[Any] = mapped_column(Numeric(10, 4), default=0)
+    selected: Mapped[bool] = mapped_column(default=False)
+    user_locked: Mapped[bool] = mapped_column(default=False)
 
 
 class Chat(Base):
@@ -237,6 +309,10 @@ class Message(Base):
     search_session_id: Mapped[str | None] = mapped_column(
         ForeignKey("search_sessions.id", ondelete="SET NULL")
     )
+    project_query_id: Mapped[str | None] = mapped_column(String(36), index=True)
+    hard_request_id: Mapped[str | None] = mapped_column(String(36), index=True)
+    structured_operation: Mapped[dict | None] = mapped_column(JsonType)
+    result_revision: Mapped[int | None] = mapped_column(Integer)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 

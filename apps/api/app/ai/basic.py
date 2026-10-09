@@ -19,14 +19,24 @@ class BasicIntentParser:
         quantity_match = re.search(r"(?:тираж|количество|quantity)\s*[:=]?\s*(\d[\d\s]*\d|\d)", text)
         if not quantity_match:
             quantity_match = re.search(r"(\d[\d\s]*\d|\d)\s*(?:шт\b|штук\b|pcs\b)", text)
+        if not quantity_match:
+            quantity_match = re.search(
+                r"(?:от|минимум|не\s+менее|не\s+меньше|>=)\s*(\d[\d\s]*\d|\d)", text
+            )
         quantity = int(re.sub(r"\s", "", quantity_match.group(1))) if quantity_match else None
         budget_match = re.search(r"(?:до|не дороже|бюджет)\s*(\d[\d\s]*\d|\d)\s*(?:₸|тенге|kzt)", text)
         budget = int(re.sub(r"\s", "", budget_match.group(1))) if budget_match else None
         categories = [key for key, pattern in CATEGORY_PATTERNS.items() if re.search(pattern, text)]
+        colors = ColorNormalizer().extract(text)
+        excluded_colors = []
+        for excluded in re.findall(r"(?:не|кроме)\s+([а-яё-]+)", text):
+            excluded_colors.extend(ColorNormalizer().extract(excluded))
+        colors = [color for color in colors if color not in excluded_colors]
         return SearchIntent(
             raw_query=query.strip(),
             quantity=quantity,
             categories=categories,
-            colors=ColorNormalizer().extract(text),
+            colors=colors,
+            excluded_colors=list(dict.fromkeys(excluded_colors)),
             budget=budget,
         )

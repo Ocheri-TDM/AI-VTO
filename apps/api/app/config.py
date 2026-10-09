@@ -41,6 +41,8 @@ class Settings(BaseSettings):
     supplier_failure_backoff_max_hours: int = Field(default=4, ge=1, le=168)
     supplier_circuit_failure_threshold: int = Field(default=3, ge=2, le=20)
     targeted_refresh_limit: int = Field(default=24, ge=1, le=200)
+    composite_refresh_safety_factor: int = Field(default=2, ge=1, le=5)
+    composite_refresh_max_per_position: int = Field(default=150, ge=1, le=500)
     global_research_concurrency: int = Field(default=2, ge=1, le=6)
     provider_concurrency: int = Field(default=1, ge=1, le=2)
     browser_page_limit: int = Field(default=2, ge=1, le=8)

@@ -193,8 +193,14 @@ class BackgroundIndex:
                         status, error = 'PENDING', 'COVERAGE_LIMITED'
                     if job['kind'] == 'CATALOG_DISCOVERY' and not completion(job['checkpoint']):
                         status, error = 'PENDING', 'COVERAGE_LIMITED'
-                if not await self.safety.finish(job, status == 'COMPLETED'):
+                published = await self.safety.finish(job, status == 'COMPLETED')
+                if not published:
                     status, error = 'FAILED', 'PARSER_ANOMALY'
+                elif job["kind"] == "TARGETED_REFRESH" and self.on_update:
+                    # CatalogSafety publishes normalized observations only at
+                    # this boundary. Reevaluate subscribed Composite requests
+                    # after that commit, never against the staged snapshot.
+                    await self.on_update(job)
         except TimeoutError:
             status, error = "PENDING", "TIME_BUDGET"
         except JobCancelled:
@@ -212,8 +218,11 @@ class BackgroundIndex:
         finally:
             if status == 'PENDING' and job['checkpoint'].get('run_id'):
                 try:
-                    if not await self.safety.finish(job, False):
+                    published = await self.safety.finish(job, False)
+                    if not published:
                         status, error = 'FAILED', 'PARSER_ANOMALY'
+                    elif job["kind"] == "TARGETED_REFRESH" and self.on_update:
+                        await self.on_update(job)
                 except Exception as exc:
                     # Publishing a slice must not prevent checkpoint/lease release.
                     error = type(exc).__name__
@@ -270,7 +279,7 @@ class BackgroundIndex:
         await self.repository.ingest([p for p in products if p.id not in known])
         job["metrics"]["products_seen"] = job["metrics"].get("products_seen", 0) + len(products)
         job["metrics"]["products_updated"] = job["metrics"].get("products_updated", 0) + len(products)
-        if self.on_update:
+        if self.on_update and job["kind"] != "TARGETED_REFRESH":
             await self.on_update(job)
 
     async def refresh(self, job, provider):

@@ -12,6 +12,8 @@ import { ResearchFilterPanel } from './research-filters';
 import { ResearchProgress } from './research-progress';
 import { ProductDetails } from '../product-details';
 import { useAuthSession } from '../auth-gate';
+import { WorkspaceQueries } from './workspace-queries';
+import { workspaceApi, type WorkspaceMessage } from '@/lib/hard-requests';
 
 export function ResearchWorkspace(){
   const {user,logout}=useAuthSession();
@@ -24,6 +26,9 @@ export function ResearchWorkspace(){
   const [details,setDetails]=useState<ResearchProduct|null>(null);
   const [family,setFamily]=useState<ResearchProduct[]|null>(null);
   const [grouped,setGrouped]=useState(true);
+  const [composite,setComposite]=useState(false);
+  const [requestBusy,setRequestBusy]=useState(false);
+  const [compositeMessages,setCompositeMessages]=useState<WorkspaceMessage[]>([]);
   const state=useResearch(chat);
   const {research,busy,running,error}=state;
   const {setError}=state;
@@ -31,10 +36,16 @@ export function ResearchWorkspace(){
     setProjects(values);const saved=localStorage.getItem('forma-chat-id');
     setChat(values.some(p=>p.chat_id===saved)?saved:values[0]?.chat_id??null);
   }).catch(e=>setError(e.message));},[setError]);
-  function open(id:string){setChat(id);localStorage.setItem('forma-chat-id',id);setDrawer(null);setLimit(50);}
-  async function submit(){if(!query.trim()||busy)return;const value=query.trim();setQuery('');
-    if(!chat){try{const created=await api.createChat('Новое исследование');
-      await state.perform(()=>researchApi.start(created.id,value));open(created.id);setProjects(await api.projects());}catch(e){state.setError((e as Error).message);}}
+  useEffect(()=>{const listener=(event:Event)=>setCompositeMessages((event as CustomEvent<WorkspaceMessage[]>).detail);window.addEventListener('workspace:messages',listener);return()=>window.removeEventListener('workspace:messages',listener);},[]);
+  function open(id:string){setChat(id);setComposite(false);localStorage.setItem('forma-chat-id',id);setDrawer(null);setLimit(50);}
+  async function submit(){if(!query.trim()||busy||requestBusy)return;const value=query.trim();setQuery('');
+    if(!chat){try{setRequestBusy(true);const created=await api.createChat('Новое исследование');const values=await api.projects();const createdProject=values.find(item=>item.chat_id===created.id);
+       if(!createdProject)throw new Error('Не удалось открыть созданный проект.');state.setResearch(null);setComposite(false);const result=await workspaceApi.universal(createdProject.id,value);open(created.id);setProjects(values);
+       if(result.research)state.setResearch(result.research);if(result.hard_request){state.setResearch(null);setComposite(true);queueMicrotask(()=>window.dispatchEvent(new CustomEvent('workspace:composite',{detail:result.hard_request})));}}catch(e){state.setError((e as Error).message);}finally{setRequestBusy(false);}}
+    else if(project){setRequestBusy(true);state.setResearch(null);setComposite(false);try{const result=await workspaceApi.universal(project.id,value);
+      if(result.research){state.setResearch(result.research);setComposite(false);}
+      if(result.hard_request){state.setResearch(null);setComposite(true);window.dispatchEvent(new CustomEvent('workspace:composite',{detail:result.hard_request}));setCompositeMessages(await workspaceApi.messages(project.id));}
+      setProjects(await api.projects());}catch(e){state.setError(e instanceof Error?e.message:'Не удалось выполнить запрос.');}finally{setRequestBusy(false);}}
     else await state.send(value);
   }
   function select(p:ResearchProduct){if(!research)return;const ids=research.view.selected_ids;
@@ -46,14 +57,14 @@ export function ResearchWorkspace(){
   const projectList=<ProjectList projects={projects} active={chat??undefined} disabled={busy} onOpen={open}
     onNew={()=>setForm('new')} onEdit={setForm}/>;
   const composer=<form className="research-composer" onSubmit={e=>{e.preventDefault();submit();}}>
-    <label htmlFor={research?'research-message':'research-query'}>{research?'Уточните исследование':'Что нужно исследовать?'}</label>
+    <label htmlFor={research||composite?'research-message':'research-query'}>{research||composite?'Уточните исследование':'Что нужно исследовать?'}</label>
     <textarea id={research?'research-message':'research-query'} value={query} onChange={e=>setQuery(e.target.value)}
-      placeholder={research?'Покажи металлические. Найди похожие на 3 и 8.':'Синие бутылки, 300 шт.'}
+      placeholder={composite?'Например: футболки сделай чёрными':research?'Покажи металлические. Найди похожие на 3 и 8.':'Синие бутылки, 300 шт.'}
       rows={3} onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();submit();}}}/>
-    <button className="studio-button primary" disabled={busy||!query.trim()}>{busy?'Обрабатываю…':research?'Отправить':'Начать исследование'}</button>
+    <button className="studio-button primary" disabled={busy||requestBusy||!query.trim()}>{busy||requestBusy?'Обрабатываю…':research||composite?'Отправить':'Начать исследование'}</button>
   </form>;
   const chatPane=<div className="research-chat-content"><h2>AI Research</h2>
-    <div className="research-messages">{research?.messages.map((m,i)=><div key={i} className={`research-message ${m.role}`}><small>{m.role==='user'?'Вы':'Souvenir Studio'}</small><p>{m.content}</p></div>)}
+    <div className="research-messages">{(composite?compositeMessages:research?.messages??[]).map((m,i)=><div key={`${i}-${m.role}`} className={`research-message ${m.role}`}><small>{m.role==='user'?'Вы':'Souvenir Studio'}</small><p>{m.content}</p></div>)}
       {busy&&<p role="status">Анализирую уточнение…</p>}
       {research&&<ResearchProgress research={research}/>}</div>
     {research&&<div className="research-suggestions">{['Более премиальные','Убери пластиковые','Выбери 5 лучших'].map(text=><button disabled={busy} key={text} onClick={()=>state.send(text)}>{text}</button>)}</div>}
@@ -77,7 +88,8 @@ export function ResearchWorkspace(){
     </header>
     <aside className="research-projects"><h2>Исследования</h2>{projectList}</aside>
     <main className="research-main">
-      {!research?<div className="research-intro"><small>6 поставщиков · Реальные данные</small><h1>Исследуйте варианты.<br/>Найдите своё.</h1>
+      {project&&<WorkspaceQueries projectId={project.id} onResearch={state.setResearch} onError={state.setError} onComposite={setComposite} showComposite={composite}/>}
+      {!composite&&(requestBusy&&!research?<div className="research-empty" role="status"><h2>Исследую каталог…</h2></div>:!research?<div className="research-intro"><small>6 поставщиков · Реальные данные</small><h1>Исследуйте варианты.<br/>Найдите своё.</h1>
         <p>Опишите задачу. AI найдёт варианты в обновляемом каталоге и поможет уточнить подборку.</p>{composer}
         <div className="research-suggestions">{['Синие бутылки, 300 шт.','Синий мерч для IT-конференции, 300 человек'].map(text=><button key={text} onClick={()=>setQuery(text)}>{text}</button>)}</div></div>:
       <><div className="research-heading"><small>{running?'Исследование продолжается':'Результаты исследования'}</small><h1>{research.intent.raw_query}</h1>
@@ -99,9 +111,9 @@ export function ResearchWorkspace(){
       </div>
       {research.products.length?cards(displayProducts.slice(0,limit)):<div className="research-empty"><h2>{running?'Исследую каталоги':'Пока нет подходящих вариантов'}</h2><p>{research.pool_count?'Уточнения скрыли товары. Можно вернуться к исходной подборке.':'Товары появятся после проверки цвета, цены и доступного количества.'}</p>
         {research.pool_count>0&&<button className="studio-button" onClick={()=>state.change({restore:'reset'})}>Сбросить уточнения</button>}</div>}
-      {(research.next_cursor||displayProducts.length>limit)&&<button className="studio-button" disabled={busy} onClick={()=>{setLimit(n=>n+50);if(research.next_cursor)state.loadMore();}}>Показать ещё · всего {research.matching_count}</button>}</>}
+      {(research.next_cursor||displayProducts.length>limit)&&<button className="studio-button" disabled={busy} onClick={()=>{setLimit(n=>n+50);if(research.next_cursor)state.loadMore();}}>Показать ещё · всего {research.matching_count}</button>}</>)}
     </main>
-    <aside className="research-chat">{research?chatPane:<><h2>AI Research</h2><p>После первого исследования здесь можно уточнять материалы, стиль и бюджет, искать похожие товары и продолжать обход каталогов.</p></>}</aside>
+    <aside className="research-chat">{chatPane}</aside>
     <nav className="research-mobile-nav"><button onClick={()=>setDrawer(null)}>Подборка</button><button onClick={()=>setDrawer('selected')}>Выбрано {research?.view.selected_ids.length??0}</button><button onClick={()=>setDrawer('chat')}>AI</button><button onClick={()=>setDrawer('projects')}>Проект</button></nav>
     {error&&<div className="research-error" role="alert">{error}<button onClick={()=>state.setError('')} aria-label="Закрыть уведомление">×</button></div>}
     {drawer&&<Sheet title={{chat:'AI Research',projects:'Исследования',filters:'Фильтры',selected:'Выбранные товары'}[drawer]} onClose={()=>setDrawer(null)}>

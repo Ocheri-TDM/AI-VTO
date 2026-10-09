@@ -13,6 +13,7 @@ from app.database.index import IndexRepository
 from app.database.models import CatalogSyncJob, IndexedProduct, SupplierSyncState
 from app.database.research import ResearchRepository
 from app.domain.models import utcnow
+from app.domain.query_understanding import QueryUnderstandingService
 from app.domain.taxonomy import CategoryMatch, ProductCategoryMatcher
 
 
@@ -24,6 +25,35 @@ async def test_pencil_regression_isolated_from_bottle_research():
     assert pencils.categories == ["pencil"]
     assert pencils.quantity == 300 and not pencils.colors
     assert not pencils.discovery
+
+
+async def test_accepted_typo_and_canonical_query_have_exact_pool_parity(repository, settings):
+    index = IndexRepository(repository.sessions, settings)
+    await index.ingest(
+        [
+            make_product(id=f"oasis:pencil-parity-{number}", name=f"Карандаш Model {number}")
+            for number in range(5)
+        ]
+        + [make_product(id="oasis:pen-parity", name="Ручка Model")]
+    )
+    understanding = QueryUnderstandingService(repository.sessions)
+    service = IndexedResearchService(
+        ResearchRepository(repository.sessions),
+        [],
+        settings,
+        None,
+        index,
+        understanding,
+    )
+    chat = await ConversationRepository(repository.sessions).create("Typo parity")
+
+    canonical = await service.start(chat, "карандаш")
+    typo = await service.start(chat, "корондаш")
+
+    assert typo.intent.original_query == "корондаш"
+    assert typo.intent.normalized_query == "карандаш"
+    assert typo.intent.query_understanding["confidence"] >= 0.9
+    assert set(typo.indexed_offer_ids) == set(canonical.indexed_offer_ids)
 
 
 @pytest.mark.parametrize(

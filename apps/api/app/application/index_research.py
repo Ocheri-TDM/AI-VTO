@@ -13,15 +13,28 @@ from app.domain.taxonomy import UniversalCategoryResolver
 
 
 class IndexedResearchService(ResearchService):
-    def __init__(self, repository, providers, settings, model, index):
+    def __init__(self, repository, providers, settings, model, index, query_understanding=None):
         super().__init__(repository, providers, settings, model)
         self.index = index
         self.query_engine = IndexQueryService(index)
         self.last_update = 0
+        self.query_understanding = query_understanding
 
     async def start(self, chat_id, query, budget=None):
         started = time.perf_counter()
-        intent = await self.planner.parse(query)
+        understanding = (
+            await self.query_understanding.understand(query)
+            if self.query_understanding
+            else None
+        )
+        intent = await self.planner.parse(
+            understanding.search_query if understanding else query
+        )
+        if understanding:
+            intent.raw_query = understanding.original_query
+            intent.original_query = understanding.original_query
+            intent.normalized_query = understanding.normalized_query
+            intent.query_understanding = understanding.model_dump(mode="json")
         parse_ms = (time.perf_counter() - started) * 1000
         research = ResearchSession(
             chat_id=chat_id, intent=intent, source_mode="index", job_status="COMPLETED"
@@ -35,6 +48,8 @@ class IndexedResearchService(ResearchService):
         research.view.preferences = list(intent.soft_terms) + [k for k,v in intent.preferences.model_dump().items() if v]
         research.messages.append({"role": "user", "content": query})
         research.timings["intent_parse_ms"] = round(parse_ms, 2)
+        if understanding:
+            research.timings["query_normalization_ms"] = understanding.latency_ms
         if intent.budget:
             research.view.filters.min_price, research.view.filters.max_price = (
                 intent.budget.min,

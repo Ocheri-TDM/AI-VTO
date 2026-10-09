@@ -126,6 +126,9 @@ class SoftPreferences(BaseModel):
 class SearchIntent(BaseModel):
     model_config = ConfigDict(extra="forbid")
     raw_query: str = Field(min_length=1, max_length=2000)
+    original_query: str | None = None
+    normalized_query: str | None = None
+    query_understanding: dict[str, Any] = Field(default_factory=dict)
     quantity: int | None = Field(default=None, ge=1, le=10_000_000)
     categories: list[str] = Field(default_factory=list, max_length=12)
     colors: list[ColorGroup] = Field(default_factory=list, max_length=20)

@@ -1,4 +1,5 @@
 """Supplier-neutral procurement derivation over source availability records."""
+
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -17,6 +18,16 @@ class ProcurementAvailability:
     availability_confidence: str
 
 
+@dataclass(frozen=True)
+class ProcurementEvaluation:
+    required_quantity: int
+    result: str
+    tier: str | None
+    available_quantity: int | None
+    evidence: list[dict]
+    reason_code: str
+
+
 class ProcurementAvailabilityService:
     """Never promotes remote, factory, preorder or incoming stock to ON_HAND."""
 
@@ -28,9 +39,7 @@ class ProcurementAvailabilityService:
             if r.state in {"INCOMING", "RECEIVING"} and r.free_quantity is not None
         ]
         remote = [
-            r.free_quantity
-            for r in records
-            if r.state == "REMOTE_STOCK" and r.free_quantity is not None
+            r.free_quantity for r in records if r.state == "REMOTE_STOCK" and r.free_quantity is not None
         ]
         etas = [r.expected_at for r in records if r.expected_at is not None]
         now = sum(current) if current else None
@@ -38,7 +47,9 @@ class ProcurementAvailabilityService:
         remote_total = sum(remote) if remote else None
         required = quantity or 1
         return ProcurementAvailability(
-            available_now=now, incoming_confirmed=incoming_total, remote_available=remote_total,
+            available_now=now,
+            incoming_confirmed=incoming_total,
+            remote_available=remote_total,
             earliest_eta=min(etas) if etas else None,
             can_fulfill_now=now is not None and now >= required,
             can_fulfill_with_incoming=(
@@ -77,7 +88,8 @@ class ProcurementAvailabilityService:
         incoming = [view(r) for r in records if r.state in {"INCOMING", "RECEIVING"}]
         remote = [view(r) for r in records if r.state == "REMOTE_STOCK"]
         alternatives = [
-            view(r) for r in records
+            view(r)
+            for r in records
             if r.state in {"FACTORY", "WAITING_SHIPMENT", "PREORDER", "ORDER_ON_DEMAND", "PRODUCTION"}
         ]
         tier = None
@@ -102,3 +114,60 @@ class ProcurementAvailabilityService:
             "procurementTier": tier,
             "confidence": derived.availability_confidence,
         }
+
+    def evaluate(self, records: list[AvailabilityRecord], quantity: int, *, stale: bool = False):
+        evidence = [
+            {
+                "state": record.state,
+                "location": record.location_label or record.location_code,
+                "free_quantity": record.free_quantity,
+                "total_quantity": record.total_quantity,
+                "reserved_quantity": record.reserved_quantity,
+                "expected_at": record.expected_at.isoformat() if record.expected_at else None,
+                "observed_at": record.observed_at.isoformat(),
+                "parser_version": record.parser_version,
+            }
+            for record in records
+        ]
+        if stale:
+            return ProcurementEvaluation(quantity, "REJECT", None, None, evidence, "STALE_OBSERVATION")
+        derived = self.derive(records, quantity)
+        if derived.can_fulfill_now:
+            return ProcurementEvaluation(
+                quantity, "PASS", "CURRENT_FREE", derived.available_now, evidence, "CURRENT_FREE_SUFFICIENT"
+            )
+        if derived.can_fulfill_with_incoming:
+            available = (derived.available_now or 0) + (derived.incoming_confirmed or 0)
+            return ProcurementEvaluation(
+                quantity,
+                "PASS",
+                "CURRENT_PLUS_INCOMING",
+                available,
+                evidence,
+                "CONFIRMED_INCOMING_SUFFICIENT",
+            )
+        if derived.can_fulfill_remote:
+            return ProcurementEvaluation(
+                quantity, "PASS", "REMOTE", derived.remote_available, evidence, "REMOTE_STOCK_SUFFICIENT"
+            )
+        alternatives = [
+            record.free_quantity
+            for record in records
+            if record.state in {"FACTORY", "PREORDER", "PRODUCTION", "ORDER_ON_DEMAND", "WAITING_SHIPMENT"}
+            and record.free_quantity is not None
+        ]
+        if alternatives and max(alternatives) >= quantity:
+            return ProcurementEvaluation(
+                quantity, "PASS", "ALTERNATIVE", max(alternatives), evidence, "ALTERNATIVE_SUPPLY_SUFFICIENT"
+            )
+        current = derived.available_now
+        if current is not None:
+            reason = (
+                "RESERVED_ONLY"
+                if current == 0 and any((r.reserved_quantity or 0) > 0 for r in records)
+                else "FREE_QUANTITY_INSUFFICIENT"
+            )
+            return ProcurementEvaluation(quantity, "REJECT", None, current, evidence, reason)
+        if records:
+            return ProcurementEvaluation(quantity, "REJECT", None, None, evidence, "UNKNOWN_QUANTITY")
+        return ProcurementEvaluation(quantity, "REJECT", None, None, evidence, "NO_PROCUREMENT_EVIDENCE")

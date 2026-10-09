@@ -4,7 +4,8 @@ import hashlib
 import json
 from datetime import timedelta
 
-from sqlalchemy import and_, delete, func, or_, select, update
+from sqlalchemy import and_, delete, func, or_, select, type_coerce, update
+from sqlalchemy.dialects.postgresql import JSONB
 
 from app.application.research_analysis import PREFERENCE_TERMS, ProductGroupingService, facts
 from app.database.models import (
@@ -36,12 +37,16 @@ class IndexRepository:
         return insert(model)
 
     async def ingest(self, products):
-        summary = {"products_changed": 0, "products_unchanged": 0,
-                   "observations_created": 0, "observations_deduplicated": 0}
+        summary = {
+            "products_changed": 0,
+            "products_unchanged": 0,
+            "observations_created": 0,
+            "observations_deduplicated": 0,
+        }
         async with self.sessions() as db, db.begin():
             for product in products:
                 if product.category:
-                    product.metadata.setdefault('supplier_category', product.category)
+                    product.metadata.setdefault("supplier_category", product.category)
                 product.colors = [ColorNormalizer().normalize(c.original_color) for c in product.colors]
                 if product.original_price is not None and product.original_currency:
                     product.price_kzt = CurrencyService(self.settings.rub_kzt_rate).to_kzt(
@@ -49,31 +54,52 @@ class IndexRepository:
                     )
                 resolved = UniversalCategoryResolver().resolve(product.name)
                 product.category = resolved[0] if resolved else None
-                label = str(product.metadata.get('supplier_category') or '')
+                label = str(product.metadata.get("supplier_category") or "")
                 if not resolved and label:
-                    suggestion_id = hashlib.sha256((product.supplier + ':' + label).encode()).hexdigest()
+                    suggestion_id = hashlib.sha256((product.supplier + ":" + label).encode()).hexdigest()
                     suggestion = await db.get(TaxonomySuggestion, suggestion_id)
                     if suggestion is None:
-                        db.add(TaxonomySuggestion(id=suggestion_id, supplier=product.supplier,
-                            supplier_label=label, supplier_path=str(product.metadata.get('breadcrumbs', '')),
-                            samples=[product.id], confidence=0, status='PENDING_REVIEW'))
+                        db.add(
+                            TaxonomySuggestion(
+                                id=suggestion_id,
+                                supplier=product.supplier,
+                                supplier_label=label,
+                                supplier_path=str(product.metadata.get("breadcrumbs", "")),
+                                samples=[product.id],
+                                confidence=0,
+                                status="PENDING_REVIEW",
+                            )
+                        )
                     elif product.id not in suggestion.samples and len(suggestion.samples) < 5:
                         suggestion.samples = suggestion.samples + [product.id]
                 breadcrumbs = product.metadata.get("breadcrumbs", [])
                 if isinstance(breadcrumbs, str):
                     breadcrumbs = [part.strip() for part in breadcrumbs.split(">") if part.strip()]
-                concept_labels = list(dict.fromkeys(
-                    [str(product.metadata.get("supplier_category") or ""), *map(str, breadcrumbs)]
-                ))
+                concept_labels = list(
+                    dict.fromkeys(
+                        [str(product.metadata.get("supplier_category") or ""), *map(str, breadcrumbs)]
+                    )
+                )
                 concept_labels = [label for label in concept_labels if label]
                 product.metadata["product_concepts"] = concept_labels
-                document = ' '.join([product.name, product.name, product.name, facts(product),
-                    product.category or '', *concept_labels, *concept_labels,
-                    product.dimensions or '', product.capacity or '',
-                    str(product.metadata.get('supplier_category','')),
-                    str(product.metadata.get('breadcrumbs','')), str(product.metadata.get('supplier_keywords','')),
-                    *[c.original_color for c in product.colors]])
-                product.metadata['semantic_document'] = document[:2400]
+                document = " ".join(
+                    [
+                        product.name,
+                        product.name,
+                        product.name,
+                        facts(product),
+                        product.category or "",
+                        *concept_labels,
+                        *concept_labels,
+                        product.dimensions or "",
+                        product.capacity or "",
+                        str(product.metadata.get("supplier_category", "")),
+                        str(product.metadata.get("breadcrumbs", "")),
+                        str(product.metadata.get("supplier_keywords", "")),
+                        *[c.original_color for c in product.colors],
+                    ]
+                )
+                product.metadata["semantic_document"] = document[:2400]
                 tags = [
                     key for key, patterns in PREFERENCE_TERMS.items() if any(t in document for t in patterns)
                 ]
@@ -116,20 +142,25 @@ class IndexRepository:
                     canonical = normalize_text(display_name)
                     concept_id = hashlib.sha256(canonical.encode()).hexdigest()
                     concept_values = dict(
-                        id=concept_id, canonical_name=canonical, display_name=display_name,
+                        id=concept_id,
+                        canonical_name=canonical,
+                        display_name=display_name,
                         aliases=[display_name],
                         evidence={"supplier": product.supplier, "source": "catalog_navigation"},
-                        products_count=0, last_seen=product.fetched_at,
+                        products_count=0,
+                        last_seen=product.fetched_at,
                     )
                     stmt = self.insert(db, ProductConcept).values(**concept_values)
-                    await db.execute(stmt.on_conflict_do_update(
-                        index_elements=["id"],
-                        set_={"display_name": display_name, "last_seen": product.fetched_at},
-                    ))
+                    await db.execute(
+                        stmt.on_conflict_do_update(
+                            index_elements=["id"],
+                            set_={"display_name": display_name, "last_seen": product.fetched_at},
+                        )
+                    )
                     concept_ids.append(concept_id)
-                metadata_hash = hashlib.sha256(json.dumps(
-                    stable, sort_keys=True, ensure_ascii=False, default=str
-                ).encode()).hexdigest()
+                metadata_hash = hashlib.sha256(
+                    json.dumps(stable, sort_keys=True, ensure_ascii=False, default=str).encode()
+                ).hexdigest()
                 commercial = {
                     "price": str(product.original_price) if product.original_price is not None else None,
                     "currency": product.original_currency,
@@ -140,9 +171,9 @@ class IndexRepository:
                     "incoming_at": product.incoming_date.isoformat() if product.incoming_date else None,
                     "availability": product.availability_status,
                 }
-                commercial_hash = hashlib.sha256(json.dumps(
-                    commercial, sort_keys=True, ensure_ascii=False
-                ).encode()).hexdigest()
+                commercial_hash = hashlib.sha256(
+                    json.dumps(commercial, sort_keys=True, ensure_ascii=False).encode()
+                ).hexdigest()
                 current_offer = await db.get(SupplierOffer, product.id)
                 changed = current_offer is None or current_offer.commercial_hash != commercial_hash
                 summary["products_changed" if changed else "products_unchanged"] += 1
@@ -153,10 +184,15 @@ class IndexRepository:
                     supplier=product.supplier,
                     source_url=validated_product_url(product.supplier, product.source_url) or "",
                     payload=stable,
+                    normalized_colors=list(
+                        dict.fromkeys(color.normalized_color.value for color in product.colors)
+                    ),
                     metadata_hash=metadata_hash,
                     commercial_hash=commercial_hash,
                     unchanged_refreshes=0 if changed else (current_offer.unchanged_refreshes + 1),
-                    last_commercial_change_at=(product.fetched_at if changed else current_offer.last_commercial_change_at),
+                    last_commercial_change_at=(
+                        product.fetched_at if changed else current_offer.last_commercial_change_at
+                    ),
                 )
                 stmt = self.insert(db, SupplierOffer).values(**values)
                 await db.execute(
@@ -165,60 +201,89 @@ class IndexRepository:
                     )
                 )
                 for concept_id in concept_ids:
-                    await db.execute(self.insert(db, ProductConceptOffer).values(
-                        concept_id=concept_id, offer_id=product.id,
-                    ).on_conflict_do_nothing())
-                    count = await db.scalar(select(func.count()).select_from(ProductConceptOffer).where(
-                        ProductConceptOffer.concept_id == concept_id
-                    ))
-                    await db.execute(update(ProductConcept).where(ProductConcept.id == concept_id).values(
-                        products_count=count
-                    ))
+                    await db.execute(
+                        self.insert(db, ProductConceptOffer)
+                        .values(
+                            concept_id=concept_id,
+                            offer_id=product.id,
+                        )
+                        .on_conflict_do_nothing()
+                    )
+                    count = await db.scalar(
+                        select(func.count())
+                        .select_from(ProductConceptOffer)
+                        .where(ProductConceptOffer.concept_id == concept_id)
+                    )
+                    await db.execute(
+                        update(ProductConcept)
+                        .where(ProductConcept.id == concept_id)
+                        .values(products_count=count)
+                    )
                 records = list(product.availability_records)
                 if not records and (
                     product.stock_quantity is not None or product.incoming_quantity is not None
                 ):
                     from app.domain.models import AvailabilityRecord
 
-                    source = product.metadata.get('stock_source') or product.evidence.get(
-                        'stock_quantity', {}
-                    ).get('source') or "normalized product availability"
+                    source = (
+                        product.metadata.get("stock_source")
+                        or product.evidence.get("stock_quantity", {}).get("source")
+                        or "normalized product availability"
+                    )
                     if product.stock_quantity is not None:
-                        records.append(AvailabilityRecord(
-                            state='ON_HAND', free_quantity=product.stock_quantity,
-                            observed_at=product.fetched_at,
-                            parser_version=product.availability_parser_version,
-                            source_label=str(source), source_evidence={'value': product.stock_quantity},
-                            confidence="MEDIUM",
-                        ))
+                        records.append(
+                            AvailabilityRecord(
+                                state="ON_HAND",
+                                free_quantity=product.stock_quantity,
+                                observed_at=product.fetched_at,
+                                parser_version=product.availability_parser_version,
+                                source_label=str(source),
+                                source_evidence={"value": product.stock_quantity},
+                                confidence="MEDIUM",
+                            )
+                        )
                     if product.incoming_quantity is not None:
-                        records.append(AvailabilityRecord(
-                            state="INCOMING", free_quantity=product.incoming_quantity,
-                            expected_at=product.incoming_date, observed_at=product.fetched_at,
-                            parser_version=product.availability_parser_version,
-                            source_label="normalized product incoming",
-                            source_evidence={"value": product.incoming_quantity},
-                            confidence="MEDIUM",
-                        ))
+                        records.append(
+                            AvailabilityRecord(
+                                state="INCOMING",
+                                free_quantity=product.incoming_quantity,
+                                expected_at=product.incoming_date,
+                                observed_at=product.fetched_at,
+                                parser_version=product.availability_parser_version,
+                                source_label="normalized product incoming",
+                                source_evidence={"value": product.incoming_quantity},
+                                confidence="MEDIUM",
+                            )
+                        )
                 # Replace the latest normalized set atomically. A failed
                 # transaction keeps the previous observation set available.
-                if records:
-                    await db.execute(
-                        delete(AvailabilityObservation).where(
-                            AvailabilityObservation.offer_id == product.id
+                await db.execute(
+                    delete(AvailabilityObservation).where(AvailabilityObservation.offer_id == product.id)
+                )
+                for record in records:
+                    identity = "|".join(
+                        map(
+                            str,
+                            (
+                                product.id,
+                                record.location_code,
+                                record.state,
+                                record.expected_at.isoformat() if record.expected_at else "",
+                                record.source_label,
+                            ),
                         )
                     )
-                for record in records:
-                    identity = '|'.join(map(str, (
-                        product.id, record.location_code, record.state,
-                        record.expected_at.isoformat() if record.expected_at else '', record.source_label,
-                    )))
-                    values = dict(id=hashlib.sha256(identity.encode()).hexdigest(),
-                                  offer_id=product.id, **record.model_dump(mode='python'))
+                    values = dict(
+                        id=hashlib.sha256(identity.encode()).hexdigest(),
+                        offer_id=product.id,
+                        **record.model_dump(mode="python"),
+                    )
                     stmt = self.insert(db, AvailabilityObservation).values(**values)
-                    await db.execute(stmt.on_conflict_do_update(
-                        index_elements=['id'], set_={k: v for k, v in values.items() if k != 'id'}
-                    ))
+                    await db.execute(
+                        stmt.on_conflict_do_update(
+                            index_elements=["id"], set_={k: v for k, v in values.items() if k != "id"}
+                        )
+                    )
                 observation = product.model_dump(
                     mode="json",
                     include={
@@ -229,7 +294,9 @@ class IndexRepository:
                         "fetched_at",
                     },
                 )
-                observation['conversion_rate'] = str(self.settings.rub_kzt_rate) if product.original_currency == 'RUB' else '1'
+                observation["conversion_rate"] = (
+                    str(self.settings.rub_kzt_rate) if product.original_currency == "RUB" else "1"
+                )
                 values = dict(
                     offer_id=product.id,
                     price_kzt=product.price_kzt,
@@ -241,11 +308,17 @@ class IndexRepository:
                     availability_status=product.availability_status,
                     incoming_status=product.incoming_status,
                     parser_version=product.availability_parser_version,
-                    source_availability=(product.source_availability_payload or (
-                        {"available_now": product.stock_quantity,
-                         "source": product.metadata.get("stock_source")}
-                        if product.stock_quantity is not None else {}
-                    )),
+                    source_availability=(
+                        product.source_availability_payload
+                        or (
+                            {
+                                "available_now": product.stock_quantity,
+                                "source": product.metadata.get("stock_source"),
+                            }
+                            if product.stock_quantity is not None
+                            else {}
+                        )
+                    ),
                     observed_at=product.fetched_at,
                     last_verified_at=product.fetched_at,
                     expires_at=product.fetched_at
@@ -261,33 +334,43 @@ class IndexRepository:
                 )
         return summary
 
-    async def candidates(self, intent):
-        async with self.sessions() as db:
-            stmt = (
-                select(SupplierOffer.id, SupplierOffer.payload, ProductObservation)
+    def _candidate_statement(self, db, intent, *columns, normalized_colors=None):
+        stmt = (
+                select(*columns)
                 .join(ProductObservation, ProductObservation.offer_id == SupplierOffer.id)
                 .join(IndexedProduct, IndexedProduct.id == SupplierOffer.product_id)
             )
-            known = [c for c in intent.categories if not c.startswith("dynamic:")]
-            criteria = [IndexedProduct.category.in_(known)] if known else []
-            # Taxonomy is evidence, not a gate. Even a known broad category such
-            # as accessory must retain exact supplier text matches.
-            query = UniversalCategoryResolver().concept(intent.raw_query)
-            query_forms = [query] + [
-                " ".join(alias) for alias in QueryVocabulary.alternatives(terms(query))
-            ]
-            if db.bind.dialect.name == "postgresql":
-                lexical = or_(*[
-                    func.to_tsvector("russian", IndexedProduct.search_document).op("@@")(
-                        func.plainto_tsquery("russian", form)
-                    ) for form in query_forms if form
-                ])
-                literal = and_(*(IndexedProduct.search_document.ilike(f"%{t}%") for t in terms(query)))
-                fuzzy = IndexedProduct.name.op("%") (query)
-                criteria.append(or_(lexical, literal, fuzzy))
+        known = [c for c in intent.categories if not c.startswith("dynamic:")]
+        criteria = [IndexedProduct.category.in_(known)] if known else []
+        # The original query belongs to chat/history. Once Query Understanding
+        # accepts a correction, every lexical SQL predicate must use the
+        # normalized retrieval representation.
+        retrieval_query = intent.normalized_query or intent.raw_query
+        query = UniversalCategoryResolver().concept(retrieval_query)
+        query_forms = [query] + [
+            " ".join(alias) for alias in QueryVocabulary.alternatives(terms(query))
+        ]
+        if db.bind.dialect.name == "postgresql":
+            lexical = or_(
+                    *[
+                        func.to_tsvector("russian", IndexedProduct.search_document).op("@@")(
+                            func.plainto_tsquery("russian", form)
+                        )
+                        for form in query_forms
+                        if form
+                    ]
+                )
+            if known:
+                criteria.append(lexical)
             else:
-                criteria.append(
-                    and_(
+                literal = and_(
+                    *(IndexedProduct.search_document.ilike(f"%{t}%") for t in terms(query))
+                )
+                fuzzy = IndexedProduct.name.op("%")(query)
+                criteria.append(or_(lexical, literal, fuzzy))
+        else:
+            criteria.append(
+                and_(
                         *(
                             or_(
                                 IndexedProduct.search_document.contains(t, autoescape=True),
@@ -298,25 +381,64 @@ class IndexRepository:
                         )
                     )
                 )
-            stmt = stmt.where(or_(*criteria), SupplierOffer.lifecycle != 'REMOVED')
-            # Commercial freshness is a hard constraint only when the user asks
-            # for a confirmed quantity. Stable product metadata remains searchable
-            # while an observation is stale; the API marks that observation stale.
-            if intent.budget:
-                stmt = stmt.where(ProductObservation.price_kzt.is_not(None))
-                if intent.budget.min is not None:
-                    stmt = stmt.where(ProductObservation.price_kzt >= intent.budget.min)
-                if intent.budget.max is not None:
-                    stmt = stmt.where(ProductObservation.price_kzt <= intent.budget.max)
+        stmt = stmt.where(or_(*criteria), SupplierOffer.lifecycle != "REMOVED")
+        if normalized_colors and db.bind.dialect.name == "postgresql":
+            colors = type_coerce(SupplierOffer.normalized_colors, JSONB)
+            stmt = stmt.where(
+                or_(
+                    *(colors.contains([value]) for value in normalized_colors)
+                )
+            )
+        if intent.budget:
+            stmt = stmt.where(ProductObservation.price_kzt.is_not(None))
+            if intent.budget.min is not None:
+                stmt = stmt.where(ProductObservation.price_kzt >= intent.budget.min)
+            if intent.budget.max is not None:
+                stmt = stmt.where(ProductObservation.price_kzt <= intent.budget.max)
+        return stmt
+
+    async def candidate_ids(self, intent, normalized_colors=None):
+        async with self.sessions() as db:
+            stmt = self._candidate_statement(
+                db, intent, SupplierOffer.id, normalized_colors=normalized_colors
+            )
+            return list((await db.scalars(stmt)).all())
+
+    async def candidates(self, intent, limit=None, normalized_colors=None, offer_ids=None):
+        async with self.sessions() as db:
+            if offer_ids is None:
+                stmt = self._candidate_statement(
+                    db,
+                    intent,
+                    SupplierOffer.id,
+                    SupplierOffer.product_id,
+                    SupplierOffer.payload,
+                    ProductObservation,
+                    normalized_colors=normalized_colors,
+                )
+            else:
+                stmt = (
+                    select(
+                        SupplierOffer.id,
+                        SupplierOffer.product_id,
+                        SupplierOffer.payload,
+                        ProductObservation,
+                    )
+                    .join(ProductObservation, ProductObservation.offer_id == SupplierOffer.id)
+                    .where(
+                        SupplierOffer.id.in_(offer_ids),
+                        SupplierOffer.lifecycle != "REMOVED",
+                    )
+                )
+            if limit is not None:
+                stmt = stmt.limit(limit)
             rows = (await db.execute(stmt)).all()
-            offer_ids = [offer_id for offer_id, _, _ in rows]
+            offer_ids = [offer_id for offer_id, _, _, _ in rows]
             availability = {}
             if offer_ids:
                 availability_rows = (
                     await db.scalars(
-                        select(AvailabilityObservation).where(
-                            AvailabilityObservation.offer_id.in_(offer_ids)
-                        )
+                        select(AvailabilityObservation).where(AvailabilityObservation.offer_id.in_(offer_ids))
                     )
                 ).all()
                 for record in availability_rows:
@@ -340,11 +462,12 @@ class IndexRepository:
                     )
             result = []
             now = utcnow()
-            for offer_id, stable, observation in rows:
-                payload = dict(stable | observation.payload | {
-                    "availability_records": availability.get(offer_id, [])
-                })
+            for offer_id, indexed_product_id, stable, observation in rows:
+                payload = dict(
+                    stable | observation.payload | {"availability_records": availability.get(offer_id, [])}
+                )
                 metadata = dict(payload.get("metadata", {}))
+                metadata["indexed_product_id"] = indexed_product_id
                 expires = observation.expires_at.replace(tzinfo=now.tzinfo)
                 metadata["availability_stale"] = observation.status != "FRESH" or expires <= now
                 payload["metadata"] = metadata
@@ -364,8 +487,9 @@ class IndexRepository:
         """Record refresh-priority signals without changing relevance."""
         if not offer_ids:
             return
-        field = {"searched": "last_searched_at", "opened": "last_opened_at",
-                 "selected": "last_selected_at"}[event]
+        field = {"searched": "last_searched_at", "opened": "last_opened_at", "selected": "last_selected_at"}[
+            event
+        ]
         values = {field: utcnow()}
         if event == "searched":
             values["research_hit_count"] = SupplierOffer.research_hit_count + 1
@@ -376,9 +500,11 @@ class IndexRepository:
         """Return due HOT/WARM/COLD URLs; DORMANT offers wait for catalog sync."""
         now = utcnow()
         async with self.sessions() as db:
-            stmt = (select(SupplierOffer, ProductObservation)
-                    .outerjoin(ProductObservation, ProductObservation.offer_id == SupplierOffer.id)
-                    .where(SupplierOffer.supplier == supplier, SupplierOffer.lifecycle != "REMOVED"))
+            stmt = (
+                select(SupplierOffer, ProductObservation)
+                .outerjoin(ProductObservation, ProductObservation.offer_id == SupplierOffer.id)
+                .where(SupplierOffer.supplier == supplier, SupplierOffer.lifecycle != "REMOVED")
+            )
             if offer_ids:
                 stmt = stmt.where(SupplierOffer.id.in_(offer_ids))
             rows = (await db.execute(stmt)).all()
@@ -395,22 +521,33 @@ class IndexRepository:
             else:
                 tier, hours = "DORMANT", None
             counts[tier] += 1
-            verified = observation.last_verified_at if observation and observation.last_verified_at else (
-                observation.observed_at if observation else None
+            verified = (
+                observation.last_verified_at
+                if observation and observation.last_verified_at
+                else (observation.observed_at if observation else None)
             )
             verified = verified.replace(tzinfo=now.tzinfo) if verified else None
             if tier != "DORMANT" and (not verified or verified <= now - timedelta(hours=hours)):
                 due.append((offer.id, offer.source_url, tier, verified))
-        due.sort(key=lambda item: ({"HOT": 0, "WARM": 1, "COLD": 2}[item[2]], item[3] or now - timedelta(days=9999)))
+        due.sort(
+            key=lambda item: (
+                {"HOT": 0, "WARM": 1, "COLD": 2}[item[2]],
+                item[3] or now - timedelta(days=9999),
+            )
+        )
         return due[:limit] if limit else due, counts
 
     async def source_urls_known(self, supplier, urls):
         if not urls:
             return set()
         async with self.sessions() as db:
-            return set(await db.scalars(select(SupplierOffer.source_url).where(
-                SupplierOffer.supplier == supplier, SupplierOffer.source_url.in_(urls)
-            )))
+            return set(
+                await db.scalars(
+                    select(SupplierOffer.source_url).where(
+                        SupplierOffer.supplier == supplier, SupplierOffer.source_url.in_(urls)
+                    )
+                )
+            )
 
     async def observation_status(self, supplier, status):
         async with self.sessions() as db, db.begin():
@@ -464,7 +601,25 @@ class IndexRepository:
                     return active.id
                 incoming = checkpoint.get("pending", [])
                 if incoming:
-                    existing["pending"] = list(dict.fromkeys([*existing.get("pending", []), *incoming]))
+                    # Interactive commercial revalidation must not sit behind a
+                    # long routine refresh checkpoint. Coalescing is preserved,
+                    # but higher-priority URLs move to the front.
+                    combined = (
+                        [*incoming, *existing.get("pending", [])]
+                        if priority > active.priority
+                        else [*existing.get("pending", []), *incoming]
+                    )
+                    existing["pending"] = list(dict.fromkeys(combined))
+                request_ids = checkpoint.get("composite_request_ids", [])
+                if request_ids:
+                    existing["composite_request_ids"] = list(
+                        dict.fromkeys(
+                            [
+                                *existing.get("composite_request_ids", []),
+                                *request_ids,
+                            ]
+                        )
+                    )
                 existing["requested_at"] = utcnow().isoformat()
                 existing["reason"] = checkpoint.get("reason", existing.get("reason", "coalesced"))
                 if parser_changed:
@@ -481,10 +636,15 @@ class IndexRepository:
                 return active.id
             job = None
             if len(equivalent) > 1:
-                job = await db.scalar(select(CatalogSyncJob).where(
-                    CatalogSyncJob.supplier == supplier,
-                    CatalogSyncJob.kind.in_(equivalent),
-                ).order_by(CatalogSyncJob.updated_at.desc()).with_for_update())
+                job = await db.scalar(
+                    select(CatalogSyncJob)
+                    .where(
+                        CatalogSyncJob.supplier == supplier,
+                        CatalogSyncJob.kind.in_(equivalent),
+                    )
+                    .order_by(CatalogSyncJob.updated_at.desc())
+                    .with_for_update()
+                )
             if job is None:
                 values = dict(
                     supplier=supplier,
@@ -500,11 +660,14 @@ class IndexRepository:
                 job = await db.scalar(
                     select(CatalogSyncJob).where(CatalogSyncJob.dedup_key == key).with_for_update()
                 )
-            if job.status == 'PENDING' and priority > job.priority:
+            if job.status == "PENDING" and priority > job.priority:
                 job.priority, job.available_at = priority, available_at or utcnow()
-            if (job.status == "PENDING" and kind == "TARGETED_RESEARCH"
-                    and not (job.checkpoint or {}).get("branches")
-                    and checkpoint.get("category_graph_hit")):
+            if (
+                job.status == "PENDING"
+                and kind == "TARGETED_RESEARCH"
+                and not (job.checkpoint or {}).get("branches")
+                and checkpoint.get("category_graph_hit")
+            ):
                 # A newer interactive request may carry a graph hit that the
                 # older zero-result job did not know yet.
                 job.checkpoint = checkpoint
@@ -512,8 +675,9 @@ class IndexRepository:
                 job.checkpoint or {}
             ).get("parser_version")
             quarantined_same_parser = job.error == "PARSER_ANOMALY" and not parser_changed
-            if ((job.status in ("COMPLETED", "FAILED") or job.status == "CANCELLED" and priority > 0)
-                    and not quarantined_same_parser):
+            if (
+                job.status in ("COMPLETED", "FAILED") or job.status == "CANCELLED" and priority > 0
+            ) and not quarantined_same_parser:
                 job.status, job.checkpoint, job.metrics = "PENDING", checkpoint, {}
                 job.error = None
                 job.available_at, job.priority = available_at or utcnow(), priority
@@ -525,11 +689,13 @@ class IndexRepository:
         if not wanted:
             return None
         async with self.sessions() as db:
-            jobs = (await db.scalars(
-                select(CatalogSyncJob)
-                .where(CatalogSyncJob.supplier == supplier)
-                .order_by(CatalogSyncJob.updated_at.desc())
-            )).all()
+            jobs = (
+                await db.scalars(
+                    select(CatalogSyncJob)
+                    .where(CatalogSyncJob.supplier == supplier)
+                    .order_by(CatalogSyncJob.updated_at.desc())
+                )
+            ).all()
         best = None
         for job in jobs:
             checkpoint = job.checkpoint or {}
@@ -584,9 +750,18 @@ class IndexRepository:
                 if changed.rowcount:
                     job.status, job.updated_at = "RUNNING", now
                     await db.flush()
-                    data = {k: getattr(job, k) for k in (
-                        "id", "supplier", "kind", "checkpoint", "metrics", "priority", "available_at"
-                    )}
+                    data = {
+                        k: getattr(job, k)
+                        for k in (
+                            "id",
+                            "supplier",
+                            "kind",
+                            "checkpoint",
+                            "metrics",
+                            "priority",
+                            "available_at",
+                        )
+                    }
                     data["metrics"] = dict(data["metrics"] or {})
                     queued_at = job.available_at
                     if queued_at.tzinfo is None:
@@ -616,21 +791,37 @@ class IndexRepository:
 
     async def higher_priority_pending(self, priority):
         async with self.sessions() as db:
-            return bool(await db.scalar(
-                select(CatalogSyncJob.id).where(
-                    CatalogSyncJob.status == "PENDING",
-                    CatalogSyncJob.available_at <= utcnow(),
-                    CatalogSyncJob.priority > priority,
-                ).limit(1)
-            ))
+            return bool(
+                await db.scalar(
+                    select(CatalogSyncJob.id)
+                    .where(
+                        CatalogSyncJob.status == "PENDING",
+                        CatalogSyncJob.available_at <= utcnow(),
+                        CatalogSyncJob.priority > priority,
+                    )
+                    .limit(1)
+                )
+            )
 
     async def active_job(self, supplier, kinds):
         async with self.sessions() as db:
-            return await db.scalar(select(CatalogSyncJob).where(
-                CatalogSyncJob.supplier == supplier,
-                CatalogSyncJob.kind.in_(kinds),
-                CatalogSyncJob.status.in_(("PENDING", "RUNNING")),
-            ).order_by(CatalogSyncJob.updated_at.desc()).limit(1))
+            return await db.scalar(
+                select(CatalogSyncJob)
+                .where(
+                    CatalogSyncJob.supplier == supplier,
+                    CatalogSyncJob.kind.in_(kinds),
+                    CatalogSyncJob.status.in_(("PENDING", "RUNNING")),
+                )
+                .order_by(CatalogSyncJob.updated_at.desc())
+                .limit(1)
+            )
+
+    async def job_status(self, job_id):
+        async with self.sessions() as db:
+            row = await db.get(CatalogSyncJob, job_id)
+            return (
+                {"status": row.status, "error": row.error, "available_at": row.available_at} if row else None
+            )
 
     async def cancel(self, job_id):
         async with self.sessions() as db, db.begin():
@@ -653,7 +844,10 @@ class IndexRepository:
                 delay = 3600
             if error == "PARSER_ANOMALY":
                 delay = ceiling
-            if error == "SUPPLIER_HTTP_ERROR" and state.failures >= self.settings.supplier_circuit_failure_threshold:
+            if (
+                error == "SUPPLIER_HTTP_ERROR"
+                and state.failures >= self.settings.supplier_circuit_failure_threshold
+            ):
                 state.circuit_open_until = now + timedelta(seconds=delay)
                 error = "TEMPORARILY_UNAVAILABLE"
             elif not error:

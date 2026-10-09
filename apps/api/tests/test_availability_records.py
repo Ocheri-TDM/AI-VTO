@@ -57,6 +57,20 @@ def test_incoming_shipments_keep_eta_and_never_become_current_stock():
     assert result.earliest_eta == eta
 
 
+def test_procurement_evaluation_explains_pass_and_reject():
+    service = ProcurementAvailabilityService()
+    passed = service.evaluate([record("ON_HAND", free=625, location="central")], 250)
+    assert passed.result == "PASS"
+    assert passed.reason_code == "CURRENT_FREE_SUFFICIENT"
+    assert passed.available_quantity == 625
+    stale = service.evaluate([record("ON_HAND", free=625)], 250, stale=True)
+    assert stale.result == "REJECT" and stale.reason_code == "STALE_OBSERVATION"
+    reserved = AvailabilityRecord(state="ON_HAND", free_quantity=0, reserved_quantity=500,
+                                  parser_version="fixture-v1", source_label="fixture")
+    rejected = service.evaluate([reserved], 250)
+    assert rejected.reason_code == "RESERVED_ONLY"
+
+
 async def test_multiple_records_are_persisted_idempotently(repository, settings: Settings):
     product = make_product(
         availability_records=[
@@ -74,3 +88,16 @@ async def test_multiple_records_are_persisted_idempotently(repository, settings:
     assert {(row.state, row.free_quantity) for row in rows} == {
         ("ON_HAND", 100), ("INCOMING", 500),
     }
+
+
+async def test_latest_empty_snapshot_removes_old_normalized_availability(repository, settings: Settings):
+    product = make_product(availability_records=[record("ON_HAND", free=625)])
+    index = IndexRepository(repository.sessions, settings)
+    await index.ingest([product])
+    replacement = product.model_copy(update={
+        "availability_records": [], "stock_quantity": None, "incoming_quantity": None,
+    })
+    await index.ingest([replacement])
+    async with repository.sessions() as db:
+        count = await db.scalar(select(func.count()).select_from(AvailabilityObservation))
+    assert count == 0

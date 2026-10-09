@@ -64,11 +64,24 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     from app.application.index_research import IndexedResearchService
     from app.database.index import IndexRepository
     from app.database.research import ResearchRepository
+    from app.domain.query_understanding import QueryUnderstandingService
     index = IndexRepository(sessions, settings)
-    research = IndexedResearchService(ResearchRepository(sessions), providers, settings, model, index)
+    query_understanding = QueryUnderstandingService(sessions)
+    from app.domain.conversation_router import ConversationQueryRouter
+    conversation_router = ConversationQueryRouter(query_understanding)
+    research = IndexedResearchService(
+        ResearchRepository(sessions), providers, settings, model, index, query_understanding
+    )
     background = BackgroundIndex(index,providers,settings)
-    background.on_update = research.on_index_update
     orchestrator.research = research
+    from app.application.hard_requests import HardRequestService
+    hard_requests = HardRequestService(
+        sessions, research, index, model, query_understanding
+    )
+    async def publish_index_update(job):
+        await research.on_index_update(job)
+        await hard_requests.on_index_update(job)
+    background.on_update = publish_index_update
 
     async def clean_cache() -> None:
         while True:
@@ -87,6 +100,7 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
         await repository.recover_interrupted()
         await conversations.recover_interrupted()
         await research.repository.recover()
+        await hard_requests.recover()
         cleanup = asyncio.create_task(clean_cache(), name="cache-cleanup")
         if settings.background_research_enabled:
             background.start()
@@ -99,6 +113,7 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
             await search.close()
             await background.close()
             await research.close()
+            await hard_requests.close()
             await browser.close()
             await engine.dispose()
 
@@ -113,6 +128,9 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     app.state.sessions, app.state.settings = sessions, settings
     app.state.conversations, app.state.orchestrator = conversations, orchestrator
     app.state.research = research
+    app.state.query_understanding = query_understanding
+    app.state.hard_requests = hard_requests
+    app.state.conversation_router = conversation_router
     app.state.index, app.state.background_index = index, background
     app.include_router(router)
     app.include_router(auth_router)
@@ -124,11 +142,13 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     app.include_router(research_router)
     from app.api.diagnostics import router as diagnostics_router
     app.include_router(diagnostics_router)
+    from app.api.hard_requests import router as hard_requests_router
+    app.include_router(hard_requests_router)
 
     @app.middleware("http")
     async def authenticated_user(request: Request, call_next):
         protected = request.url.path.startswith((
-            "/api/chats", "/api/projects", "/api/researches", "/api/searches",
+            "/api/chats", "/api/projects", "/api/researches", "/api/searches", "/api/hard-requests",
         ))
         if protected and settings.auth_required:
             user = await current_user(request)
@@ -140,7 +160,7 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     @app.exception_handler(ConnectionError)
     @app.exception_handler(SQLAlchemyError)
     async def database_error(_request: Request, exc: Exception):
-        log_event("database_error", error_type=type(exc).__name__)
+        log_event("database_error", error_type=type(exc).__name__, error=str(exc)[:1000])
         return JSONResponse(status_code=503, content={"detail": "База данных временно недоступна."})
 
     @app.exception_handler(ValidationError)
