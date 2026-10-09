@@ -29,11 +29,11 @@ async def test_research_api_persistence_conflict_chat_sse_and_privacy(settings):
             identifier = started.json()['id']
             base = '/api/researches/'+identifier
             result = (await client.get(base)).json()
-            assert len(result['products']) == 50 and result['matching_count'] == 60
-            tail = (await client.get(base+'/products', params={'cursor': result['next_cursor']})).json()
-            assert len(tail['products']) == 10 and tail['next_cursor'] is None
-            assert len({p['id'] for p in result['products'] + tail['products']}) == 60
-            assert not {'supplier','stock_quantity','metadata','source_url'} & result['products'][0].keys()
+            assert len(result['products']) == 60 and result['matching_count'] == 60
+            assert result['next_cursor'] is None
+            assert len({p['id'] for p in result['products']}) == 60
+            assert result['products'][0]['source_url'].startswith('https://gifts.ru/id/')
+            assert not {'supplier','stock_quantity','metadata'} & result['products'][0].keys()
             selected = [result['products'][0]['id']]
             result = (await client.patch(base+'/view',json={'version':0,'selected_ids':selected})).json()
             assert result['selected_products'][0]['id'] == selected[0]
@@ -42,7 +42,7 @@ async def test_research_api_persistence_conflict_chat_sse_and_privacy(settings):
             result = (await client.post(base+'/messages',json={'message':'Убери всё дороже 100'})).json()
             assert result['products']==[] and len(result['selected_products'])==1
             result = (await client.post(base+'/messages',json={'message':'Верни предыдущий вариант'})).json()
-            assert len(result['products'])==50 and result['matching_count']==60
+            assert len(result['products'])==60 and result['matching_count']==60
             latest = (await client.get('/api/researches/chat/'+chat)).json()
             assert latest['view']['selected_ids']==selected
             assert 'research.updated' in (await client.get(base+'/events')).text

@@ -83,7 +83,7 @@ def test_provider_navigation_contract_observed_urls(supplier,url):
 
 async def test_new_matches_storage_and_full_pagination(repository,settings):
     index=IndexRepository(repository.sessions,settings)
-    products=[make_product(id=f'gifts:{i}',supplier='gifts',name=f'Карандаш деревянный {i}',material='дерево') for i in range(61)]
+    products=[make_product(id=f'gifts:{i}',supplier='gifts',name=f'Карандаш деревянный {i}',material='дерево') for i in range(204)]
     await index.ingest(products)
     chat=await ConversationRepository(repository.sessions).create('Final')
     service=IndexedResearchService(ResearchRepository(repository.sessions),[],settings,None,index)
@@ -91,12 +91,15 @@ async def test_new_matches_storage_and_full_pagination(repository,settings):
     research=await service.change(research.id,selected_ids=[products[0].id])
     await index.ingest([make_product(id='gifts:new',supplier='gifts',name='Карандаш новый',material='дерево')])
     research=await service.sync(research.id)
-    assert len(research.products)==61 and research.pending_offer_ids==['gifts:new']
+    assert len(research.products)==204 and research.pending_offer_ids==['gifts:new']
     research=await service.accept_matches(research.id)
-    assert len(research.products)==62 and research.view.selected_ids==[products[0].id]
+    assert len(research.products)==205 and research.view.selected_ids==[products[0].id]
     dto=response(research)
-    tail=page_products(research,current_products(research),dto['next_cursor'])
-    assert len(dto['products'])==50 and len(tail['products'])==12
+    second=page_products(research,current_products(research),dto['next_cursor'])
+    third=page_products(research,current_products(research),second['next_cursor'])
+    pages=dto['products']+second['products']+third['products']
+    assert [len(dto['products']),len(second['products']),len(third['products'])]==[100,100,5]
+    assert third['next_cursor'] is None and len({item['id'] for item in pages})==205
     async with repository.sessions() as db:
         row=await db.get(ResearchRecord,research.id)
         assert 'products' not in row.payload

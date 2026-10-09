@@ -22,7 +22,7 @@ export function ResearchWorkspace(){
   const [form,setForm]=useState<Project|'new'|null>(null);
   const [drawer,setDrawer]=useState<'chat'|'projects'|'filters'|'selected'|null>(null);
   const [query,setQuery]=useState('');
-  const [limit,setLimit]=useState(50);
+  const [limit,setLimit]=useState(100);
   const [details,setDetails]=useState<ResearchProduct|null>(null);
   const [family,setFamily]=useState<ResearchProduct[]|null>(null);
   const [grouped,setGrouped]=useState(true);
@@ -37,7 +37,7 @@ export function ResearchWorkspace(){
     setChat(values.some(p=>p.chat_id===saved)?saved:values[0]?.chat_id??null);
   }).catch(e=>setError(e.message));},[setError]);
   useEffect(()=>{const listener=(event:Event)=>setCompositeMessages((event as CustomEvent<WorkspaceMessage[]>).detail);window.addEventListener('workspace:messages',listener);return()=>window.removeEventListener('workspace:messages',listener);},[]);
-  function open(id:string){setChat(id);setComposite(false);localStorage.setItem('forma-chat-id',id);setDrawer(null);setLimit(50);}
+  function open(id:string){setChat(id);setComposite(false);localStorage.setItem('forma-chat-id',id);setDrawer(null);setLimit(100);}
   async function submit(){if(!query.trim()||busy||requestBusy)return;const value=query.trim();setQuery('');
     if(!chat){try{setRequestBusy(true);const created=await api.createChat('Новое исследование');const values=await api.projects();const createdProject=values.find(item=>item.chat_id===created.id);
        if(!createdProject)throw new Error('Не удалось открыть созданный проект.');state.setResearch(null);setComposite(false);const result=await workspaceApi.universal(createdProject.id,value);open(created.id);setProjects(values);
@@ -48,8 +48,7 @@ export function ResearchWorkspace(){
       setProjects(await api.projects());}catch(e){state.setError(e instanceof Error?e.message:'Не удалось выполнить запрос.');}finally{setRequestBusy(false);}}
     else await state.send(value);
   }
-  function select(p:ResearchProduct){if(!research)return;const ids=research.view.selected_ids;
-    state.change({selected_ids:ids.includes(p.id)?ids.filter(id=>id!==p.id):[...ids,p.id]});}
+  function select(p:ResearchProduct){state.selectProduct(p.id);}
   const project=projects.find(p=>p.chat_id===chat);
   const representatives=new Set(research?.groups.map(group=>group.offer_ids[0])??[]);
   const groupedIds=new Set(research?.groups.flatMap(group=>group.offer_ids)??[]);
@@ -71,7 +70,7 @@ export function ResearchWorkspace(){
     {composer}</div>;
   function cards(products:ResearchProduct[]){return <div className="research-grid">{products.map((p,index)=><div key={p.id}>
     <div className="research-match"><span>#{research?research.products.findIndex(value=>value.id===p.id)+1:index+1}</span><span>{p.match==='exact'?'Точное совпадение':'Близкий оттенок'}</span></div>
-    <ProductCard product={p} selected={research?.view.selected_ids.includes(p.id)??false} disabled={busy} onSelect={()=>select(p)} onDetails={()=>setDetails(p)}/>
+    <ProductCard product={p} selected={research?.view.selected_ids.includes(p.id)??false} onSelect={()=>select(p)} onDetails={()=>setDetails(p)}/>
     {(p.material||p.capacity)&&<p className="research-attributes">{[p.material,p.capacity].filter(Boolean).join(' · ')}</p>}
     {!family&&research?.groups.find(group=>group.offer_ids[0]===p.id&&group.offer_ids.length>1)&&<button className="studio-button" onClick={()=>{
       const group=research.groups.find(value=>value.offer_ids.includes(p.id));setFamily(research.products.filter(value=>group?.offer_ids.includes(value.id)));}}>Варианты модели · {research.groups.find(group=>group.offer_ids.includes(p.id))?.offer_ids.length}</button>}
@@ -111,7 +110,7 @@ export function ResearchWorkspace(){
       </div>
       {research.products.length?cards(displayProducts.slice(0,limit)):<div className="research-empty"><h2>{running?'Исследую каталоги':'Пока нет подходящих вариантов'}</h2><p>{research.pool_count?'Уточнения скрыли товары. Можно вернуться к исходной подборке.':'Товары появятся после проверки цвета, цены и доступного количества.'}</p>
         {research.pool_count>0&&<button className="studio-button" onClick={()=>state.change({restore:'reset'})}>Сбросить уточнения</button>}</div>}
-      {(research.next_cursor||displayProducts.length>limit)&&<button className="studio-button" disabled={busy} onClick={()=>{setLimit(n=>n+50);if(research.next_cursor)state.loadMore();}}>Показать ещё · всего {research.matching_count}</button>}</>)}
+      {(research.next_cursor||displayProducts.length>limit)&&<button className="studio-button" disabled={busy} onClick={()=>{setLimit(n=>n+100);if(research.next_cursor)state.loadMore();}}>Показать ещё 100 · всего {research.matching_count}</button>}</>)}
     </main>
     <aside className="research-chat">{chatPane}</aside>
     <nav className="research-mobile-nav"><button onClick={()=>setDrawer(null)}>Подборка</button><button onClick={()=>setDrawer('selected')}>Выбрано {research?.view.selected_ids.length??0}</button><button onClick={()=>setDrawer('chat')}>AI</button><button onClick={()=>setDrawer('projects')}>Проект</button></nav>

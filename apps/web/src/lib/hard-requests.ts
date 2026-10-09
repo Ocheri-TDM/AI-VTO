@@ -4,7 +4,7 @@ import type { Research } from './research';
 export interface ProjectQuery { id:string; project_id:string; research_session_id:string|null; type:'STANDARD'|'HARD'; query_text:string; status:string; is_active:boolean; created_at:string; updated_at:string }
 export interface HardRequest { id:string; project_id:string; query_id:string; original_text:string; status:string; target_cases:number; completed_cases:number; revision:number; metrics:Record<string,unknown>; plan:{categories:string[]; target_sets:number; candidates_per_position:number; quantity:{minimum:number|null}; category_count_mismatch:boolean}; created_at:string; updated_at:string }
 export interface WorkspaceMessage {id:string;role:'user'|'assistant'|'system';content:string;hard_request_id:string|null;result_revision:number|null;created_at:string}
-export interface HardCandidate { id:string; offer_id:string; product_id:string; name:string; supplier:string; source_url:string; image:string|null; price:number|null; tier:'A'|'B'|'C'|'D'; selected:boolean; user_locked:boolean }
+export interface HardCandidate { id:string; offer_id:string; product_id:string; name:string; supplier:string; source_url:string|null; image:string|null; price:number|null; tier:'A'|'B'|'C'|'D'; selected:boolean; user_locked:boolean }
 export interface HardPosition { id:string; position:number; category:string; candidates:HardCandidate[] }
 export interface HardCase { id:string; number:number; status:string; positions:HardPosition[] }
 export interface HardCases { cases:HardCase[]; total:number; offset:number; next_offset:number|null }

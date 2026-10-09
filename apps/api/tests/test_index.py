@@ -260,6 +260,18 @@ def test_relevance_rejects_mentions_and_expansion_stays_in_category():
         == CategoryMatch.REJECTED
     )
     assert matcher.match(make_product(name="Футляр для карандашей"), "pencil") == CategoryMatch.REJECTED
+    multifunction = make_product(
+        name="Металлическая ручка и вечный карандаш Van Gogh",
+        category="pencil",
+        metadata={"supplier_category": "Карандаши", "product_concepts": ["pencil"]},
+    )
+    ordinary_pen = make_product(
+        name="Металлическая ручка Van Gogh",
+        category="pen",
+        metadata={"supplier_category": "Ручки", "product_concepts": ["pen"]},
+    )
+    assert matcher.match(multifunction, "pencil", "карандаш") == CategoryMatch.EXACT
+    assert matcher.match(ordinary_pen, "pencil", "карандаш") == CategoryMatch.REJECTED
     queries = QueryExpansionService().expand("pencil", ResearchBudget())
     assert queries and not any("бутыл" in q for q in queries)
 

@@ -30,6 +30,6 @@ export const researchApi = {
   message: (id: string, message: string) => request<Research>(`/researches/${id}/messages`, {method:'POST',body:JSON.stringify({message})}),
   continue: (id: string) => request<Research>(`/researches/${id}/continue`, {method:'POST'}),
   cancel: (id: string) => request<Research>(`/researches/${id}/cancel`, {method:'POST'}),
-  page: (id: string, cursor: string) => request<{products: ResearchProduct[]; matching_count: number; next_cursor: string | null}>(`/researches/${id}/products?cursor=${encodeURIComponent(cursor)}`),
+  page: (id: string, cursor: string) => request<{products: ResearchProduct[]; matching_count: number; next_cursor: string | null}>(`/researches/${id}/products?limit=100&cursor=${encodeURIComponent(cursor)}`),
   acceptMatches: (id: string) => request<Research>(`/researches/${id}/new-matches`, {method:'POST'}),
 };

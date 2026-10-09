@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Check, ImageOff, MoveUpRight } from "lucide-react";
+import { Check, ExternalLink, ImageOff, MoveUpRight } from "lucide-react";
 import {
   categoryLabel,
   colorLabel,
@@ -28,6 +28,7 @@ export function ProductCard({
   const [imageFailed, setImageFailed] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const image = safeWebUrl(product.primary_image);
+  const source = safeWebUrl(product.source_url);
   const color = product.colors[0];
   return (
     <article className={`product-card ${selected ? "selected" : ""}`}>
@@ -105,6 +106,12 @@ export function ProductCard({
               : ""}
           </small>
         ) : null}
+        {source && (
+          <a className="product-source-link" href={source} target="_blank" rel="noopener noreferrer"
+            aria-label={`Открыть ${product.name} у поставщика`} title="Открыть у поставщика">
+            Открыть у поставщика <ExternalLink size={13} />
+          </a>
+        )}
       </div>
     </article>
   );

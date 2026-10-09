@@ -168,6 +168,20 @@ export function ProductDetails({
               ))}
             </div>
           )}
+          {details && (sources.length > 1 ? (
+            <div className="source-links">
+              {sources.map((offer) => (
+                <a key={`${offer.supplier}:${offer.product_url}`} className="source-link"
+                  href={offer.product_url} target="_blank" rel="noopener noreferrer">
+                  Открыть у {offer.supplier} <ExternalLink size={14} />
+                </a>
+              ))}
+            </div>
+          ) : source && (
+            <a className="source-link" href={source} target="_blank" rel="noopener noreferrer">
+              Открыть у поставщика <ExternalLink size={14} />
+            </a>
+          ))}
           {(!researchMode || details?.supplier) && <details className="details-section">
             <summary>Техническая информация</summary>
             {!details && !error && (
@@ -223,26 +237,6 @@ export function ProductDetails({
                     </dd>
                   </div>
                 </dl>
-                {sources.length > 1 ? (
-                  <div className="source-links">
-                    {sources.map((offer) => (
-                      <a key={`${offer.supplier}:${offer.product_url}`} className="source-link"
-                        href={offer.product_url} target="_blank" rel="noopener noreferrer">
-                        Открыть у {offer.supplier} <ExternalLink size={14} />
-                      </a>
-                    ))}
-                  </div>
-                ) : source && (
-                  <a
-                    className="source-link"
-                    href={source}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Открыть на сайте поставщика
-                    <ExternalLink size={14} />
-                  </a>
-                )}
               </>
             )}
           </details>}

@@ -50,6 +50,7 @@ export interface Product {
   incoming_date?: string | null;
   availability_status?: string | null;
   availability?: ProductAvailability;
+  source_url?: string;
 }
 
 export interface ProductDetails extends Product {

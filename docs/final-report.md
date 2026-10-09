@@ -1017,4 +1017,38 @@ Database identity was checked before cleanup: the protected main database is `so
 - Catalog jobs/checkpoints reset or deleted: **no**; 273 persisted jobs remain.
 - Background scheduler/workers disabled: **no**.
 
+## Product UX, source links and 100-item pagination (2026-10-09)
+
+### Selection
+
+The active Research UI previously sent the entire selected ID set through the generic view mutation and disabled product controls until the response returned. Selection now changes the local checkbox, selected counter and selected drawer immediately, then serializes the latest desired ID set to the existing versioned endpoint. A newer click cannot be overwritten by an older response; a rejected write reloads authoritative server state. The database still stores only selection IDs and does not rerun retrieval, ranking, availability or Composite assembly.
+
+Live Chromium on populated PostgreSQL measured **46.48 ms** from click to checked DOM state while persistence completed in **2,871.94 ms** with HTTP 200. F5 after server confirmation restored the selection. Rapid changes are coalesced and persisted in order; server view versions remain the conflict guard.
+
+### Hard Request UI
+
+Case View remains in the existing dark layout, but candidate cards are now image-first. The image uses a 4:3 surface with `object-fit: contain`, a placeholder when absent, a two-line title, unit price, concise availability and a small selected indicator. The live candidate image was **258 px** wide at 1440 px, compared with the former fixed 42×42 thumbnail. Candidate selection updated locally in **16.33 ms**.
+
+Responsive DOM checks passed at 1920, 1600, 1440, 1366, 1280, 1024, 768 and 390 px with zero horizontal overflow, one active workspace and zero page errors. The live two-position Composite completed 2/2 cases and rendered 12 source actions.
+
+### Source links
+
+The loss occurred at the list DTO boundary: detail DTOs already derived validated canonical offer URLs, but `product_view()` omitted `source_url`. Hard Request serialization passed the raw offer URL without the shared validation boundary. List DTOs and Hard Request candidates now use `validated_product_url`, which permits only HTTP(S), the configured supplier domain or subdomain, and strips fragments. No URL is synthesized.
+
+Real source actions now appear on the ordinary product card, directly inside `.dialog-body`, and on every Hard Request candidate. Each uses `target="_blank"` and `rel="noopener noreferrer"`. Live DOM rendered the same ArteGifts URL in the card and details dialog. Permanent parameterized tests cover Oasis, Ucontay, Gifts, Portobello, HappyGifts and ArteGifts plus hostile/missing URL rejection. A six-supplier live rendered-DOM sample was not available, so that specific coverage is **NOT TESTED**.
+
+### Pagination
+
+The existing opaque, view-fingerprinted cursor endpoint is retained. Its default and initial response now use **100** items; the frontend explicitly requests and appends the next 100. Filters, sorting and facets still run over the complete matching pool before pagination, and a view change invalidates an old cursor with HTTP 409.
+
+The populated query `ручки` returned **3,290** matches, 100 DTOs on the first page and 100 on the second, with zero duplicate IDs. Chromium rendered 100 cards and preserved selection through F5. The permanent 205-product regression verifies page sizes 100/100/5, no duplicates, accurate total and selection retention.
+
+### Category correctness
+
+Composite continues to admit only `EXACT` and `STRONG_RELATED` evidence. “Металлическая ручка и вечный карандаш Van Gogh” is accepted for a pencil position when supplier category/concept evidence confirms the multifunction product. A new regression proves that an ordinary metal pen with pen-only evidence is rejected. No LLM category relabeling was added.
+
+### Validation and cleanup
+
+Backend: **288 passed, 4 opt-in tests deselected**. Ruff, ESLint, TypeScript and Next.js 16.3.4 production build passed. Live API/PostgreSQL/Chromium acceptance passed after the hidden dialog-link defect was found and corrected. Eight disposable acceptance users and nine owned projects were removed; one-off scripts and JSON were deleted. The main database, real user data, supplier catalog and crawler checkpoints were preserved. Background workers were restored after the uncontended acceptance run.
+
 Post-cleanup health checks passed for PostgreSQL, FastAPI, Ollama and the production frontend on ports 55432, 8000, 11434 and 3000. A disposable post-cleanup identity also received HTTP 202 for SIMPLE, COMPOSITE, a position mutation and Undo; its exact three-project ownership set was then deleted with the user. The remaining limitations are the unmeasured baseline peak memory and the incomplete second Undo/new-search portion of the final populated-database Playwright run; full UI DoD is therefore not claimed for this run.

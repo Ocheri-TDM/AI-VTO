@@ -32,6 +32,7 @@ from app.domain.hard_request import (
 )
 from app.domain.intent_mutation import IntentMutationService, PatchOperation
 from app.domain.models import utcnow
+from app.domain.source_urls import validated_product_url
 from app.domain.taxonomy import CategoryMatch, ProductCategoryMatcher
 
 
@@ -1386,7 +1387,7 @@ class HardRequestService:
                                     "product_id": p.id,
                                     "name": p.name,
                                     "supplier": o.supplier,
-                                    "source_url": o.source_url,
+                                    "source_url": validated_product_url(o.supplier, o.source_url),
                                     "image": o.payload.get("primary_image"),
                                     "price": o.payload.get("price_kzt"),
                                     "tier": c.availability_tier,

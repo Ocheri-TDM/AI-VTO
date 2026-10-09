@@ -41,12 +41,15 @@ class ResearchMessage(BaseModel):
 
 def product_view(p):
     # Explicit user-facing contract keeps supplier, stock, article and provenance secondary.
-    return p.model_dump(mode='json', include={'id', 'name', 'category', 'description', 'price_kzt',
+    result = p.model_dump(mode='json', include={'id', 'name', 'category', 'description', 'price_kzt',
         'colors', 'primary_image', 'images', 'material', 'brand', 'dimensions', 'capacity', 'features'}) | {
         'freshness': 'STALE' if stale(p) or p.metadata.get('research_invalid') else 'FRESH',
         'match': p.metadata.get('color_match', 'exact'),
         'availability': ProcurementAvailabilityService().presentation(p.availability_records),
     }
+    if url := validated_product_url(p.supplier, p.source_url):
+        result['source_url'] = url
+    return result
 
 
 def product_details_view(research, product):
@@ -77,7 +80,7 @@ def product_details_view(research, product):
     return result
 
 
-def page_products(research, products, cursor=None, limit=50):
+def page_products(research, products, cursor=None, limit=100):
     fingerprint = hashlib.sha256((str(research.view.version) + '|'.join(p.id for p in products)).encode()).hexdigest()[:16]
     offset = 0
     if cursor:
@@ -225,7 +228,7 @@ async def details(identifier: UUID, product_id: str, request: Request):
 
 
 @router.get('/{identifier}/products')
-async def products_page(identifier: UUID, request: Request, cursor: str | None = None, limit: int = Query(50, ge=1, le=100)):
+async def products_page(identifier: UUID, request: Request, cursor: str | None = None, limit: int = Query(100, ge=1, le=100)):
     value = await require(request, identifier)
     return page_products(value, current_products(value), cursor, limit)
 

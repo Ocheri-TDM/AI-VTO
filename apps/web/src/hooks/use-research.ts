@@ -9,6 +9,10 @@ export function useResearch(chatId: string | null) {
   const [error,setError]=useState('');
   const generation=useRef(0);
   const operation=useRef(false);
+  const confirmed=useRef<Research|null>(null);
+  const desiredSelection=useRef<string[]|null>(null);
+  const selectionSaving=useRef(false);
+  useEffect(()=>{if(research&&!selectionSaving.current&&desiredSelection.current===null)confirmed.current=research;},[research]);
   useEffect(()=>{
     const current=++generation.current;
     queueMicrotask(()=>{if(current===generation.current)setResearch(null);});
@@ -41,6 +45,51 @@ export function useResearch(chatId: string | null) {
     catch(e){setError(e instanceof Error?e.message:'Не удалось изменить исследование.');}
     finally {operation.current=false;setBusy(false);}
   },[]);
+  async function persistSelection(){
+    if(selectionSaving.current)return;
+    selectionSaving.current=true;
+    try{
+      while(desiredSelection.current){
+        const wanted=desiredSelection.current;
+        desiredSelection.current=null;
+        const base=confirmed.current;
+        if(!base)break;
+        try{
+          const value=await researchApi.change(base.id,{version:base.view.version,selected_ids:wanted});
+          confirmed.current=value;
+          setResearch(current=>{
+            if(!current||current.id!==value.id)return current;
+            const pending=desiredSelection.current;
+            if(!pending)return value;
+            const known=new Map([...value.selected_products,...value.products].map(product=>[product.id,product]));
+            return {...value,view:{...value.view,selected_ids:pending},
+              selected_products:pending.flatMap(id=>known.has(id)?[known.get(id)!]:[])};
+          });
+        }catch(e){
+          setError(e instanceof Error?e.message:'Не удалось сохранить выбор.');
+          try{
+            const fresh=await researchApi.get(base.id);
+            confirmed.current=fresh;
+            if(desiredSelection.current===null)setResearch(fresh);
+          }catch{/* Keep the optimistic state until a later successful sync. */}
+        }
+      }
+    }finally{selectionSaving.current=false;if(desiredSelection.current)void persistSelection();}
+  }
+  function selectProduct(productId:string){
+    setError('');
+    setResearch(current=>{
+      if(!current)return current;
+      const selected=new Set(current.view.selected_ids);
+      if(selected.has(productId))selected.delete(productId);else selected.add(productId);
+      desiredSelection.current=[...selected];
+      queueMicrotask(()=>void persistSelection());
+      const selectedIds=[...selected];
+      const known=new Map([...current.selected_products,...current.products].map(product=>[product.id,product]));
+      return {...current,view:{...current.view,selected_ids:selectedIds},
+        selected_products:selectedIds.flatMap(id=>known.has(id)?[known.get(id)!]:[])};
+    });
+  }
   return {research,busy,running,error,setError,perform,
     setResearch,
     openResearch: async(id:string)=>{setBusy(true);setError('');try{setResearch(await researchApi.get(id));}catch(e){setError(e instanceof Error?e.message:'Не удалось открыть запрос.');}finally{setBusy(false);}},
@@ -55,5 +104,6 @@ export function useResearch(chatId: string | null) {
     },
     send:(text:string)=>chatId && perform(()=>research?researchApi.message(research.id,text):researchApi.start(chatId,text)),
     change:(body:object)=>research && perform(()=>researchApi.change(research.id,{version:research.view.version,...body})),
+    selectProduct,
   };
 }

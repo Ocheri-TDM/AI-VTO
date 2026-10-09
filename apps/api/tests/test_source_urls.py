@@ -1,6 +1,7 @@
+import pytest
 from conftest import make_product
 
-from app.api.research import product_details_view
+from app.api.research import product_details_view, product_view
 from app.domain.source_urls import validated_product_url
 
 
@@ -42,3 +43,15 @@ def test_missing_product_url_does_not_create_public_link():
     research = type("Research", (), {"products": [product]})()
     result = product_details_view(research, product)
     assert "source_url" not in result and "offers" not in result
+
+
+@pytest.mark.parametrize(("supplier", "url"), [
+    ("oasis", "https://www.oasiscatalog.com/item/1"),
+    ("ucontay", "https://ucontay.kz/product/1"),
+    ("gifts", "https://gifts.ru/id/1"),
+    ("portobello", "https://portobello.ru/catalog/1"),
+    ("happygifts", "https://happygifts.ru/catalog/1"),
+    ("artegifts", "https://kz.artegifts.by/catalog/1"),
+])
+def test_list_card_preserves_validated_source_for_every_supplier(supplier, url):
+    assert product_view(make_product(supplier=supplier, source_url=url))["source_url"] == url
