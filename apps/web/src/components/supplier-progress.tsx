@@ -7,7 +7,7 @@ import {
 } from "lucide-react";
 import type { SupplierProgress } from "@/lib/types";
 
-const waiting: SupplierProgress[] = ["gifts", "ucontay"].map((supplier) => ({
+const waiting: SupplierProgress[] = ["vto"].map((supplier) => ({
   supplier: supplier as SupplierProgress["supplier"],
   status: "pending",
   products_discovered: 0,
@@ -41,7 +41,7 @@ export function SupplierProgressPanel({
       aria-live="polite"
     >
       <div className="eyebrow">
-        ИСТОЧНИКИ ПОИСКА <span>02</span>
+        ИСТОЧНИКИ ПОИСКА <span>01</span>
       </div>
       {(suppliers?.length ? suppliers : waiting).map((supplier) => {
         const message = supplierMessage(supplier);
@@ -49,19 +49,11 @@ export function SupplierProgressPanel({
           <div key={supplier.supplier} className="supplier-row-wrap">
             <div className="supplier-row">
               <span className={`supplier-logo ${supplier.supplier}`}>
-                {supplier.supplier === "gifts"
-                  ? "g"
-                  : supplier.supplier === "oasis"
-                    ? "o"
-                    : "u"}
+                V
               </span>
               <div className="supplier-copy">
                 <strong>
-                  {supplier.supplier === "gifts"
-                    ? "Gifts.ru"
-                    : supplier.supplier === "oasis"
-                      ? "Oasis"
-                      : "Ucontay"}
+                  VTO
                 </strong>
                 <span>
                   {supplier.status === "completed"

@@ -1,3 +1,26 @@
+# Unified product grid — 2026-10-30
+
+Текущий продуктовый путь: одна сетка для всех запросов, без автоматической
+сборки Case / Hard Request. Старые отчёты ниже сохранены как история и не
+определяют новое поведение приложения.
+
+Реализация, модель веток, фильтры/HUD, SQL/DTO измерения, live-приёмка,
+архивная совместимость и ограничения: [unified-product-grid.md](unified-product-grid.md).
+
+- Live HTTP / PostgreSQL: GRID четырёх категорий — 509 вариантов; Molti — 4
+  рюкзака; Molti + цвет + цена — 1. Назначение «в дороге» после защиты исходного
+  смысла — 528 вариантов до 7000 ₸. Значения относятся к текущему неполному индексу.
+- Melango: четыре самостоятельных варианта, BLUE-фильтр, тираж, выбор и Undo — PASS.
+- React component tests: 2 PASS. Ruff, ESLint, TypeScript, production build — PASS.
+- Browser desktop/mobile rendered DOM — NOT TESTED; Chromium не возвращался.
+- VTO DB, observations, identities, пользователи, история, backup и очередь
+  сохранены; reset/DDL не выполнялись. VTO job ожидает retry HTTP-ошибки источника.
+- Полный backend regression suite: **316 passed, 1 deselected**, 132,04 с — PASS.
+- `git diff --check`: exit 0 — PASS. Временный измерительный API и его артефакты
+  удалены; основной API, frontend, PostgreSQL и Ollama оставлены работающими.
+
+---
+
 # Availability audit addition ? 23 ???????? 2026
 
 ??????????????? observation ?????? ???????? ?????? `available_now` (??????????? API-???? `stock_quantity`/DB `stock`), `incoming`, `reserved`, `total`, `incoming_at`, normalized statuses, bounded `source_availability` ? `parser_version`. `NULL` ????????, ??? supplier ?? ??????? ????????; ?? ?? ?????????? ?????. Incoming ??????? ????????????? ?? ?????????? ??????? ????????.
@@ -1051,4 +1074,491 @@ Composite continues to admit only `EXACT` and `STRONG_RELATED` evidence. “Ме
 
 Backend: **288 passed, 4 opt-in tests deselected**. Ruff, ESLint, TypeScript and Next.js 16.3.4 production build passed. Live API/PostgreSQL/Chromium acceptance passed after the hidden dialog-link defect was found and corrected. Eight disposable acceptance users and nine owned projects were removed; one-off scripts and JSON were deleted. The main database, real user data, supplier catalog and crawler checkpoints were preserved. Background workers were restored after the uncontended acceptance run.
 
+## Semantic search recall, precision and active workspace routing (2026-10-11)
+
+### PASSED
+
+The root causes were separated by pipeline stage. Product concept resolution lacked canonical multilingual identities for power banks, USB flash storage, thermomugs and thermocups. Retrieval expanded the raw wording instead of the resolved concept, so equivalent queries produced different SQL candidate sets. Category classification accepted weak unordered tokens and treated `USB` as type evidence, which promoted humidifiers and other USB-powered devices. The thermocup stem also collided with thermos. In workspace routing, the endpoint attempted refinement before deciding whether the message was a new Composite request, and SIMPLE/COMPOSITE transitions did not share one full PostgreSQL advisory-lock critical section.
+
+The existing taxonomy and resolver now represent multilingual equivalents while retaining parent/related/attribute distinctions. SQL retrieval uses the resolved canonical forms. Exact and strong-related classification requires bounded category, breadcrumb or title evidence; a shared attribute such as `USB` is insufficient. Hybrid products keep multiple concepts, while sample sets and lighter/drive hybrids remain related rather than exact. Deterministic handling covers the required query families without Qwen.
+
+| Query | Screenshot baseline | Live corrected snapshot | Resolved concept | Observed precision result |
+|---|---:|---:|---|---|
+| `повербанк` | 6 | 220 | `powerbank` | Equivalent pool parity passed |
+| `внешний аккумулятор` | 157 | 220 | `powerbank` | Equivalent pool parity passed |
+| `Power Bank` | 181 | 220 | `powerbank` | Equivalent pool parity passed |
+| `термокружка` | 730 | 1,034 | `thermomug` | Separate from thermos |
+| `термостакан` | 652 | 246 | `thermocup` | Separate from thermos |
+| `флешка` | 128 | 156 | `flashdrive` | No USB humidifier/lamp/cable/hub/fan/charger in top 20 |
+| `USB flash drive` | 1 | 156 | `flashdrive` | Ordinary drives restored; showcase does not displace them |
+
+All nine power-bank spellings produced the same 220-offer set, and all eight flash-drive spellings produced the same 156-offer set; SupplierOffer-ID Jaccard was 1.0 inside each family. Thermal concepts remained distinct: thermomug 1,034, thermocup 246, and thermos 662 at the measured snapshot. Counts are a live catalog snapshot and may change as normal background refresh continues.
+
+An independent ten-concept singular/plural holdout produced top-100 Jaccard 1.0 for every pair. A conservative keyword review of the top 20 produced mean precision 0.985. This is a labelled-sample estimate, not absolute catalog recall; a complete relevance judgement set does not exist. Measured latency under active background workers was p50 577.95 ms and p95 3,353.19 ms.
+
+The real HTTP/PostgreSQL 12-step transition chain passed. It covered SIMPLE → COMPOSITE, position mutation, COMPOSITE → SIMPLE without inherited quantity/target sets, SIMPLE refinement, a new Composite, removal, and subsequent flash-drive and power-bank searches. Router actions were respectively `NEW_SEARCH`, `NEW_SEARCH`, `MODIFY_CURRENT`, `NEW_SEARCH`, `NEW_SEARCH`, `REFINE_CURRENT`, `NEW_SEARCH`, `MODIFY_CURRENT`, `REMOVE_CONSTRAINT`, `NEW_SEARCH`, `NEW_SEARCH`, `NEW_SEARCH`. Exactly one ProjectQuery was active after every step. The unknown term `квантосборник` was preserved and started an empty independent SIMPLE search rather than mutating the preceding notebook search.
+
+Concurrent non-conflicting Composite mutations both survived with one active revision. Concurrent workspace transitions also serialized through the transaction-scoped PostgreSQL advisory lock; commit order selected the final active transition. The permanent stale-recovery regression passed and prevents an older recovery publication from reactivating a historical workspace.
+
+Permanent regressions cover multilingual equivalence, USB false positives, thermocup/thermos separation, bounded modifier evidence, multi-concept products, mode transitions, mutation priority, unknown standalone vocabulary, category match serialization and the sentence-form Composite request. Final backend validation: **303 passed, 4 explicit opt-in tests deselected**. Ruff passed over `apps/api/app` and `apps/api/tests`.
+
+### FAILED / NOT TESTED
+
+The populated-database Playwright chain rendered step 1 SIMPLE and step 2 COMPOSITE, then the step 3 position mutation did not complete within the five-minute response timeout. Repeating on a fresh API process, including a run with the background scheduler disabled, reproduced the stall. Therefore rendered-DOM verification of all 12 steps, F5, history, Undo, delayed SSE, pagination and title correctness is **NOT PASSED** for this run. The UI still renders the literal SIMPLE `raw_query` as its heading, so the requested effective-intent title is also not claimed.
+
+Controlled races for project switching during a request, F5 during active SSE and Undo during background publication were not executed in this run. Absolute recall, precision@50 and false-negative rate remain unavailable without a fully judged catalog universe. These items prevent a full DoD claim.
+
+### Safety and cleanup
+
+No database, table or catalog was dropped, truncated or reset. SupplierOffer identity, availability/procurement semantics, users, normal projects, crawler jobs and checkpoints were unchanged. No hidden top-N or first-page filtering was introduced; the backend matching pool remains complete and UI pagination remains 100 items.
+
+Cleanup removed the temporary semantic benchmark/Playwright scripts and JSON evidence after transferring the results here. Nineteen explicitly prefixed acceptance identities and their nine owned projects were removed; deletion was limited to the recorded test-name prefixes. The main `souvenir` database, real users and catalog data were preserved.
+
+## SIMPLE / COMPOSITE eligibility parity hotfix (2026-10-11)
+
+The reported discrepancy was reproduced on the populated main PostgreSQL database. It was not a category, color, variant or hidden-limit failure. SIMPLE intentionally retains catalog products when availability is unknown or stale, while strict Composite quantity eligibility requires a fresh numeric `ON_HAND.free_quantity`. The UI displayed the old number without an adjacent stale warning, which made the stricter Composite result look inconsistent.
+
+All three products resolve to canonical category and ProductConcept `notebook`, have supplier category `notebook`, and have `BLACK` on the same SupplierOffer that owns the availability observation:
+
+| Product | Product ID | SupplierOffer ID | Supplier | Observed | Free | State | Freshness | Strict decision |
+|---|---|---|---|---|---:|---|---|---|
+| Dear A5, black | `84bb62d0422f0b5542db` | `artegifts:232110` | ArteGifts | 2026-09-24 09:07:49 UTC | 4,243 | ON_HAND | STALE; expired 10:07:49 UTC | REJECT: `STALE_OBSERVATION` |
+| Impero A5, black | `b562fb5d04d6833cf815` | `artegifts:234832` | ArteGifts | 2026-09-24 09:07:40 UTC | 1,587 | ON_HAND | STALE; expired 10:07:40 UTC | REJECT: `STALE_OBSERVATION` |
+| Equator A5, black/silver | `f3577b0575f75b5b6514` | `artegifts:231901` | ArteGifts | 2026-09-24 09:07:55 UTC | 433 | ON_HAND | STALE; expired 10:07:55 UTC | REJECT: `STALE_OBSERVATION` |
+
+Read-only candidate-set verification found 2,088 base notebook offers and 393 SQL BLACK offers. Every named SupplierOffer was present in both sets. Each then passed category evidence, BLACK color and same-offer variant identity, had numeric free stock above 200, and was rejected only at freshness. No offer reached deduplication, eligible pool or assembly. The live Composite funnel was: raw 2,088; category/BLACK retrieval 335 after hydration and category validation; availability known 240; fresh 0; strict eligible 0. Of the BLACK category pool, 334 were stale and one lacked procurement evidence. The difference between the read-only 393 SQL color IDs and 335 validated products is category/evidence validation, not first-page truncation.
+
+SIMPLE returned a 1,804-product matching pool and included all three exact SupplierOffer IDs with API `freshness=STALE`. Composite returned HTTP 202, capacity zero, `required_quantity=200`, and structured reason counts. A bounded targeted refresh candidate set was produced by the existing recovery path; the request did not wait for supplier crawling.
+
+The product card now appends `данные устарели` to a displayed free-stock number when the API marks the offer stale. Zero-capacity Composite UI now shows per-position category, color, known-stock, fresh-stock, quantity and eligible counts, plus stale, unknown, insufficient and non-current rejection counts. Procurement rules and persisted observations were not changed.
+
+Permanent regression coverage verifies fresh `ON_HAND free=4243` passes at 200, stale 4243 is rejected, fresh 199 is insufficient, incoming-only 4243 is rejected, and `quantity=None` remains valid without inventing a threshold. Existing tests continue to cover same-offer color/stock identity, full-pool retrieval and zero-capacity behavior. Final validation: **305 backend tests passed**, four explicit opt-in tests were deselected; full application/test Ruff, ESLint, standalone TypeScript and the Next.js 16.3.4 production build passed.
+
+Only isolated acceptance projects and explicitly prefixed test users were removed. The main database, offers, observations, normal users, history, jobs and checkpoints were preserved.
+
 Post-cleanup health checks passed for PostgreSQL, FastAPI, Ollama and the production frontend on ports 55432, 8000, 11434 and 3000. A disposable post-cleanup identity also received HTTP 202 for SIMPLE, COMPOSITE, a position mutation and Undo; its exact three-project ownership set was then deleted with the user. The remaining limitations are the unmeasured baseline peak memory and the incomplete second Undo/new-search portion of the final populated-database Playwright run; full UI DoD is therefore not claimed for this run.
+
+## Last-known stock Composite procurement hotfix (2026-10-11)
+
+### Root cause and policy
+
+The previous hotfix correctly found that the three ArteGifts notebooks passed retrieval, category, BLACK color, same-offer variant identity and `free_quantity >= 200`, but `ProcurementAvailabilityService.evaluate()` rejected stale observations before evaluating their numeric `ON_HAND` stock. That freshness gate was the sole reason the notebook pool was zero.
+
+The default policy is now `LAST_KNOWN_STOCK_ALLOWED`. Fresh `ON_HAND` stock is `CURRENT_FREE_SUFFICIENT`; stale but sufficient `ON_HAND` stock is `LAST_KNOWN_FREE_SUFFICIENT` with tier `LAST_KNOWN`. An explicit request for current confirmed stock selects `FRESH_ONLY` and retains `STALE_OBSERVATION` rejection. `NULL` remains unknown, zero and sub-threshold free stock remain insufficient, and incoming, reserved, remote and alternative supply are not promoted to `ON_HAND`. Color and stock are still evaluated on the same SupplierOffer.
+
+Diagnostics and allocation use the same procurement evaluation. The funnel now reports confirmed and last-known observations and sufficient counts separately. Assembly prioritizes confirmed tier A before last-known tier B, records how many completed cases use last-known stock, and never labels those cases as confirmed supply. The UI shows “Последний известный остаток”, its observation date, and “требуется уточнение”.
+
+### Real SupplierOffer decisions
+
+Read-only hydration from the populated main PostgreSQL produced:
+
+| Product | Product ID | SupplierOffer ID | Color | Observed UTC | Free | New decision |
+|---|---|---|---|---|---:|---|
+| Dear A5 | `84bb62d0422f0b5542db` | `artegifts:232110` | BLACK | 2026-09-24 09:07:49 | 4,243 | PASS · `LAST_KNOWN_FREE_SUFFICIENT` |
+| Impero A5 | `b562fb5d04d6833cf815` | `artegifts:234832` | BLACK | 2026-09-24 09:07:40 | 1,587 | PASS · `LAST_KNOWN_FREE_SUFFICIENT` |
+| Equator A5 | `f3577b0575f75b5b6514` | `artegifts:231901` | BLACK | 2026-09-24 09:07:55 | 433 | PASS · `LAST_KNOWN_FREE_SUFFICIENT` |
+
+All three retain canonical category and ProductConcept `notebook`, state `ON_HAND`, their original source URL and stale timestamps. No observation or timestamp was changed.
+
+### Before / after live HTTP
+
+The exact request `Термокружка, ежедневник, ручка. Цвет черный. Тираж 200 штук. 5 наборов` completed through the real FastAPI service and main PostgreSQL in an isolated project.
+
+| Metric | Before | After |
+|---|---:|---:|
+| Notebook category matched | 335 | 335 |
+| Notebook known ON_HAND stock | 240 | 240 |
+| Notebook free >= 200 | 188 | 188 |
+| Notebook eligible before dedup | 0 | 188 |
+| Notebook eligible unique | 0 | 184 |
+| Complete cases | 0 | 5/5 |
+| Cases using last-known stock | 0 | 5 |
+
+The after-run notebook pool contained 188 `LAST_KNOWN_FREE_SUFFICIENT`, 52 insufficient and 95 without procurement evidence; deduplication removed four duplicate product identities. The other eligible pools were thermomug 168 and pen 186. Every assembled case used at least one last-known offer, so `confirmed_stock_cases=0` and `last_known_stock_cases=5`; this describes confidence and does not guarantee delivery.
+
+### Regression and safety
+
+Permanent regressions cover fresh and stale sufficient stock, stale 199, stale zero, stale `NULL`, incoming-only, reserved-only, explicit fresh-only, quantity absence, same-offer color/stock identity and deterministic assembly. Final validation: **307 passed, 4 explicit opt-in tests deselected**; Ruff passed for `apps/api/app` and `apps/api/tests`; ESLint, TypeScript and Next.js 16.3.4 production build passed.
+
+The main PostgreSQL database, SupplierOffer rows, availability observations, real users/projects/history, jobs and crawler checkpoints were preserved. Only exact prefixed acceptance identities/projects and the one-off live-result JSON were removed.
+
+## Gifts.ru images and Composite rebuild hotfix (2026-10-11)
+
+### Root causes and fixes
+
+The Gifts adapter and stored catalog data were correct. Offer `gifts:133183` points to `https://gifts.ru/id/133183`, and its primary image is the absolute HTTPS URL `https://files.gifts.ru/reviewer/webp/50/17016.30_19_2000x2000.webp`. Direct HTTP checks returned `200 image/webp`. In the rendered Composite grid, several simultaneous direct CDN requests failed with Chromium `net::ERR_HTTP2_PROTOCOL_ERROR`; the previous `unoptimized` Next Image mode exposed that CDN failure and had no stable fallback. Composite images now use the configured Next.js image optimizer, and a failed or absent image renders an `ImageOff` placeholder without a broken-image icon.
+
+Composite prices were lost at the DTO boundary. The cases query read `price_kzt` from `SupplierOffer.payload`, although price belongs to the latest `ProductObservation`. The query now joins the observation owned by the same SupplierOffer and serializes `ProductObservation.price_kzt`. Image serialization also falls back from `primary_image` to the first normalized `images` entry.
+
+The rebuild endpoint already created an immutable new hard-request revision and returned HTTP 202, but the client gave no progress or terminal feedback and assumed the immediate response was final. The client now disables rebuild and pagination during the operation, prevents duplicate submissions, polls the authoritative revision for a bounded 20 seconds when it is still `RUNNING`, reloads cases without F5, reports changed/no-change completion, and surfaces timeout or failure through the existing error channel. Existing active-revision SSE guards remain in force.
+
+### Live PostgreSQL, HTTP and browser evidence
+
+Read-only PostgreSQL inspection found the requested offer and five additional real Gifts offers with non-empty normalized image URLs and observation prices. All six image URLs returned HTTP 200 and `image/webp`: `gifts:133183`, `gifts:100107`, `gifts:100108`, `gifts:100907`, `gifts:100908`, and `gifts:101063`.
+
+An isolated project ran the real Composite request `Термокружка, ежедневник, ручка. Цвет черный. 5 наборов`. Its cases response contained eight Gifts candidates, including `gifts:133183`, with image URLs and numeric prices. For `gifts:133183`, the API and DOM both showed `3 380 ₸`. Rebuild returned HTTP 202, created a distinct revision, completed with five cases in 967.9 ms, and produced a changed selection.
+
+Playwright rendered nine Gifts cards through `/_next/image`; all nine had positive natural dimensions and no failed requests. The exact `gifts:133183` image rendered at 640×640. The rebuild button showed `Пересобираю…`, emitted one POST, updated the grid without reload, and displayed `Подборка пересобрана и обновлена.` A forced optimizer failure rendered placeholders and left zero broken `<img>` elements.
+
+### Validation and safety
+
+Permanent backend regression coverage verifies that Composite DTOs take price from `ProductObservation` and use the offer image-array fallback. Final validation: **308 passed, 4 explicit opt-in tests deselected**; Ruff, ESLint, TypeScript and the Next.js 16.3.4 production build passed. API and frontend were restarted on the validated build; PostgreSQL and Ollama were not restarted.
+
+Only the explicitly prefixed acceptance user/project was removed after the checks. The main PostgreSQL database, catalog, SupplierOffer rows, observations, real users/projects/history, jobs and crawler checkpoints were preserved. CDN failure and zero-change/failure UI paths were verified through controlled browser/API behavior; an induced backend rebuild exception and F5 during an in-flight rebuild were not executed against the populated service.
+
+## Universal natural-language intent and assembly stabilization (2026-10-12)
+
+### Root causes and implementation
+
+**PASS — segmentation and routing.** The legacy Composite parser treated punctuation and conjunctions as product boundaries. Purpose, negation, preference, sorting and quantity fragments could therefore become positions. The parser now builds role-scoped intent before mode selection: product concepts, required constraints, exclusions, soft preferences, purpose/audience, budget, quantity, set count, per-position item count and sorting are represented separately. SIMPLE/COMPOSITE follows resolved required product positions, not punctuation.
+
+**PASS — deterministic/LLM boundary.** Live HTTP exposed a second overwrite defect: a Query Understanding/Qwen rewrite could be schema-valid while dropping functional positions or resetting `target_sets` to 1. Raw deterministic evidence is now authoritative. A rewrite replaces it only when the raw intent is incomplete and the corrected intent is complete; malformed replacement-character output is rejected. LLM enrichment cannot overwrite explicit categories, positions, counts, quantity, colors, exclusions, HARD/SOFT roles or unsupported constraints.
+
+**PASS — exclusions and preferences.** Category, material and color exclusions stay outside positive categories and are enforced by index filtering. `желательно/предпочтительно` affects soft terms, while `покажи сначала` affects sorting. Purpose-only requests use bounded catalog discovery and remove excluded concepts from that discovery set. Exact `NAVY`, `BLUE`, `LIGHT_BLUE` and other normalized colors remain distinct for hard filtering.
+
+**PASS — assembly status.** Requested and assembled counts are stored separately. Terminal states are `COMPLETED_FULL`, `COMPLETED_PARTIAL`, `NO_MATCH`, `FAILED` and `UNSUPPORTED_CONSTRAINT`. Because the existing PostgreSQL status columns are `varchar(20)`, the compact internal token `UNSUPPORTED` is persisted and mapped to the full public API state; this avoids a destructive schema migration. The UI renders partial, empty and unsupported outcomes explicitly.
+
+### Eight mandatory cases
+
+| Case | Parsed result | Live PostgreSQL/API result | Status |
+|---|---|---|---|
+| IT conference | COMPOSITE; 15; `pen`, `thermomug`, `backpack`; BLACK; quantity 100 | 3/15 assembled; partial is shown as partial | PASS |
+| Mixed language | COMPOSITE; 10; `powerbank`, `bag`, `thermomug`, `pencil`; NAVY; quantity 150 | 0/10. Actual bottlenecks: powerbank and pencil category validation reached 0; bag eligible 9; thermomug eligible 1 | PASS (parse), PARTIAL (catalog coverage) |
+| Position constraints | COMPOSITE; 8; RED tshirt/200, BLACK powerbank/100, BLUE pen/500; WHITE excluded | 0/8. Eligible pools: tshirt 0, powerbank 38, pen 85 | PASS (parse), PARTIAL (catalog coverage) |
+| Executive gifts | SIMPLE purpose discovery; audience executives; max 12,000; plastic/apparel/pen excluded; metal/wood soft | Real index search completed with bounded discovery; excluded concepts were not added as positive positions | PASS |
+| Writing pens | SIMPLE; `pen`; METAL; BLACK; quantity 250 | Real index search returned the full persisted pool and one active query; door/bag meanings were not positions | PASS |
+| Complex unique sets | COMPOSITE; 30; four categories; 3 items per category; quantity 300; cross-set uniqueness | HTTP 202; `UNSUPPORTED_CONSTRAINT`; 0/30. No false `NO_MATCH` or 503 | PASS |
+| Hybrid pencil | SIMPLE `pencil`; METAL soft; plastic allowed; BLACK sort preference | 49 products in the live indexed result; BLACK was not a hard filter | PASS |
+| Travel gifts | SIMPLE purpose discovery; traveling employees; max 7,000; quantity 80; mug/tshirt excluded | 100 displayed from the persisted pool; exclusions remained constraints | PASS |
+
+The normalized intent regressions run from permanent UTF-8 test sources; they verify all role assignments and a separate long one-category holdout. Live outputs distinguish parser correctness from catalog coverage. Candidate funnels are persisted under `metrics.category_pools` with raw index, category, color, availability, free quantity, variant and dedup stages. For example, the position-constraint run recorded pen `3169 → 307 → 131 → 86 → 85`, powerbank `342 → 87 → 70 → 38 → 38`, and tshirt `6813 → 1 → 0` (no procurement evidence).
+
+### HTTP, browser, concurrency and performance
+
+**PASS — HTTP/persistence.** All eight inputs were submitted through `/api/projects/{id}/requests` in isolated projects. Every successful transition retained exactly one active ProjectQuery. Parsed plans, per-position constraints, requested/assembled counts, public status and funnels were read back from persisted revisions.
+
+**PASS — rendered UI.** Headless Chromium loaded the production Next build with an authenticated isolated project. For the complex 30-set request, the rendered DOM showed `0 из 30` and the unsupported-condition notice; it did not fabricate a Case View. The earlier full SIMPLE/COMPOSITE browser suite remains covered by permanent regressions; this run specifically validated the new terminal state.
+
+**PASS — concurrency.** The existing ten-user harness completed 65/65 operations, including simple c1/c5/c10, five concurrent Composite requests, mixed operations, same-project transitions, ownership checks and recovery. p50 was 3,744.62 ms, p95 34,465.85 ms and p99 50,006.99 ms. The long tail came from validated Qwen retries under parallel load; no cross-user data appeared. All ten projects returned 204 during exact cleanup and ten prefixed users were removed.
+
+### Image pipeline
+
+**PASS — root cause and fix.** Current Gifts HTML exposes protocol-relative `data-hd` URLs and the provider correctly resolves them to HTTPS. Direct provider reads found 5 images for Euro Chrome (`gifts:44056`) and 16 for Conttori (`gifts:247547`). The actual loss occurred at persistence: `ProductObservation.payload`, used by Composite serialization, omitted `images` and `primary_image` even though `SupplierOffer.payload` contained them. Observation persistence now retains both fields. A targeted normal provider ingest updated only those two offers; PostgreSQL now contains valid `files.gifts.ru` primary images and image arrays for both. Next host configuration and UI fallback were already valid.
+
+### Validation and safety
+
+**PASS:** backend `320 passed, 4 deselected`; Ruff; ESLint; TypeScript; Next.js 16.3.4 production build; live PostgreSQL/API; rendered Chromium; concurrency 65/65. Permanent tests include the eight semantic cases, corrupt-rewrite guard, purpose/SIMPLE planner behavior, exact colors, position constraints, status behavior and observation image persistence.
+
+The populated PostgreSQL database was never dropped, truncated or reset. SupplierOffer and product identities, real users/projects/history, availability records, jobs, leases and crawler checkpoints were preserved. Only exact `codex-intent-*`, `codex-ui-*` and `codex-load-*` resources created by acceptance runs were deleted. The two named Gifts observations were refreshed through the normal provider/index path to restore their real supplier images.
+
+**Remaining limitation — PARTIAL.** Purpose discovery is bounded by the current rule-based recommendation map and indexed catalog evidence; it is not a learned semantic recommender. CASE 1 assembled 3/15 and CASES 2–3 assembled 0 because of recorded catalog/constraint bottlenecks. Those are reported as partial/no-match outcomes and are not presented as parser success implying procurement success. Full multi-item-per-position Case View remains unsupported and is now rejected explicitly.
+# Purpose discovery stability and multi-item assembly — 2026-10-12
+
+## Outcome
+
+| Area | Status | Evidence |
+|---|---|---|
+| Exact purpose request №8 | PASS | Real HTTP returned SIMPLE/COMPLETED with 8,172 matching offers; deterministic intent retained audience `traveling_employees`, budget ≤7,000 KZT, quantity ≥80, and mug/T-shirt exclusions. |
+| Bounded LLM execution | PASS | Resolved purpose and multi-item requests use no Qwen. Ambiguous requests use one inference slot, an 8-request queue, 5 s queue timeout, 90 s inference timeout, and at most one retry from deployed settings. Queue-full and queue-timeout paths have regression coverage. |
+| Exact multi-item request №6 | PASS (semantic/model), NO_MATCH (catalog) | `required_items_per_category=3`, 12 required slots per set, no unsupported constraint. Catalog funnel found zero socks with procurement evidence for ≥300 units, so 0/30 and `NO_MATCH` is correct. |
+| Successful multi-item assembly | PASS | Real HTTP assembled 1/1 for two umbrellas plus two thermoses. Four persisted required slots each had one selected product and three alternatives. |
+| Case View | PASS | Headless Chromium rendered one workspace, four required-slot headings, four selected cards, and both “обязательный товар 1/2” labels. |
+| Existing alternatives | PASS | `candidates_per_position` remains independent from `items_required`; allocator regression confirms three alternatives per required slot. |
+| Global selected uniqueness | PASS | Existing maximum bipartite matching remains in place. Required primaries are matched before alternatives; alternatives do not reduce primary capacity. |
+| Mixed required counts | PASS | Regression parses two pens, one notebook, and three thermomugs as six required slots. |
+| Ten-user mixed load | PASS | 84/84 measured operations passed; no ownership, workspace, SSE, pagination, refinement, or terminal-status errors. |
+| Peak process memory | NOT TESTED | The environment has no process-memory sampler dependency. No absolute peak-memory claim is made. |
+
+## Root causes
+
+The purpose request was parsed correctly by the deterministic role parser, but intent completeness required at least one explicit catalog category. Purpose-only discovery was therefore treated as unresolved and sent to Qwen. A malformed structured response could consume two full inference attempts. The reproduced parser wait was 87.50 s before fallback; neither PostgreSQL retrieval nor the browser had started.
+
+The second latency source was synchronous usage bookkeeping over the entire 8,172-offer pool. Repeated purpose requests could serialize updates of the same rows. Usage signals are now coalesced into an asynchronous batch. Targeted availability checkpoints use the already hydrated stale offers and a configured bounded slice instead of re-querying thousands of rows.
+
+Multi-item requirements were previously parsed as `items_per_position=3` and then deliberately converted to `UNSUPPORTED_CONSTRAINT`. The persisted Case model already supports several positions with independent candidates, so no migration was required. The allocator now expands each category into the requested number of required slots before maximum matching. Alternatives are attached only after all selected primaries have been assigned.
+
+## Stage timings
+
+Exact request №8, real HTTP against populated PostgreSQL after the fix:
+
+| Stage | Duration |
+|---|---:|
+| Event-loop initial lag | 0.01 ms |
+| Query Understanding | 183.70 ms |
+| Deterministic purpose planning | 2.02 ms |
+| Coverage planning | 0.41 ms |
+| SQL/index retrieval and hydration | 3,361.14 ms |
+| Hydrated products | 8,172 |
+| Initial persistence | 49.34 ms |
+| Bounded background enqueue | 1,680.55 ms |
+| Backend research response | 5,280.04 ms |
+| Facet/ranking response work | 338.44 ms |
+| End-to-end HTTP | 6,355.43 ms |
+| Qwen queue/inference | 0 / 0 ms (not invoked) |
+
+The usage batch now runs outside the HTTP critical path. Its completion duration is emitted as `index_usage_batch`; queue wait and inference duration are emitted as `llm_queue_timeout`, `llm_queue_rejected`, and `llm_structured_complete` events.
+
+Exact request №6 completed in 3,090.48 ms. Candidate retrieval took 509.12 ms and assembly 0.17 ms. The bottleneck was `socks`: four lexical/category candidates existed, but none had procurement evidence meeting the quantity constraint. The system did not fabricate placements and did not report an unsupported feature.
+
+The successful two-category/two-item acceptance completed in 1,233.05 ms. Candidate retrieval took 449.16 ms and matching took 0.50 ms. The rendered structure contained four required slots and twelve total candidate cards, of which four were selected.
+
+## Load acceptance
+
+The permanent harness now covers purpose concurrency 1/5, a ten-user mixed purpose/SIMPLE/COMPOSITE/refinement scenario, and the exact 30×4×3 request through terminal status.
+
+| Scenario | Requests | Passed | p50 | p95 | p99 |
+|---|---:|---:|---:|---:|---:|
+| Purpose concurrency 1 | 1 | 1 | 2,527.49 ms | 2,527.49 ms | 2,527.49 ms |
+| Purpose concurrency 5 | 5 | 5 | 5,062.29 ms | 6,483.06 ms | 6,483.06 ms |
+| Mixed ten users | 10 | 10 | 7,633.45 ms | 8,821.37 ms | 8,821.37 ms |
+| Multi-item HTTP | 1 | 1 | 1,952.71 ms | 1,952.71 ms | 1,952.71 ms |
+| Multi-item terminal | 1 | 1 | 1,991.80 ms | 1,991.80 ms | 1,991.80 ms |
+| All measured operations | 84 | 84 | 3,329.05 ms | 8,821.37 ms | 17,917.20 ms |
+
+No request returned a queue error, ownership leak, stale workspace activation, or false success. All ten disposable projects returned HTTP 204 on exact-ID deletion and all ten prefixed users were removed.
+
+## Data and compatibility
+
+No schema migration, destructive catalog operation, crawler reset, or change to supplier checkpoints was made. Existing product/variant identity, maximum matching, alternative selection, revisions, rebuild creation, active-workspace routing, and ownership checks remain in use. Required slot identity is persisted by the existing `HardRequestPosition.id`; the API also returns the category-local `required_item` ordinal and total for F5 rendering.
+
+Rebuild reparses and recreates the same required-slot structure. History retains the prior immutable request. Candidate selection continues to update only candidates inside one position. The live Chromium test confirmed one active Case View after the request.
+
+## Validation
+
+- Backend targeted regressions: PASS (25 tests).
+- Full backend suite: PASS (325 passed, 4 deselected in 141.05 s).
+- Ruff: PASS.
+- ESLint: PASS.
+- TypeScript: PASS.
+- Next.js production build: PASS.
+- Real PostgreSQL/API requests №6 and №8: PASS with the catalog outcome described above.
+- Browser rendered DOM: PASS.
+- Extended concurrency: PASS, 84/84.
+
+## Remaining limitations
+
+- Request №6 cannot assemble a set from the current catalog snapshot because socks lack qualifying procurement evidence at ≥300 units. This is catalog coverage/availability, not a parser or allocator failure.
+- Purpose discovery intentionally preserves the full 8,172-offer matching pool. SQL hydration remains the largest synchronous stage; pagination limits presentation, not backend eligibility.
+- Peak process memory and SSE reconnect under an intentionally severed network connection were not separately instrumented in this run. Existing SSE ownership/revision regressions and the mixed-load suite passed.
+
+## P0 composite search and intent isolation — 2026-10-13
+
+Status: **PASS with catalog-limited NO_MATCH results for A, B and D**. The four required requests were executed through the populated PostgreSQL index, the real HTTP API and rendered Chromium DOM. `NO_MATCH` below is backed by the persisted candidate funnel; it is not inferred from the response status.
+
+### Root cause and change
+
+The regression reproduced only in the sequential A → B → C project. The deterministic parser produced a valid SIMPLE purpose intent for C, but `ConversationQueryRouter` evaluated exclusion tokens (`без`, `не показывай`) before the leading standalone search verb `Найди`. It returned `REMOVE_CONSTRAINT`; `hard_requests._universal_request_locked()` therefore patched B's active COMPOSITE revision. The first divergence was the router action: raw and parsed C intent were correct, while the effective and persisted intent retained `tshirt, powerbank`, target 8 and WHITE exclusion from B.
+
+`app/domain/conversation_router.py` now gives an explicit standalone search verb priority over exclusions. Those exclusions remain part of the new intent. A permanent regression verifies that a purpose request with several exclusions after an active HARD workspace returns `NEW_SEARCH`. `app/application/hard_requests.py` also records candidates passed to, selected by and rejected by the allocator for every position; this is diagnostic only and does not alter eligibility or allocation.
+
+Before C: `REMOVE_CONSTRAINT`, COMPOSITE, categories `tshirt,powerbank`, target 8, inherited WHITE exclusion, new max price 12000. After C: `NEW_SEARCH`, SIMPLE, purpose audience `executives`, categories `bottle,notebook,backpack,thermomug,accessory`, excluded categories `pen,tshirt`, excluded material `PLASTIC`, soft terms `METAL,WOOD`, max price 12000. The sequential and isolated forms now have the same effective intent and both return 6,154 matches in the API acceptance snapshot (the later rendered run observed 6,163 while background index workers were active).
+
+### Live candidate and assembly evidence
+
+All counts are from the persisted category pools. `raw` is the bounded SQL retrieval pool for that concept, followed by category/color, availability, quantity, deduplicated eligible, and allocator input. Price was unconstrained for A/B/D. With no complete assignment, allocator selected zero and rejected every nonempty eligible input.
+
+| Case / position | Raw | Category/color | Availability / on-hand | Quantity pass | Unique / allocator input | Result |
+|---|---:|---:|---:|---:|---:|---|
+| A shopper bag | 1,907 | 31 / 31 | 10 / 10 | 9 | 9 / 9 | rejected: no complete case |
+| A pencil | 277 | 0 / 0 | 0 / 0 | 0 | 0 / 0 | concept/color pool empty |
+| A powerbank | 343 | 0 / 0 | 0 / 0 | 0 | 0 / 0 | NAVY pool empty |
+| A thermomug | 841 | 1 / 1 | 1 / 1 | 1 | 1 / 1 | rejected: no complete case |
+| B red T-shirt ≥200 | 6,813 | 1 / 1 | 0 / 0 | 0 | 0 / 0 | no procurement evidence |
+| B black powerbank ≥100 | 343 | 87 / 87 | 70 / 65 | 38 | 38 / 38 | rejected: no complete case |
+| B blue pen ≥500 | 3,175 | 309 / 309 | 132 / 132 | 87 | 86 / 86 | rejected: no complete case |
+| D umbrella ≥300 | 885 | 885 / 885 | 453 / 453 | 264 | 262 / 262 | rejected: no complete case |
+| D raincoat ≥300 | 156 | 156 / 156 | 46 / 46 | 32 | 32 / 32 | rejected: no complete case |
+| D socks ≥300 | 4 | 4 / 4 | 0 / 0 | 0 | 0 / 0 | no procurement evidence |
+| D thermos ≥300 | 674 | 627 / 627 | 470 / 469 | 319 | 279 / 279 | rejected: no complete case |
+
+A preserved `target_sets=10`, four positions, NAVY, global minimum 150 and `items_required=1`; B preserved target 8 and its three independent color/quantity constraints. Both correctly use the ordinary allocator and keep `candidates_per_position` independent from required item count. Their current `NO_MATCH` is caused before allocation by mandatory zero pools, so changing the allocator cannot produce a valid case. No historical SupplierOffer-ID manifest for the reported earlier successful A/B state exists in the repository, so an exact before/after catalog-set comparison is **NOT TESTED**; the current claim is limited to the measured snapshot above.
+
+D preserved target 30, four positions, `items_required=3` per position and 12 required slots per case. It returned `NO_MATCH`, not `UNSUPPORTED_CONSTRAINT`, because socks have four concept/category candidates and zero procurement observations satisfying 300. Assembly took 0.29 ms after retrieval and correctly refused to fabricate one complete case.
+
+LAST_KNOWN_STOCK_ALLOWED remains active. The funnels distinguish current and last-known observations and do not require freshness. No stock policy, deduplication rule, `candidates_per_position`, supplier data or database schema was changed.
+
+### API, browser, concurrency and quality gates
+
+The same isolated user/project ran A → B → C sequentially, and separate projects ran A, B, C and D. Every submission returned HTTP 202; there were no 500/503 responses. Isolated API latency was A 1,510 ms, B 2,179 ms, C 3,989 ms and D 2,095 ms. Sequential A/C took 1,998/5,863 ms; sequential B took 27,655 ms while background recovery workers contended for the index. Assembly itself remained 0.04–0.29 ms.
+
+Rendered Chromium verified A/B/D as a single COMPOSITE Case View with their exact headings, target counts and candidate diagnostics. C replaced the previous Case View with a SIMPLE grid, showed 100 loaded of 6,163 matches and contained no stale COMPOSITE DOM. F5 preserved C as SIMPLE and D as COMPOSITE. There were zero page errors and no horizontal overflow.
+
+The existing concurrency suite passed **84/84** requests with zero failures (p50 4,875.71 ms, p95 11,802.95 ms, p99 19,259.36 ms), covering parallel users and mixed SIMPLE/COMPOSITE/purpose traffic. Backend validation passed **326 tests** with four explicit opt-in tests deselected. Ruff (`app tests`), ESLint, TypeScript and the Next.js production build passed. Rebuild, alternatives, Undo, History, ownership and SSE revision behavior remain covered by the permanent regression suite; the live P0 browser run additionally verified active-workspace hydration across F5.
+
+The protected PostgreSQL database, catalog, offers, observations, users, projects, history, jobs and checkpoints were preserved. Acceptance projects were removed by their exact IDs, and their uniquely named disposable users were removed by exact user IDs. Temporary scripts and generated JSON were removed after recording the evidence above.
+
+## Main-product search and filter HUD — 2026-10-30
+
+Current runtime: **VTO-only, one GRID workspace**. Historical Case/COMPOSITE
+sections above describe previous implementations. Full evidence and limitations:
+[product-purpose-hud.md](product-purpose-hud.md).
+
+Ordinary category retrieval now checks the main sold object across the full
+candidate pool. Supplier category/title substring alone no longer admits sets,
+packaging, accessories or component mentions as standalone exact products.
+The existing resolver supplies concepts; a small evidence layer records role,
+primary function, contents and provenance. Explicit catalog sets, cases and
+notebook-with-pen queries remain available. Confirmed hybrids and pens sold
+with an individual case remain eligible. Resolved relationship semantics take
+priority over a conflicting catalog word correction.
+
+| Live HTTP query | Before | After | Before latency | After latency |
+|---|---:|---:|---:|---:|
+| ручки бутылки | 434 | 287 | 0.543 s | 0.932 s |
+| then красные | 49 | 27 | 0.114 s | 0.168 s |
+| Molti view filter | not measured | 3 | — | 0.068 s |
+| футляры для ручек | not measured | 1 | — | 0.390 s |
+| блокнот с ручкой | not measured | 27 | — | 0.438 s |
+| подарочный набор с ручкой и повербанком | not measured | 20 | — | 0.972 s |
+| ручки, включая наборы | not measured | 209 | — | 0.394 s |
+
+Read-only SQL: pen 232 candidates → 157 primary products; bottle 214 → 130;
+unique raw union 446 → 287. The old narrow handle exclusion explains why the
+old displayed pool was 434 rather than 446. Actual removed IDs and reasons,
+including umbrella Grappino, Helly notebook, Niove set, Dallas case, Duet box
+and the Clear Fest bag without handles, are recorded in the linked report.
+No offer was deleted. Counts are measured observations, not target constants.
+
+The HUD now has inline filters on the left and a separate selected-products
+panel on the right (4:1 CSS with wrapping and the existing mobile sheet).
+Removed old relevance/selection/Undo/Continue controls and source counter.
+Card source link and external icon were removed; internal details, checkbox,
+SKU and stored source URLs remain. Relevance remains the default ordering.
+View writes serialize versions, coalesce fast changes, reject stale project
+responses and retry a conflict once. Selection alone preserves pagination.
+
+| Validation | Result |
+|---|---|
+| Full backend pytest after final changes | PASS: 360 passed, 1 opt-in deselected; 147.48 s |
+| Focused purpose + grid + HTTP regressions | PASS: 55 |
+| Frontend rendered component/queue tests | PASS: 8 |
+| Ruff, ESLint, TypeScript, Next production build | PASS |
+| git diff --check | PASS |
+| Actual PostgreSQL + HTTP scenarios A–E | PASS |
+| Two users / foreign research ownership | PASS: 404 for foreign resource |
+| Selection across pages, hidden selection, Undo, API reload/F5 contract | PASS |
+| Reset preserves source BLACK/quantity 300; chat replaces BLACK with RED | PASS: 28 black → 14 red, quantity retained |
+| Versioned revalidation preserves messages, selection and history | PASS; invalid former selection retained as REJECTED |
+| API, frontend, frontend API proxy after restart | PASS: HTTP 200 |
+| Browser desktop/mobile 80/20 layout, overflow, interactions and actual F5 | NOT TESTED; Chromium/Playwright not installed |
+
+No broad performance claim: the new cold search is slower than this baseline
+sample and carries more evidence. Only page/selections are DTO-hydrated;
+supplier HTTP is zero in ordinary search/filter execution. Full-catalog
+precision/recall and load p95 were not independently measured in this task.
+
+The database retained 4,371 offers and the same commercial fingerprint
+`f27cc8d9f643572e4834240bce5b0e41` before/after final acceptance. No schema,
+VTO importer, stock policy or commercial observations changed. Existing VTO
+job/backoff/checkpoints were retained; its TEMPORARILY_UNAVAILABLE source
+condition is outside this search/UI task. Acceptance users/projects were
+deleted only by exact created IDs; prefix audit found zero remaining users.
+Temporary API 8001, its launcher/logs and acceptance JSON were removed.
+Permanent regression tests and HTTP acceptance script remain. PostgreSQL,
+Ollama, API 8000 and production frontend 3000 remain running.
+
+## Selected products and branded PDF presentations — 2026-10-30
+
+Implemented a separate project document workspace from the server's saved VTO
+selection. The selected drawer is up to 820 px wide, uses two desktop columns
+and one narrow-screen column, compact variant cards and a pinned create action.
+It retains selected sibling colors independently. Source grid paging remains
+100; presentation snapshots include off-page and currently hidden selections.
+
+Documents persist title/client/subtitle, optional logo with independent toggle,
+1–4 palette colors, category/item order, brand/cover settings and editable short
+names/captions. Commercial fields and original metadata are immutable snapshot
+data. Explicit refresh creates a new draft version. Generated revisions freeze
+their input and original-image bytes; old downloads are explicitly versioned.
+F5 restoration uses the document URL and persisted state; return preserves the
+search workspace. Actual browser interaction is NOT TESTED.
+
+Migration 0021 adds document/revision tables only. Revisions form a separate
+bounded durable queue because the supplier queue requires a VTO lease. One
+PostgreSQL-coordinated subprocess at a time handles images, ReportLab and PDFium;
+no inference or rendering runs in the API loop or under a DB transaction.
+Timeout, owned-process-tree cancellation, expired claims, two-attempt retry
+budget, idempotent generation, ownership and upload/SSRF limits are implemented.
+
+One renderer creates vector-text 16:9 PDFs with embedded Noto Sans (OFL), measured
+text blocks, 48 pt margins, two-product and single-product layouts, a contrasting
+cover and optional useful closing message. PDFium previews rasterize that same
+PDF. No browser, Qwen, PPTX, Case assembly or new supplier is involved.
+The original project skill at `.agents/skills/souvenir-presentation/SKILL.md`
+records the design/review process; code templates implement the runtime.
+
+rembg MIT and explicitly selected U2-Net Apache-2.0 weights were checked against
+their primary repositories. Full model checksum is
+`60024c5c889badc19c04ad937298a77b` (MD5), 175,997,641 bytes. Originals, processed
+alpha images, hashes and model metadata are separate. Generated masks require
+review. The small model failed glass Bailey; full U2-Net corrected its body.
+HydroFruit's white cap still required a same-variant prepared-alpha upload.
+Original RGB and markings were retained. Automatic segmentation is not claimed
+to be universally correct. Missing/failed photos cannot silently disappear.
+
+### Real PostgreSQL / HTTP / visual evidence
+
+| Selected products | Final pages | First full-model preparation / total | Final cached total | Final PDF bytes |
+|---:|---:|---:|---:|---:|
+| 1, no cover | 1 | 2.763 / 3.249 s | 0.477 s | 1,378,929 |
+| 3 | 3 | 4.283 / 5.368 s | 1.045 s | 2,791,912 |
+| 12 | 9 | 9.810 / 11.831 s | 1.941 s | 5,752,450 |
+| 30 | 21 | 21.144 / 24.780 s | 3.893 s | 11,205,533 |
+
+The first full-model 30-item process peaked at a sampled 1,044.9 MiB summed
+process-tree RSS; cached regeneration at 102.0 MiB. Initial launcher-only memory
+measurements were rejected. These samples are not load p95 or a memory bound.
+
+All 36 final pages (including the second user's independent two-page PDF) were
+rasterized and visually inspected after the last template correction. Logo-on
+and logo-off added six inspected pages. Real variant photographs, glass, white
+objects, thin pens, straps, Cyrillic/₸, price placement, long names, margins and
+page order were checked. Source parent names carrying another color are shortened
+only in the document; actual variant color is displayed separately. Unknown
+brands are omitted. No SKU/source URL/warehouse or search status is printed.
+
+Logo-on: READY, three pages, 2,798,469 bytes, 1.067 s. Logo-off: READY,
+2,791,912 bytes, 1.066 s; its hash equals the original no-logo document.
+API reload preserved settings and revisions. A saved 30-ID selection hidden by
+the current filter remained unchanged. Two users generated concurrently through
+the bounded queue; a normal search during preparation took 0.279 s. Foreign
+document/PDF accesses returned 404. No broad concurrency capacity claim is made.
+
+The real catalog retained 4,371 offers and the same before/after commercial
+fingerprint `b64e9d7dfb7cc8b653d9389f8cd6e4dc` (offer identity/source plus complete
+product observation/time). This fingerprint includes different fields from the
+preceding task's fingerprint. The original VTO job retained page 22 and its
+TEMPORARILY_UNAVAILABLE backoff, without an active lease during deployment.
+No catalog, real account, project/history, observation or checkpoint was reset.
+
+### Validation and limitations
+
+| Check | Actual result |
+|---|---|
+| Full backend | PASS: 385 passed, 1 opt-in deselected; 155.43 s |
+| Presentation tests after final truncated-upload correction | PASS: 25 |
+| Frontend component tests | PASS: 10 |
+| Ruff / ESLint / TypeScript / production build | PASS |
+| Skill validation / dependency check | PASS |
+| Off-page/hidden snapshot, revisions, refresh, ownership | PASS: real HTTP plus permanent regressions |
+| Cancel/retry/recovery, bad mask, missing photo, quote price | PASS: permanent regressions |
+| Real PDFs / visual review | PASS: all 42 final pages inspected |
+| Interactive browser drawer/editor, actual F5 and keyboard flows | NOT TESTED; no browser runtime installed |
+| Price absent on a real selected VTO offer | NOT AVAILABLE in this sample; fixture coverage only |
+| Long-running load / p95 / pool wait | NOT MEASURED |
+| Pixel comparison against reference image | NOT POSSIBLE; supplied attachment contained text only |
+
+Details, installation, license links, security/queue limits and measurements:
+[presentations.md](presentations.md). Permanent public control fixture:
+[three Melango colors](../apps/api/tests/fixtures/presentations/melango-three-colors.pdf).
+It contains no test session, private client logo or account identifiers.
+
+After deployment the main API :8000 generated another READY revision with the
+same reviewed PDF hash. Frontend :3000, API and its frontend proxy returned 200;
+authenticated PDF download through the frontend succeeded. A truncated JPEG was
+rejected with 422. Temporary API :8001 was stopped. Exact-ID cleanup removed the
+disposable accounts/projects/documents and their render artifacts/ledger; the
+prefix audit found zero acceptance accounts. Two real user-created drafts were
+preserved. Temporary probes were removed; managed assets/models, PostgreSQL,
+backup and source checkpoints were retained. PostgreSQL, Ollama, main API and
+production frontend remain running.

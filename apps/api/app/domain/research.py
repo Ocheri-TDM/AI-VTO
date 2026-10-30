@@ -27,12 +27,29 @@ class ResearchJobStatus(StrEnum):
     CANCELLED = 'CANCELLED'
 
 
+class ProductBranch(BaseModel):
+    category: str
+    label: str
+    colors: list[str] = Field(default_factory=list)
+    quantity: int | None = None
+    materials: list[str] = Field(default_factory=list)
+    min_price: float | None = None
+    max_price: float | None = None
+    origins: dict[str, str] = Field(default_factory=dict)
+    scope: Literal['STANDALONE','SET','PACKAGING','ACCESSORY','COMPONENT','ASSOCIATED'] = 'STANDALONE'
+    subject: str = ''
+    required_concepts: list[str] = Field(default_factory=list)
+    include_sets: bool = False
+
+
 class ResearchIntent(SearchIntent):
     """Category and quantity are hard; preferences never fabricate attributes."""
     color_mode: Literal['family', 'strict'] = 'family'
     primary_colors: list[ColorGroup] = Field(default_factory=list)
     discovery: dict[str, list[str]] = Field(default_factory=dict)
     soft_terms: list[str] = Field(default_factory=list)
+    branches: list[ProductBranch] = Field(default_factory=list)
+    brands: list[str] = Field(default_factory=list)
 
 
 class ResearchBudget(BaseModel):
@@ -106,6 +123,12 @@ class ResearchFilters(BaseModel):
     excluded_terms: list[str] = Field(default_factory=list)
     required_terms: list[str] = Field(default_factory=list)
     selected_only: bool = False
+    brands: list[str] = Field(default_factory=list)
+    materials: list[str] = Field(default_factory=list)
+    sizes: list[str] = Field(default_factory=list)
+    minimum_quantity: int | None = Field(default=None, ge=1)
+    excluded_materials: list[str] = Field(default_factory=list)
+    origins: dict[str, str] = Field(default_factory=dict)
 
 
 class ResearchView(BaseModel):
@@ -138,6 +161,9 @@ class ResearchSession(BaseModel):
     pending_offer_ids: list[str] = Field(default_factory=list)
     background_job_ids: list[str] = Field(default_factory=list)
     timings: dict[str, Any] = Field(default_factory=dict)
+    unified: bool = False
+    purpose_version: str | None = None
+    branch_offer_ids: list[list[str]] = Field(default_factory=list)
 
 
 class RefinementAction(StrEnum):

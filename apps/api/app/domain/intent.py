@@ -15,10 +15,13 @@ CATEGORY_TERMS = {
     "pen": "ручка",
     "bottle": "бутылка",
     "powerbank": "внешний аккумулятор",
+    "flashdrive": "флешка",
+    "thermocup": "термостакан",
     "charger": "зарядное устройство",
     "cable": "кабель",
     "umbrella": "зонт",
     "bag": "сумка",
+    "shopperbag": "сумка-шоппер",
     "lunchbox": "ланчбокс",
     "accessory": "брелок",
 }
@@ -31,10 +34,16 @@ class CategoryResolver(CategoryMatcher):
         "notebook": CategoryMatcher.patterns["notebook"] + r"|записн\w* книжк\w*",
         "bottle": r"бутыл\w*|\bbottle\w*",
         "powerbank": r"пауэрбанк\w*|power\s?bank\w*|внешн\w* аккумулятор\w*",
+        "flashdrive": r"флеш(?:к|[- ]?накопител|\s+памят)\w*|usb[- ]?накопител\w*|(?:usb\s+)?flash\s+drive|usb\s+memory\s+stick",
+        "thermocup": r"термо[ -]?стакан\w*|(?:thermal|insulated)\s+tumbler\w*",
         "charger": r"зарядн\w* (?:устройств|станци)\w*|\bзарядк\w*|\bcharger\w*",
         "cable": r"кабел\w*|\bcable\w*",
         "umbrella": r"\bзонт\w*|umbrella\w*",
-        "bag": r"\bсумк\w*|\bшоппер\w*|\bbag\w*",
+        "bag": r"\bсумк\w*|\bbag\w*",
+        # Both Russian spellings belong to the narrow shopper-bag concept.
+        # Keeping this separate prevents the typo repair from widening a
+        # shopper request to backpacks, laptop bags and cases.
+        "shopperbag": r"\bшопп?ер\w*|\bshopper\s+bag\w*",
         "lunchbox": r"ланч[ -]?бокс\w*|контейнер\w* для ед\w*|lunch\s?box",
         "accessory": r"брелок\w*|брелк\w*|keyring\w*|keychain\w*",
     }
@@ -42,6 +51,8 @@ class CategoryResolver(CategoryMatcher):
     def classify(self, name: str) -> list[str]:
         categories = super().classify(name)
         text = normalize_text(name)
+        if "shopperbag" in categories:
+            categories = [category for category in categories if category != "bag"]
         # Search engines return packaging/accessories mentioning the target item.
         if re.search(r"\b(?:коробк\w*|чех\w*|держател\w*|крышк\w*|упаковк\w*|пакет\w*|мешоч\w*)\b.*бутыл", text):
             categories = [c for c in categories if c != "bottle"]

@@ -37,7 +37,7 @@ class IndexQualityService:
                 runs = (await db.scalars(select(CatalogRun).where(CatalogRun.supplier == supplier)
                     .order_by(CatalogRun.started_at.desc()).limit(20))).all()
                 state = await db.get(SupplierSyncState, supplier)
-                discovery = next((j for j in jobs if j.kind == 'CATALOG_DISCOVERY'), None)
+                discovery = next((j for j in jobs if j.kind in ('CATALOG_DISCOVERY', 'FULL_CATALOG_RECONCILIATION')), None)
                 branches = discovery.checkpoint.get('branches', []) if discovery else []
                 fresh = sum(bool(o and o.status == 'FRESH' and o.expires_at.replace(tzinfo=utcnow().tzinfo) > utcnow()) for _, o, _ in rows)
                 fresh_offer_ids = {
@@ -56,11 +56,38 @@ class IndexQualityService:
                 _due, usage_counts = await self.index.adaptive_refresh_candidates(supplier)
                 current_job = next((j for j in jobs if j.status in ('RUNNING', 'PENDING')), None)
                 labels = sorted({str(p.payload.get('metadata', {}).get('supplier_category', '')) for p, _, c in rows if not c})
+                active_rows = [(offer, observation, category) for offer, observation, category in rows
+                               if offer.lifecycle == 'ACTIVE']
+                offers_with_stock = sum(observation is not None and observation.stock is not None
+                                        for _, observation, _ in active_rows)
+                observed_availability_offer_ids = {row.offer_id for row in availability}
+                offers_without_availability = {
+                    offer.id for offer, _, _ in active_rows
+                } - observed_availability_offer_ids
                 provider = self.suppliers.get(supplier) if isinstance(self.suppliers, dict) else None
                 result.append(dict(supplier=supplier,
+                    catalog_import=(dict(
+                        status=discovery.status,
+                        coverage_complete=bool(discovery.checkpoint.get('coverage_complete')),
+                        declared_parents=discovery.checkpoint.get('reported_total'),
+                        processed_parents=len(discovery.checkpoint.get('seen_parent_ids', [])),
+                        next_page=discovery.checkpoint.get('page'),
+                        pending_products=len(discovery.checkpoint.get('pending_products', [])),
+                        failed_products=len(discovery.checkpoint.get('failed_products', {})),
+                        metrics=discovery.metrics,
+                    ) if supplier == 'vto' and discovery else None),
                     capabilities=provider.capabilities.model_dump() if provider and hasattr(provider, 'capabilities') else {},
                     offers_total=len(rows),
                     offers_active=sum(p.lifecycle == 'ACTIVE' for p, _, _ in rows), fresh=fresh, stale=len(rows)-fresh,
+                    # These ratios describe the observed index only.  They are not a
+                    # claim about the supplier's unobserved catalog size.
+                    observed_detail_coverage=round(sum(o is not None for _, o, _ in active_rows) / max(len(active_rows), 1), 4),
+                    observed_price_coverage=round(sum(o is not None and o.price_kzt is not None for _, o, _ in active_rows) / max(len(active_rows), 1), 4),
+                    observed_color_coverage=round(sum(bool(p.normalized_colors) for p, _, _ in active_rows) / max(len(active_rows), 1), 4),
+                    observed_image_coverage=round(sum(bool(p.payload.get('primary_image')) for p, _, _ in active_rows) / max(len(active_rows), 1), 4),
+                    observed_stock_coverage=round(offers_with_stock / max(len(active_rows), 1), 4),
+                    offers_with_stock=offers_with_stock,
+                    offers_without_availability=len(offers_without_availability),
                     without_price=sum(o is None or o.price_kzt is None for _, o, _ in rows),
                     without_stock=sum(o is None or o.stock is None for _, o, _ in rows),
                     availability_observations=len(availability),

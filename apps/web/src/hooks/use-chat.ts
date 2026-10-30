@@ -194,7 +194,7 @@ export function useChat() {
             setProgress(labels[String(data.tool)] ?? "Обновляю подборку");
           if (event === "supplier.started")
             setProgress(
-              `Ищу на ${data.supplier === "gifts" ? "Gifts.ru" : "Ucontay"}`,
+              "Ищу в каталоге VTO",
             );
           if (event === "agent.completed" || event === "agent.error") {
             answer = data as unknown as ChatResult;

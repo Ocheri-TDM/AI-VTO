@@ -23,16 +23,59 @@ class ProductTaxonomyNode(BaseModel):
 
 
 SEEDS = {
+    "powerbank": (
+        "Внешние аккумуляторы",
+        "powerbank",
+        "power bank",
+        "повербанк",
+        "пауэрбанк",
+        "павербанк",
+        "внешний аккумулятор",
+        "портативный аккумулятор",
+    ),
+    "flashdrive": (
+        "USB-накопители",
+        "флешка",
+        "флешки",
+        "флеш-накопитель",
+        "usb-накопитель",
+        "usb flash drive",
+        "flash drive",
+        "usb memory stick",
+        "флеш память",
+    ),
+    "thermomug": (
+        "Термокружки",
+        "термокружка",
+        "термокружки",
+        "travel mug",
+        "thermal mug",
+        "insulated mug",
+    ),
+    "thermocup": (
+        "Термостаканы",
+        "термостакан",
+        "термостаканы",
+        "thermal tumbler",
+        "insulated tumbler",
+    ),
     "pencil": ("Карандаши", "карандаш", "pencil"),
     "marker": ("Маркеры", "маркер", "marker"),
     "highlighter": ("Текстовыделители", "текстовыделител", "highlighter"),
     "thermos": ("Термосы", "термос", "thermos"),
+    "shopperbag": (
+        "Сумки-шопперы",
+        "шоппер",
+        "сумка-шоппер",
+        "shopper",
+        "shopper bag",
+    ),
     "mug": ("Кружки", "кружка", "кружк", "кружек", "mug"),
     "glass": ("Стаканы", "стакан", "glass"),
     "plate": ("Тарелки", "тарелк", "plate"),
-    "tshirt": ("Футболки", "футболк", "t-shirt"),
+    "tshirt": ("Футболки", "футболк", "футбол", "t-shirt"),
     "raincoat": ("Дождевики", "дождевик", "плащ дождевик", "raincoat"),
-    "socks": ("Носки", "носок", "носки", "sock"),
+    "socks": ("Носки", "носок", "носки", "носк", "sock"),
     "hoodie": ("Худи", "худи", "hoodie"),
     "blanket": ("Пледы", "плед", "blanket"),
     "clock": ("Часы", "часы", "clock"),
@@ -78,9 +121,20 @@ class UniversalCategoryResolver:
 
     def resolve(self, phrase: str) -> list[str]:
         text = normalize_text(phrase)
-        found = [n.id for n in self.nodes if any(re.search(r"\b" + re.escape(a), text) for a in n.aliases)]
+        found = [
+            n.id
+            for n in self.nodes
+            if text == normalize_text(n.id)
+            or any(re.search(r"\b" + re.escape(a), text) for a in n.aliases)
+        ]
         legacy = CategoryResolver().classify(text)
-        if "thermos" in found:
+        if "shopperbag" in found or "shopperbag" in legacy:
+            found = [c for c in found if c != "bag"]
+            legacy = [c for c in legacy if c != "bag"]
+        if "thermocup" in found:
+            found = [c for c in found if c not in ("thermos", "mug", "glass")]
+            legacy = [c for c in legacy if c != "thermomug"]
+        elif "thermos" in found:
             legacy = [c for c in legacy if c != "thermomug"]
         if "thermomug" in legacy:
             found = [c for c in found if c not in ("mug", "glass")]
@@ -136,10 +190,16 @@ class ProductCategoryMatcher:
         self.resolver = UniversalCategoryResolver()
 
     def match(self, product, category: str, query: str = "") -> CategoryMatch:
-        if re.search(
+        if category == 'pen' and re.search(
+            r'(?:круж|стакан|сумк|двер|рюкзак).{0,90}ручк|ручк.{0,35}(?:круж|двер|сумк)',
+            product.name, re.I,
+        ) and not re.search(r'шариков|пишущ|роллер|ballpoint|writing pen|вечн\w*\s+карандаш', product.name, re.I):
+            return CategoryMatch.REJECTED
+        packaging = re.search(
             r"^(?:подарочн\w*\s+)?(?:набор|комплект|коробк\w*|футляр\w*|чехол|точилк\w*)\b",
             normalize_text(product.name),
-        ) and category in ("pencil", "pen", "bottle"):
+        )
+        if packaging and category in ("pencil", "pen", "bottle"):
             return CategoryMatch.REJECTED
         # Supplier text is first-class evidence for both open and known taxonomy.
         # This keeps products indexed with an older/missing canonical category in
@@ -159,9 +219,57 @@ class ProductCategoryMatcher:
                 and SequenceMatcher(None, left, right).ratio() >= 0.8
             )
 
-        if requested and all(any(token_match(t, r) for t in evidence) for r in requested):
+        def phrase_matches(phrase: str) -> bool:
+            wanted = terms(phrase)
+            if not wanted:
+                return False
+            for start, value in enumerate(evidence):
+                if not token_match(value, wanted[0]):
+                    continue
+                position = start
+                for target in wanted[1:]:
+                    following = next(
+                        (
+                            candidate
+                            for candidate in range(position + 1, min(position + 3, len(evidence)))
+                            if token_match(evidence[candidate], target)
+                        ),
+                        None,
+                    )
+                    if following is None:
+                        break
+                    position = following
+                else:
+                    return True
+            return False
+
+        exact_forms = QueryVocabulary.equivalents(category)
+        strong_forms = QueryVocabulary.strong_related(category)
+        related_forms = QueryVocabulary.related(category)
+        if category == "flashdrive" and (
+            packaging
+            or re.search(
+                r"\b(?:showcase|образц\w*|зажигалк\w*|чип\w*\s+памят\w*\s+для)\b",
+                normalize_text(product.name),
+            )
+        ):
+            return CategoryMatch.RELATED
+        if exact_forms and any(phrase_matches(form) for form in exact_forms):
             return CategoryMatch.EXACT
-        if any(
+        if strong_forms and any(phrase_matches(form) for form in strong_forms):
+            return CategoryMatch.STRONG_RELATED
+        if related_forms and any(phrase_matches(form) for form in related_forms):
+            return CategoryMatch.RELATED
+        if product.category == category and category not in QueryVocabulary.EQUIVALENTS:
+            return CategoryMatch.EXACT
+
+        if (
+            not exact_forms
+            and requested
+            and all(any(token_match(t, r) for t in evidence) for r in requested)
+        ):
+            return CategoryMatch.EXACT
+        if not exact_forms and any(
             all(any(token_match(t, r) for t in evidence) for r in alternative)
             for alternative in alternatives
         ):
@@ -192,6 +300,37 @@ class QueryVocabulary:
         "флешк": ("usb flash", "usb-накопитель"),
         "худи": ("толстовка с капюшоном",),
     }
+
+    EQUIVALENTS = {
+        "powerbank": SEEDS["powerbank"][1:],
+        "flashdrive": SEEDS["flashdrive"][1:],
+        "thermomug": SEEDS["thermomug"][1:],
+        "thermocup": SEEDS["thermocup"][1:],
+        "thermos": SEEDS["thermos"][1:],
+        "shopperbag": SEEDS["shopperbag"][1:],
+    }
+    STRONG_RELATED = {
+        "thermomug": SEEDS["thermocup"][1:],
+        "thermocup": SEEDS["thermomug"][1:],
+    }
+    RELATED = {
+        "thermomug": SEEDS["thermos"][1:],
+        "thermocup": SEEDS["thermos"][1:],
+        "thermos": (*SEEDS["thermomug"][1:], *SEEDS["thermocup"][1:]),
+        "shopperbag": ("tote bag", "сумка для покупок"),
+    }
+
+    @classmethod
+    def equivalents(cls, concept: str) -> tuple[str, ...]:
+        return tuple(cls.EQUIVALENTS.get(concept, ()))
+
+    @classmethod
+    def strong_related(cls, concept: str) -> tuple[str, ...]:
+        return tuple(cls.STRONG_RELATED.get(concept, ()))
+
+    @classmethod
+    def related(cls, concept: str) -> tuple[str, ...]:
+        return tuple(cls.RELATED.get(concept, ()))
 
     @classmethod
     def alternatives(cls, requested: list[str]) -> list[list[str]]:

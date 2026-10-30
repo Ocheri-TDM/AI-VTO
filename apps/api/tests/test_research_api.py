@@ -11,7 +11,7 @@ async def test_research_api_persistence_conflict_chat_sse_and_privacy(settings):
         await db.run_sync(Base.metadata.create_all)
     provider = ResearchProvider()
     from app.domain.research import ResearchCoverage
-    branch = ResearchCoverage(supplier='gifts',category='bottle',query='бутылка')
+    branch = ResearchCoverage(supplier='vto',category='bottle',query='бутылка')
     for number in range(2):
         branch.cursor.page_number = number
         page = await provider.research_listing(branch)
@@ -32,7 +32,7 @@ async def test_research_api_persistence_conflict_chat_sse_and_privacy(settings):
             assert len(result['products']) == 60 and result['matching_count'] == 60
             assert result['next_cursor'] is None
             assert len({p['id'] for p in result['products']}) == 60
-            assert result['products'][0]['source_url'].startswith('https://gifts.ru/id/')
+            assert result['products'][0]['source_url'].startswith('https://vto.kz/id/')
             assert not {'supplier','stock_quantity','metadata'} & result['products'][0].keys()
             selected = [result['products'][0]['id']]
             result = (await client.patch(base+'/view',json={'version':0,'selected_ids':selected})).json()

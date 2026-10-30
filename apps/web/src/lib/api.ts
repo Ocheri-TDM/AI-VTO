@@ -33,7 +33,7 @@ function failure(status: number) {
   );
 }
 
-export async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
+export async function request<T>(path: string, options: RequestInit = {}, readableErrors = false): Promise<T> {
   let response: Response;
   try {
     response = await fetch(apiPath(path), {
@@ -50,6 +50,10 @@ export async function request<T>(path: string, options: RequestInit = {}): Promi
     );
   }
   if (!response.ok) {
+    if(readableErrors&&[409,413,422,429].includes(response.status)){
+      const body=await response.json().catch(()=>null);
+      if(typeof body?.detail==='string')throw new ApiError(response.status,body.detail.slice(0,300));
+    }
     throw failure(response.status);
   }
   if (response.status === 204) return undefined as T;

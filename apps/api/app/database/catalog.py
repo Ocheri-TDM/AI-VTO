@@ -55,7 +55,7 @@ class CatalogSafety:
                 collapsed += p.stock_quantity == 0
                 if p.stock_quantity is None:
                     anomalies.add('PARSE_FAILURE')
-        if compared >= 10 and collapsed / compared >= .8:
+        if job['supplier'] != 'vto' and compared >= 10 and collapsed / compared >= .8:
             anomalies.add('STOCK_COLLAPSE')
         if complete and job['kind'] in ('CATALOG_DISCOVERY', 'FULL_CATALOG_RECONCILIATION') and len(previous) >= 20 and len(products) < .5 * len(previous):
             anomalies.add('MASS_REMOVAL')
@@ -64,7 +64,7 @@ class CatalogSafety:
             # changes without treating this slice as reconciliation evidence. Hold
             # zero-stock transitions until aggregate run validation is possible.
             if not anomalies:
-                safe = [p for p in products if not (
+                safe = [p for p in products if job['supplier'] == 'vto' or not (
                     (previous.get(p.id, {}).get('stock_quantity') or 0) > 0 and p.stock_quantity == 0)]
                 summary = await self.index.ingest(safe)
                 for key, value in summary.items():

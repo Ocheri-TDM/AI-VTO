@@ -39,7 +39,8 @@ def test_strict_composite_quantity_accepts_only_fresh_current_free_stock():
     assert service.strict_procurement_evaluation(offer("incoming", [stock("INCOMING", 500)]), 250).reason_code == "INCOMING_ONLY"
     assert service.strict_procurement_evaluation(offer("remote", [stock("REMOTE_STOCK", 500)]), 250).reason_code == "REMOTE_ONLY"
     assert service.strict_procurement_evaluation(offer("reserved", [stock("ON_HAND", 0, 500)]), 250).reason_code == "RESERVED_ONLY"
-    assert service.strict_procurement_evaluation(offer("stale", [stock("ON_HAND", 500)], True), 250).reason_code == "STALE_OBSERVATION"
+    stale = service.strict_procurement_evaluation(offer("stale", [stock("ON_HAND", 500)], True), 250)
+    assert (stale.result, stale.reason_code) == ("PASS", "LAST_KNOWN_FREE_SUFFICIENT")
     assert service.strict_procurement_evaluation(offer("unknown", [stock("ON_HAND")]), 250).reason_code == "UNKNOWN_QUANTITY"
 
 
@@ -55,6 +56,37 @@ def test_maximum_matching_recovers_from_greedy_dead_end():
     assert len(result) == 1
     selected = [chosen[0].id for _category, chosen in result[0]]
     assert set(selected) == {"shared", "alternative"}
+
+
+def test_multiple_required_items_create_selected_slots_with_independent_alternatives():
+    service = HardRequestService(None, None, None)
+    products = [offer(f"pen-{number}") for number in range(9)]
+    plan = HardRequestIntent(
+        target_sets=1, categories=["pen"], items_per_position=3,
+        candidates_per_position=3,
+    )
+
+    result = service.assembly_plan(
+        plan, {"pen": products}, {product.id: product.id for product in products}
+    )
+
+    assert len(result) == 1
+    assert len(result[0]) == 3
+    assert all(len(chosen) == 3 for _category, chosen in result[0])
+    assert len({chosen[0].id for _category, chosen in result[0]}) == 3
+
+
+def test_multiple_required_items_return_bounded_partial_capacity():
+    service = HardRequestService(None, None, None)
+    products = [offer(f"umbrella-{number}") for number in range(7)]
+    plan = HardRequestIntent(target_sets=5, categories=["umbrella"], items_per_position=3)
+
+    result = service.assembly_plan(
+        plan, {"umbrella": products}, {product.id: product.id for product in products}
+    )
+
+    assert len(result) == 2
+    assert all(len(case) == 3 for case in result)
 
 
 def test_random_color_means_deterministic_any_known_base_color():

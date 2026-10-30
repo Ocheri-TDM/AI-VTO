@@ -54,6 +54,8 @@ def settings(tmp_path):
         rub_kzt_rate=Decimal("5.50"),
         background_research_enabled=False,
         auth_required=False,
+        presentation_worker_enabled=False,
+        presentation_storage=tmp_path / "presentations",
     )
 
 

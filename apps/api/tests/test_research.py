@@ -24,7 +24,7 @@ from app.domain.research import ListingPage, ResearchBudget, ResearchCoverage, R
 
 class ResearchProvider(FakeProvider):
     def __init__(self, error=None):
-        super().__init__('gifts')
+        super().__init__('vto')
         self.error = error
         self.pages = []
         self.read = []
@@ -34,13 +34,13 @@ class ResearchProvider(FakeProvider):
         if self.error:
             raise self.error
         page = branch.cursor.page_number
-        return ListingPage(urls=[f'https://gifts.ru/id/{page*30+i}' for i in range(30)],
-                           next_url='https://gifts.ru/page2' if page == 0 else None,
+        return ListingPage(urls=[f'https://vto.kz/id/{page*30+i}' for i in range(30)],
+                           next_url='https://vto.kz/page2' if page == 0 else None,
                            exhausted=page == 1)
 
     async def research_products(self, url):
         self.read.append(url)
-        return [make_product(id='gifts:'+url.rsplit('/',1)[-1], supplier='gifts', source_url=url,
+        return [make_product(id='vto:'+url.rsplit('/',1)[-1], supplier='vto', source_url=url,
             name='Бутылка BlueWater, синяя', category='bottle', material='металл',
             colors=[ProductColor(original_color='синий', normalized_color=ColorGroup.BLUE)])]
 
@@ -69,12 +69,12 @@ async def test_intent_blue_discovery_and_query_boundaries():
     assert 'lanyard' in ambiguous.discovery['exploratory']
     assert 'термокружка' not in QueryExpansionService().expand('bottle', ResearchBudget())
     assert {b.supplier for b in planner.plan(intent, ResearchBudget())} == {
-        'oasis','ucontay','gifts','portobello','happygifts','artegifts'}
+        'vto'}
 
 
 def test_complete_never_without_exhaustion():
     with pytest.raises(ValidationError):
-        ResearchCoverage(supplier='gifts', category='bottle', query='бутылка', status='COMPLETE')
+        ResearchCoverage(supplier='vto', category='bottle', query='бутылка', status='COMPLETE')
 
 
 async def test_no_top_n_atomic_cursor_and_cache_independent_persistence(repository, settings):
@@ -84,7 +84,7 @@ async def test_no_top_n_atomic_cursor_and_cache_independent_persistence(reposito
     saved = await svc.get(research.id)
     assert len(saved.products) == 60  # More than legacy MAX_PRODUCTS_PER_QUERY.
     assert provider.pages == [0, 1]
-    assert saved.coverage[2].status == 'COMPLETE'
+    assert saved.coverage[0].status == 'COMPLETE'
     saved.products[0].fetched_at = utcnow()-timedelta(hours=2)
     await svc.repository.save(saved)
     await repository.purge_expired()
@@ -123,7 +123,7 @@ async def test_supplier_controlled_failures(repository,settings,code,status):
     research = await svc.start(chat,'Синие бутылки 300 шт.',ResearchBudget(max_query_expansions=1))
     await svc.tasks[research.id]
     result = await svc.get(research.id)
-    assert next(b for b in result.coverage if b.supplier=='gifts').status==status
+    assert next(b for b in result.coverage if b.supplier=='vto').status==status
     assert result.job_status=='PARTIAL'
 
 
@@ -149,7 +149,7 @@ async def test_cancel_keeps_cursor_resumable(repository,settings):
 
 def test_similarity_and_cross_supplier_groups_preserve_offers():
     first=make_product(name='Бутылка BlueWater',category='bottle',price_kzt=5000,material='металл')
-    second=first.model_copy(update={'id':'gifts:other','supplier':'gifts'})
+    second=first.model_copy(update={'id':'vto:other','supplier':'vto'})
     other=make_product(name='Рюкзак',category='backpack',price_kzt=20000)
     assert SimilarityService().score(second,[first])>SimilarityService().score(other,[first])
     groups=ProductGroupingService().groups([first,second,other])
@@ -192,7 +192,7 @@ async def test_targeted_research_only_runs_missing_branch(repository, settings):
     await svc.tasks[research.id]
     result = await svc.get(research.id)
     new_branches = [b for b in result.coverage if b.id not in original_ids]
-    assert len(new_branches) == 1 and new_branches[0].supplier == 'gifts'
+    assert len(new_branches) == 1 and new_branches[0].supplier == 'vto'
     calls = len(provider.read)
     await engine.target(result, 'бамбук')
     assert len(provider.read) == calls

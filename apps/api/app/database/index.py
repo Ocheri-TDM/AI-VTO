@@ -104,7 +104,9 @@ class IndexRepository:
                     key for key, patterns in PREFERENCE_TERMS.items() if any(t in document for t in patterns)
                 ]
                 product.metadata["semantic_tags"] = {"values": tags, "provenance": "RULE_BASED"}
-                key = ProductGroupingService().groups([product])[0]["id"]
+                key = (f"vto:parent:{product.metadata['vto_product_id']}"
+                       if product.supplier == "vto" and product.metadata.get("vto_product_id")
+                       else ProductGroupingService().groups([product])[0]["id"])
                 stable = product.model_dump(
                     mode="json",
                     exclude={
@@ -126,7 +128,8 @@ class IndexRepository:
                 )
                 values = dict(
                     id=key,
-                    name=product.name,
+                    name=(product.metadata.get("parent_name") or product.name)
+                    if product.supplier == "vto" else product.name,
                     category=product.category,
                     search_document=document,
                     metadata_payload={"tags": tags, "tag_provenance": "RULE_BASED"},
@@ -200,6 +203,15 @@ class IndexRepository:
                         index_elements=["id"], set_={k: v for k, v in values.items() if k != "id"}
                     )
                 )
+                previous_concepts = set(await db.scalars(
+                    select(ProductConceptOffer.concept_id).where(ProductConceptOffer.offer_id == product.id)
+                ))
+                obsolete_concepts = previous_concepts - set(concept_ids)
+                if obsolete_concepts:
+                    await db.execute(delete(ProductConceptOffer).where(
+                        ProductConceptOffer.offer_id == product.id,
+                        ProductConceptOffer.concept_id.in_(obsolete_concepts),
+                    ))
                 for concept_id in concept_ids:
                     await db.execute(
                         self.insert(db, ProductConceptOffer)
@@ -209,6 +221,7 @@ class IndexRepository:
                         )
                         .on_conflict_do_nothing()
                     )
+                for concept_id in set(concept_ids) | obsolete_concepts:
                     count = await db.scalar(
                         select(func.count())
                         .select_from(ProductConceptOffer)
@@ -291,6 +304,8 @@ class IndexRepository:
                         "price_kzt",
                         "original_price",
                         "original_currency",
+                        "images",
+                        "primary_image",
                         "fetched_at",
                     },
                 )
@@ -299,7 +314,9 @@ class IndexRepository:
                 )
                 values = dict(
                     offer_id=product.id,
-                    price_kzt=product.price_kzt,
+                    price_kzt=(product.original_price
+                               if product.supplier == "vto" and product.original_currency == "KZT"
+                               else product.price_kzt),
                     stock=product.stock_quantity,
                     incoming=product.incoming_quantity,
                     reserved=product.reserved_quantity,
@@ -347,9 +364,14 @@ class IndexRepository:
         # normalized retrieval representation.
         retrieval_query = intent.normalized_query or intent.raw_query
         query = UniversalCategoryResolver().concept(retrieval_query)
-        query_forms = [query] + [
-            " ".join(alias) for alias in QueryVocabulary.alternatives(terms(query))
+        concept_forms = [
+            form
+            for category in known
+            for form in QueryVocabulary.equivalents(category)
         ]
+        query_forms = list(dict.fromkeys([query, *concept_forms] + [
+            " ".join(alias) for alias in QueryVocabulary.alternatives(terms(query))
+        ]))
         if db.bind.dialect.name == "postgresql":
             lexical = or_(
                     *[
@@ -678,7 +700,18 @@ class IndexRepository:
             if (
                 job.status in ("COMPLETED", "FAILED") or job.status == "CANCELLED" and priority > 0
             ) and not quarantined_same_parser:
-                job.status, job.checkpoint, job.metrics = "PENDING", checkpoint, {}
+                resume_failed_vto = (
+                    supplier == "vto" and job.status == "FAILED"
+                    and checkpoint.get("reason") == "manual_vto_sync"
+                    and (job.checkpoint or {}).get("failed_products")
+                )
+                if resume_failed_vto:
+                    checkpoint = dict(job.checkpoint) | checkpoint
+                    checkpoint["failed_products"] = {
+                        key: dict(value, attempts=0)
+                        for key, value in checkpoint["failed_products"].items()
+                    }
+                job.status, job.checkpoint, job.metrics = "PENDING", checkpoint, job.metrics if resume_failed_vto else {}
                 job.error = None
                 job.available_at, job.priority = available_at or utcnow(), priority
             return job.id
@@ -749,6 +782,8 @@ class IndexRepository:
                 )
                 if changed.rowcount:
                     job.status, job.updated_at = "RUNNING", now
+                    if job.supplier == "vto":
+                        job.error = None
                     await db.flush()
                     data = {
                         k: getattr(job, k)
@@ -845,7 +880,7 @@ class IndexRepository:
             if error == "PARSER_ANOMALY":
                 delay = ceiling
             if (
-                error == "SUPPLIER_HTTP_ERROR"
+                error in {"SUPPLIER_HTTP_ERROR", "VTO_HTTP_ERROR"}
                 and state.failures >= self.settings.supplier_circuit_failure_threshold
             ):
                 state.circuit_open_until = now + timedelta(seconds=delay)
@@ -865,4 +900,13 @@ class IndexRepository:
                 if job["kind"] in ("CATALOG_DISCOVERY", "FULL_CATALOG_RECONCILIATION"):
                     state.next_discovery_at = now + timedelta(days=self.settings.full_reconciliation_days)
                     state.next_reconciliation_at = state.next_discovery_at
+                    if job["supplier"] == "vto":
+                        state.next_incremental_at = now + timedelta(hours=self.settings.incremental_sync_hours)
+            elif status == "FAILED" and job["supplier"] == "vto" and job["kind"] in {
+                "FULL_CATALOG_RECONCILIATION", "CATALOG_DISCOVERY", "INCREMENTAL_CATALOG_SYNC"
+            }:
+                # Do not let the five-second scheduler reset a failed bounded
+                # scan into an endless full crawl. Manual retry keeps its cursor.
+                state.next_reconciliation_at = now + timedelta(days=self.settings.full_reconciliation_days)
+                state.next_incremental_at = now + timedelta(hours=self.settings.incremental_sync_hours)
             row.updated_at = now

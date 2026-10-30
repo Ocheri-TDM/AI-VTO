@@ -10,7 +10,8 @@ class Understanding:
         concepts = []
         lowered = text.casefold()
         for token, concept in {
-            "карандаш": "pencil", "круж": "mug", "ручк": "pen", "зонт": "umbrella"
+            "карандаш": "pencil", "круж": "mug", "руч": "pen", "зонт": "umbrella",
+            "термокруж": "thermomug", "рюкзак": "backpack", "usb": "flashdrive",
         }.items():
             if token in lowered:
                 concepts.append(concept)
@@ -59,3 +60,63 @@ async def test_existing_subject_with_constraint_is_not_new_search():
 async def test_composite_clear_and_typo_add_preserve_active_workspace(message, expected):
     route = await ConversationQueryRouter().route(message, ["umbrella", "pen", "bottle", "tshirt"])
     assert route.action == expected
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "message",
+    ["покажи только термокружку черную", "теперь ищи USB-накопители"],
+)
+async def test_composite_can_start_an_independent_simple_search(message):
+    route = await ConversationQueryRouter(Understanding()).route(
+        message, ["thermomug", "notebook", "pen"], "HARD"
+    )
+    assert route.action == ConversationAction.NEW_SEARCH
+
+
+@pytest.mark.asyncio
+async def test_bare_equivalent_subject_is_a_new_search_not_a_refinement():
+    route = await ConversationQueryRouter(Understanding()).route(
+        "USB-накопитель", ["flashdrive"], "STANDARD"
+    )
+    assert route.action == ConversationAction.NEW_SEARCH
+
+
+@pytest.mark.asyncio
+async def test_multi_product_request_replaces_active_simple_workspace():
+    route = await ConversationQueryRouter(Understanding()).route(
+        "Собери 10 наборов из зонтов и ручек черного цвета",
+        ["backpack"],
+        "STANDARD",
+    )
+    assert route.action == ConversationAction.NEW_SEARCH
+
+
+@pytest.mark.asyncio
+async def test_explicit_position_mutation_wins_over_noisy_detected_concepts():
+    route = await ConversationQueryRouter(Understanding()).route(
+        "ручки сделай синими",
+        ["thermomug", "notebook", "pen"],
+        "HARD",
+    )
+    assert route.action == ConversationAction.MODIFY_CURRENT
+
+
+@pytest.mark.asyncio
+async def test_bare_unknown_product_term_does_not_inherit_active_subject():
+    route = await ConversationQueryRouter(Understanding()).route(
+        "квантосборник", ["notebook"], "STANDARD"
+    )
+    assert route.action == ConversationAction.NEW_SEARCH
+
+
+@pytest.mark.asyncio
+async def test_standalone_purpose_search_with_exclusions_replaces_composite():
+    route = await ConversationQueryRouter(Understanding()).route(
+        "Найди подарки для руководителей до 12000 тенге. "
+        "Без пластика, без одежды, не показывай ручки.",
+        ["tshirt", "powerbank", "pen"],
+        "HARD",
+    )
+    assert route.action == ConversationAction.NEW_SEARCH
+    assert "standalone-search" in route.signals

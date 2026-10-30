@@ -15,7 +15,6 @@ from app.api.chats import router as chat_router
 from app.api.routes import router
 from app.application.orchestrator import Orchestrator
 from app.application.search import SearchService
-from app.browser import BrowserEngine
 from app.config import Settings
 from app.database.connection import create_database
 from app.database.conversations import ConversationRepository
@@ -28,18 +27,10 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     settings = settings or Settings()
     engine, sessions = create_database(settings.database_url)
     repository = SearchRepository(sessions)
-    browser = BrowserEngine(settings)
     if providers is None:
-        from app.providers.artegifts import ArteGiftsProvider
-        from app.providers.gifts import GiftsProvider
-        from app.providers.happygifts import HappyGiftsProvider
-        from app.providers.oasis import OasisProvider
-        from app.providers.portobello import PortobelloProvider
-        from app.providers.ucontay import UcontayProvider
+        from app.providers.vto import VTOProvider
 
-        providers = [OasisProvider(browser, settings), GiftsProvider(browser, settings),
-                     UcontayProvider(browser, settings), PortobelloProvider(browser, settings),
-                     HappyGiftsProvider(browser, settings), ArteGiftsProvider(browser, settings)]
+        providers = [VTOProvider(settings)]
     search = SearchService(repository, providers, BasicIntentParser(), settings)
     model_class = {
         "basic": None,
@@ -54,6 +45,9 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
             settings.llm_model,
             settings.llm_timeout_seconds,
             settings.llm_structured_retries,
+            settings.llm_concurrency,
+            settings.llm_queue_limit,
+            settings.llm_queue_timeout_seconds,
         )
         if model_class
         else None
@@ -74,13 +68,12 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     )
     background = BackgroundIndex(index,providers,settings)
     orchestrator.research = research
-    from app.application.hard_requests import HardRequestService
-    hard_requests = HardRequestService(
-        sessions, research, index, model, query_understanding
-    )
+    from app.application.project_queries import ProjectQueryService
+    project_queries = ProjectQueryService(sessions, research, conversation_router)
+    from app.application.presentations import PresentationService
+    presentations = PresentationService(sessions, settings, research.repository)
     async def publish_index_update(job):
         await research.on_index_update(job)
-        await hard_requests.on_index_update(job)
     background.on_update = publish_index_update
 
     async def clean_cache() -> None:
@@ -100,10 +93,12 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
         await repository.recover_interrupted()
         await conversations.recover_interrupted()
         await research.repository.recover()
-        await hard_requests.recover()
+        await project_queries.recover()
         cleanup = asyncio.create_task(clean_cache(), name="cache-cleanup")
         if settings.background_research_enabled:
             background.start()
+        if settings.presentation_worker_enabled:
+            presentations.start()
         try:
             yield
         finally:
@@ -111,25 +106,28 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
             with suppress(asyncio.CancelledError):
                 await cleanup
             await search.close()
+            await presentations.close()
             await background.close()
             await research.close()
-            await hard_requests.close()
-            await browser.close()
+            for provider in providers:
+                if hasattr(provider, "close"):
+                    await provider.close()
             await engine.dispose()
 
     app = FastAPI(
         title="Souvenir Search API",
         version="0.3.0",
         lifespan=lifespan,
-        description="Durable supplier research and local AI refinement. Observations become stale after 60 minutes; research history remains available.",
+        description="VTO HTTP catalog, durable index and local AI refinement. Last-known stock remains available with its observation date.",
     )
-    app.state.repository, app.state.search, app.state.browser = repository, search, browser
+    app.state.repository, app.state.search = repository, search
     app.state.engine = engine
     app.state.sessions, app.state.settings = sessions, settings
     app.state.conversations, app.state.orchestrator = conversations, orchestrator
     app.state.research = research
     app.state.query_understanding = query_understanding
-    app.state.hard_requests = hard_requests
+    app.state.project_queries = project_queries
+    app.state.presentations = presentations
     app.state.conversation_router = conversation_router
     app.state.index, app.state.background_index = index, background
     app.include_router(router)
@@ -142,13 +140,15 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     app.include_router(research_router)
     from app.api.diagnostics import router as diagnostics_router
     app.include_router(diagnostics_router)
-    from app.api.hard_requests import router as hard_requests_router
-    app.include_router(hard_requests_router)
+    from app.api.project_queries import router as project_queries_router
+    app.include_router(project_queries_router)
+    from app.api.presentations import router as presentations_router
+    app.include_router(presentations_router)
 
     @app.middleware("http")
     async def authenticated_user(request: Request, call_next):
         protected = request.url.path.startswith((
-            "/api/chats", "/api/projects", "/api/researches", "/api/searches", "/api/hard-requests",
+            "/api/chats", "/api/projects", "/api/researches", "/api/searches", "/api/hard-requests", "/api/presentations",
         ))
         if protected and settings.auth_required:
             user = await current_user(request)

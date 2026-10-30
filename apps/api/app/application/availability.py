@@ -129,10 +129,13 @@ class ProcurementAvailabilityService:
             }
             for record in records
         ]
-        if stale:
-            return ProcurementEvaluation(quantity, "REJECT", None, None, evidence, "STALE_OBSERVATION")
         derived = self.derive(records, quantity)
         if derived.can_fulfill_now:
+            if stale:
+                return ProcurementEvaluation(
+                    quantity, "PASS", "LAST_KNOWN", derived.available_now,
+                    evidence, "LAST_KNOWN_FREE_SUFFICIENT",
+                )
             return ProcurementEvaluation(
                 quantity, "PASS", "CURRENT_FREE", derived.available_now, evidence, "CURRENT_FREE_SUFFICIENT"
             )
@@ -171,3 +174,41 @@ class ProcurementAvailabilityService:
         if records:
             return ProcurementEvaluation(quantity, "REJECT", None, None, evidence, "UNKNOWN_QUANTITY")
         return ProcurementEvaluation(quantity, "REJECT", None, None, evidence, "NO_PROCUREMENT_EVIDENCE")
+
+    def evaluate_on_hand(
+        self,
+        records: list[AvailabilityRecord],
+        quantity: int,
+        *,
+        stale: bool = False,
+        fresh_only: bool = False,
+    ) -> ProcurementEvaluation:
+        """Evaluate numeric ON_HAND free stock without promoting other supply tiers."""
+        evaluation = self.evaluate(records, quantity, stale=stale)
+        if evaluation.tier == "CURRENT_FREE":
+            return evaluation
+        if evaluation.tier == "LAST_KNOWN":
+            if not fresh_only:
+                return evaluation
+            return ProcurementEvaluation(
+                quantity, "REJECT", None, evaluation.available_quantity,
+                evaluation.evidence, "STALE_OBSERVATION",
+            )
+        if evaluation.reason_code in {
+            "NO_PROCUREMENT_EVIDENCE", "UNKNOWN_QUANTITY",
+            "FREE_QUANTITY_INSUFFICIENT", "RESERVED_ONLY",
+        }:
+            return evaluation
+        states = {record.state for record in records}
+        reason = (
+            "INCOMING_ONLY" if states & {"INCOMING", "RECEIVING"}
+            else "REMOTE_ONLY" if "REMOTE_STOCK" in states
+            else "PREORDER_ONLY" if "PREORDER" in states
+            else "FACTORY_ONLY" if states & {"FACTORY", "PRODUCTION"}
+            else "ORDER_ON_DEMAND" if states & {"ORDER_ON_DEMAND", "WAITING_SHIPMENT"}
+            else evaluation.reason_code
+        )
+        return ProcurementEvaluation(
+            quantity, "REJECT", None, evaluation.available_quantity,
+            evaluation.evidence, reason,
+        )

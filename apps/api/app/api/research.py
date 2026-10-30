@@ -45,6 +45,7 @@ def product_view(p):
         'colors', 'primary_image', 'images', 'material', 'brand', 'dimensions', 'capacity', 'features'}) | {
         'freshness': 'STALE' if stale(p) or p.metadata.get('research_invalid') else 'FRESH',
         'match': p.metadata.get('color_match', 'exact'),
+        'category_match': p.metadata.get('category_match', 'EXACT'),
         'availability': ProcurementAvailabilityService().presentation(p.availability_records),
     }
     if url := validated_product_url(p.supplier, p.source_url):
@@ -72,10 +73,11 @@ def product_details_view(research, product):
         "original_price": str(product.original_price) if product.original_price is not None else None,
         "original_currency": product.original_currency,
         "fetched_at": product.fetched_at.isoformat(),
+        "sku": product.metadata.get("sku"),
         "availability": ProcurementAvailabilityService().presentation(product.availability_records),
     })
     if offers:
-        result["source_url"] = offers[0]["product_url"]
+        result["source_url"] = validated_product_url(product.supplier, product.source_url)
         result["offers"] = offers
     return result
 
@@ -134,8 +136,30 @@ def response(research):
             'messages': research.messages, 'can_undo': bool(research.history), 'revision': research.revision}
 
 
+async def render(request, research, cursor=None, limit=100):
+    if research.unified:
+        try:
+            return await request.app.state.research.grid_response(research, cursor, limit)
+        except ValueError as exc:
+            if str(exc) == 'STALE_CURSOR':
+                raise HTTPException(409, 'Подборка изменилась. Загрузите первую страницу.') from exc
+            raise
+    return response(research)
+
+
 async def require(request, identifier):
     service = request.app.state.research
+    metadata = await service.repository.get(str(identifier), hydrate=False)
+    if metadata and metadata.unified:
+        user_id = getattr(getattr(request.state, 'user', None), 'id', None)
+        if user_id is not None and not await request.app.state.conversations.get(metadata.chat_id, user_id):
+            raise HTTPException(404, 'Research not found')
+        return await service.grid_upgrade(metadata)
+    if metadata and not metadata.unified and metadata.source_mode == 'index':
+        user_id = getattr(getattr(request.state, 'user', None), 'id', None)
+        if user_id is not None and not await request.app.state.conversations.get(metadata.chat_id, user_id):
+            raise HTTPException(404, 'Research not found')
+        return await service.grid_upgrade(metadata)
     value = await service.sync(str(identifier)) if hasattr(service,'sync') else await service.get(str(identifier))
     if value is None:
         raise HTTPException(404, 'Исследование не найдено.')
@@ -152,12 +176,17 @@ async def start(body: StartResearch, request: Request):
         raise HTTPException(404, 'Проект не найден.')
     if sum(not task.done() for task in request.app.state.research.tasks.values()) >= request.app.state.research.settings.max_active_searches:
         raise HTTPException(429, 'Исследования уже выполняются. Попробуйте позже.')
+    projects = await request.app.state.conversations.projects(user_id)
+    project = next((p for p in projects if p['chat_id'] == str(body.chat_id)), None)
+    if project and hasattr(request.app.state, 'project_queries'):
+        result = await request.app.state.project_queries.request(project['id'], body.query, user_id)
+        return await render(request, result['research'])
     value = await request.app.state.research.start(str(body.chat_id), body.query, body.budget)
     execution = await request.app.state.conversations.begin(str(body.chat_id), body.query)
     await request.app.state.conversations.finish(execution, 'Исследование каталогов запущено. Результаты появятся по мере проверки.',
         {'action': 'START_RESEARCH', 'intent': value.intent.model_dump(mode='json')},
         [{'tool': 'start_research', 'research_id': value.id}], None)
-    return response(value)
+    return await render(request, value)
 
 
 @router.get('/chat/{chat_id}')
@@ -165,15 +194,17 @@ async def latest(chat_id: UUID, request: Request):
     user_id = getattr(getattr(request.state, "user", None), "id", None)
     if not await request.app.state.conversations.get(str(chat_id), user_id):
         raise HTTPException(404, "Research not found")
-    value = await request.app.state.research.repository.latest(str(chat_id))
+    projects = await request.app.state.conversations.projects(user_id)
+    project = next((p for p in projects if p['chat_id'] == str(chat_id)), None)
+    value = await request.app.state.project_queries.active(project['id'], user_id) if project else None
     if value and value.source_mode=='index':
         value = await request.app.state.research.sync(value.id)
-    return response(value) if value else None
+    return await render(request, value) if value else None
 
 
 @router.get('/{identifier}')
 async def get(identifier: UUID, request: Request):
-    return response(await require(request, identifier))
+    return await render(request, await require(request, identifier))
 
 
 @router.patch('/{identifier}/view')
@@ -186,12 +217,21 @@ async def change(identifier: UUID, body: ChangeResearch, request: Request):
         raise HTTPException(409 if str(exc) == 'STATE_CONFLICT' else 422,
                             'Подборка изменилась. Обновите состояние.' if str(exc) == 'STATE_CONFLICT'
                             else 'Товар отсутствует в исследовании.') from exc
-    return response(value)
+    return await render(request, value)
 
 
 @router.post('/{identifier}/messages')
 async def message(identifier: UUID, body: ResearchMessage, request: Request):
     current = await require(request, identifier)
+    if current.unified:
+        user_id = getattr(getattr(request.state, 'user', None), 'id', None)
+        projects = await request.app.state.conversations.projects(user_id)
+        project = next((p for p in projects if p['chat_id'] == current.chat_id), None)
+        active = await request.app.state.project_queries.active(project['id'], user_id)
+        if not active or active.id != current.id:
+            raise HTTPException(409, 'Активный запрос изменился.')
+        value = await request.app.state.project_queries.request(project['id'], body.message, user_id)
+        return await render(request, value['research'])
     service = request.app.state.research
     if hasattr(service,'independent_query') and service.independent_query(body.message,current):
         result = await start(StartResearch(chat_id=UUID(current.chat_id),query=body.message),request)
@@ -200,25 +240,35 @@ async def message(identifier: UUID, body: ResearchMessage, request: Request):
         value, decision, answer = await request.app.state.orchestrator.execute_research(str(identifier), body.message)
     except TimeoutError as exc:
         raise HTTPException(503, 'Не удалось завершить уточнение. Подборка сохранена.') from exc
-    return response(value) | {'assistant_message': answer, 'action': decision.action}
+    return await render(request, value) | {'assistant_message': answer, 'action': decision.action}
 
 
 @router.post('/{identifier}/continue', status_code=202)
 async def resume(identifier: UUID, request: Request):
     await require(request, identifier)
-    return response(await request.app.state.research.resume(str(identifier)))
+    value = await require(request, identifier)
+    if value.unified:
+        await request.app.state.research.grid_pool(value)
+        value.view.version += 1
+        await request.app.state.research.repository.save(value)
+        return await render(request, value)
+    return await render(request, await request.app.state.research.resume(str(identifier)))
 
 
 @router.post('/{identifier}/cancel')
 async def cancel(identifier: UUID, request: Request):
     await require(request, identifier)
-    return response(await request.app.state.research.cancel(str(identifier)))
+    return await render(request, await request.app.state.research.cancel(str(identifier)))
 
 
 @router.get('/{identifier}/products/{product_id:path}')
 async def details(identifier: UUID, product_id: str, request: Request):
     research = await require(request, identifier)
     product = next((p for p in research.products if p.id == product_id), None)
+    if research.unified and product_id in set(research.pool_offer_ids) | set(research.view.selected_ids):
+        values = await request.app.state.index.candidates(research.intent, offer_ids=[product_id])
+        product = values[0] if values else None
+        research.products = values
     if not product:
         raise HTTPException(404, 'Товар не найден.')
     await request.app.state.index.mark_usage([product.id], "opened")
@@ -230,13 +280,13 @@ async def details(identifier: UUID, product_id: str, request: Request):
 @router.get('/{identifier}/products')
 async def products_page(identifier: UUID, request: Request, cursor: str | None = None, limit: int = Query(100, ge=1, le=100)):
     value = await require(request, identifier)
-    return page_products(value, current_products(value), cursor, limit)
+    return await render(request, value, cursor, limit) if value.unified else page_products(value, current_products(value), cursor, limit)
 
 
 @router.post('/{identifier}/new-matches')
 async def accept_matches(identifier: UUID, request: Request):
     await require(request, identifier)
-    return response(await request.app.state.research.accept_matches(str(identifier)))
+    return await render(request, await request.app.state.research.accept_matches(str(identifier)))
 
 
 @router.get('/{identifier}/events')
@@ -246,8 +296,9 @@ async def events(identifier: UUID, request: Request):
         previous = None
         while not await request.is_disconnected():
             value = await require(request, identifier)
+            matching = (await request.app.state.research.grid_response(value))['matching_count'] if value.unified else len(current_products(value))
             state = {'id': value.id, 'version': value.view.version, 'status': value.job_status,
-                     'matching_count': len(current_products(value)), 'new_matches_count': len(value.pending_offer_ids),
+                     'matching_count': matching, 'revision': value.revision, 'new_matches_count': len(value.pending_offer_ids),
                      'fresh_ids_hash': hashlib.sha256('|'.join(value.indexed_offer_ids).encode()).hexdigest()[:16]}
             state['observation_hash'] = hashlib.sha256('|'.join(f'{p.id}:{p.price_kzt}:{p.fetched_at}' for p in value.products).encode()).hexdigest()[:16]
             if state != previous:

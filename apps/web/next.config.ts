@@ -30,12 +30,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "kz.artegifts.by" },
-      { protocol: "https", hostname: "files.gifts.ru" },
-      { protocol: "https", hostname: "happygifts.ru" },
+      { protocol: "https", hostname: "vto.kz", pathname: "/wp-content/uploads/**" },
       { protocol: "https", hostname: "s.a-5.ru" },
-      { protocol: "https", hostname: "cdn.portobello.ru" },
-      { protocol: "https", hostname: "cdn.insales-shop.ru" },
     ],
   },
   async rewrites() {

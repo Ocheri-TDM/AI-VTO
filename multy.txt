@@ -1,0 +1,1027 @@
+# TASK — MULTI-USER CONCURRENCY & PERFORMANCE HARDENING
+## Souvenir Studio — Production-Oriented Stability for 10 Concurrent Users
+
+**Role:** Senior Backend Engineer / Python AsyncIO Architect / PostgreSQL Performance Engineer / SRE / QA Automation Engineer.
+
+**Repository:** `Ocheri-TDM/AI-VTO`
+
+**Task type:** Investigation + Root Cause Analysis + Targeted Implementation + Regression Testing + Real Load Testing.
+
+**Priority:** P0/P1.
+
+**Important:** This is an implementation task, not another read-only audit or architectural planning stage.
+
+---
+
+# 1. MAIN OBJECTIVE
+
+Make Souvenir Studio reliable and responsive when **5–10 real users simultaneously work with different projects, execute SIMPLE searches, create COMPOSITE requests, refine searches, rebuild cases, navigate history and receive SSE updates**.
+
+The application must preserve:
+
+- Correct user and project isolation.
+- Correct active workspace and query revisions.
+- Correct SIMPLE ↔ COMPOSITE transitions.
+- Correct search results and product identities.
+- Stable background catalog indexing.
+- Stable PostgreSQL transactions.
+- Stable SSE behavior.
+- Predictable response latency.
+- No accidental deletion or modification of existing production data.
+
+Do not solve performance problems by reducing search recall, hiding products, skipping suppliers, disabling business rules or weakening availability checks.
+
+The objective is to optimize execution, not reduce correctness.
+
+---
+
+# 2. EXISTING ARCHITECTURE
+
+Inspect the actual repository before making changes.
+
+Known architecture:
+
+- FastAPI / ASGI backend.
+- Uvicorn currently running with one worker.
+- SQLAlchemy AsyncEngine.
+- PostgreSQL.
+- Next.js frontend deployed on Vercel.
+- Same-origin `/api/*` proxy to backend.
+- Local Ollama/Qwen for selected semantic operations.
+- Background supplier crawlers using Playwright.
+- Durable catalog jobs and checkpoints.
+- SIMPLE and COMPOSITE query modes.
+- PostgreSQL-backed projects, sessions and revisions.
+- SSE for asynchronous research updates.
+- Project-level in-process and PostgreSQL advisory locks.
+
+Six supplier catalogs:
+
+1. Oasis.
+2. Gifts.
+3. Ucontay.
+4. Portobello.
+5. HappyGifts.
+6. ArteGifts.
+
+The global Research Index is shared across users.
+
+Research sessions, projects, selections, query history and active workspace state are user-owned.
+
+Do not change these architectural boundaries without evidence that the change is necessary.
+
+---
+
+# 3. BASELINE LOAD TEST RESULTS
+
+The previous audit produced:
+
+| Metric | Result |
+|---|---|
+| Total HTTP operations | 65 |
+| Successful operations | 64 |
+| Failed operations | 1 |
+| Concurrent users | 10 |
+| Cross-user isolation failures | 0 |
+| SIMPLE c1 p95 | 2.95 s |
+| SIMPLE c5 p95 | 5.72 s |
+| SIMPLE c10 p95 | 10.11 s |
+| COMPOSITE c5 p95 | 6.00 s |
+| Pagination p95 | 1.37 s |
+| Critical failure | HTTP 503 |
+| Failure transition | COMPOSITE → SIMPLE |
+| 20-user test | Not executed |
+
+At concurrency 10, SIMPLE throughput nearly plateaued while latency increased significantly.
+
+This suggests saturation of a shared execution resource, but the actual bottleneck has not been established.
+
+Do not assume that one Uvicorn worker or SQLAlchemy pool size is necessarily the root cause.
+
+Investigate first.
+
+Existing files:
+
+- `apps/api/tests/performance/concurrency_load.py`
+- `docs/concurrency-load-report.md`
+
+Read both completely.
+
+Preserve the existing harness and extend it where necessary.
+
+---
+
+# 4. P0 — REPRODUCE AND FIX THE HTTP 503
+
+A confirmed failure occurred during this same-project sequence:
+
+1. SIMPLE: `термокружка`
+2. REFINE: `оставь черные`
+3. SIMPLE: `ежедневник`
+4. COMPOSITE: `Собери 5 наборов из термокружек, ручек и ежедневников`
+5. SIMPLE: `покажи только термокружки`
+
+The final operation returned HTTP 503.
+
+The failure was classified as a SQLAlchemy/database exception, but the exact SQLSTATE and traceback were not preserved.
+
+## Required investigation
+
+Trace:
+
+`HTTP request → authentication → project ownership → query router → active intent → workspace transition → transaction → archive old query → activate new query → commit → response`
+
+Inspect:
+
+- Transaction boundaries.
+- Session lifecycle.
+- SQLAlchemy exceptions.
+- Advisory lock acquisition/release.
+- In-process project locks.
+- Nested transactions.
+- Active query uniqueness constraints.
+- Concurrent revisions.
+- Database connection checkout.
+- Pool timeout.
+- Transaction rollback.
+- Foreign-key relationships.
+- Archiving previous SIMPLE/COMPOSITE revisions.
+
+Determine whether the failure originates from:
+
+- Deadlock.
+- Connection exhaustion.
+- Invalid transaction state.
+- Stale session.
+- Constraint violation.
+- Concurrent modification.
+- Incorrect lock lifetime.
+- Incorrect transaction ordering.
+- Another demonstrated cause.
+
+Do not choose a cause without evidence.
+
+## Required fix
+
+Make the transition atomic.
+
+The operation must not leave the project in a partially switched state.
+
+The server must preserve a consistent active workspace after success, rollback or retry.
+
+Use existing transaction and locking mechanisms where possible.
+
+Do not introduce unnecessary distributed infrastructure.
+
+If a retry is appropriate, retry only known transient database errors and only where idempotency and transaction safety are guaranteed.
+
+Do not hide the problem behind generic retries.
+
+## Acceptance
+
+Repeat the exact sequence multiple times.
+
+Then repeat it while other users execute SIMPLE and COMPOSITE searches.
+
+Required:
+
+- No HTTP 500/503.
+- No orphan active query.
+- No two active workspaces.
+- No incorrect query title.
+- No loss of chat history.
+- No cross-user state contamination.
+- Correct active query after F5.
+
+---
+
+# 5. P0 — PERSISTENT ERROR DIAGNOSTICS
+
+The previous audit could not recover the exact SQLSTATE because the API had no persistent error log.
+
+Fix this.
+
+Implement structured server-side logging for critical failures.
+
+Capture:
+
+- Timestamp.
+- Request ID.
+- Route.
+- HTTP method.
+- Status.
+- User/project identifiers in safe internal form.
+- Research/query revision ID.
+- Operation type.
+- Exception class.
+- SQLSTATE when available.
+- Database operation phase.
+- Transaction rollback result.
+- Total request duration.
+- Full traceback in protected server logs.
+
+Never log:
+
+- Passwords.
+- Authentication cookies.
+- Session tokens.
+- Secrets.
+- Complete sensitive request payloads.
+
+Return a safe request/correlation ID to the client for unexpected errors.
+
+Do not expose SQL statements containing sensitive values or internal stack traces in HTTP responses.
+
+Ensure logs survive API restart and can be correlated with load-test samples.
+
+---
+
+# 6. P1 — INSTRUMENT THE REAL REQUEST PIPELINE
+
+Before changing performance-critical code, introduce low-overhead measurements.
+
+Measure the actual execution phases.
+
+For SIMPLE:
+
+`request → auth → router → intent normalization → SQL retrieval → ranking → facets → hydration → DTO serialization → transaction → HTTP response`
+
+For COMPOSITE:
+
+`request → auth → intent → position planning → category retrieval → color filtering → availability evaluation → candidate pools → case allocation → persistence → response`
+
+For refinements:
+
+`request → context resolution → intent patch → retrieval/filtering → revision persistence → response`
+
+For background operations:
+
+`job lease → provider execution → parsing → observation normalization → database publication → SSE notification`
+
+Collect:
+
+- End-to-end latency.
+- Per-stage latency.
+- SQL query count.
+- SQL execution duration.
+- SQLAlchemy pool checkout wait.
+- Pool checked-out/idle/overflow connections.
+- Event-loop lag.
+- CPU usage.
+- Process RSS memory.
+- PostgreSQL active/idle connections.
+- PostgreSQL lock waits.
+- Background worker activity.
+- LLM queue wait and inference duration, when applicable.
+- SSE connection count.
+
+Prefer existing instrumentation libraries and application infrastructure.
+
+Avoid excessive per-product logging.
+
+Metrics must remain inexpensive enough to use during normal development and production.
+
+---
+
+# 7. P1 — DETERMINE THE ACTUAL BOTTLENECK
+
+Reproduce the baseline under controlled conditions.
+
+Use the same database, comparable background workload and identical query mix for before/after measurements.
+
+Profile the execution path.
+
+Investigate the following hypotheses independently.
+
+## Hypothesis A — Event-loop blocking
+
+Check for:
+
+- Synchronous CPU-heavy ranking.
+- Large Python loops.
+- Synchronous database or filesystem operations.
+- JSON serialization.
+- Blocking calls inside async endpoints.
+- Playwright work competing with API traffic.
+
+Identify functions responsible for measurable event-loop lag.
+
+## Hypothesis B — PostgreSQL
+
+Inspect:
+
+- Pool checkout wait.
+- Connection hold duration.
+- Slow queries.
+- Missing indexes.
+- Expensive joins.
+- Large intermediate result sets.
+- Repeated hydration.
+- Unnecessary transactions.
+- Advisory lock contention.
+- N+1 queries.
+
+Use `EXPLAIN (ANALYZE, BUFFERS)` on representative read-only queries where safe.
+
+Do not add indexes without validating query plans.
+
+## Hypothesis C — Python-side materialization
+
+Determine whether search unnecessarily:
+
+- Loads the full product pool into Python.
+- Repeatedly normalizes the same attributes.
+- Rebuilds facets for every request.
+- Reconstructs unchanged product DTOs.
+- Performs expensive grouping/deduplication.
+- Serializes thousands of objects to return 100 cards.
+
+## Hypothesis D — Background worker contention
+
+Measure whether supplier crawling competes with interactive API requests for:
+
+- CPU.
+- PostgreSQL connections.
+- Event-loop scheduling.
+- Browser resources.
+- Memory.
+
+## Hypothesis E — LLM contention
+
+Check whether concurrent semantic requests are bounded and whether HTTP connections are reused.
+
+Do not assume Ollama is responsible for deterministic SIMPLE latency.
+
+For each hypothesis, record:
+
+- Evidence.
+- Measured contribution.
+- Root cause or rejection.
+- Proposed correction.
+- Expected impact.
+
+---
+
+# 8. P1 — OPTIMIZE SIMPLE SEARCH
+
+The application uses a persistent global Research Index.
+
+Normal SIMPLE searches must not require supplier browsing.
+
+Optimize the existing retrieval pipeline while preserving the complete matching product pool.
+
+Important distinction:
+
+- Full matching pool must remain logically available.
+- The initial HTTP response does not need to hydrate every matching product.
+- UI pagination must not truncate the underlying research result set.
+
+Investigate SQL-first retrieval, efficient membership representation, incremental pagination and reusable normalized attributes.
+
+Where appropriate:
+
+- Push filtering into PostgreSQL.
+- Avoid repeated full-pool hydration.
+- Reduce duplicate SQL queries.
+- Avoid rebuilding unchanged search documents.
+- Cache safe immutable catalog metadata.
+- Keep session-specific filters and selections isolated.
+- Use bounded pagination.
+- Optimize facets with database aggregation when beneficial.
+- Reuse expensive derived data only when cache invalidation is correct.
+
+Never replace full recall with arbitrary `LIMIT 100` or `LIMIT 180`.
+
+Do not change ranking semantics solely to improve latency.
+
+Verify that optimized results have the same IDs and applicable ordering as the baseline.
+
+---
+
+# 9. P1 — OPTIMIZE COMPOSITE REQUESTS
+
+COMPOSITE requests involve several product categories and potentially thousands of candidates.
+
+Investigate:
+
+- Parallel independent position retrieval.
+- SQL filtering.
+- Candidate hydration.
+- Availability evaluation.
+- Duplicate elimination.
+- Case allocation.
+- Rebuild operations.
+- Persistence of case revisions.
+
+Maintain existing business requirements:
+
+- Position-specific categories.
+- Position-specific colors.
+- Global quantity constraints.
+- Correct variant identity.
+- No accidental cross-case duplicates.
+- Correct number of requested cases.
+- Stable selection.
+- Correct persistence.
+- No stale SSE event overriding the active revision.
+
+Do not weaken procurement semantics as a performance shortcut.
+
+**Important:** Preserve the current business decision regarding stale observations. Do not silently reintroduce a strict one-hour freshness cutoff or modify eligibility rules while working on concurrency.
+
+Optimize execution without changing which products are eligible.
+
+---
+
+# 10. P1 — SQLALCHEMY CONNECTION MANAGEMENT
+
+The previous audit found an AsyncEngine using SQLAlchemy default pool configuration.
+
+Investigate actual pool behavior under load.
+
+Consider configurable parameters:
+
+- `pool_size`
+- `max_overflow`
+- `pool_timeout`
+- `pool_recycle`
+- `pool_pre_ping`
+
+Do not blindly increase every value.
+
+Measure:
+
+- Checkout wait.
+- Connection hold time.
+- Maximum concurrent checkout.
+- Overflow usage.
+- Pool timeout count.
+- PostgreSQL connection count.
+
+Separate long-running background transactions from short interactive transactions.
+
+Do not keep a database session or transaction open during:
+
+- Ollama inference.
+- Playwright navigation.
+- Long network waits.
+- SSE idle periods.
+- CPU-heavy product processing that does not need a transaction.
+
+Ensure sessions are closed correctly after exceptions and cancellations.
+
+Expose safe configuration through environment variables with sensible defaults.
+
+Document the reasoning for every changed parameter.
+
+---
+
+# 11. P1 — API AND BACKGROUND WORKER ISOLATION
+
+The current deployment has one Uvicorn worker with background scheduling in the same process.
+
+Investigate whether this is contributing to interactive latency.
+
+Do not immediately change Uvicorn to `workers=4`.
+
+The application contains process-local state:
+
+- In-memory locks.
+- Intent caches.
+- Active task dictionaries.
+- Background scheduler ownership.
+- Browser/Playwright resources.
+
+Launching multiple processes without coordinating these systems could duplicate jobs or produce inconsistent behavior.
+
+Evaluate two approaches.
+
+## Option A — Optimize the existing single-process architecture
+
+Use this if measurements show it can satisfy the target safely.
+
+## Option B — Separate API execution from background workers
+
+Use this if contention is demonstrated and separation is necessary.
+
+Possible architecture:
+
+`Next.js → FastAPI API process → PostgreSQL`
+
+`Independent background worker process → PostgreSQL → supplier crawlers`
+
+`Ollama → bounded inference execution`
+
+If implementing separation:
+
+- Keep durable jobs in PostgreSQL.
+- Ensure one logical scheduler owner.
+- Prevent duplicate leases.
+- Preserve checkpoints.
+- Support graceful shutdown.
+- Support restart recovery.
+- Avoid breaking local Windows development.
+- Document Ubuntu deployment.
+
+Choose the smallest safe architecture that meets the measured requirements.
+
+---
+
+# 12. P1 — LLM CONCURRENCY CONTROL
+
+The previous audit identified no application-level queue or semaphore around Ollama requests.
+
+Inspect the real LLM usage path.
+
+Implement bounded concurrency only if needed.
+
+Requirements:
+
+- Reuse HTTP clients where appropriate.
+- Bound simultaneous inference requests.
+- Measure queue wait.
+- Measure inference duration.
+- Enforce timeouts.
+- Handle cancellation.
+- Prevent one user from monopolizing inference capacity.
+- Keep deterministic SIMPLE requests independent of Ollama.
+- Avoid holding database transactions during inference.
+
+Do not introduce Qwen into queries already handled correctly by deterministic Query Understanding.
+
+---
+
+# 13. P1 — SSE RELIABILITY
+
+Audit both SIMPLE and COMPOSITE event streams.
+
+The previous audit found missing explicit heartbeat behavior and insufficient reconnect diagnostics.
+
+Implement or verify:
+
+- Periodic heartbeat.
+- Safe EventSource reconnection.
+- Ownership validation.
+- Research/revision identity checks.
+- Correct stream termination.
+- Stale-event rejection.
+- Client cleanup after workspace switch.
+- Browser tab closure cleanup.
+- No leaked subscriptions.
+- No old COMPOSITE event reactivating an archived workspace.
+
+Check behavior through the actual Next.js/Vercel proxy architecture.
+
+Do not assume that a locally successful SSE stream proves production proxy behavior.
+
+Where possible, verify a real deployed endpoint.
+
+If deployment access is unavailable, explicitly mark production proxy validation as NOT TESTED.
+
+---
+
+# 14. P0 — PRESERVE WORKSPACE CONSISTENCY
+
+The project has one active workspace.
+
+Supported transitions include:
+
+- SIMPLE → SIMPLE.
+- SIMPLE → REFINEMENT.
+- SIMPLE → COMPOSITE.
+- COMPOSITE → SIMPLE.
+- COMPOSITE → COMPOSITE.
+- COMPOSITE → position refinement.
+- Active revision → Undo.
+- Active revision → History restore.
+
+Concurrent requests must not produce two active workspaces.
+
+The authoritative state must remain server-side.
+
+Investigate optimistic revision/version checks and atomic activation.
+
+Test two simultaneous mutations of the same project.
+
+Define and enforce deterministic conflict behavior.
+
+A valid conflict response is acceptable when a client submitted a stale revision, provided the UI can recover correctly.
+
+An unexpected `500` or `503` is not acceptable.
+
+---
+
+# 15. P1 — HTTP IDEMPOTENCY
+
+Inspect creation and rebuild endpoints for duplicate requests.
+
+Consider:
+
+- Double-click.
+- Network retry.
+- Browser reconnection.
+- Client timeout followed by retry.
+- Concurrent identical submissions.
+
+Implement idempotency keys for mutating operations where appropriate.
+
+Scope keys to the authenticated user/project and operation.
+
+Persist enough information to safely identify a completed or in-progress operation.
+
+Do not return success for an operation that has not actually been committed.
+
+Ensure retries cannot create duplicate cases or activate conflicting revisions.
+
+---
+
+# 16. P1 — EXTEND THE LOAD TEST HARNESS
+
+Extend:
+
+`apps/api/tests/performance/concurrency_load.py`
+
+Keep it reusable.
+
+Do not replace it with a one-off script.
+
+Add scenario configuration, bounded concurrency, per-stage timing and structured JSON output.
+
+Use isolated test users and projects.
+
+Retain independent cookie jars.
+
+Add:
+
+- Warm-up.
+- Baseline.
+- Concurrency 1.
+- Concurrency 5.
+- Concurrency 10.
+- Mixed SIMPLE/COMPOSITE.
+- Follow-up refinements.
+- Rebuild.
+- History.
+- Pagination.
+- SSE.
+- F5/browser reload.
+- Same-project concurrent mutations.
+- SIMPLE ↔ COMPOSITE transition chains.
+- Authentication/ownership checks.
+- Controlled background refresh contention.
+
+Run concurrency 20 only if the 10-user gate passes and system resources remain within safe limits.
+
+Avoid an uncontrolled stress test against the populated development database.
+
+---
+
+# 17. P1 — VALIDATE SEARCH CORRECTNESS UNDER LOAD
+
+This is essential.
+
+A successful HTTP response does not prove that the search was correct.
+
+For every test user, compare the results of a query executed alone against the same query executed concurrently.
+
+Validate:
+
+- Effective intent.
+- Search mode.
+- Product category.
+- Color constraints.
+- Quantity constraints.
+- Product ID set.
+- Result count.
+- Pagination consistency.
+- Active research ID.
+- Query revision.
+- Selection.
+- Case positions.
+- Case uniqueness.
+- Ownership.
+
+Use representative queries:
+
+### SIMPLE
+
+- `повербанк`
+- `внешний аккумулятор`
+- `термокружка`
+- `ежедневник`
+- `карандаш`
+- `шопер`
+- `флешка`
+- `USB flash drive`
+
+### COMPOSITE
+
+- `Собери 5 наборов из термокружек, ежедневников и ручек. Цвет черный. Тираж 200 штук`
+- `Собери 5 наборов из синих зонтов, черных дождевиков, белых носков и красных футболок от 250 шт`
+- `Собери 3 набора из рюкзаков, ручек и карандашей`
+
+### Follow-up
+
+- `оставь синие`
+- `только металлические`
+- `цвет не важен`
+- `покажи только термокружки`
+- `добавь ручки`
+- `покажи все`
+
+For concurrent versus baseline comparisons, account for any legitimate catalog publication between snapshots.
+
+Use a consistent catalog snapshot or stable revision boundary where possible.
+
+Do not report false result mismatches caused only by catalog changes.
+
+---
+
+# 18. P1 — REAL BROWSER ACCEPTANCE
+
+Use Playwright against the actual frontend.
+
+Test multiple authenticated browser contexts.
+
+Verify:
+
+1. Each user sees only their projects.
+2. Each user can create SIMPLE research.
+3. Each user can create COMPOSITE research.
+4. Search results render correctly.
+5. The visible product grid matches the active effective intent.
+6. Only one workspace is active.
+7. Switching COMPOSITE → SIMPLE replaces Case View with the SIMPLE grid.
+8. Switching SIMPLE → COMPOSITE replaces the grid with Case View.
+9. F5 restores the active workspace.
+10. History and Undo work.
+11. Concurrent SSE updates do not change another user's workspace.
+12. No duplicate cases appear after rebuild.
+13. No browser console errors.
+14. No failed essential network requests.
+15. Authentication remains valid across normal page reloads.
+
+Do not classify API-only testing as completed browser acceptance.
+
+---
+
+# 19. P1 — PERFORMANCE ACCEPTANCE TARGETS
+
+Use the following targets for the local test environment, provided they are realistic for the available hardware.
+
+| Operation | Target |
+|---|---|
+| SIMPLE c1 p95 | ≤ 3 s |
+| SIMPLE c5 p95 | ≤ 3 s |
+| SIMPLE c10 p95 | ≤ 3 s |
+| Non-LLM refinement c10 p95 | ≤ 3 s |
+| COMPOSITE c5 p95 | ≤ 5 s |
+| Pagination p95 | ≤ 1 s |
+| Unexpected HTTP 5xx | 0 |
+| Cross-user data leaks | 0 |
+| Incorrect active workspace | 0 |
+| Incorrect product set | 0 |
+
+Measure actual request completion latency, not only the time required to enqueue work.
+
+For asynchronous COMPOSITE operations, report separately:
+
+- HTTP acceptance latency.
+- Time to first visible result.
+- Time to final completed Case View.
+
+Do not label a `202 Accepted` response as a completed search.
+
+Percentiles based on only one or five requests are not statistically reliable.
+
+For the final acceptance run, use enough repeated samples per concurrency level to produce meaningful latency distributions, subject to a documented safe execution budget.
+
+If a target is not met, report FAIL with measurements.
+
+Do not fabricate a PASS or quietly change the target.
+
+---
+
+# 20. P1 — RESOURCE SAFETY
+
+During testing, monitor:
+
+- CPU utilization.
+- RAM usage.
+- PostgreSQL connections.
+- Browser process count.
+- Background queue length.
+- Event-loop lag.
+- API error rate.
+- Database errors.
+- Timeouts.
+- Ollama queue length.
+
+Define safe stop conditions before testing.
+
+Stop or reduce load if:
+
+- PostgreSQL connection exhaustion occurs.
+- Memory pressure becomes unsafe.
+- Error rate rises unexpectedly.
+- Background jobs stop making progress.
+- The API becomes unresponsive.
+- Real user data or catalog integrity appears at risk.
+
+Do not execute destructive benchmark SQL.
+
+Do not reset the global index.
+
+Do not restart or cancel active crawler jobs unnecessarily.
+
+---
+
+# 21. STRICT DATA PRESERVATION
+
+This task operates against an existing populated PostgreSQL database.
+
+Protect:
+
+- Real users.
+- Real projects.
+- Chats.
+- Research history.
+- Active query revisions.
+- Selections.
+- SupplierOffer.
+- IndexedProduct.
+- ProductObservation.
+- AvailabilityObservation.
+- Catalog jobs.
+- Scheduler leases.
+- Supplier checkpoints.
+- Supplier sync state.
+
+Any migration must be additive, backward-compatible and reversible where practical.
+
+Do not truncate or recreate the database.
+
+Do not delete real data.
+
+Test users/projects must have unique identifiable prefixes.
+
+Cleanup must target only resources created by the test run.
+
+Do not delete resources based on broad or ambiguous name patterns.
+
+If cleanup cannot prove ownership of a resource, leave it untouched and report it.
+
+---
+
+# 22. BEFORE/AFTER COMPARISON
+
+Produce a real comparison.
+
+Required table:
+
+| Metric | Before | After | Change | PASS/FAIL |
+|---|---:|---:|---:|---|
+| SIMPLE c1 p95 | 2.95 s | measured | calculated | |
+| SIMPLE c5 p95 | 5.72 s | measured | calculated | |
+| SIMPLE c10 p95 | 10.11 s | measured | calculated | |
+| COMPOSITE c5 p95 | 6.00 s | measured | calculated | |
+| Pagination p95 | 1.37 s | measured | calculated | |
+| Unexpected 5xx | 1 | measured | calculated | |
+| Cross-user leaks | 0 | measured | calculated | |
+| Workspace transition failures | 1 | measured | calculated | |
+
+Also include a fresh baseline immediately before code changes, because the historical numbers may not be directly comparable if the machine or catalog workload has changed.
+
+Record:
+
+- Hardware.
+- CPU/RAM.
+- OS.
+- Python version.
+- PostgreSQL version.
+- Catalog size.
+- Background job activity.
+- API worker count.
+- Pool configuration.
+- Test sample counts.
+- Query mix.
+
+---
+
+# 23. REQUIRED TESTS
+
+Run:
+
+- Existing backend unit tests.
+- Existing Query Understanding regressions.
+- Existing SIMPLE/COMPOSITE tests.
+- Workspace routing and revision tests.
+- Authentication isolation tests.
+- SQLAlchemy transaction tests.
+- New concurrency regressions.
+- New SSE tests.
+- Extended HTTP load harness.
+- Playwright browser acceptance.
+- Ruff.
+- ESLint.
+- TypeScript.
+- Next.js production build.
+
+Add regression tests for every confirmed root cause.
+
+Do not introduce a special-case workaround only for the exact failed query.
+
+---
+
+# 24. DELIVERABLES
+
+Implement the necessary changes in the existing repository.
+
+Update:
+
+- `apps/api/tests/performance/concurrency_load.py`
+- `docs/concurrency-load-report.md`
+- `docs/final-report.md`
+
+Create additional focused tests or instrumentation modules as needed.
+
+Provide a final report containing:
+
+### A. Root causes
+
+For each confirmed bottleneck, explain:
+
+- What was wrong.
+- How it was measured.
+- Why it affected concurrency.
+- What was changed.
+
+### B. HTTP 503
+
+Provide:
+
+- Exact failure mechanism.
+- Exception class and SQLSTATE if available.
+- Reproduction method.
+- Implemented correction.
+- Regression result.
+
+### C. Performance
+
+Provide before/after p50, p95, p99, throughput and error rate.
+
+### D. Correctness
+
+Confirm:
+
+- Cross-user isolation.
+- Product result parity.
+- SIMPLE/COMPOSITE consistency.
+- Active workspace consistency.
+- Case View correctness.
+- F5/History/Undo.
+- SSE race protection.
+
+### E. Data preservation
+
+State whether:
+
+- Existing database was preserved.
+- Catalog remained intact.
+- Background jobs continued.
+- Checkpoints remained intact.
+- Test resources were cleaned safely.
+
+### F. Remaining limitations
+
+Explicitly classify each requirement as:
+
+- PASS
+- PARTIAL
+- FAIL
+- NOT TESTED
+
+Do not claim production readiness if important acceptance tests remain incomplete.
+
+---
+
+# 25. DEFINITION OF DONE
+
+The task is complete only when:
+
+1. The confirmed COMPOSITE → SIMPLE `503` has a demonstrated root cause and verified fix.
+2. Unexpected database failures produce persistent, correlatable diagnostics.
+3. The main latency bottleneck is established through measurements.
+4. Targeted optimizations are implemented.
+5. Ten simultaneous users complete the representative workload.
+6. SIMPLE p95 at concurrency 10 meets the target or is explicitly reported as failing.
+7. SIMPLE and COMPOSITE return correct results under load.
+8. User data and project state remain isolated.
+9. Active workspace transitions remain atomic.
+10. SSE cannot reactivate outdated revisions.
+11. Browser acceptance passes.
+12. Existing PostgreSQL data, catalog and crawler checkpoints are preserved.
+13. The load harness is reusable.
+14. The final report includes reproducible before/after evidence.
+
+**Execution instruction:** Start by inspecting the current repository and reproducing the existing failure. Instrument before optimizing. Fix the demonstrated root causes, then rerun the same workloads. Do not stop after writing an audit report, and do not introduce unrelated redesigns, new product features or another development stage.

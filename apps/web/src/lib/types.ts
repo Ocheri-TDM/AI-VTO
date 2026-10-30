@@ -31,6 +31,7 @@ export interface ProductAvailability {
 }
 
 export interface Product {
+  purpose_match?: {accepted:boolean;category_match:string;reason:string;identity?:{role:string;subject:string;primary:string[];version:string}};
   id: string;
   name: string;
   category: string | null;
@@ -54,6 +55,7 @@ export interface Product {
 }
 
 export interface ProductDetails extends Product {
+  sku?: string | null;
   supplier: string;
   source_url: string;
   offers?: { supplier: string; product_url: string }[];
@@ -65,7 +67,7 @@ export interface ProductDetails extends Product {
 }
 
 export interface SupplierProgress {
-  supplier: "oasis" | "gifts" | "ucontay";
+  supplier: "vto";
   status: "pending" | "running" | "completed" | "failed";
   error_code?: string | null;
   message?: string | null;

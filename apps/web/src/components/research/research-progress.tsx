@@ -10,7 +10,7 @@ export function ResearchProgress({research}:{research:Research}) {
     const branches=research.coverage.filter(b=>b.supplier===s);
     const complete=branches.every(b=>b.status==='COMPLETE');
     const issue=branches.some(b=>['FAILED','CAPTCHA','TIMEOUT'].includes(b.status));
-    return <div key={s}><strong>{s==='artegifts'?'ArteGifts':s==='happygifts'?'HappyGifts':s}</strong><span>
+    return <div key={s}><strong>VTO</strong><span>
       {complete?'Завершено':issue?'Часть данных недоступна':'Исследование не завершено'} · {branches.reduce((n,b)=>n+b.products_seen,0)} просмотрено
     </span></div>;
   })}</div>;

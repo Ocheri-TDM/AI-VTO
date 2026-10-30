@@ -2,14 +2,7 @@
 
 from urllib.parse import urlsplit, urlunsplit
 
-SUPPLIER_HOSTS = {
-    "oasis": {"oasiscatalog.com"},
-    "gifts": {"gifts.ru"},
-    "ucontay": {"ucontay.kz"},
-    "portobello": {"portobello.ru"},
-    "happygifts": {"happygifts.ru"},
-    "artegifts": {"artegifts.by"},
-}
+SUPPLIER_HOSTS = {"vto": {"vto.kz"}}
 
 
 def validated_product_url(supplier: str, value: str | None) -> str | None:

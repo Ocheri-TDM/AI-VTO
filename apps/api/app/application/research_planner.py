@@ -2,11 +2,12 @@
 import re
 
 from app.ai.basic import BasicIntentParser
-from app.domain.models import ColorGroup
+from app.domain.hard_request import deterministic_hard_request
+from app.domain.models import Budget, ColorGroup
 from app.domain.research import ResearchBudget, ResearchCoverage, ResearchIntent
 from app.domain.taxonomy import SEEDS, UniversalCategoryResolver
 
-SUPPLIERS = ('oasis', 'ucontay', 'gifts', 'portobello', 'happygifts', 'artegifts')
+SUPPLIERS = ('vto',)
 QUERIES = {
     'bottle': ['бутылка', 'бутылка для воды', 'спортивная бутылка', 'термобутылка'],
     'thermomug': ['термокружка', 'термостакан'],
@@ -15,7 +16,8 @@ QUERIES = {
     'charger': ['зарядное устройство'], 'cable': ['кабель'],
     'lanyard': ['ланъярд', 'шнурок для бейджа'],
     'accessory': ['технологичные аксессуары', 'держатель телефона'],
-    'umbrella': ['зонт'], 'bag': ['сумка'], 'lunchbox': ['ланчбокс'],
+    'umbrella': ['зонт'], 'bag': ['сумка'],
+    'shopperbag': ['шоппер', 'шопер', 'shopper bag'], 'lunchbox': ['ланчбокс'],
 }
 BLUE_FAMILY = [ColorGroup.BLUE, ColorGroup.NAVY, ColorGroup.DARK_BLUE,
                ColorGroup.LIGHT_BLUE, ColorGroup.ROYAL_BLUE, ColorGroup.BLUE_GREY]
@@ -40,18 +42,47 @@ class CategoryDiscoveryService:
 class ResearchPlanner:
     async def parse(self, query: str) -> ResearchIntent:
         base = await BasicIntentParser().parse_intent(query)
+        roles = deterministic_hard_request(query)
+        if roles.quantity.minimum is not None:
+            base.quantity = roles.quantity.minimum
+        if roles.price_max is not None:
+            base.budget = Budget(max=int(roles.price_max))
+        base.excluded_categories = list(roles.exclusions)
+        base.excluded_colors = [ColorGroup(value) for value in roles.excluded_colors]
+        base.excluded_materials = list(roles.excluded_materials)
+        base.purpose, base.audience = roles.purpose, roles.audience
+        if roles.sort_preferences:
+            base.sorting = "darker"
         people = re.search(r'(\d+)\s*(?:человек|людей)', query.casefold())
         if people:
             base.quantity = int(people.group(1))
         resolver = UniversalCategoryResolver()
-        explicit = resolver.resolve(query)
+        canonical_roles = bool(roles.categories) and all(
+            re.fullmatch(r"[a-z][a-z0-9_]*", label) for label in roles.categories
+        )
+        if canonical_roles:
+            explicit = [
+                category for category in roles.categories
+                if category not in set(base.excluded_categories)
+            ]
+        else:
+            labels = [] if roles.purpose or roles.audience else [query]
+            explicit = list(dict.fromkeys(
+                category
+                for label in labels
+                for category in resolver.resolve(label)
+                if category not in set(base.excluded_categories)
+            ))
         # Broad event discovery should not be limited by Stage 2's default categories.
         broad = bool(re.search(r'мерч|подарк|конференц|сувенир|что-нибудь|что-то|руководител|сотрудник', query.casefold()))
         discovery = CategoryDiscoveryService().discover(query) if not explicit and broad else {}
-        categories = explicit or [c for group in discovery.values() for c in group] or [resolver.dynamic_id(query)]
+        categories = explicit or [
+            c for group in discovery.values() for c in group
+            if c not in set(base.excluded_categories)
+        ] or [resolver.dynamic_id(query)]
         strict = bool(re.search(r'строго|только\s+(?:темно|тёмно|син|голуб)', query.casefold()))
         primary = list(base.colors)
-        soft_terms = []
+        soft_terms = list(roles.semantic_preferences)
         soft = bool(re.search(r'желательно|предпочтительно|лучше', query.casefold()))
         for pattern,material in [(r'дерев','дерев'),(r'алюмин','алюмин'),(r'сталь|стальн','сталь'),
                                  (r'бамбук','бамбук'),(r'пластик','пластик'),(r'металл','металл')]:

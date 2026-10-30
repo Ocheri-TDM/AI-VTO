@@ -64,7 +64,12 @@ def test_procurement_evaluation_explains_pass_and_reject():
     assert passed.reason_code == "CURRENT_FREE_SUFFICIENT"
     assert passed.available_quantity == 625
     stale = service.evaluate([record("ON_HAND", free=625)], 250, stale=True)
-    assert stale.result == "REJECT" and stale.reason_code == "STALE_OBSERVATION"
+    assert stale.result == "PASS" and stale.reason_code == "LAST_KNOWN_FREE_SUFFICIENT"
+    assert stale.tier == "LAST_KNOWN"
+    fresh_only = service.evaluate_on_hand(
+        [record("ON_HAND", free=625)], 250, stale=True, fresh_only=True
+    )
+    assert fresh_only.result == "REJECT" and fresh_only.reason_code == "STALE_OBSERVATION"
     reserved = AvailabilityRecord(state="ON_HAND", free_quantity=0, reserved_quantity=500,
                                   parser_version="fixture-v1", source_label="fixture")
     rejected = service.evaluate([reserved], 250)

@@ -136,6 +136,9 @@ class SearchIntent(BaseModel):
     branding: str | None = None
     style: str | None = None
     material: str | None = None
+    excluded_materials: list[str] = Field(default_factory=list, max_length=20)
+    purpose: str | None = None
+    audience: str | None = None
     client: str | None = None
     event: str | None = None
     premium_level: str | None = None

@@ -4,7 +4,19 @@ import pytest
 from sqlalchemy import select
 
 from app.application.hard_requests import HardRequestService
-from app.database.models import Chat, HardRequestRecord, Project, ProjectQuery, User
+from app.database.models import (
+    Chat,
+    HardRequestCandidate,
+    HardRequestCase,
+    HardRequestPosition,
+    HardRequestRecord,
+    IndexedProduct,
+    ProductObservation,
+    Project,
+    ProjectQuery,
+    SupplierOffer,
+    User,
+)
 from app.domain.hard_request import HardRequestIntent, deterministic_hard_request
 from app.domain.models import AvailabilityRecord, ColorGroup, Product, ProductColor, utcnow
 from app.domain.taxonomy import UniversalCategoryResolver
@@ -32,6 +44,40 @@ def test_exact_composite_without_quantity_keeps_target_separate_from_procurement
     assert intent.required_quantity is None
     assert intent.quantity.required is False
     assert all(intent.effective(category).required_quantity is None for category in intent.categories)
+
+
+def test_two_category_composite_can_end_at_end_of_string():
+    intent = deterministic_hard_request("собери 10 наборов из зонтов и ручек")
+    assert intent.target_sets == 10
+    assert intent.categories == ["зонтов", "ручек"]
+
+
+def test_sentence_style_composite_binds_trailing_global_constraints():
+    intent = deterministic_hard_request(
+        "Термокружка, ежедневник, ручка. Цвет черный. Тираж 200 штук. 5 наборов"
+    )
+
+    assert intent.categories == ["Термокружка", "ежедневник", "ручка"]
+    assert intent.target_sets == 5
+    assert intent.required_quantity == 200
+    assert intent.color.mode == "REQUIRED"
+    assert intent.color.values == ["BLACK"]
+    assert all(position.constraints.color is None for position in intent.positions)
+    assert all(intent.effective(category).color.values == ["BLACK"] for category in intent.categories)
+
+
+def test_sentence_style_global_color_keeps_local_position_override():
+    intent = deterministic_hard_request(
+        "Термокружка, ежедневник синий, ручка. Цвет черный. Тираж 200 штук. 5 наборов"
+    )
+
+    assert intent.categories == ["Термокружка", "ежедневник", "ручка"]
+    assert intent.target_sets == 5
+    assert intent.required_quantity == 200
+    assert intent.color.values == ["BLACK"]
+    assert intent.effective("ежедневник").color.values == ["BLUE"]
+    assert intent.effective("Термокружка").color.values == ["BLACK"]
+    assert intent.effective("ручка").color.values == ["BLACK"]
 
 
 async def test_initial_assembly_failure_is_terminal_and_preserves_active_workspace(repository):
@@ -242,7 +288,91 @@ def test_hard_request_availability_tiers_do_not_use_total_or_reserve():
     assert service.tier(product([record("ON_HAND", 100), record("INCOMING", 150)]), 250) == "B"
     assert service.tier(product([record("PREORDER", 250)]), 250) == "C"
     assert service.tier(product([record("PREORDER")]), 250) == "D"
-    assert service.tier(product([record("ON_HAND", 250)], stale=True), 250) == "D"
+    assert service.tier(product([record("ON_HAND", 250)], stale=True), 250) == "B"
+
+
+def test_composite_procurement_uses_last_known_current_free_quantity():
+    service = HardRequestService(None, None, None)
+    cases = [
+        (product([record("ON_HAND", 4243)]), "PASS", "CURRENT_FREE_SUFFICIENT"),
+        (product([record("ON_HAND", 4243)], stale=True), "PASS", "LAST_KNOWN_FREE_SUFFICIENT"),
+        (product([record("ON_HAND", 199)]), "REJECT", "FREE_QUANTITY_INSUFFICIENT"),
+        (product([record("ON_HAND", 0)]), "REJECT", "FREE_QUANTITY_INSUFFICIENT"),
+        (product([record("ON_HAND", None)], stale=True), "REJECT", "UNKNOWN_QUANTITY"),
+        (product([record("INCOMING", 4243)]), "REJECT", "INCOMING_ONLY"),
+    ]
+    for candidate, result, reason in cases:
+        evaluation = service.strict_procurement_evaluation(candidate, 200)
+        assert (evaluation.result, evaluation.reason_code) == (result, reason)
+    assert service.strict_procurement_evaluation(product([]), None).result == "PASS"
+
+
+def test_explicit_fresh_only_rejects_stale_current_stock():
+    service = HardRequestService(None, None, None)
+    stale = product([record("ON_HAND", 4243)], stale=True)
+    evaluation = service.strict_procurement_evaluation(stale, 200, fresh_only=True)
+    assert (evaluation.result, evaluation.reason_code) == ("REJECT", "STALE_OBSERVATION")
+
+
+def test_fresh_only_phrases_are_distinct_from_ordinary_quantity():
+    ordinary = deterministic_hard_request("ежедневник от 200 штук")
+    explicit = deterministic_hard_request("ежедневник от 200 штук, только актуальное наличие")
+    assert ordinary.availability_policy == "LAST_KNOWN_STOCK_ALLOWED"
+    assert explicit.availability_policy == "FRESH_ONLY"
+
+
+async def test_composite_case_dto_uses_observation_price_and_offer_image(repository):
+    now = utcnow()
+    async with repository.sessions.begin() as db:
+        db.add(User(id="dto-user", display_name="DTO", normalized_name="dto", password_hash="x"))
+        await db.flush()
+        db.add(Project(id="dto-project", user_id="dto-user", name="DTO"))
+        await db.flush()
+        db.add(Chat(id="dto-chat", project_id="dto-project", user_id="dto-user"))
+        db.add(IndexedProduct(id="dto-product", name="Gift", category="notebook", search_document="gift"))
+        await db.flush()
+        db.add(SupplierOffer(
+            id="gifts:133183", product_id="dto-product", supplier="gifts",
+            source_url="https://gifts.ru/id/133183",
+            payload={"name": "Gift — blue", "images": ["https://files.gifts.ru/image.webp"]},
+        ))
+        await db.flush()
+        db.add(ProductObservation(
+            offer_id="gifts:133183", price_kzt=3380, observed_at=now,
+            expires_at=now, status="STALE", payload={},
+        ))
+        db.add(ProjectQuery(
+            id="dto-query", project_id="dto-project", type="HARD", query_text="gift",
+            status="COMPLETED", created_at=now, updated_at=now,
+        ))
+        await db.flush()
+        db.add(HardRequestRecord(
+            id="dto-request", project_id="dto-project", query_id="dto-query",
+            original_text="gift", parsed_plan={}, status="COMPLETED", target_cases=1,
+            completed_cases=1, created_at=now, updated_at=now,
+        ))
+        await db.flush()
+        db.add(HardRequestCase(
+            id="dto-case", hard_request_id="dto-request", case_number=1, status="COMPLETE",
+        ))
+        await db.flush()
+        db.add(HardRequestPosition(
+            id="dto-position", case_id="dto-case", position_number=1,
+            category_key="notebook", category_label="notebook",
+        ))
+        await db.flush()
+        db.add(HardRequestCandidate(
+            id="dto-candidate", position_id="dto-position", indexed_product_id="dto-product",
+            supplier_offer_id="gifts:133183", rank=1, availability_tier="B", selected=True,
+        ))
+
+    result = await HardRequestService(repository.sessions, None, None).cases(
+        "dto-request", "dto-user", 0, 10
+    )
+    candidate = result["cases"][0]["positions"][0]["candidates"][0]
+    assert candidate["image"] == "https://files.gifts.ru/image.webp"
+    assert candidate["price"] == 3380
+    assert candidate["name"] == "Gift — blue"
 
 
 def test_no_quantity_keeps_catalog_eligible_without_inventing_current_stock():
@@ -271,7 +401,7 @@ def test_explicit_blue_and_quantity_are_filtered_before_assembly():
         total_quantity=1000, reserved_quantity=500, observed_at=utcnow(), parser_version="test",
         source_label="fixture")])
     assert service.color_eligible(blue, plan) and service.quantity_eligible(blue, plan)
-    assert service.color_eligible(navy, plan) and service.quantity_eligible(navy, plan)
+    assert not service.color_eligible(navy, plan)
     assert not service.color_eligible(black, plan)
     assert not service.color_eligible(unknown, plan)
     assert not service.quantity_eligible(no_stock, plan)
@@ -300,7 +430,7 @@ def test_position_colors_override_global_constraints():
         "носков белого, футболок красного от 250 шт"
     )
     expected = {
-        "зонтов": {"BLUE", "NAVY", "DARK_BLUE", "LIGHT_BLUE", "ROYAL_BLUE", "BLUE_GREY"},
+        "зонтов": {"BLUE"},
         "дождевиков": {"BLACK"}, "носков": {"WHITE"}, "футболок": {"RED"},
     }
     assert intent.quantity.minimum == 250
@@ -383,7 +513,7 @@ async def test_complete_typo_composite_uses_deterministic_fast_path(repository):
     assert result.quantity.minimum == 250
     assert len(result.positions) == 4
     assert [position.constraints.color.values[-1] for position in result.positions] == [
-        "ROYAL_BLUE",
+        "BLUE",
         "BLACK",
         "WHITE",
         "RED",

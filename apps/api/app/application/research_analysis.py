@@ -53,6 +53,9 @@ class ProductGroupingService:
     def groups(self, products):
         groups = defaultdict(list)
         for p in products:
+            if p.supplier == "vto" and p.metadata.get("vto_product_id"):
+                groups[f"vto:parent:{p.metadata['vto_product_id']}"].append(p.id)
+                continue
             # Strong model clues only. Retain every offer, even when a duplicate is suspected.
             generic = {'bottle', 'water', 'blue', 'black', 'white', 'steel', 'metal', 'plastic', 'glass', 'sport', 'vacuum', 'thermo', 'navy', 'dark', 'light'}
             model = [word for word in re.findall(r'\b[a-z][a-z0-9]{3,}\b', p.name.casefold()) if word not in generic]

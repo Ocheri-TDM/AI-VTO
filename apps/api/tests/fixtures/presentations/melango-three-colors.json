@@ -1,0 +1,54 @@
+{
+  "purpose": "Public VTO visual control, 2026-10-30. No user credentials or private client assets. Prices are observations, not permanent expectations.",
+  "pdf_sha256": "c623eb041c084b19693ac8c65b5d359ad0207ccf451778ef083bef36b173fb17",
+  "items": [
+    {
+      "offer_id": "vto:1823109",
+      "display_name": "Рюкзак-мешок Melango",
+      "source_name": "Рюкзак-мешок Melango — синий",
+      "brand": "Molti",
+      "category_label": "Рюкзак",
+      "colors": [
+        {
+          "original_color": "синий",
+          "normalized_color": "BLUE"
+        }
+      ],
+      "normalized_color": null,
+      "unit_price_kzt": "2084.00",
+      "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+    },
+    {
+      "offer_id": "vto:1823108",
+      "display_name": "Рюкзак-мешок Melango",
+      "source_name": "Рюкзак-мешок Melango — серый",
+      "brand": "Molti",
+      "category_label": "Рюкзак",
+      "colors": [
+        {
+          "original_color": "серый",
+          "normalized_color": "GREY"
+        }
+      ],
+      "normalized_color": null,
+      "unit_price_kzt": "2084.00",
+      "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+    },
+    {
+      "offer_id": "vto:1823107",
+      "display_name": "Рюкзак-мешок Melango",
+      "source_name": "Рюкзак-мешок Melango — черный",
+      "brand": "Molti",
+      "category_label": "Рюкзак",
+      "colors": [
+        {
+          "original_color": "черный",
+          "normalized_color": "BLACK"
+        }
+      ],
+      "normalized_color": null,
+      "unit_price_kzt": "2084.00",
+      "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+    }
+  ]
+}

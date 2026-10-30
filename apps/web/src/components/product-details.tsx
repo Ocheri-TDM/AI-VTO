@@ -161,7 +161,7 @@ export function ProductDetails({
                 <p key={`${entry.state}:${entry.locationCode ?? index}`} className="muted">
                   {entry.locationLabel ?? entry.state}: {entry.free === null
                     ? "количество не указано"
-                    : `${entry.free.toLocaleString("ru-RU")} свободно`}
+                    : `${entry.free.toLocaleString("ru-RU")} шт. по данным VTO`}
                   {entry.reserved === null ? "" : `, ${entry.reserved.toLocaleString("ru-RU")} в резерве`}
                   {entry.expectedAt === null ? "" : `, ожидается ${new Date(entry.expectedAt).toLocaleDateString("ru-RU")}`}
                 </p>
@@ -199,14 +199,11 @@ export function ProductDetails({
             {details && (
               <>
                 <dl>
+                  {details.sku && <div><dt>Артикул</dt><dd>{details.sku}</dd></div>}
                   <div>
                     <dt>Поставщик</dt>
                     <dd>
-                      {details.supplier === "oasis"
-                        ? "Oasis"
-                        : details.supplier === "ucontay"
-                          ? "Ucontay"
-                          : details.supplier}
+                      VTO
                     </dd>
                   </div>
                   <div>
