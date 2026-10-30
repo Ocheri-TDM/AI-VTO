@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Check, ExternalLink, ImageOff, MoveUpRight } from "lucide-react";
+import { Check, ImageOff } from "lucide-react";
 import {
   categoryLabel,
   colorLabel,
@@ -11,6 +11,7 @@ import {
   safeWebUrl,
 } from "@/lib/format";
 import type { Product } from "@/lib/types";
+import { primaryProductLabel } from '@/lib/product-match';
 
 export function ProductCard({
   product,
@@ -28,7 +29,6 @@ export function ProductCard({
   const [imageFailed, setImageFailed] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const image = safeWebUrl(product.primary_image);
-  const source = safeWebUrl(product.source_url);
   const color = product.colors[0];
   return (
     <article className={`product-card ${selected ? "selected" : ""}`}>
@@ -57,15 +57,12 @@ export function ProductCard({
               <span>Нет изображения</span>
             </div>
           )}
-          <span className="details-arrow">
-            <MoveUpRight size={16} />
-          </span>
         </button>
         <label className="product-checkbox">
           <input
             type="checkbox"
             checked={selected}
-            disabled={disabled || product.price_kzt === null}
+            disabled={disabled}
             onChange={onSelect}
             aria-label={`Выбрать ${product.name}`}
           />
@@ -74,7 +71,7 @@ export function ProductCard({
       </div>
       <div className="product-info">
         <span className="product-category">
-          {categoryLabel(product.category)}
+          {primaryProductLabel(product,categoryLabel(product.category))}
         </span>
         <button className="product-name" onClick={onDetails}>
           {product.name}
@@ -96,7 +93,9 @@ export function ProductCard({
             {product.availability.current.length > 0
               ? product.availability.availableNow === null
                 ? "В наличии"
-                : `${product.availability.availableNow.toLocaleString("ru-RU")} свободно`
+                : product.freshness === "STALE"
+                  ? `Последний известный остаток: ${product.availability.availableNow.toLocaleString("ru-RU")} шт. · данные от ${new Date(product.availability.current[0].observedAt).toLocaleDateString("ru-RU")} · требуется уточнение`
+                  : `${product.availability.availableNow.toLocaleString("ru-RU")} шт. по данным VTO`
               : ""}
             {product.availability.current.length > 0 && product.availability.incoming.length > 0 ? " · " : ""}
             {product.availability.incoming.length > 0
@@ -106,12 +105,6 @@ export function ProductCard({
               : ""}
           </small>
         ) : null}
-        {source && (
-          <a className="product-source-link" href={source} target="_blank" rel="noopener noreferrer"
-            aria-label={`Открыть ${product.name} у поставщика`} title="Открыть у поставщика">
-            Открыть у поставщика <ExternalLink size={13} />
-          </a>
-        )}
       </div>
     </article>
   );

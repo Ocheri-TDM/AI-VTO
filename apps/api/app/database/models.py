@@ -19,6 +19,35 @@ class Base(DeclarativeBase):
     pass
 
 
+class PresentationDocument(Base):
+    __tablename__ = "presentation_documents"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    project_id: Mapped[str] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), index=True)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    version: Mapped[int] = mapped_column(Integer, default=1)
+    draft: Mapped[dict] = mapped_column(JsonType, default=dict)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class PresentationRevision(Base):
+    # Also the durable job; never takes a catalog supplier lease.
+    __tablename__ = "presentation_revisions"
+    __table_args__ = (Index("ix_presentation_queue", "status", "created_at"),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    document_id: Mapped[str] = mapped_column(ForeignKey("presentation_documents.id", ondelete="CASCADE"), index=True)
+    source_version: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(32), default="QUEUED")
+    input: Mapped[dict] = mapped_column(JsonType)
+    result: Mapped[dict] = mapped_column(JsonType, default=dict)
+    error: Mapped[str | None] = mapped_column(String(300))
+    claim: Mapped[str | None] = mapped_column(String(36))
+    lease_until: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
 class IndexedProduct(Base):
     __tablename__ = 'indexed_products'
     id: Mapped[str] = mapped_column(String(64), primary_key=True)

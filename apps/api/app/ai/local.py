@@ -1,6 +1,8 @@
 """Model-independent JSON-schema completion. HTTP transport never executes tools."""
 
+import asyncio
 import json
+import time
 from pathlib import Path
 from typing import Protocol
 
@@ -50,12 +52,43 @@ class LocalLLMProvider(Protocol):
 
 
 class StructuredLocalProvider:
-    def __init__(self, base_url: str, model: str, timeout: float = 60, retries: int = 1):
+    def __init__(
+        self, base_url: str, model: str, timeout: float = 60, retries: int = 1,
+        concurrency: int = 1, queue_limit: int = 8, queue_timeout: float = 5,
+    ):
         self.base_url, self.model, self.timeout, self.retries = base_url.rstrip("/"), model, timeout, retries
+        self._slots = asyncio.Semaphore(concurrency)
+        self._queue_limit = queue_limit
+        self._queue_timeout = queue_timeout
+        self._waiting = 0
 
     async def complete(self, messages: list[dict], schema: type[BaseModel]):
         if not self.model:
             raise ModelUnavailable("LLM_MODEL_NOT_CONFIGURED")
+        if self._waiting >= self._queue_limit and self._slots.locked():
+            log_event("llm_queue_rejected", waiting=self._waiting, queue_limit=self._queue_limit)
+            raise ModelUnavailable("LLM_QUEUE_FULL")
+        queued_at = time.perf_counter()
+        self._waiting += 1
+        try:
+            await asyncio.wait_for(self._slots.acquire(), timeout=self._queue_timeout)
+        except TimeoutError as exc:
+            log_event(
+                "llm_queue_timeout", waiting=self._waiting,
+                queue_wait_ms=round((time.perf_counter() - queued_at) * 1000, 2),
+            )
+            raise ModelUnavailable("LLM_QUEUE_TIMEOUT") from exc
+        finally:
+            self._waiting -= 1
+        queue_wait_ms = round((time.perf_counter() - queued_at) * 1000, 2)
+        try:
+            return await self._complete_in_slot(messages, schema, queue_wait_ms)
+        finally:
+            self._slots.release()
+
+    async def _complete_in_slot(
+        self, messages: list[dict], schema: type[BaseModel], queue_wait_ms: float,
+    ):
         messages = list(messages)
         transport_schema = decoding_schema(schema.model_json_schema())
         messages.insert(
@@ -68,9 +101,16 @@ class StructuredLocalProvider:
         )
         for attempt in range(self.retries + 1):
             try:
+                inference_started = time.perf_counter()
                 async with httpx.AsyncClient(timeout=self.timeout, trust_env=False) as client:
                     raw = await self.request(client, messages, transport_schema)
-                return schema.model_validate_json(raw)
+                result = schema.model_validate_json(raw)
+                log_event(
+                    "llm_structured_complete", attempt=attempt + 1,
+                    queue_wait_ms=queue_wait_ms,
+                    inference_ms=round((time.perf_counter() - inference_started) * 1000, 2),
+                )
+                return result
             except (httpx.HTTPError, ValidationError, KeyError, TypeError, ValueError) as exc:
                 log_event("llm_structured_error", attempt=attempt + 1, error_type=type(exc).__name__)
                 repair = (

@@ -39,6 +39,10 @@ _REMOVE = re.compile(r"\b(?:уб[еёи]р\w*|исключи|без|не\s+по�
 _MODIFY = re.compile(r"\b(?:замени|поменяй|сделай|теперь|вместо|измени)\b", re.I)
 _REFINE = re.compile(r"\b(?:оставь|только|покажи|нужны|давай|строго|до|от|дешевле|дороже|в\s+наличии)\b", re.I)
 _NEW = re.compile(r"\b(?:новый\s+поиск|начни\s+заново|найди|ищу|подбери)\b", re.I)
+_STANDALONE_SEARCH = re.compile(
+    r"^\s*(?:(?:а\s+)?теперь\s+)?(?:покажи|найди|ищи|подбери)\s+(?:мне\s+)?(?:только\s+)?",
+    re.I,
+)
 _ATTRIBUTE = re.compile(
     r"\b(?:син\w*|голуб\w*|ч[её]рн\w*|бел\w*|красн\w*|зел[её]н\w*|желт\w*|"
     r"сер\w*|розов\w*|фиолет\w*|оранж\w*|металл\w*|дерев\w*|пластик\w*|"
@@ -59,7 +63,12 @@ class ConversationQueryRouter:
     def __init__(self, query_understanding=None):
         self.query_understanding = query_understanding
 
-    async def route(self, message: str, current_subjects: list[str] | None = None) -> ConversationRoute:
+    async def route(
+        self,
+        message: str,
+        current_subjects: list[str] | None = None,
+        current_mode: str | None = None,
+    ) -> ConversationRoute:
         started = time.perf_counter()
         current = list(dict.fromkeys(current_subjects or []))
         understanding = await self.query_understanding.understand(message) if self.query_understanding else None
@@ -89,6 +98,21 @@ class ConversationQueryRouter:
             return result(ConversationAction.REMOVE_CONSTRAINT, .98, "Explicit constraint removal")
         new_subjects = [value for value in detected if value not in current]
         existing_subjects = [value for value in detected if value in current]
+        standalone = _STANDALONE_SEARCH.search(normalized) or _STANDALONE_SEARCH.search(message)
+        explicit_standalone = bool(
+            re.search(r"\b(?:найди|ищи|подбери)\b|\bпокажи\s+(?:мне\s+)?только\b", message, re.I)
+        )
+        if detected and standalone and (
+            explicit_standalone
+            or bool(new_subjects)
+            or current_mode == "HARD" and len(current) > 1
+        ):
+            signals.append("standalone-search")
+            return result(ConversationAction.NEW_SEARCH, .98, "Explicit standalone product search")
+        # A standalone search may legitimately contain exclusions (for example,
+        # "найди подарки ... без пластика").  The search verb defines
+        # the workspace action; the exclusion belongs to the new intent.  Only
+        # treat removal words as a patch after ruling out that stronger signal.
         if _REMOVE.search(normalized) or _REMOVE.search(message):
             signals.append("remove")
             return result(ConversationAction.REMOVE_CONSTRAINT, .97, "Explicit removal")
@@ -98,12 +122,24 @@ class ConversationQueryRouter:
         if _MODIFY.search(normalized):
             signals.append("modify")
             return result(ConversationAction.MODIFY_CURRENT, .96, "Explicit modification")
+        if len(detected) >= 2 and new_subjects:
+            signals.append("multiple-product-subjects")
+            return result(ConversationAction.NEW_SEARCH, .98, "Independent multi-product request")
         if _NEW.search(normalized) and new_subjects:
             signals.extend(["new-search-verb", "new-subject"])
             return result(ConversationAction.NEW_SEARCH, .98, "Explicit search for a new subject")
         if new_subjects and not existing_subjects and not _ATTRIBUTE.search(normalized):
             signals.append("new-subject")
             return result(ConversationAction.NEW_SEARCH, .93, "Independent product subject")
+        if detected and not any(
+            pattern.search(normalized)
+            for pattern in (_RESET, _COMMAND, _EXPAND, _REMOVE, _MODIFY, _REFINE, _NEW, _ATTRIBUTE)
+        ):
+            signals.append("bare-subject")
+            return result(ConversationAction.NEW_SEARCH, .92, "Standalone product subject")
+        if not detected and re.fullmatch(r"[a-zа-яё][\w-]{2,}", normalized, re.I):
+            signals.append("bare-open-vocabulary-subject")
+            return result(ConversationAction.NEW_SEARCH, .88, "Standalone unknown product subject")
         if _REFINE.search(normalized) or _ATTRIBUTE.search(normalized) or not detected:
             signals.append("constraint-or-anaphora")
             return result(ConversationAction.REFINE_CURRENT, .95, "Constraint applies to active subject")

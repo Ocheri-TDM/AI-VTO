@@ -31,6 +31,7 @@ async def test_daily_tick_coalesces_with_existing_full_checkpoint(repository, se
 
 
 async def test_hot_is_due_but_cold_eight_hour_observation_is_not(repository, settings):
+    settings.hot_refresh_hours = 2
     index = IndexRepository(repository.sessions, settings)
     await index.ingest([
         make_product(id="gifts:hot", supplier="gifts", source_url="https://gifts.ru/id/hot"),

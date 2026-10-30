@@ -1,3 +1,4 @@
+import asyncio
 import json
 
 import httpx
@@ -33,6 +34,32 @@ async def test_invalid_json_repair_bounded():
     with pytest.raises(ModelUnavailable):
         await provider.decide({}, 'hello')
     assert provider.calls == 3
+
+
+async def test_inference_queue_has_bounded_wait_and_capacity():
+    class Blocked(OllamaProvider):
+        entered = asyncio.Event()
+        release = asyncio.Event()
+
+        async def request(self, *_args):
+            self.entered.set()
+            await self.release.wait()
+            return '{"action":"SHOW_RESULTS"}'
+
+    provider = Blocked(
+        "http://localhost:11434", "model", retries=0,
+        concurrency=1, queue_limit=1, queue_timeout=0.02,
+    )
+    active = asyncio.create_task(provider.decide({}, "first"))
+    await provider.entered.wait()
+    waiting = asyncio.create_task(provider.decide({}, "second"))
+    await asyncio.sleep(0)
+    with pytest.raises(ModelUnavailable, match="LLM_QUEUE_FULL"):
+        await provider.decide({}, "third")
+    with pytest.raises(ModelUnavailable, match="LLM_QUEUE_TIMEOUT"):
+        await waiting
+    provider.release.set()
+    assert (await active).action == "SHOW_RESULTS"
 
 
 def test_decoding_grammar_keeps_types_but_server_enforces_bounds():

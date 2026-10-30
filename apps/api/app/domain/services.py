@@ -41,7 +41,7 @@ class ColorNormalizer:
     patterns: tuple[tuple[ColorGroup, str], ...] = (
         (ColorGroup.ROYAL_BLUE, r"\b(?:royal[ -]blue|королевск\w* син\w*)\b"),
         (ColorGroup.BLUE_GREY, r"\b(?:blue[ -]gr[ae]y|сине[ -]сер\w*)\b"),
-        (ColorGroup.NAVY, r"\b(?:navy|midnight[ -]blue|deep[ -]blue|морск\w* сини\w*)\b"),
+        (ColorGroup.NAVY, r"\b(?:navy(?:[ -]blue)?|midnight[ -]blue|deep[ -]blue|морск\w* сини\w*)\b"),
         (ColorGroup.DARK_BLUE, r"\b(?:dark[ -]blue|темно[ -]?син\w*|т[ -]синий)\b"),
         (ColorGroup.LIGHT_BLUE, r"\b(?:light[ -]blue|sky[ -]blue|голуб\w*|светло[ -]?син\w*)\b"),
         (ColorGroup.BLUE, r"\b(?:blue|син(?:ий|яя|ее|ие|его|их|юю|ем))\b"),
@@ -94,10 +94,12 @@ class CategoryMatcher:
     """Conservative stage-one relevance check: site searches can return related goods."""
 
     patterns = {
-        "thermomug": r"термо[ -]?(?:круж|стакан|чаш)\w*|дорожн\w*\s+чаш\w*|(?:travel|thermal|vacuum)\s+mug",
+        "thermomug": r"термо[ -]?(?:круж|чаш)\w*|дорожн\w*\s+чаш\w*|(?:travel|thermal|vacuum|insulated)\s+mug",
+        "thermocup": r"термо[ -]?стакан\w*|(?:thermal|insulated)\s+tumbler\w*",
+        "flashdrive": r"флеш(?:к|[- ]?накопител|\s+памят)\w*|usb[- ]?накопител\w*|(?:usb\s+)?flash\s+drive|usb\s+memory\s+stick",
         "backpack": r"рюкзак\w*|backpack\w*",
         "notebook": r"ежедневник\w*|блокнот\w*|notebook\w*|diar(?:y|ies)",
-        "pen": r"\bруч(?:ка|ки|ек|ку|ками)\b|\bpens?\b",
+        "pen": r"\bруч(?:ка|ки|ек|ку|ке|кой|кою|ками|кам|ках)\b|\bpens?\b",
     }
 
     def classify(self, name: str) -> list[str]:

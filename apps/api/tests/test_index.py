@@ -2,7 +2,7 @@ from datetime import timedelta
 
 import pytest
 from conftest import make_product
-from sqlalchemy import update
+from sqlalchemy import select, update
 
 from app.application.index_query import IndexQueryService
 from app.application.index_research import IndexedResearchService
@@ -10,7 +10,7 @@ from app.application.research_planner import ResearchPlanner
 from app.application.research_refinement import ResearchRefinementEngine
 from app.database.conversations import ConversationRepository
 from app.database.index import IndexRepository
-from app.database.models import CatalogSyncJob, IndexedProduct, SupplierSyncState
+from app.database.models import CatalogSyncJob, IndexedProduct, ProductObservation, SupplierSyncState
 from app.database.research import ResearchRepository
 from app.domain.models import utcnow
 from app.domain.query_understanding import QueryUnderstandingService
@@ -25,6 +25,24 @@ async def test_pencil_regression_isolated_from_bottle_research():
     assert pencils.categories == ["pencil"]
     assert pencils.quantity == 300 and not pencils.colors
     assert not pencils.discovery
+
+
+async def test_product_observation_preserves_images_for_case_view(repository, settings):
+    index = IndexRepository(repository.sessions, settings)
+    product = make_product(
+        id="gifts:image-observation",
+        supplier="gifts",
+        source_url="https://gifts.ru/id/44056",
+        images=["https://files.gifts.ru/reviewer/example.webp"],
+        primary_image="https://files.gifts.ru/reviewer/example.webp",
+    )
+    await index.ingest([product])
+    async with repository.sessions() as db:
+        row = await db.scalar(
+            select(ProductObservation).where(ProductObservation.offer_id == product.id)
+        )
+    assert row.payload["primary_image"] == product.primary_image
+    assert row.payload["images"] == product.images
 
 
 async def test_accepted_typo_and_canonical_query_have_exact_pool_parity(repository, settings):
@@ -72,7 +90,8 @@ async def test_categories(query, category):
     assert (await ResearchPlanner().parse(query)).categories == [category]
 
 
-async def test_all_results_freshness_unknown_term_and_no_browser(repository, settings):
+async def test_legacy_all_results_freshness_unknown_term_and_no_browser(repository, settings):
+    settings.observation_refresh_minutes = 120
     index = IndexRepository(repository.sessions, settings)
     products = [
         make_product(
@@ -98,7 +117,7 @@ async def test_all_results_freshness_unknown_term_and_no_browser(repository, set
     assert len((await IndexQueryService(index).search(unknown))[0]) == 1
     chat = await ConversationRepository(repository.sessions).create("Index")
     service = IndexedResearchService(ResearchRepository(repository.sessions), [], settings, None, index)
-    session = await service.start(chat, "Карандаши 300шт")
+    session = await service.legacy_start(chat, "Карандаши 300шт")
     assert len(session.indexed_offer_ids) == 62 and session.background_job_ids
     engine = ResearchRefinementEngine(service)
     value, decision, _ = await engine.apply(session.id, "Только деревянные")
@@ -111,7 +130,7 @@ async def test_all_results_freshness_unknown_term_and_no_browser(repository, set
     assert service.independent_query("Синий мерч для IT конференции 300шт", restored)
     assert service.independent_query("Антистресс 100шт", restored)
     assert not service.independent_query("Только деревянные", restored)
-    newer = await service.start(chat, "Ручки 300шт")
+    newer = await service.legacy_start(chat, "Ручки 300шт")
     await service.repository.save(restored)
     assert (await service.repository.latest(chat)).id == newer.id
 
@@ -205,20 +224,20 @@ async def test_rare_concepts_remain_specific_dynamic_queries(query):
     assert len(intent.categories) == 1
 
 
-async def test_catalog_graph_accelerates_target_and_interactive_priority(repository, settings):
+async def test_legacy_catalog_graph_accelerates_target_and_interactive_priority(repository, settings):
     index = IndexRepository(repository.sessions, settings)
-    catalog = await index.enqueue("happygifts", "CATALOG_DISCOVERY")
+    catalog = await index.enqueue("vto", "CATALOG_DISCOVERY")
     async with repository.sessions() as db, db.begin():
         await db.execute(update(CatalogSyncJob).where(CatalogSyncJob.id == catalog).values(
             status="COMPLETED",
             checkpoint={"roots": [{
-                "url": "https://happygifts.ru/catalog/posuda/flyazhki/",
+                "url": "https://vto.kz/catalog/posuda/flyazhki/",
                 "label": "Подарочные фляжки",
             }]},
         ))
     chat = await ConversationRepository(repository.sessions).create("Rare category")
     service = IndexedResearchService(ResearchRepository(repository.sessions), [], settings, None, index)
-    research = await service.start(chat, "фляжки")
+    research = await service.legacy_start(chat, "фляжки")
     assert research.intent.quantity is None
     async with repository.sessions() as db:
         jobs = (await db.scalars(
@@ -226,17 +245,17 @@ async def test_catalog_graph_accelerates_target_and_interactive_priority(reposit
                 CatalogSyncJob.id.in_(research.background_job_ids)
             )
         )).all()
-    happy = next(job for job in jobs if job.supplier == "happygifts")
+    happy = next(job for job in jobs if job.supplier == "vto")
     assert happy.priority == 100
     assert happy.checkpoint["category_graph_hit"] is True
     assert happy.checkpoint["route"].endswith("/catalog/posuda/flyazhki/")
 
 
-async def test_first_targeted_match_streams_into_an_empty_session(repository, settings):
+async def test_legacy_first_targeted_match_streams_into_an_empty_session(repository, settings):
     index = IndexRepository(repository.sessions, settings)
     chat = await ConversationRepository(repository.sessions).create("Cold targeted")
     service = IndexedResearchService(ResearchRepository(repository.sessions), [], settings, None, index)
-    research = await service.start(chat, "фляжки")
+    research = await service.legacy_start(chat, "фляжки")
     assert not research.products and research.background_job_ids
     await index.ingest([make_product(
         id="happygifts:streamed-flask", supplier="happygifts",
@@ -313,7 +332,7 @@ async def test_background_sync_keeps_all_observations(repository, settings):
 
     index = IndexRepository(repository.sessions, settings)
     host = BackgroundIndex(index, [ResearchProvider()], settings)
-    await index.enqueue("gifts", "TARGETED_RESEARCH", {"query": "бутылка", "category": "bottle"})
+    await index.enqueue("vto", "TARGETED_RESEARCH", {"query": "бутылка", "category": "bottle"})
     job = await index.claim(host.owner)
 
     async def immediate(_job, call, _metric):
@@ -368,15 +387,15 @@ async def test_background_failure_isolation_and_refresh(repository, settings):
     await index.ingest(
         [
             make_product(
-                id="gifts:old",
-                supplier="gifts",
+                id="vto:old",
+                supplier="vto",
                 name="Бутылка",
-                source_url="https://gifts.ru/id/old",
+                source_url="https://vto.kz/id/old",
                 fetched_at=utcnow() - timedelta(hours=2),
             )
         ]
     )
-    await index.enqueue("gifts", "OBSERVATION_REFRESH")
+    await index.enqueue("vto", "OBSERVATION_REFRESH")
     job = await index.claim(host.owner)
 
     async def immediate(_job, call, _metric):
@@ -385,15 +404,15 @@ async def test_background_failure_isolation_and_refresh(repository, settings):
     host.request = immediate
     await host.run(job)
     async with repository.sessions() as db:
-        observation = await db.get(ProductObservation, "gifts:old")
+        observation = await db.get(ProductObservation, "vto:old")
         assert observation.status == "FRESH" and observation.stock == 300
     provider.error = SupplierError("SUPPLIER_CAPTCHA_REQUIRED", "test")
-    await index.enqueue("gifts", "TARGETED_RESEARCH", {"query": "new"})
+    await index.enqueue("vto", "TARGETED_RESEARCH", {"query": "new"})
     job = await index.claim(host.owner)
     await host.run(job)
     await index.enqueue("oasis", "TARGETED_RESEARCH", {"query": "other"})
     next_job = await index.claim("another-worker")
     assert next_job["supplier"] == "oasis"
     async with repository.sessions() as db:
-        state = await db.scalar(select(SupplierSyncState).where(SupplierSyncState.supplier == "gifts"))
+        state = await db.scalar(select(SupplierSyncState).where(SupplierSyncState.supplier == "vto"))
         assert state.error == "SUPPLIER_CAPTCHA_REQUIRED"

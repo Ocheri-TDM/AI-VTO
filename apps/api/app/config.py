@@ -14,9 +14,8 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://souvenir:souvenir@127.0.0.1:5432/souvenir"
     rub_kzt_rate: Decimal | None = Field(default=None, gt=0)
     cache_ttl_seconds: int = Field(default=3600, ge=60, le=3600)
-    browser_headless: bool = True
-    browser_timeout_ms: int = Field(default=30000, ge=1000, le=120000)
-    browser_concurrency: int = Field(default=2, ge=1, le=8)
+    vto_page_size: int = Field(default=20, ge=1, le=100)
+    vto_request_delay_seconds: float = Field(default=0.3, ge=0.1, le=30)
     provider_timeout_seconds: int = Field(default=240, ge=10, le=900)
     provider_retries: int = Field(default=1, ge=0, le=2)
     max_pages_per_query: int = Field(default=2, ge=1, le=10)
@@ -28,14 +27,14 @@ class Settings(BaseSettings):
     research_max_seconds: int = Field(default=600, ge=10, le=14400)
     research_branch_slice_seconds: int = Field(default=45, ge=5, le=300)
     background_research_enabled: bool = True
-    observation_refresh_minutes: int = Field(default=120, ge=1, le=10080)
-    hot_refresh_hours: int = Field(default=2, ge=1, le=24)
-    warm_refresh_hours: int = Field(default=6, ge=1, le=168)
+    observation_refresh_minutes: int = Field(default=1440, ge=1, le=10080)
+    hot_refresh_hours: int = Field(default=24, ge=1, le=24)
+    warm_refresh_hours: int = Field(default=24, ge=1, le=168)
     cold_refresh_hours: int = Field(default=24, ge=1, le=720)
     warm_usage_days: int = Field(default=7, ge=1, le=90)
     dormant_usage_days: int = Field(default=30, ge=1, le=365)
     incremental_sync_hours: int = Field(default=24, ge=1, le=720)
-    full_reconciliation_days: int = Field(default=7, ge=1, le=90)
+    full_reconciliation_days: int = Field(default=1, ge=1, le=90)
     catalog_discovery_interval_hours: int = Field(default=168, ge=1, le=2160)
     supplier_failure_backoff_minutes: int = Field(default=15, ge=1, le=1440)
     supplier_failure_backoff_max_hours: int = Field(default=4, ge=1, le=168)
@@ -45,7 +44,6 @@ class Settings(BaseSettings):
     composite_refresh_max_per_position: int = Field(default=150, ge=1, le=500)
     global_research_concurrency: int = Field(default=2, ge=1, le=6)
     provider_concurrency: int = Field(default=1, ge=1, le=2)
-    browser_page_limit: int = Field(default=2, ge=1, le=8)
     research_job_timeout_seconds: int = Field(default=300, ge=10, le=14400)
     targeted_provider_timeout_seconds: int = Field(default=20, ge=5, le=60)
     targeted_slice_products: int = Field(default=12, ge=1, le=100)
@@ -56,6 +54,9 @@ class Settings(BaseSettings):
     llm_model: str = ""
     llm_timeout_seconds: float = Field(default=60, ge=1, le=300)
     llm_structured_retries: int = Field(default=1, ge=0, le=2)
+    llm_concurrency: int = Field(default=1, ge=1, le=8)
+    llm_queue_limit: int = Field(default=8, ge=0, le=100)
+    llm_queue_timeout_seconds: float = Field(default=5, ge=0.1, le=60)
     max_tool_calls_per_message: int = Field(default=5, ge=1, le=5)
     agent_timeout_seconds: float = Field(default=600, ge=10, le=1800)
     debug_agent: bool = False
@@ -64,3 +65,7 @@ class Settings(BaseSettings):
     auth_session_days: int = Field(default=30, ge=1, le=365)
     api_host: str = "127.0.0.1"
     api_port: int = 8000
+    presentation_storage: Path = ROOT / ".local" / "presentations"
+    presentation_worker_enabled: bool = True
+    presentation_timeout_seconds: int = Field(default=300, ge=30, le=1800)
+    presentation_queue_limit: int = Field(default=12, ge=1, le=50)

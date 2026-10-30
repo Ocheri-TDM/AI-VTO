@@ -1,0 +1,355 @@
+{
+  "parent": {
+    "id": 1521733,
+    "name": "Рюкзак-мешок Melango",
+    "parent": 0,
+    "type": "variable",
+    "variation": "",
+    "permalink": "https://vto.kz/product/ryukzak-meshok-melango/",
+    "sku": "173205",
+    "short_description": "",
+    "description": "<p>Улучшенное исполнение классического рюкзака-мешка — из плотного полиэстера и с широкими лямками из надежных строп, которые удобно регулировать по длине. Меланжевая расцветка уверенно переводит рюкзак Melango из стандартного промо в класс практичных личных аксессуаров, которыми легко и приятно пользоваться каждый день.<br />Компактный рюкзак с регулируемыми лямками и ручкой-петлей.<br />Объем 10 литров. Выдерживает нагрузку до 3 кг.<br />Способ обработки шва: лента</p>",
+    "on_sale": false,
+    "prices": {
+      "price": "2084",
+      "regular_price": "2084",
+      "sale_price": "2084",
+      "price_range": null,
+      "currency_code": "KZT",
+      "currency_symbol": "₸",
+      "currency_minor_unit": 0,
+      "currency_decimal_separator": ".",
+      "currency_thousand_separator": "",
+      "currency_prefix": "₸",
+      "currency_suffix": ""
+    },
+    "price_html": "<span class=\"woocommerce-Price-amount amount\"><span class=\"woocommerce-Price-currencySymbol\">&#8376;</span>2084</span>",
+    "average_rating": "0",
+    "review_count": 0,
+    "images": [
+      {
+        "id": 1597364,
+        "src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5.jpg",
+        "thumbnail": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-300x300.jpg",
+        "srcset": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5.jpg 1000w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-300x300.jpg 300w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-150x150.jpg 150w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-768x768.jpg 768w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-50x50.jpg 50w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-100x100.jpg 100w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-500x500.jpg 500w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-5-600x600.jpg 600w",
+        "sizes": "(max-width: 1000px) 100vw, 1000px",
+        "name": "vto.kz-12449.30_3_1000x1000-5",
+        "alt": ""
+      }
+    ],
+    "categories": [
+      {
+        "id": 25361,
+        "name": "Рюкзаки",
+        "slug": "gifts-page-1105743",
+        "link": "https://vto.kz/product-category/gifts/gifts-page-1105743/"
+      }
+    ],
+    "tags": [],
+    "attributes": [
+      {
+        "id": 1,
+        "name": "Цвет",
+        "taxonomy": "pa_color-new",
+        "has_variations": true,
+        "terms": [
+          {
+            "id": 60064,
+            "name": "красный",
+            "slug": "%d0%ba%d1%80%d0%b0%d1%81%d0%bd%d1%8b%d0%b9-ceafc9af-2"
+          },
+          {
+            "id": 60081,
+            "name": "серый",
+            "slug": "%d1%81%d0%b5%d1%80%d1%8b%d0%b9-907ebb84-2"
+          },
+          {
+            "id": 60066,
+            "name": "синий",
+            "slug": "%d1%81%d0%b8%d0%bd%d0%b8%d0%b9-5842427a-2"
+          },
+          {
+            "id": 60043,
+            "name": "черный",
+            "slug": "%d1%87%d0%b5%d1%80%d0%bd%d1%8b%d0%b9-1b537a10-2"
+          }
+        ]
+      }
+    ],
+    "variations": [
+      {
+        "id": 1823107,
+        "attributes": [
+          {
+            "name": "Цвет",
+            "value": "%d1%87%d0%b5%d1%80%d0%bd%d1%8b%d0%b9-1b537a10-2"
+          }
+        ]
+      },
+      {
+        "id": 1823108,
+        "attributes": [
+          {
+            "name": "Цвет",
+            "value": "%d1%81%d0%b5%d1%80%d1%8b%d0%b9-907ebb84-2"
+          }
+        ]
+      },
+      {
+        "id": 1823109,
+        "attributes": [
+          {
+            "name": "Цвет",
+            "value": "%d1%81%d0%b8%d0%bd%d0%b8%d0%b9-5842427a-2"
+          }
+        ]
+      },
+      {
+        "id": 1823110,
+        "attributes": [
+          {
+            "name": "Цвет",
+            "value": "%d0%ba%d1%80%d0%b0%d1%81%d0%bd%d1%8b%d0%b9-ceafc9af-2"
+          }
+        ]
+      }
+    ],
+    "has_options": true,
+    "is_purchasable": true,
+    "is_in_stock": true,
+    "is_on_backorder": false,
+    "low_stock_remaining": null,
+    "sold_individually": false,
+    "quantity_limit": 99,
+    "add_to_cart": {
+      "text": "Выбрать &#8230;",
+      "description": "Выбрать опции для &#171;Рюкзак-мешок Melango&#187;",
+      "url": "https://vto.kz/product/ryukzak-meshok-melango/"
+    }
+  },
+  "detail": {
+    "parent_id": 1521733,
+    "variants": [
+      {
+        "attributes": {
+          "attribute_pa_color-new": "%d1%87%d0%b5%d1%80%d0%bd%d1%8b%d0%b9-1b537a10-2"
+        },
+        "availability_html": "<p class=\"stock in-stock\">1739 в наличии</p>\n",
+        "backorders_allowed": false,
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "dimensions_html": "Н/Д",
+        "display_price": 2084,
+        "display_regular_price": 2084,
+        "image": {
+          "title": "vto.kz-12449.30_3_1000x1000",
+          "caption": "",
+          "url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg",
+          "alt": "",
+          "src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-600x600.jpg",
+          "srcset": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-600x600.jpg 600w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-300x300.jpg 300w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-150x150.jpg 150w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-768x768.jpg 768w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-50x50.jpg 50w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-100x100.jpg 100w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-500x500.jpg 500w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg 1000w",
+          "sizes": "(max-width: 600px) 100vw, 600px",
+          "full_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg",
+          "full_src_w": 1000,
+          "full_src_h": 1000,
+          "gallery_thumbnail_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-100x100.jpg",
+          "gallery_thumbnail_src_w": 100,
+          "gallery_thumbnail_src_h": 100,
+          "thumb_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000-300x300.jpg",
+          "thumb_src_w": 300,
+          "thumb_src_h": 300,
+          "src_w": 600,
+          "src_h": 600
+        },
+        "image_id": 1521735,
+        "is_downloadable": false,
+        "is_in_stock": true,
+        "is_purchasable": true,
+        "is_sold_individually": "no",
+        "is_virtual": false,
+        "max_qty": 1739,
+        "min_qty": 1,
+        "price_html": "",
+        "sku": "GF-12449.30",
+        "variation_description": "",
+        "variation_id": 1823107,
+        "variation_is_active": true,
+        "variation_is_visible": true,
+        "weight": "",
+        "weight_html": "Н/Д"
+      },
+      {
+        "attributes": {
+          "attribute_pa_color-new": "%d1%81%d0%b5%d1%80%d1%8b%d0%b9-907ebb84-2"
+        },
+        "availability_html": "<p class=\"stock in-stock\">2074 в наличии</p>\n",
+        "backorders_allowed": false,
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "dimensions_html": "Н/Д",
+        "display_price": 2084,
+        "display_regular_price": 2084,
+        "image": {
+          "title": "vto.kz-12449.10_3_1000x1000",
+          "caption": "",
+          "url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg",
+          "alt": "",
+          "src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-600x600.jpg",
+          "srcset": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-600x600.jpg 600w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-300x300.jpg 300w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-150x150.jpg 150w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-768x768.jpg 768w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-50x50.jpg 50w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-100x100.jpg 100w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-500x500.jpg 500w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg 1000w",
+          "sizes": "(max-width: 600px) 100vw, 600px",
+          "full_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg",
+          "full_src_w": 1000,
+          "full_src_h": 1000,
+          "gallery_thumbnail_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-100x100.jpg",
+          "gallery_thumbnail_src_w": 100,
+          "gallery_thumbnail_src_h": 100,
+          "thumb_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000-300x300.jpg",
+          "thumb_src_w": 300,
+          "thumb_src_h": 300,
+          "src_w": 600,
+          "src_h": 600
+        },
+        "image_id": 1521737,
+        "is_downloadable": false,
+        "is_in_stock": true,
+        "is_purchasable": true,
+        "is_sold_individually": "no",
+        "is_virtual": false,
+        "max_qty": 2074,
+        "min_qty": 1,
+        "price_html": "",
+        "sku": "GF-12449.10",
+        "variation_description": "",
+        "variation_id": 1823108,
+        "variation_is_active": true,
+        "variation_is_visible": true,
+        "weight": "",
+        "weight_html": "Н/Д"
+      },
+      {
+        "attributes": {
+          "attribute_pa_color-new": "%d1%81%d0%b8%d0%bd%d0%b8%d0%b9-5842427a-2"
+        },
+        "availability_html": "<p class=\"stock in-stock\">2349 в наличии</p>\n",
+        "backorders_allowed": false,
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "dimensions_html": "Н/Д",
+        "display_price": 2084,
+        "display_regular_price": 2084,
+        "image": {
+          "title": "vto.kz-12449.40_4_1000x1000",
+          "caption": "",
+          "url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg",
+          "alt": "",
+          "src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-600x600.jpg",
+          "srcset": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-600x600.jpg 600w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-300x300.jpg 300w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-150x150.jpg 150w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-768x768.jpg 768w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-50x50.jpg 50w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-100x100.jpg 100w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-500x500.jpg 500w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg 1000w",
+          "sizes": "(max-width: 600px) 100vw, 600px",
+          "full_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg",
+          "full_src_w": 1000,
+          "full_src_h": 1000,
+          "gallery_thumbnail_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-100x100.jpg",
+          "gallery_thumbnail_src_w": 100,
+          "gallery_thumbnail_src_h": 100,
+          "thumb_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000-300x300.jpg",
+          "thumb_src_w": 300,
+          "thumb_src_h": 300,
+          "src_w": 600,
+          "src_h": 600
+        },
+        "image_id": 1521739,
+        "is_downloadable": false,
+        "is_in_stock": true,
+        "is_purchasable": true,
+        "is_sold_individually": "no",
+        "is_virtual": false,
+        "max_qty": 2349,
+        "min_qty": 1,
+        "price_html": "",
+        "sku": "GF-12449.40",
+        "variation_description": "",
+        "variation_id": 1823109,
+        "variation_is_active": true,
+        "variation_is_visible": true,
+        "weight": "",
+        "weight_html": "Н/Д"
+      },
+      {
+        "attributes": {
+          "attribute_pa_color-new": "%d0%ba%d1%80%d0%b0%d1%81%d0%bd%d1%8b%d0%b9-ceafc9af-2"
+        },
+        "availability_html": "<p class=\"stock in-stock\">977 в наличии</p>\n",
+        "backorders_allowed": false,
+        "dimensions": {
+          "length": "",
+          "width": "",
+          "height": ""
+        },
+        "dimensions_html": "Н/Д",
+        "display_price": 2084,
+        "display_regular_price": 2084,
+        "image": {
+          "title": "vto.kz-12449.50_3_1000x1000",
+          "caption": "",
+          "url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000.jpg",
+          "alt": "",
+          "src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-600x600.jpg",
+          "srcset": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-600x600.jpg 600w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-300x300.jpg 300w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-150x150.jpg 150w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-768x768.jpg 768w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-50x50.jpg 50w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-100x100.jpg 100w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-500x500.jpg 500w, https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000.jpg 1000w",
+          "sizes": "(max-width: 600px) 100vw, 600px",
+          "full_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000.jpg",
+          "full_src_w": 1000,
+          "full_src_h": 1000,
+          "gallery_thumbnail_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-100x100.jpg",
+          "gallery_thumbnail_src_w": 100,
+          "gallery_thumbnail_src_h": 100,
+          "thumb_src": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.50_3_1000x1000-300x300.jpg",
+          "thumb_src_w": 300,
+          "thumb_src_h": 300,
+          "src_w": 600,
+          "src_h": 600
+        },
+        "image_id": 1521741,
+        "is_downloadable": false,
+        "is_in_stock": true,
+        "is_purchasable": true,
+        "is_sold_individually": "no",
+        "is_virtual": false,
+        "max_qty": 977,
+        "min_qty": 1,
+        "price_html": "",
+        "sku": "GF-12449.50",
+        "variation_description": "",
+        "variation_id": 1823110,
+        "variation_is_active": true,
+        "variation_is_visible": true,
+        "weight": "",
+        "weight_html": "Н/Д"
+      }
+    ],
+    "attributes": {
+      "Бренд": "Molti",
+      "Цвет": "красный, серый, синий, черный",
+      "Материал": "полиэстер, 300D",
+      "Размер": "Без размера",
+      "Габариты": "33×44 см"
+    },
+    "options": {
+      "attribute_pa_color-new": {
+        "красный-ceafc9af-2": "красный",
+        "серый-907ebb84-2": "серый",
+        "синий-5842427a-2": "синий",
+        "черный-1b537a10-2": "черный"
+      }
+    },
+    "simple_stock": null
+  }
+}

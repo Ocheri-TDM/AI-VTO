@@ -1,0 +1,366 @@
+# FINAL TASK — UNIVERSAL SEMANTIC PRODUCT UNDERSTANDING & SEARCH CONSISTENCY
+
+Ты — Senior NLP Engineer, Search Architect и Backend Engineer проекта AI-VTO / Souvenir Studio.
+
+Твоя задача — провести системный аудит и исправить понимание товарных запросов во всём приложении.
+
+НЕ исправляй отдельные слова через ручные исключения.
+
+НЕ ограничивайся примерами `шопер`, `шоппер`, `повербанк`.
+
+Они являются лишь воспроизводимыми симптомами общей проблемы.
+
+## 1. Главная цель
+
+Любые эквивалентные формулировки одного товарного понятия должны разрешаться в одинаковый canonical intent и возвращать одинаковый полный пул подходящих товаров при одинаковых ограничениях и состоянии индекса.
+
+Система должна поддерживать:
+
+- русский и английский языки;
+- морфологию;
+- опечатки;
+- транслитерацию;
+- синонимы;
+- разговорные названия;
+- составные товарные понятия;
+- аббревиатуры;
+- supplier-specific terminology;
+- новые категории из каталогов;
+- контекстные запросы;
+- SIMPLE и COMPOSITE;
+- последующие изменения запроса.
+
+Не требовать, чтобы пользователь знал точное название категории поставщика.
+
+## 2. Аудит существующей архитектуры
+
+Изучи фактические реализации:
+
+- Conversation Router;
+- Query Understanding;
+- UniversalCategoryResolver;
+- ProductConcept;
+- taxonomy;
+- CategoryMatcher;
+- SearchService;
+- PostgreSQL retrieval;
+- SQL FTS/trigram;
+- ranking;
+- Composite position resolver;
+- targeted research planner.
+
+Найди все места, где:
+
+- исходная строка используется вместо canonical concept;
+- разные синонимы приводят к разным SQL-предикатам;
+- fallback расширяет выдачу до нерелевантных категорий;
+- category evidence слишком узкая;
+- fuzzy correction меняет смысл;
+- supplier taxonomy ошибочно считается универсальной;
+- Composite и SIMPLE по-разному интерпретируют одну категорию.
+
+## 3. Универсальный ProductConcept Graph
+
+Разработай или усовершенствуй существующую модель понятий.
+
+Поддерживать связи:
+
+- EXACT_EQUIVALENT;
+- SYNONYM;
+- SPELLING_VARIANT;
+- TRANSLITERATION;
+- MORPHOLOGICAL_FORM;
+- BROADER_THAN;
+- NARROWER_THAN;
+- RELATED;
+- AMBIGUOUS;
+- UNRELATED.
+
+Не смешивать эквивалентность и тематическую близость.
+
+Например:
+
+`повербанк = powerbank = внешний аккумулятор`
+
+Но:
+
+`повербанк != сетевое зарядное устройство`
+
+`термокружка != термос`
+
+`шоппер != сумка-холодильник`
+
+Если товар реально объединяет функции нескольких категорий, сохранять multi-concept evidence, а не насильно выбирать одну категорию.
+
+## 4. Catalog-derived vocabulary
+
+Словарь товарных понятий должен формироваться преимущественно из реальных данных шести поставщиков:
+
+- названий категорий;
+- breadcrumbs;
+- названий товаров;
+- описаний;
+- характеристик;
+- вариантов;
+- supplier taxonomy.
+
+Новые товарные понятия должны обнаруживаться без ручного обновления Python enum или TYPO_MAP.
+
+Использовать подтверждение evidence, чтобы случайное слово из описания не становилось самостоятельной категорией.
+
+## 5. Query Understanding
+
+Реализовать deterministic-first pipeline:
+
+1. Unicode normalization.
+2. Tokenization.
+3. Language/script detection.
+4. Russian morphology.
+5. Keyboard typo handling.
+6. Transliteration.
+7. Compound phrase recognition.
+8. Candidate concept generation.
+9. Context-aware disambiguation.
+10. Confidence/margin evaluation.
+
+LLM использовать только там, где deterministic resolution недостаточно надёжен.
+
+LLM не должен напрямую формировать произвольный SQL или менять procurement constraints.
+
+Нельзя автоматически исправлять неизвестные бренды и модели.
+
+## 6. Precision-first semantic matching
+
+Разделить:
+
+- exact concept match;
+- confirmed synonym match;
+- strong related match;
+- exploratory match;
+- rejected match.
+
+Для конкретного товарного запроса EXACT и SYNONYM должны иметь приоритет.
+
+RELATED не должен автоматически смешиваться с точными результатами.
+
+Нерелевантные товары не должны маркироваться «Точное совпадение».
+
+## 7. Canonical retrieval invariant
+
+Для подтверждённых эквивалентных запросов:
+
+canonical_concept(A) == canonical_concept(B)
+
+При одинаковых hard constraints и snapshot:
+
+full_result_ids(A) == full_result_ids(B)
+
+Не сравнивать только первые 100 карточек.
+
+Pagination — исключительно UI/API delivery mechanism, а не ограничение поиска.
+
+Ranking не должен менять membership.
+
+## 8. Open vocabulary
+
+Если категория неизвестна:
+
+- не подставлять BOTTLE или другую категорию по умолчанию;
+- искать доказательства в CatalogGraph;
+- использовать supplier-derived concepts;
+- учитывать составные названия;
+- сохранять неизвестное понятие;
+- не запускать бессмысленный crawler-job для случайного слова.
+
+Если уверенности недостаточно, сохранять AMBIGUOUS/PRESERVE вместо опасной коррекции.
+
+## 9. Контекстное понимание
+
+Различать:
+
+- самостоятельный новый товарный запрос;
+- уточнение цвета;
+- изменение материала;
+- изменение количества;
+- замену категории;
+- расширение категорий;
+- исключение категории;
+- изменение позиции Composite;
+- сброс фильтров.
+
+Пример:
+
+Текущий запрос: `ручки`.
+
+Сообщение: `оставь синие`.
+
+Результат: текущая категория ручек + BLUE.
+
+Но самостоятельный запрос `рюкзаки` должен создавать новый SIMPLE workspace.
+
+Не допускать наследования предыдущих категорий при явно новом запросе.
+
+## 10. SIMPLE / COMPOSITE consistency
+
+Одна и та же категория должна разрешаться одинаково в обоих режимах.
+
+Composite может добавлять требования по количеству, цвету, позициям и уникальности, но не должен использовать другую семантику самой категории.
+
+Сравнить retrieval pools до procurement filtering.
+
+## 11. Реальный semantic benchmark
+
+Создать benchmark на основе реальных ProductConcept и SupplierOffer из PostgreSQL.
+
+Не ограничивать тесты заранее выбранными 10–20 словами.
+
+Сформировать репрезентативную выборку из множества категорий и подкатегорий всех шести поставщиков.
+
+Для каждого понятия проверить:
+
+- морфологические варианты;
+- опечатки;
+- транслитерацию;
+- синонимы;
+- английские названия;
+- составные названия;
+- supplier-specific naming;
+- близкие нерелевантные категории;
+- неоднозначные запросы.
+
+Использовать отдельный unseen holdout.
+
+Не считать автоматически сгенерированные синонимы правильными без независимой проверки.
+
+## 12. Метрики
+
+Измерить:
+
+- concept resolution accuracy;
+- exact-equivalent consistency;
+- recall;
+- precision;
+- false-positive rate;
+- false-correction rate;
+- subject loss rate;
+- SIMPLE/COMPOSITE retrieval parity;
+- latency p50/p95;
+- unnecessary targeted-job rate.
+
+Отдельно показать метрики по языкам, типам ошибок и supplier taxonomy.
+
+Не скрывать провальные группы за общей средней точностью.
+
+## 13. Обязательные regression families
+
+Проверить, среди прочего:
+
+- повербанк / powerbank / внешний аккумулятор;
+- шопер / шоппер / tote bag;
+- флешка / USB flash drive / USB-накопитель;
+- ручка / ручки / ручек;
+- карандаш / корондаш;
+- термокружка / кружка-термос;
+- термос / vacuum flask;
+- ежедневник / планер / блокнот;
+- рюкзак / backpack;
+- дождевик / raincoat;
+- бутылка / bottle;
+- фляжка / flask.
+
+Это обязательные регрессии, а НЕ полный словарь и НЕ предел тестирования.
+
+## 14. Supplier research routing
+
+Targeted research должен получать canonical intent, а не сырое сообщение.
+
+Не создавать supplier jobs для:
+
+- команд вроде `оставь`;
+- отдельно взятых цветов;
+- неразрешённых typo fragments;
+- уже покрытых эквивалентных запросов без реального coverage gap.
+
+При обнаруженном coverage gap допускается фоновое исследование без блокировки обычного поиска.
+
+## 15. Безопасность и совместимость
+
+Не изменять без необходимости:
+
+- crawler architecture;
+- procurement availability semantics;
+- Composite assembly;
+- IntentPatch;
+- авторизацию;
+- frontend design;
+- Vercel deployment.
+
+Не удалять основную PostgreSQL, пользователей, историю, каталог, SupplierOffer, observations, jobs и checkpoints.
+
+Миграции выполнять безопасно и с обратной совместимостью.
+
+## 16. Live acceptance
+
+Проверить реальные запросы через HTTP API и PostgreSQL.
+
+Для подтверждённых эквивалентов:
+
+- одинаковый canonical concept;
+- одинаковые full ID sets;
+- одинаковые hard constraints;
+- отсутствие ложных category expansions.
+
+Для разных понятий:
+
+- корректное разграничение;
+- отсутствие ложных точных совпадений.
+
+Проверить UI, F5, историю и переключение SIMPLE/COMPOSITE.
+
+## 17. Cleanup
+
+После завершения удалить одноразовые:
+
+- acceptance scripts;
+- temporary test databases;
+- test users/projects;
+- generated JSON/log files;
+- screenshots;
+- debug artifacts.
+
+Постоянные regression tests и полезные benchmark fixtures сохранить.
+
+Никаких массовых удалений по шаблону без подтверждения происхождения файлов.
+
+## 18. Final report
+
+Обновить docs/final-report.md.
+
+Предоставить:
+
+1. Архитектурную причину расхождений.
+2. Список исправленных общих механизмов.
+3. Before/after для реальных запросов.
+4. Benchmark по всем классам вариаций.
+5. Precision/recall и false positives.
+6. Unseen holdout.
+7. SQL/retrieval parity.
+8. SIMPLE/COMPOSITE parity.
+9. Производительность.
+10. Cleanup.
+11. Оставшиеся ограничения.
+
+## Definition of Done
+
+Задача завершена только когда:
+
+- подтверждённые эквивалентные формулировки дают одинаковый полный пул товаров;
+- близкие, но разные категории не смешиваются;
+- новые товарные понятия не требуют ручного добавления в enum;
+- SIMPLE и COMPOSITE согласованы;
+- не создаются бессмысленные supplier jobs;
+- результаты подтверждены на реальной заполненной PostgreSQL;
+- не нарушена существующая функциональность;
+- основная база и пользовательские данные сохранены.
+
+**Исправляй систему понимания товарных понятий, а не список отдельных слов.**

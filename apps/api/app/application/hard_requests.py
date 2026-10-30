@@ -21,12 +21,14 @@ from app.database.models import (
     IndexedProduct,
     Message,
     ProductConcept,
+    ProductObservation,
     Project,
     ProjectQuery,
     SupplierOffer,
 )
 from app.domain.hard_request import (
     HardRequestIntent,
+    PositionConstraint,
     deterministic_hard_request,
     evaluate_intent_completeness,
 )
@@ -41,7 +43,11 @@ def _id():
 
 
 class HardRequestService:
-    """One semantic parse followed by bounded, reproducible index assembly."""
+    """Archived compatibility implementation; never registered by create_app.
+
+    Kept for historical-format regression coverage. Public assembly writes are
+    retired (410); new requests use ProjectQueryService and product retrieval.
+    """
 
     def __init__(self, sessions, research, index, model=None, query_understanding=None):
         self.sessions, self.research, self.index, self.model = sessions, research, index, model
@@ -63,9 +69,23 @@ class HardRequestService:
             if self.query_understanding
             else None
         )
-        parsed_text = understanding.search_query if understanding else text
+        # Composite parsing must keep the user's exact UTF-8 text. Query
+        # Understanding is useful evidence for retrieval, but an LLM-produced
+        # rewrite must never become the source of truth for set counts, role
+        # scope, or explicitly named positions.
+        understood_text = understanding.search_query if understanding else text
+        parsed_text = text
         composite_started = time.perf_counter()
         deterministic = deterministic_hard_request(parsed_text)
+        # A safe correction may replace the raw parse only when it actually
+        # resolves an otherwise incomplete intent. This prevents a rewrite from
+        # dropping positions or set counts that the raw parser already proved.
+        if understood_text != text and "\ufffd" not in understood_text:
+            raw_state = evaluate_intent_completeness(deterministic, text, 1.0)
+            corrected = deterministic_hard_request(understood_text)
+            corrected_state = evaluate_intent_completeness(corrected, understood_text, 1.0)
+            if raw_state.requires_llm and not corrected_state.requires_llm:
+                parsed_text, deterministic = understood_text, corrected
         composite_parse_ms = round((time.perf_counter() - composite_started) * 1000, 2)
         deterministic.original_query = text
         deterministic.normalized_query = parsed_text
@@ -112,17 +132,34 @@ class HardRequestService:
                     inferred.category_mode = "EXPLICIT"
                 if deterministic.declared_categories_count is not None:
                     inferred.declared_categories_count = deterministic.declared_categories_count
-                if deterministic.target_sets != 1:
-                    inferred.target_sets = deterministic.target_sets
-                if deterministic.quantity.minimum is not None:
-                    inferred.quantity = deterministic.quantity
+                inferred.target_sets = deterministic.target_sets
+                inferred.quantity = deterministic.quantity
+                if deterministic.price_max is not None:
                     inferred.price_max = deterministic.price_max
-                if deterministic.color.mode == "REQUIRED":
-                    inferred.color = deterministic.color
+                inferred.color = deterministic.color
+                inferred.exclusions = deterministic.exclusions
+                inferred.excluded_materials = deterministic.excluded_materials
+                inferred.excluded_colors = deterministic.excluded_colors
+                inferred.semantic_preferences = deterministic.semantic_preferences
+                inferred.sort_preferences = deterministic.sort_preferences
+                inferred.materials = deterministic.materials
+                inferred.request_mode = deterministic.request_mode
+                if deterministic.purpose:
+                    inferred.purpose = deterministic.purpose
+                    inferred.audience = deterministic.audience
+                    if not deterministic.categories:
+                        inferred.categories = []
+                        inferred.positions = []
+                        inferred.category_mode = "AUTO_DISCOVER"
+                        inferred.request_mode = "SIMPLE"
+                inferred.unsupported_constraints = deterministic.unsupported_constraints
+                inferred.items_per_position = deterministic.items_per_position
+                inferred.require_cross_set_uniqueness = deterministic.require_cross_set_uniqueness
                 inferred.candidates_per_position = 3
                 inferred.intent_parser_version = "composite-intent-v2"
                 inferred.case_assembler_version = "case-assembler-v2"
-                inferred.availability_policy_version = "strict-procurement-v2"
+                inferred.availability_policy = deterministic.availability_policy
+                inferred.availability_policy_version = "last-known-stock-v3"
                 inferred.original_query = text
                 inferred.normalized_query = parsed_text
                 inferred.query_understanding = deterministic.query_understanding
@@ -228,6 +265,9 @@ class HardRequestService:
 
     @staticmethod
     def query_view(row, active_query_id=None):
+        public_status = (
+            "UNSUPPORTED_CONSTRAINT" if row.status == "UNSUPPORTED" else row.status
+        )
         return {
             "id": row.id,
             "project_id": row.project_id,
@@ -236,7 +276,7 @@ class HardRequestService:
             "query_text": row.query_text,
             "normalized_query": row.normalized_query,
             "query_understanding": row.query_understanding,
-            "status": row.status,
+            "status": public_status,
             "created_at": row.created_at.isoformat(),
             "updated_at": row.updated_at.isoformat(),
             "is_active": row.id == active_query_id,
@@ -445,42 +485,57 @@ class HardRequestService:
                         {"project_id": str(project_id)},
                     )
 
-    async def patch_active(self, project_id, text, user_id):
+    @asynccontextmanager
+    async def project_transition_lock(self, project_id: str):
+        """Protect one unified workspace transition in this and other API processes."""
+        async with self.mutation_locks[str(project_id)]:
+            async with self._project_mutation_lock(str(project_id)) as wait_ms:
+                yield wait_ms
+
+    async def patch_active(
+        self, project_id, text, user_id, *, lock_held=False, db_lock_wait_ms=0.0
+    ):
         # Serialize mutations per project so concurrent follow-ups cannot branch
         # from the same stale active revision and silently lose one update.
-        async with self.mutation_locks[str(project_id)]:
-            async with self._project_mutation_lock(str(project_id)) as db_lock_wait_ms:
-                current = await self.active_hard(project_id, user_id)
-                if not current:
-                    return None
-                plan = HardRequestIntent.model_validate(current["plan"])
-                understanding = (
-                    await self.query_understanding.understand(text)
-                    if self.query_understanding
-                    else None
+        if not lock_held:
+            async with self.project_transition_lock(str(project_id)) as db_lock_wait_ms:
+                return await self._patch_active_locked(
+                    project_id, text, user_id, db_lock_wait_ms
                 )
-                interpreted_text = understanding.search_query if understanding else text
-                mutation = self.intent_mutations.plan(plan, text, interpreted_text)
-                if not mutation.patches:
-                    return None
-                if mutation.patches[0].operation == PatchOperation.UNDO:
-                    return await self._undo_active_hard(project_id, user_id, current, text)
-                revised = self.intent_mutations.apply(plan, mutation)
-                revised.original_query = text
-                revised.normalized_query = interpreted_text
-                revised.query_understanding = (
-                    understanding.model_dump(mode="json") if understanding else {}
-                )
-                revised.query_understanding["mutation"] = mutation.model_dump(mode="json")
-                revised.query_understanding["db_lock_wait_ms"] = db_lock_wait_ms
-                operation = {
-                    "type": "INTENT_PATCH",
-                    "patches": [patch.model_dump(mode="json") for patch in mutation.patches],
-                    "base_revision": current["revision_number"],
-                    "db_lock_wait_ms": db_lock_wait_ms,
-                }
-                root = current.get("parent_request_id") or current["id"]
-                return await self.create_hard(project_id, text, user_id, revised, root, operation)
+        return await self._patch_active_locked(project_id, text, user_id, db_lock_wait_ms)
+
+    async def _patch_active_locked(self, project_id, text, user_id, db_lock_wait_ms):
+        current = await self.active_hard(project_id, user_id)
+        if not current:
+            return None
+        plan = HardRequestIntent.model_validate(current["plan"])
+        understanding = (
+            await self.query_understanding.understand(text)
+            if self.query_understanding
+            else None
+        )
+        interpreted_text = understanding.search_query if understanding else text
+        mutation = self.intent_mutations.plan(plan, text, interpreted_text)
+        if not mutation.patches:
+            return None
+        if mutation.patches[0].operation == PatchOperation.UNDO:
+            return await self._undo_active_hard(project_id, user_id, current, text)
+        revised = self.intent_mutations.apply(plan, mutation)
+        revised.original_query = text
+        revised.normalized_query = interpreted_text
+        revised.query_understanding = (
+            understanding.model_dump(mode="json") if understanding else {}
+        )
+        revised.query_understanding["mutation"] = mutation.model_dump(mode="json")
+        revised.query_understanding["db_lock_wait_ms"] = db_lock_wait_ms
+        operation = {
+            "type": "INTENT_PATCH",
+            "patches": [patch.model_dump(mode="json") for patch in mutation.patches],
+            "base_revision": current["revision_number"],
+            "db_lock_wait_ms": db_lock_wait_ms,
+        }
+        root = current.get("parent_request_id") or current["id"]
+        return await self.create_hard(project_id, text, user_id, revised, root, operation)
 
     async def _undo_active_hard(self, project_id, user_id, current, text):
         """Publish an immutable revision restoring the previous effective intent."""
@@ -500,7 +555,10 @@ class HardRequestService:
                         HardRequestRecord.project_id == project_id,
                         Project.user_id == user_id,
                         (HardRequestRecord.id == root) | (HardRequestRecord.parent_request_id == root),
-                        HardRequestRecord.status.in_(["COMPLETE", "COMPLETED", "PARTIAL"]),
+                        HardRequestRecord.status.in_([
+                            "COMPLETE", "COMPLETED", "PARTIAL", "COMPLETED_FULL",
+                            "COMPLETED_PARTIAL", "NO_MATCH", "UNSUPPORTED", "UNSUPPORTED_CONSTRAINT",
+                        ]),
                         HardRequestRecord.revision_number < upper_revision,
                     )
                     .order_by(HardRequestRecord.revision_number.desc())
@@ -527,6 +585,22 @@ class HardRequestService:
         async with self.sessions() as db:
             record = await db.get(HardRequestRecord, request_id)
         plan = HardRequestIntent.model_validate(record.parsed_plan)
+        if plan.unsupported_constraints:
+            async with self.sessions.begin() as db:
+                current = await db.get(HardRequestRecord, request_id)
+                # The existing status columns are VARCHAR(20); expose the full
+                # logical name from view() while persisting a compact token.
+                current.status = "UNSUPPORTED"
+                current.metrics = dict(current.metrics or {}) | {
+                    "unsupported_constraints": plan.unsupported_constraints,
+                    "requested_cases": plan.target_sets,
+                    "assembled_cases": 0,
+                    "assembly_status": "UNSUPPORTED_CONSTRAINT",
+                }
+                current.updated_at, current.revision = utcnow(), current.revision + 1
+                query = await db.get(ProjectQuery, current.query_id)
+                query.status, query.updated_at = "UNSUPPORTED", utcnow()
+            return
         if plan.category_mode == "AUTO_DISCOVER":
             async with self.sessions() as db:
                 concepts = (
@@ -606,6 +680,10 @@ class HardRequestService:
             search_metrics[category] = {
                 "raw_candidates": raw_count,
                 "lexical_match": raw_count,
+                "concept_matched": raw_count,
+                "sql_category_evidence": raw_count,
+                "sql_color_matched": len(candidates),
+                "category_color_validated": len(matches),
                 "has_offer": raw_count,
                 "category_matched": len(matches),
             }
@@ -639,12 +717,16 @@ class HardRequestService:
         for category, products in pools.items():
             constraints = plan.effective(category)
             color_matched = [
-                product for product in products if self.color_eligible(product, constraints.color)
+                product for product in products if self.color_eligible(product, constraints)
             ]
             color_matched_ids = {product.id for product in color_matched}
             required = constraints.required_quantity
             evaluations = {
-                product.id: self.strict_procurement_evaluation(product, required)
+                product.id: self.strict_procurement_evaluation(
+                    product,
+                    required,
+                    fresh_only=plan.availability_policy == "FRESH_ONLY",
+                )
                 for product in color_matched
             }
             quantity_confirmed = [
@@ -705,14 +787,13 @@ class HardRequestService:
                     for product in color_matched
                     if evaluations[product.id].reason_code
                     in {
-                        "STALE_OBSERVATION",
                         "UNKNOWN_QUANTITY",
                         "NO_PROCUREMENT_EVIDENCE",
                     }
                 ]
                 recoverable.sort(
                     key=lambda product: (
-                        evaluations[product.id].reason_code != "STALE_OBSERVATION",
+                        evaluations[product.id].reason_code != "UNKNOWN_QUANTITY",
                         -max((row.free_quantity or 0 for row in product.availability_records), default=0),
                         product.id,
                     )
@@ -739,8 +820,9 @@ class HardRequestService:
                 reasons["COLOR_MISMATCH"] = color_mismatch
             has_availability = [p for p in color_matched if p.availability_records]
             fresh = [p for p in has_availability if not p.metadata.get("availability_stale")]
+            last_known = [p for p in has_availability if p.metadata.get("availability_stale")]
             on_hand = [
-                p for p in fresh if any(r.state == "ON_HAND" for r in p.availability_records)
+                p for p in has_availability if any(r.state == "ON_HAND" for r in p.availability_records)
             ]
             free_known = [
                 p
@@ -796,8 +878,13 @@ class HardRequestService:
                     stage("CATEGORY_MATCH", raw_count, category_count, "CATEGORY_MISMATCH"),
                     stage("COLOR_MATCH", category_count, len(color_matched), "COLOR_MISMATCH_OR_UNKNOWN"),
                     stage("HAS_AVAILABILITY", len(color_matched), len(has_availability), "NO_PROCUREMENT_EVIDENCE"),
-                    stage("FRESH_AVAILABILITY", len(has_availability), len(fresh), "STALE_OBSERVATION"),
-                    stage("ON_HAND", len(fresh), len(on_hand), "NON_CURRENT_SUPPLY_ONLY"),
+                    {
+                        **stage("OBSERVATION_CONFIDENCE", len(has_availability), len(has_availability)),
+                        "confirmed_count": len(fresh),
+                        "last_known_count": len(last_known),
+                        "fresh_only": plan.availability_policy == "FRESH_ONLY",
+                    },
+                    stage("ON_HAND", len(has_availability), len(on_hand), "NON_CURRENT_SUPPLY_ONLY"),
                     stage("HAS_FREE_QUANTITY", len(on_hand), len(free_known), "UNKNOWN_QUANTITY"),
                     stage("FREE_QUANTITY_SUFFICIENT", len(free_known), len(free_sufficient), "FREE_QUANTITY_INSUFFICIENT"),
                     stage("VARIANT_VALID", len(free_sufficient), len(quantity_confirmed), "VARIANT_MISMATCH"),
@@ -810,6 +897,7 @@ class HardRequestService:
                     "has_availability_observation": len(has_availability),
                     "latest_availability_selected": len(has_availability),
                     "fresh_observation": len(fresh),
+                    "last_known_observation": len(last_known),
                     "on_hand": len(on_hand),
                     "free_known": sum(
                         any(
@@ -848,9 +936,23 @@ class HardRequestService:
                         for p in color_matched
                     ),
                     "quantity_confirmed": len(quantity_confirmed),
+                    "confirmed_sufficient": sum(
+                        evaluation.reason_code == "CURRENT_FREE_SUFFICIENT"
+                        for evaluation in evaluations.values()
+                    ),
+                    "last_known_sufficient": sum(
+                        evaluation.reason_code == "LAST_KNOWN_FREE_SUFFICIENT"
+                        for evaluation in evaluations.values()
+                    ),
                     "deduped": len(eligible[category]),
                     "canonical_dedup_rejected": len(quantity_confirmed) - len(eligible[category]),
                     "eligible_unique": len(eligible[category]),
+                    # Stable SupplierOffer identities make equivalent-query
+                    # parity and allocator diagnostics auditable without
+                    # confusing UI pagination with the backend pool.
+                    "eligible_supplier_offer_ids": [
+                        product.id for product in eligible[category]
+                    ],
                     "top_reject_reasons": reasons,
                     "funnel": funnel,
                     "effective_constraints": constraints.model_dump(mode="json"),
@@ -868,13 +970,44 @@ class HardRequestService:
         assembly_started = time.perf_counter()
         assembly = self.assembly_plan(plan, eligible, product_ids)
         assembly_ms = (time.perf_counter() - assembly_started) * 1000
+        allocated_by_category = {
+            category: {
+                product_ids[product.id]
+                for positions in assembly
+                for selected_category, chosen in positions
+                if selected_category == category
+                for product in chosen
+                if product.id in product_ids
+            }
+            for category in plan.categories
+        }
+        for category in plan.categories:
+            passed = len(eligible.get(category, []))
+            allocated = len(allocated_by_category.get(category, set()))
+            search_metrics[category].update(
+                {
+                    "candidates_passed_to_allocator": passed,
+                    "candidates_selected_by_allocator": allocated,
+                    "candidates_rejected_by_allocator": max(0, passed - allocated),
+                }
+            )
         maximum = len(assembly)
+        last_known_cases = sum(
+            any(
+                self.tier(chosen[0], plan.effective(category).required_quantity) == "B"
+                for category, chosen in positions
+            )
+            for positions in assembly
+        )
         theoretical = maximum
-        bottleneck_capacity = min((len(values) for values in eligible.values()), default=0)
-        bottlenecks = [
-            category
+        capacities = {
+            category: len(values) // plan.effective(category).items_required
             for category, values in eligible.items()
-            if len(values) == bottleneck_capacity
+        }
+        bottleneck_capacity = min(capacities.values(), default=0)
+        bottlenecks = [
+            category for category, capacity in capacities.items()
+            if capacity == bottleneck_capacity
         ]
         elapsed = round((time.perf_counter() - started) * 1000, 2)
         async with self.sessions.begin() as db:
@@ -896,12 +1029,21 @@ class HardRequestService:
                 "case_assembly_ms": round(assembly_ms, 2),
                 "filter_dedup_assembly_ms": round(max(0, elapsed - retrieval_wall_ms), 2),
                 "requested_cases": plan.target_sets,
+                "confirmed_stock_cases": maximum - last_known_cases,
+                "last_known_stock_cases": last_known_cases,
                 "theoretical_max_unique_cases": theoretical,
                 "maximum_unique_cases_possible": maximum,
                 "bottleneck_capacity": bottleneck_capacity,
                 "bottleneck_positions": bottlenecks,
                 "assembly_algorithm": "maximum-bipartite-matching-v2",
-                "case_completeness": "one selected strict-eligible offer per position; up to candidates_per_position alternatives",
+                "required_items_per_category": {
+                    category: plan.effective(category).items_required
+                    for category in plan.categories
+                },
+                "required_slots_per_case": sum(
+                    plan.effective(category).items_required for category in plan.categories
+                ),
+                "case_completeness": "one selected strict-eligible offer per required slot; up to candidates_per_position alternatives per slot",
             }
         recovery_jobs = []
         if maximum < plan.target_sets and recovery_generation == 0:
@@ -1008,7 +1150,7 @@ class HardRequestService:
                 return "C"
             return "D"
         evaluation = self.procurement_evaluation(product, quantity)
-        return {"CURRENT_FREE": "A", "CURRENT_PLUS_INCOMING": "B", "REMOTE": "C", "ALTERNATIVE": "C"}.get(
+        return {"CURRENT_FREE": "A", "LAST_KNOWN": "B", "CURRENT_PLUS_INCOMING": "B", "REMOTE": "C", "ALTERNATIVE": "C"}.get(
             evaluation.tier, "D"
         )
 
@@ -1023,69 +1165,48 @@ class HardRequestService:
         )
 
     @staticmethod
-    def strict_procurement_evaluation(product, quantity):
-        """Composite quantity eligibility uses only fresh, numeric ON_HAND free stock."""
+    def strict_procurement_evaluation(product, quantity, *, fresh_only=False):
+        """Composite quantity eligibility uses numeric ON_HAND free stock."""
         from app.application.availability import ProcurementEvaluation
 
         if quantity is None:
             return ProcurementEvaluation(1, "PASS", "CATALOG", None, [], "QUANTITY_NOT_REQUIRED")
-        base = ProcurementAvailabilityService().evaluate(
+        return ProcurementAvailabilityService().evaluate_on_hand(
             product.availability_records,
             quantity,
             stale=bool(product.metadata.get("availability_stale")),
-        )
-        if base.result == "PASS" and base.tier == "CURRENT_FREE":
-            return base
-        if base.reason_code in {
-            "STALE_OBSERVATION",
-            "NO_PROCUREMENT_EVIDENCE",
-            "UNKNOWN_QUANTITY",
-            "FREE_QUANTITY_INSUFFICIENT",
-            "RESERVED_ONLY",
-        }:
-            return base
-        states = {record.state for record in product.availability_records}
-        reason = (
-            "INCOMING_ONLY"
-            if states & {"INCOMING", "RECEIVING"}
-            else "REMOTE_ONLY"
-            if "REMOTE_STOCK" in states
-            else "PREORDER_ONLY"
-            if "PREORDER" in states
-            else "FACTORY_ONLY"
-            if states & {"FACTORY", "PRODUCTION"}
-            else "ORDER_ON_DEMAND"
-            if states & {"ORDER_ON_DEMAND", "WAITING_SHIPMENT"}
-            else base.reason_code
-        )
-        return ProcurementEvaluation(
-            quantity,
-            "REJECT",
-            None,
-            base.available_quantity,
-            base.evidence,
-            reason,
+            fresh_only=fresh_only,
         )
 
     def color_eligible(self, product, constraint):
         if isinstance(constraint, HardRequestIntent):
+            excluded = set(constraint.excluded_colors)
             constraint = constraint.color
+        elif isinstance(constraint, PositionConstraint):
+            excluded = set(constraint.excluded_colors)
+            constraint = constraint.color
+        else:
+            excluded = set()
+        actual = {
+            color.normalized_color.value
+            for color in product.colors
+            if color.normalized_color.value != "UNKNOWN"
+        }
+        if actual & excluded:
+            return False
         if constraint is None or constraint.mode == "BASE_COLORS":
             return True
         if constraint.mode == "DIVERSE":
             return any(color.normalized_color.value != "UNKNOWN" for color in product.colors)
         requested = set(constraint.values)
-        return bool(requested) and any(
-            color.normalized_color.value in requested and color.normalized_color.value != "UNKNOWN"
-            for color in product.colors
-        )
+        return bool(requested) and bool(actual & requested)
 
     def quantity_eligible(self, product, plan):
         required = plan.required_quantity
         return required is None or self.tier(product, required) in {"A", "B", "C"}
 
     def assembly_plan(self, plan, pools, product_ids):
-        """Find the maximum globally unique primary assignment, then add alternatives."""
+        """Find required primary slots, then attach alternatives to each slot."""
 
         pool_ids = {}
         offers = {}
@@ -1104,9 +1225,10 @@ class HardRequestService:
 
         def assignment(case_count):
             slots = [
-                (case_number, category)
+                (case_number, category, required_item)
                 for case_number in range(case_count)
                 for category in plan.categories
+                for required_item in range(plan.effective(category).items_required)
             ]
             # Hopcroft-Karp preserves the exact maximum-matching semantics while
             # avoiding the recursive full-pool rescan for every case slot.
@@ -1158,17 +1280,23 @@ class HardRequestService:
                         matched_count += 1
             if matched_count != len(slots):
                 return None
+            per_case = sum(plan.effective(category).items_required for category in plan.categories)
             return [
                 [
-                    (category, [offers[slot_match[case_number * len(plan.categories) + offset]]])
-                    for offset, category in enumerate(plan.categories)
+                    (category, [offers[slot_match[case_number * per_case + offset]]])
+                    for offset, (_case, category, _required_item) in enumerate(
+                        slots[case_number * per_case:(case_number + 1) * per_case]
+                    )
                 ]
                 for case_number in range(case_count)
             ]
 
         upper = min(
             plan.target_sets,
-            min((len(pool_ids.get(category, [])) for category in plan.categories), default=0),
+            min((
+                len(pool_ids.get(category, [])) // plan.effective(category).items_required
+                for category in plan.categories
+            ), default=0),
         )
         low, high, result = 0, upper, []
         while low <= high:
@@ -1293,9 +1421,20 @@ class HardRequestService:
                 "invalid_color_candidates": 0,
                 "unknown_availability_candidates": 0,
             }
-            record.status, record.updated_at, record.revision = "COMPLETED", utcnow(), record.revision + 1
+            if record.completed_cases == 0:
+                status = "NO_MATCH"
+            elif record.completed_cases < record.target_cases:
+                status = "COMPLETED_PARTIAL"
+            else:
+                status = "COMPLETED_FULL"
+            record.metrics = dict(record.metrics or {}) | {
+                "requested_cases": record.target_cases,
+                "assembled_cases": record.completed_cases,
+                "assembly_status": status,
+            }
+            record.status, record.updated_at, record.revision = status, utcnow(), record.revision + 1
             query = await db.get(ProjectQuery, record.query_id)
-            query.status, query.updated_at = "COMPLETED", utcnow()
+            query.status, query.updated_at = status, utcnow()
 
     async def get(self, request_id, user_id):
         async with self.sessions() as db:
@@ -1323,13 +1462,16 @@ class HardRequestService:
 
     @staticmethod
     def view(row):
+        public_status = (
+            "UNSUPPORTED_CONSTRAINT" if row.status == "UNSUPPORTED" else row.status
+        )
         return {
             "id": row.id,
             "project_id": row.project_id,
             "query_id": row.query_id,
             "original_text": row.original_text,
             "plan": row.parsed_plan,
-            "status": row.status,
+            "status": public_status,
             "target_cases": row.target_cases,
             "completed_cases": row.completed_cases,
             "revision": row.revision,
@@ -1341,8 +1483,15 @@ class HardRequestService:
         }
 
     async def cases(self, request_id, user_id, offset=0, limit=10):
-        if not await self.get(request_id, user_id):
+        request_view = await self.get(request_id, user_id)
+        if not request_view:
             return None
+        required_by_category = {
+            position["category_text"].casefold(): position.get("constraints", {}).get(
+                "items_required", request_view["plan"].get("items_per_position", 1)
+            )
+            for position in request_view["plan"].get("positions", [])
+        }
         async with self.sessions() as db:
             rows = (
                 await db.scalars(
@@ -1363,11 +1512,22 @@ class HardRequestService:
                     )
                 ).all()
                 items = []
+                category_ordinals = defaultdict(int)
                 for pos in positions:
+                    category_ordinals[pos.category_key] += 1
                     candidates = (
                         await db.execute(
-                            select(HardRequestCandidate, SupplierOffer, IndexedProduct)
+                            select(
+                                HardRequestCandidate,
+                                SupplierOffer,
+                                IndexedProduct,
+                                ProductObservation,
+                            )
                             .join(SupplierOffer, SupplierOffer.id == HardRequestCandidate.supplier_offer_id)
+                            .join(
+                                ProductObservation,
+                                ProductObservation.offer_id == SupplierOffer.id,
+                            )
                             .join(
                                 IndexedProduct, IndexedProduct.id == HardRequestCandidate.indexed_product_id
                             )
@@ -1380,21 +1540,28 @@ class HardRequestService:
                             "id": pos.id,
                             "position": pos.position_number,
                             "category": pos.category_label,
+                            "required_item": category_ordinals[pos.category_key],
+                            "required_items": required_by_category.get(pos.category_key, 1),
                             "candidates": [
                                 {
                                     "id": c.id,
                                     "offer_id": o.id,
                                     "product_id": p.id,
-                                    "name": p.name,
+                                    "name": o.payload.get("name") or p.name,
+                                    "colors": o.payload.get("colors", []),
+                                    "sku": o.payload.get("metadata", {}).get("sku"),
+                                    "stock_quantity": observation.stock,
+                                    "stock_scope": o.payload.get("metadata", {}).get("stock_scope"),
                                     "supplier": o.supplier,
                                     "source_url": validated_product_url(o.supplier, o.source_url),
-                                    "image": o.payload.get("primary_image"),
-                                    "price": o.payload.get("price_kzt"),
+                                    "image": o.payload.get("primary_image")
+                                    or next(iter(o.payload.get("images") or []), None),
+                                    "price": observation.price_kzt,
                                     "tier": c.availability_tier,
                                     "selected": c.selected,
                                     "user_locked": c.user_locked,
                                 }
-                                for c, o, p in candidates
+                                for c, o, p, observation in candidates
                             ],
                         }
                     )

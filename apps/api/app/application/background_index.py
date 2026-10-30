@@ -173,6 +173,12 @@ class BackgroundIndex:
                     raise
 
     async def run(self, job):
+        if job["supplier"] == "vto" and job["kind"] in {
+            "CATALOG_DISCOVERY", "FULL_CATALOG_RECONCILIATION", "INCREMENTAL_CATALOG_SYNC"
+        }:
+            from app.application.vto_sync import run_vto_job
+            await run_vto_job(self, job)
+            return
         started = time.perf_counter()
         job["started_perf"] = started
         status, error = "COMPLETED", None

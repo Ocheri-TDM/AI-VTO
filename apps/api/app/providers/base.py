@@ -27,8 +27,8 @@ class SupplierProvider(ABC):
     capabilities: ClassVar[ProviderCapabilities]
     parser_version: ClassVar[str] = "availability-v1"
     async def catalog_navigation(self, url=None):
-        from app.providers.catalog_navigation import navigation
-        return await navigation(self, url)
+        from app.domain.catalog import CatalogNavigation
+        return CatalogNavigation()
 
     def observation_group_key(self, url: str) -> str:
         """URLs sharing an observation response may be refreshed in one provider call."""
@@ -48,7 +48,7 @@ class SupplierProvider(ABC):
 
     @abstractmethod
     async def search(self, query: str, filters: SearchIntent) -> ProviderResult:
-        """Search one category/term through the supplier's normal browser UI."""
+        """Background HTTP research; interactive search reads the index."""
 
     @abstractmethod
     async def get_product(self, url: str) -> Product:

@@ -1,18 +1,14 @@
 import json
 from pathlib import Path
 
-import pytest
 from conftest import make_product
 
-from app.api.research import page_products, response
 from app.application.index_research import IndexedResearchService
-from app.application.research_analysis import current_products
 from app.application.research_refinement import ResearchRefinementEngine
 from app.database.conversations import ConversationRepository
 from app.database.index import IndexRepository
 from app.database.models import ResearchRecord
 from app.database.research import ResearchRepository
-from app.providers.catalog_navigation import catalog_links
 
 
 async def test_reproducible_query_eval_dataset():
@@ -34,53 +30,6 @@ async def test_reproducible_query_eval_dataset():
         assert intent.discovery and not any(c.startswith('dynamic:') for c in intent.categories)
 
 
-def test_portobello_paginator_excludes_unrelated_apollo_offers():
-    from app.providers.portobello import PortobelloProvider
-    provider=PortobelloProvider(None,None)
-    state={'family':{'nomenclatures':[{'__ref':'offer'}]}, 'offer':{'code':'001'},
-           'CatalogNomenclature:recommendation':{'code':'999'}}
-    assert provider.listing_offer_urls(state,{'items':[{'__ref':'family'}]})==['https://portobello.ru/catalog/offer/001']
-
-
-@pytest.mark.parametrize('supplier', ['artegifts', 'happygifts'])
-async def test_published_branch_identity_survives_listing_error(supplier):
-    from contextlib import asynccontextmanager
-
-    from app.domain.research import ResearchCoverage
-    from app.providers.artegifts import ArteGiftsProvider
-    from app.providers.happygifts import HappyGiftsProvider
-
-    class UnavailableBrowser:
-        @asynccontextmanager
-        async def session(self, *_args):
-            raise RuntimeError('offline')
-            yield
-
-    provider = (ArteGiftsProvider if supplier == 'artegifts' else HappyGiftsProvider)(UnavailableBrowser(), None)
-    route = provider.base_url + '/catalog/elektronika/'
-    branch = ResearchCoverage(supplier=supplier, category='', query='', route=route)
-    branch.cursor.listing_url = route
-    with pytest.raises(RuntimeError, match='offline'):
-        await provider.research_listing(branch)
-    assert branch.route == route
-
-
-@pytest.mark.parametrize('supplier,url',[
-    ('gifts','https://gifts.ru/catalog/brand-altavolo'),
-    ('ucontay','https://ucontay.kz/collection/odezhda'),
-    ('portobello','https://portobello.ru/catalog/elektronika'),
-    ('happygifts','https://happygifts.ru/catalog/butylki_dlya_vody/'),
-    ('artegifts','https://kz.artegifts.by/catalog/elektronika/'),
-    ('oasis','https://www.oasiscatalog.com/categories/kuhnya-i-posuda'),
-])
-def test_provider_navigation_contract_observed_urls(supplier,url):
-    links=[{'url':url,'label':'Unknown category'}, {'url':'https://evil.example/catalog/unknown','label':'bad'},
-           {'url':url+'?filter=bad','label':'filtered'}]
-    routes=catalog_links(supplier,links,'https://example.invalid/')
-    assert [r.url for r in routes]==[url]
-    assert routes[0].label=='Unknown category'
-
-
 async def test_new_matches_storage_and_full_pagination(repository,settings):
     index=IndexRepository(repository.sessions,settings)
     products=[make_product(id=f'gifts:{i}',supplier='gifts',name=f'Карандаш деревянный {i}',material='дерево') for i in range(204)]
@@ -91,12 +40,12 @@ async def test_new_matches_storage_and_full_pagination(repository,settings):
     research=await service.change(research.id,selected_ids=[products[0].id])
     await index.ingest([make_product(id='gifts:new',supplier='gifts',name='Карандаш новый',material='дерево')])
     research=await service.sync(research.id)
-    assert len(research.products)==204 and research.pending_offer_ids==['gifts:new']
+    assert not research.products and len(research.pool_offer_ids)==204
     research=await service.accept_matches(research.id)
-    assert len(research.products)==205 and research.view.selected_ids==[products[0].id]
-    dto=response(research)
-    second=page_products(research,current_products(research),dto['next_cursor'])
-    third=page_products(research,current_products(research),second['next_cursor'])
+    assert len(research.pool_offer_ids)==205 and research.view.selected_ids==[products[0].id]
+    dto=await service.grid_response(research)
+    second=await service.grid_response(research,dto['next_cursor'])
+    third=await service.grid_response(research,second['next_cursor'])
     pages=dto['products']+second['products']+third['products']
     assert [len(dto['products']),len(second['products']),len(third['products'])]==[100,100,5]
     assert third['next_cursor'] is None and len({item['id'] for item in pages})==205
@@ -110,16 +59,19 @@ async def test_hard_soft_semantic_undo_and_original_constraints(repository,setti
     index=IndexRepository(repository.sessions,settings)
     await index.ingest([make_product(id='gifts:1',supplier='gifts',name='Бутылка металлическая',material='металл'),
                         make_product(id='gifts:2',supplier='gifts',name='Бутылка пластиковая',material='пластик')])
-    chat=await ConversationRepository(repository.sessions).create('Semantic')
+    await ConversationRepository(repository.sessions).create('Semantic')
     service=IndexedResearchService(ResearchRepository(repository.sessions),[],settings,None,index)
-    research=await service.start(chat,'Бутылки 300 шт')
-    refine=ResearchRefinementEngine(service)
-    soft,decision,_=await refine.apply(research.id,'Желательно металлические')
-    assert decision.action=='LOCAL_RERANK' and len(current_products(soft))==2
-    hard,decision,_=await refine.apply(research.id,'Только металлические')
-    assert len(current_products(hard))==1
-    restored,_,_=await refine.apply(research.id,'Верни предыдущий вариант')
-    assert len(current_products(restored))==2
-    restored,_,_=await refine.apply(research.id,'Покажи всё')
-    assert len(current_products(restored))==2 and restored.intent.quantity==300
+    from app.application.project_queries import ProjectQueryService
+    from app.domain.conversation_router import ConversationQueryRouter
+    workspace=ProjectQueryService(repository.sessions,service,ConversationQueryRouter())
+    project=(await ConversationRepository(repository.sessions).projects())[0]['id']
+    await workspace.create(project,'Бутылки 300 шт',None)
+    soft=(await workspace.request(project,'Желательно металлические',None))['research']
+    assert (await service.grid_response(soft))['filtered_total']==2
+    hard=(await workspace.request(project,'Только металлические',None))['research']
+    assert (await service.grid_response(hard))['filtered_total']==1
+    restored=(await workspace.request(project,'Верни предыдущий вариант',None))['research']
+    assert (await service.grid_response(restored))['filtered_total']==2
+    restored=(await workspace.request(project,'Покажи всё',None))['research']
+    assert (await service.grid_response(restored))['filtered_total']==2 and restored.intent.quantity==300
     assert not service.tasks

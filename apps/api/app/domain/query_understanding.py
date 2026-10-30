@@ -520,6 +520,22 @@ class QueryUnderstandingService:
         else:
             threshold = 0.86 if best.catalog >= 1 else 0.93
         cross = best.role_penalty > 0
+        # A one-letter mutation inside a doubled consonant is weak evidence:
+        # e.g. ``шопбер`` is as plausibly an unknown name as a misspelling of
+        # ``шоппер``.  Exact supported single-consonant forms are resolved by
+        # the category resolver, so fuzzy correction should stay conservative.
+        geminate_mutation = bool(
+            len(low) == len(best.candidate)
+            and sum(left != right for left, right in zip(low, best.candidate, strict=True)) == 1
+            and any(
+                best.candidate[position] == best.candidate[position + 1]
+                and (
+                    low[position] != best.candidate[position]
+                    or low[position + 1] != best.candidate[position + 1]
+                )
+                for position in range(len(best.candidate) - 1)
+            )
+        )
         accepted = (
             direct
             or "MORPHOLOGY" in best.evidence
@@ -531,6 +547,7 @@ class QueryUnderstandingService:
             and bool({"EDIT", "KEYBOARD"} & set(best.evidence))
             and ("PHONETIC" not in best.evidence or best.edit >= 0.72)
             and not cross
+            and not geminate_mutation
         )
         action = (
             DecisionAction.CORRECT

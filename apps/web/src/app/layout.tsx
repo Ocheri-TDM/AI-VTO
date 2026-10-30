@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./studio.css";
 import "./research.css";
+import "./presentation.css";
 
 export const metadata: Metadata = {
   title: "Souvenir Studio — подборка с характером",

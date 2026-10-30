@@ -33,9 +33,28 @@ class IndexQueryService:
             )
             if not match:
                 continue
+            if any(
+                p.category == excluded
+                or matcher.match(p, excluded, retrieval_query)
+                in {CategoryMatch.EXACT, CategoryMatch.STRONG_RELATED}
+                for excluded in intent.excluded_categories
+            ):
+                continue
             if intent.colors and not any(c.normalized_color in intent.colors for c in p.colors):
                 continue
+            if intent.excluded_colors and any(
+                c.normalized_color in intent.excluded_colors for c in p.colors
+            ):
+                continue
             if intent.material and intent.material.casefold() not in facts(p):
+                continue
+            if intent.excluded_materials and any(
+                value.casefold() in facts(p) for value in intent.excluded_materials
+            ):
+                continue
+            if intent.budget and intent.budget.max is not None and (
+                p.price_kzt is None or p.price_kzt > intent.budget.max
+            ):
                 continue
             if intent.attributes and any(
                 str(p.metadata.get("attributes", {}).get(k, "")) != v for k, v in intent.attributes.items()

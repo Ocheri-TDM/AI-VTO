@@ -17,8 +17,7 @@ def main() -> None:
         access_log=False,
     )
     server = uvicorn.Server(config)
-    # Windows Playwright requires async subprocess support. Do not use reload/workers
-    # that switch the event loop to SelectorEventLoop on Windows.
+    # One API process owns the in-process scheduler; jobs remain durable in PostgreSQL.
     if sys.platform == "win32":
         with asyncio.Runner(loop_factory=asyncio.ProactorEventLoop) as runner:
             runner.run(server.serve())

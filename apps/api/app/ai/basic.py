@@ -4,7 +4,10 @@ from app.domain.models import SearchIntent
 from app.domain.services import ColorNormalizer, normalize_text
 
 CATEGORY_PATTERNS = {
-    "thermomug": r"термокруж\w*|термостакан\w*|thermo\s?mug\w*|travel mug\w*",
+    "thermomug": r"термокруж\w*|thermo\s?mug\w*|travel mug\w*|(?:thermal|insulated)\s+mug\w*",
+    "thermocup": r"термостакан\w*|(?:thermal|insulated)\s+tumbler\w*",
+    "flashdrive": r"флеш(?:к|[- ]?накопител|\s+памят)\w*|usb[- ]?накопител\w*|(?:usb\s+)?flash\s+drive|usb\s+memory\s+stick",
+    "powerbank": r"power\s*bank\w*|п(?:о|а|ау)вербанк\w*|внешн\w* аккумулятор\w*|портативн\w* аккумулятор\w*",
     "backpack": r"рюкзак\w*|backpack\w*",
     "notebook": r"ежедневник\w*|блокнот\w*|notebook\w*|diar(?:y|ies)",
     "pen": r"\bруч(?:ка|ки|ек|ку|ками)\b|\bpens?\b",
