@@ -31,6 +31,7 @@ export interface ProductAvailability {
 }
 
 export interface Product {
+  branch_category?:string|null;
   purpose_match?: {accepted:boolean;category_match:string;reason:string;identity?:{role:string;subject:string;primary:string[];version:string}};
   id: string;
   name: string;

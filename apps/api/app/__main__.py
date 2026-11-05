@@ -15,6 +15,8 @@ def main() -> None:
         port=settings.api_port,
         log_level="info",
         access_log=False,
+        limit_concurrency=settings.api_http_concurrency,
+        backlog=64,
     )
     server = uvicorn.Server(config)
     # One API process owns the in-process scheduler; jobs remain durable in PostgreSQL.

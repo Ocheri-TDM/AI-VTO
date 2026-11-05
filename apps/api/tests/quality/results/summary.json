@@ -1,0 +1,344 @@
+{
+  "overall": "PARTIAL",
+  "reason": "covered functional gates pass; 10-user HUD p95 exceeds 1s target; broad adversarial/model/production load coverage is not claimed",
+  "commit": "83a4ddc0d7df33d7b903c2dd087b85551a5b4b1f",
+  "dataset_hashes": {
+    "dataset.json": "433889043fa8284946c5c8d60d1eda51e58af32e714ebd628dc5aa15aede9100",
+    "holdout-v2.json": "30d1489f92c4cc17d7d0dd7560761f1647a192364085ca0990a1d6275884408b",
+    "holdout.json": "0c26482fb4ec8dc5634cfd76e7b6c8112ff7c17bc785f5a23bed6bbdcee6bc5c"
+  },
+  "baseline": {
+    "passed": 113,
+    "total": 150,
+    "oracle_corrected_passed": 114,
+    "note": "one packaging/feature expectation corrected from broad category to explicit requested feature; original evidence retained"
+  },
+  "labelled": {
+    "passed": 165,
+    "total": 165,
+    "families": {
+      "brand": {
+        "passed": 18,
+        "total": 18
+      },
+      "color": {
+        "passed": 9,
+        "total": 9
+      },
+      "combined": {
+        "passed": 30,
+        "total": 30
+      },
+      "contradiction": {
+        "passed": 4,
+        "total": 4
+      },
+      "equivalence": {
+        "passed": 30,
+        "total": 30
+      },
+      "global-material": {
+        "passed": 1,
+        "total": 1
+      },
+      "hard": {
+        "passed": 1,
+        "total": 1
+      },
+      "hybrid": {
+        "passed": 1,
+        "total": 1
+      },
+      "legacy-grid": {
+        "passed": 4,
+        "total": 4
+      },
+      "local-constraints": {
+        "passed": 1,
+        "total": 1
+      },
+      "model": {
+        "passed": 3,
+        "total": 3
+      },
+      "negation": {
+        "passed": 3,
+        "total": 3
+      },
+      "numeric-role": {
+        "passed": 3,
+        "total": 3
+      },
+      "other": {
+        "passed": 7,
+        "total": 7
+      },
+      "preserve-unknown": {
+        "passed": 4,
+        "total": 4
+      },
+      "price-boundary": {
+        "passed": 12,
+        "total": 12
+      },
+      "price-role": {
+        "passed": 1,
+        "total": 1
+      },
+      "price-spaces": {
+        "passed": 1,
+        "total": 1
+      },
+      "purpose": {
+        "passed": 4,
+        "total": 4
+      },
+      "purpose-role": {
+        "passed": 4,
+        "total": 4
+      },
+      "quantity-boundary": {
+        "passed": 12,
+        "total": 12
+      },
+      "sku": {
+        "passed": 1,
+        "total": 1
+      },
+      "soft": {
+        "passed": 2,
+        "total": 2
+      },
+      "subtype": {
+        "passed": 2,
+        "total": 2
+      },
+      "union": {
+        "passed": 5,
+        "total": 5
+      },
+      "unqualified-price": {
+        "passed": 1,
+        "total": 1
+      },
+      "unqualified-quantity": {
+        "passed": 1,
+        "total": 1
+      }
+    },
+    "nonempty_queries": 133,
+    "precision_at_10": 1.0,
+    "precision_at_50": 1.0,
+    "recall_known_fixture_universe": 1.0,
+    "mean_jaccard_to_gold": 1.0,
+    "precision_denominator": "min(k, returned count); empty/rejected cases reported separately; full membership is exact so ranking cannot hide unrelated IDs",
+    "unrelated_offer_ids": 0,
+    "missing_offer_ids": 0
+  },
+  "holdout_first": {
+    "passed": 22,
+    "total": 50,
+    "membership_passed": 50,
+    "seed": 927651
+  },
+  "holdout_second": {
+    "passed": 100,
+    "total": 100,
+    "seed": 927652,
+    "scope": "unseen numeric values and ordering in the same numeric template family; not broad unseen grammar"
+  },
+  "properties": {
+    "seed": 20261033,
+    "examples": 5000,
+    "unique_inputs": 5000,
+    "duplicates": 0,
+    "scope": "numeric role / schema / identity masking; not arbitrary semantic fuzz",
+    "failures": [],
+    "seconds": 9.140999999828637,
+    "status": "PASS"
+  },
+  "stateful": {
+    "sequences": 200,
+    "status": "PASS",
+    "logical_actions": {
+      "9": 158,
+      "8": 29,
+      "5": 13
+    },
+    "persisted_history_reads": 200
+  },
+  "faults": {
+    "status": "PASS",
+    "canary_checks": 21,
+    "mutations_detected": 3
+  },
+  "browser": {
+    "status": "PASS",
+    "browser": "installed Microsoft Edge",
+    "desktop": "1440x1000",
+    "mobile": "390x844",
+    "checks": [
+      {
+        "check": "Authenticated persisted workspace",
+        "pass": true
+      },
+      {
+        "check": "Hide retains category",
+        "pass": true
+      },
+      {
+        "check": "Show retains project selection",
+        "pass": true
+      },
+      {
+        "check": "Remove changes source workspace",
+        "pass": true
+      },
+      {
+        "check": "Context restore",
+        "pass": true
+      },
+      {
+        "check": "F5 restores categories and collection",
+        "pass": true
+      },
+      {
+        "check": "No desktop horizontal overflow",
+        "pass": true
+      },
+      {
+        "check": "No mobile horizontal overflow",
+        "pass": true
+      },
+      {
+        "check": "Mobile collection count retained",
+        "pass": true
+      }
+    ],
+    "screenshots": [
+      "desktop.png",
+      "mobile.png"
+    ],
+    "main_api_health": 200
+  },
+  "browser_isolated": {
+    "status": "PASS",
+    "checks": [
+      {
+        "check": "late closed SSE callback cannot restore the old workspace",
+        "pass": true
+      },
+      {
+        "check": "harmless HTML/XSS canary remains inert in rendered UI",
+        "pass": true
+      }
+    ],
+    "api": "isolated PostgreSQL/API only",
+    "frontend": "read-only local production assets",
+    "http_requests": 15
+  },
+  "live": {
+    "original_submissions": 60,
+    "post_fix_original_submissions": 35,
+    "supplemental_exact_sku": {
+      "query": "GF-12449.40",
+      "offer_ids": [
+        "vto:1823109"
+      ],
+      "status": "PASS"
+    },
+    "total_submissions": 62,
+    "sku_reproduction": {
+      "submission": 61,
+      "status": "FAIL before repair",
+      "actual_model": "Tippo",
+      "expected_id": "vto:1823109"
+    }
+  },
+  "isolated_socket_requests": 5010,
+  "terminal_browser_budget": {
+    "original": 5000,
+    "extended": 5032,
+    "reason": "one final isolated Edge SSE/XSS run after hydration fix; no further load"
+  },
+  "remaining_limits": [
+    "10-user HUD p95 1.727s exceeds 1s target",
+    "no 20-user or long-duration load",
+    "real Qwen inference under mixed load not measured",
+    "numeric properties/holdout are not universal language coverage",
+    "no exhaustive Markdown/URL-scheme/SSRF exploit corpus",
+    "pool hold/CPU/full-run peak RSS not instrumented; rolling SQL/checkout/lag and separate RSS characterization are available",
+    "catalog import remains incomplete/source backoff independent of search fixes",
+    "full limit-minus-one/limit/limit-plus-one matrix and very large history are not exhaustively tested"
+  ],
+  "release_gates": {
+    "backend": {
+      "status": "PASS",
+      "passed": 529,
+      "deselected": 1,
+      "seconds": 230.52
+    },
+    "last_request_brand_category_regressions": {
+      "status": "PASS",
+      "passed": 72
+    },
+    "frontend_tests": {
+      "status": "PASS",
+      "passed": 32
+    },
+    "ruff": "PASS",
+    "eslint": "PASS",
+    "typescript": "PASS",
+    "next_production_build": "PASS",
+    "git_diff_check": "PASS",
+    "browser": "PASS within reported scope",
+    "overall": "PARTIAL due latency/coverage limitations"
+  },
+  "cleanup": {
+    "status": "PASS",
+    "main_database_preserved": true,
+    "offers_before": 4664,
+    "offers_after": 4664,
+    "commercial_changed_ids": [],
+    "added_offer_ids": [],
+    "removed_offer_ids": [],
+    "commercial_sha256_before": "2c643f055a5d9491604d6d04fc019bd25e1ce4a0a5ceb7428bde2f23735098de",
+    "commercial_sha256_after": "2c643f055a5d9491604d6d04fc019bd25e1ce4a0a5ceb7428bde2f23735098de",
+    "deleted_test_users": 3,
+    "deleted_test_projects": 3,
+    "deleted_test_documents": 3,
+    "other_document_drafts_unchanged": 8,
+    "alembic": "0023_request_epoch",
+    "catalog_jobs": [
+      {
+        "id": "3af11531-88ce-4c5f-b33d-869c4045d606",
+        "status": "PENDING",
+        "error": "VTO_HTTP_ERROR",
+        "updated_at": "2026-10-31 11:27:33.263240+00:00"
+      },
+      {
+        "id": "46d59da7-676a-4571-8092-e93a02167082",
+        "status": "PENDING",
+        "error": "VTO_NOT_FOUND",
+        "updated_at": "2026-10-31 15:12:52.684665+00:00"
+      }
+    ],
+    "disposable_cluster_removed": true,
+    "isolated_processes_stopped": true,
+    "temporary_targets_removed": 85,
+    "private_ledger_removed": true,
+    "health": {
+      "http://127.0.0.1:8000/api/health": 200,
+      "http://127.0.0.1:3000/": 200,
+      "http://127.0.0.1:3000/api/health": 200
+    }
+  },
+  "final_canary": {
+    "status": "PASS",
+    "exact_sku_ids": [
+      "vto:1823109"
+    ],
+    "collection_count": 0,
+    "health": 200
+  }
+}

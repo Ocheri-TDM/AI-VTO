@@ -247,13 +247,15 @@ async def test_snapshot_http_revision_ownership_and_process(settings):
             "research"
         ]
         ids = [result["products"][0]["id"], "vto:103"]
+        collection = (await client.get(f"/api/projects/{project}/collection")).json()
         result = (
             await client.patch(
                 f"/api/researches/{result['id']}/view",
-                json={"version": result["view"]["version"], "selected_ids": ids},
+                json={"version": result["view"]["version"], "selected_ids": ids, "collection_version": collection['version']},
             )
         ).json()
-        body = {"research_id": result["id"], "selection_version": result["view"]["version"]}
+        collection = (await client.get(f"/api/projects/{project}/collection")).json()
+        body = {"collection_version": collection['version']}
         response = await client.post(f"/api/projects/{project}/presentations", json=body)
         assert response.status_code == 201, response.text
         doc = response.json()
@@ -268,7 +270,7 @@ async def test_snapshot_http_revision_ownership_and_process(settings):
         malicious["items"][0]["unit_price_kzt"] = "0"
         assert (await client.patch(base, json=malicious)).status_code == 422
         assert (
-            await client.post(f"/api/projects/{project}/presentations", json=body | {"selection_version": 0})
+            await client.post(f"/api/projects/{project}/presentations", json=body | {"collection_version": 0})
         ).status_code == 409
         async with AsyncClient(transport=transport, base_url="http://test") as foreign:
             await foreign.post(

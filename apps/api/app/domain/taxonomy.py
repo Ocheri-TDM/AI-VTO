@@ -90,6 +90,21 @@ SEEDS = {
 }
 
 
+DISPLAY_NAMES = {
+    "pen": "Ручки",
+    "bottle": "Бутылки",
+    "backpack": "Рюкзаки",
+    "notebook": "Ежедневники",
+    "umbrella": "Зонты",
+    "bag": "Сумки",
+    "charger": "Зарядные устройства",
+    "cable": "Кабели",
+    "lunchbox": "Ланчбоксы",
+    "accessory": "Брелоки",
+    **{key: value[0] for key, value in SEEDS.items()},
+}
+
+
 class Expansion(BaseModel):
     query: str
     origin: str = "taxonomy"
@@ -104,10 +119,15 @@ def terms(text: str) -> list[str]:
     for word in words:
         if word in stop:
             continue
-        stem = re.sub(
-            r"(?:иями|ями|ами|ого|ему|ому|ыми|ими|ией|ов|ев|ей|ах|ях|ы|и|а|я|у|ю|ом|ем|ой)$",
-            "", word,
-        ) if len(word) > 4 else word
+        stem = (
+            re.sub(
+                r"(?:иями|ями|ами|ого|ему|ому|ыми|ими|ией|ов|ев|ей|ах|ях|ы|и|а|я|у|ю|ом|ем|ой)$",
+                "",
+                word,
+            )
+            if len(word) > 4
+            else word
+        )
         stems.append(stem or word)
     return list(dict.fromkeys(stems))
 
@@ -120,12 +140,11 @@ class UniversalCategoryResolver:
         ]
 
     def resolve(self, phrase: str) -> list[str]:
-        text = normalize_text(phrase)
+        text = re.sub(r"\bтермо\s*[- ]\s*(круж|стакан)", r"термо\1", normalize_text(phrase))
         found = [
             n.id
             for n in self.nodes
-            if text == normalize_text(n.id)
-            or any(re.search(r"\b" + re.escape(a), text) for a in n.aliases)
+            if text == normalize_text(n.id) or any(re.search(r"\b" + re.escape(a), text) for a in n.aliases)
         ]
         legacy = CategoryResolver().classify(text)
         if "shopperbag" in found or "shopperbag" in legacy:
@@ -147,9 +166,11 @@ class UniversalCategoryResolver:
             r"\b(?:только\s+(?:в\s+)?наличии|можно\s+подождать|до\s+тенге|"
             r"темно[- ]?син\w*|син\w*|черн\w*|бел\w*|красн\w*|"
             r"металлическ\w*|деревянн\w*|пластиков\w*|хлопков\w*)\b",
-            " ", value,
+            " ",
+            value,
         )
         value = " ".join(value.split()).strip(" .,")
+        value = re.sub(r"\b(?:от|до|минимум|максимум|тираж)\s*$", "", value).strip()
         return value or normalize_text(phrase)
 
     def dynamic_id(self, phrase: str) -> str:
@@ -190,10 +211,17 @@ class ProductCategoryMatcher:
         self.resolver = UniversalCategoryResolver()
 
     def match(self, product, category: str, query: str = "") -> CategoryMatch:
-        if category == 'pen' and re.search(
-            r'(?:круж|стакан|сумк|двер|рюкзак).{0,90}ручк|ручк.{0,35}(?:круж|двер|сумк)',
-            product.name, re.I,
-        ) and not re.search(r'шариков|пишущ|роллер|ballpoint|writing pen|вечн\w*\s+карандаш', product.name, re.I):
+        if (
+            category == "pen"
+            and re.search(
+                r"(?:круж|стакан|сумк|двер|рюкзак).{0,90}ручк|ручк.{0,35}(?:круж|двер|сумк)",
+                product.name,
+                re.I,
+            )
+            and not re.search(
+                r"шариков|пишущ|роллер|ballpoint|writing pen|вечн\w*\s+карандаш", product.name, re.I
+            )
+        ):
             return CategoryMatch.REJECTED
         packaging = re.search(
             r"^(?:подарочн\w*\s+)?(?:набор|комплект|коробк\w*|футляр\w*|чехол|точилк\w*)\b",
@@ -211,6 +239,7 @@ class ProductCategoryMatcher:
             str(product.metadata.get("breadcrumbs", "")),
             tuple(product.metadata.get("product_concepts", [])),
         )
+
         def token_match(left: str, right: str) -> bool:
             return (
                 left.startswith(right)
@@ -263,15 +292,10 @@ class ProductCategoryMatcher:
         if product.category == category and category not in QueryVocabulary.EQUIVALENTS:
             return CategoryMatch.EXACT
 
-        if (
-            not exact_forms
-            and requested
-            and all(any(token_match(t, r) for t in evidence) for r in requested)
-        ):
+        if not exact_forms and requested and all(any(token_match(t, r) for t in evidence) for r in requested):
             return CategoryMatch.EXACT
         if not exact_forms and any(
-            all(any(token_match(t, r) for t in evidence) for r in alternative)
-            for alternative in alternatives
+            all(any(token_match(t, r) for t in evidence) for r in alternative) for alternative in alternatives
         ):
             return CategoryMatch.STRONG_RELATED
         path = (

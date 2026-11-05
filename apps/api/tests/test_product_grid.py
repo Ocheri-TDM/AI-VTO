@@ -70,7 +70,9 @@ async def test_purpose_is_not_replaced_by_catalog_token_correction(repository, s
                 original_price=500,
                 original_currency="KZT",
                 source_url="https://vto.kz/product/p/",
-            )
+            ),
+            Product(id="vto:purpose-travel", supplier="vto", name="Рюкзак для поездок", original_price=1500,
+                original_currency="KZT",source_url="https://vto.kz/product/travel/"),
         ]
     )
     query = "Подбери подарки для сотрудников в дороге, без одежды, до 7000 тенге"
@@ -78,6 +80,7 @@ async def test_purpose_is_not_replaced_by_catalog_token_correction(repository, s
     assert r.intent.normalized_query == query and r.intent.purpose
     assert all(not b.category.startswith("dynamic:") for b in r.intent.branches)
     assert (await grid.grid_response(r))["filtered_total"] == 1
+    assert r.pool_offer_ids == ["vto:purpose-travel"]
 
 
 async def test_full_pool_brand_paging_selection_and_reset(repository, settings):

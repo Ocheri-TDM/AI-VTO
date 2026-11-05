@@ -1,11 +1,16 @@
-import type { Research, ResearchFilters } from './research';
+import type { BranchAction, Research, ResearchFilters } from './research';
 
-export type ViewMutation = {filters?:ResearchFilters;selected_ids?:string[];sorting?:string;restore?:'undo'|'reset'};
+export type ViewMutation = {filters?:ResearchFilters;selected_ids?:string[];sorting?:string;restore?:'undo'|'reset';branch_actions?:BranchAction[]};
+function merge(left:ViewMutation|null,right:ViewMutation):ViewMutation {
+  return {...left,...right,...(left?.branch_actions||right.branch_actions?{branch_actions:[...(left?.branch_actions??[]),...(right.branch_actions??[])]}:{})};
+}
 
 export function draftResearch(base:Research, draft:ViewMutation, previous:Research=base):Research {
   const ids=draft.selected_ids??base.view.selected_ids;
   const known=new Map([...previous.products,...previous.selected_products,...base.products,...base.selected_products].map(p=>[p.id,p]));
-  return {...base,view:{...base.view,...(draft.filters?{filters:draft.filters}:{}),...(draft.sorting?{sorting:draft.sorting}:{}),selected_ids:ids},
+  let hidden=[...(base.view.hidden_branch_ids??[])];
+  for(const op of draft.branch_actions??[]){if(op.action==='show_all')hidden=[];else if(op.action==='hide'&&op.branch_id&&!hidden.includes(op.branch_id))hidden=[...hidden,op.branch_id];else if(op.action==='show')hidden=hidden.filter(id=>id!==op.branch_id);}
+  return {...base,query_categories:base.query_categories?.map(b=>({...b,hidden:hidden.includes(b.id)})),view:{...base.view,hidden_branch_ids:hidden,...(draft.filters?{filters:draft.filters}:{}),...(draft.sorting?{sorting:draft.sorting}:{}),selected_ids:ids},
     selected_count:ids.length,selected_products:ids.flatMap(id=>known.has(id)?[known.get(id)!]:[])};
 }
 
@@ -21,7 +26,7 @@ export class ResearchViewWriter {
     private publish:(value:Research,pending:ViewMutation|null,sent:ViewMutation)=>void,
     private busy:(value:boolean)=>void,private error:(value:unknown)=>void) {}
   reset(value:Research|null){this.epoch+=1;this.pending=null;this.sending=null;this.base=value;}
-  enqueue(change:ViewMutation){if(!this.pending&&this.sending&&JSON.stringify(change)===JSON.stringify(this.sending))return;this.pending={...this.pending,...change};void this.flush();}
+  enqueue(change:ViewMutation){if(!this.pending&&this.sending&&JSON.stringify(change)===JSON.stringify(this.sending))return;this.pending=merge(this.pending,change);void this.flush();}
   private async flush(){
     if(this.saving||!this.base)return;
     this.saving=true;this.busy(true);
@@ -41,7 +46,7 @@ export class ResearchViewWriter {
             let fresh:Research;
             try{fresh=await this.reload(base.id);}catch(reloadError){if(epoch===this.epoch){this.error(reloadError);this.publish(base,this.pending,{});}continue;}
             if(epoch!==this.epoch)continue;
-            this.base=fresh;this.pending={...sent,...(this.pending as ViewMutation|null??{})};continue;
+            this.base=fresh;this.pending=merge(sent,this.pending as ViewMutation|null??{});continue;
           }
           this.error(error);
           try{const fresh=await this.reload(base.id);if(epoch===this.epoch){this.base=fresh;this.publish(fresh,this.pending,{});}}catch{if(epoch===this.epoch)this.publish(base,this.pending,{});}

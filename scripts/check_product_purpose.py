@@ -49,6 +49,10 @@ async def main():
                 return dict(row)
 
         async def call(method, path, **kwargs):
+            body = kwargs.get('json', {})
+            if method == 'PATCH' and path.startswith('/api/researches/') and 'selected_ids' in body:
+                collection = (await c.get(f'/api/projects/{project}/collection')).json()
+                body['collection_version'] = collection['version']
             r = await c.request(method, path, **kwargs)
             r.raise_for_status()
             return r

@@ -1,0 +1,1355 @@
+{
+  "seed": 927651,
+  "cases": [
+    {
+      "id": "H927651-0",
+      "query": "Рюкзаки от 554 штук, цена до 2570 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                554
+              ],
+              [
+                "price",
+                "le",
+                2570
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-1",
+      "query": "Бутылки от 594 штук, цена до 2707 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                594
+              ],
+              [
+                "price",
+                "le",
+                2707
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-2",
+      "query": "Найди рюкзаки, тираж минимум 434шт, не дороже 995 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                434
+              ],
+              [
+                "price",
+                "le",
+                995
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-3",
+      "query": "Бутылки от 540 штук, цена до 3199 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                540
+              ],
+              [
+                "price",
+                "le",
+                3199
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-4",
+      "query": "Найди ручки, тираж минимум 374шт, не дороже 4380 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                374
+              ],
+              [
+                "price",
+                "le",
+                4380
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-5",
+      "query": "Бутылки от 139 штук, цена до 3800 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                139
+              ],
+              [
+                "price",
+                "le",
+                3800
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-6",
+      "query": "Бутылки от 645 штук, цена до 5344 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                645
+              ],
+              [
+                "price",
+                "le",
+                5344
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-7",
+      "query": "Найди ручки, тираж минимум 228шт, не дороже 2672 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                228
+              ],
+              [
+                "price",
+                "le",
+                2672
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-8",
+      "query": "Рюкзаки от 273 штук, цена до 5433 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                273
+              ],
+              [
+                "price",
+                "le",
+                5433
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-9",
+      "query": "Ручки от 114 штук, цена до 3097 ₸",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                114
+              ],
+              [
+                "price",
+                "le",
+                3097
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-10",
+      "query": "Найди бутылки, тираж минимум 602шт, не дороже 4732 тенге",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                602
+              ],
+              [
+                "price",
+                "le",
+                4732
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-11",
+      "query": "Ручки от 527 штук, цена до 1732 ₸",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                527
+              ],
+              [
+                "price",
+                "le",
+                1732
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-12",
+      "query": "Ручки от 642 штук, цена до 3822 ₸",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                642
+              ],
+              [
+                "price",
+                "le",
+                3822
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-13",
+      "query": "Найди ручки, тираж минимум 534шт, не дороже 657 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                534
+              ],
+              [
+                "price",
+                "le",
+                657
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-14",
+      "query": "Бутылки от 475 штук, цена до 3302 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                475
+              ],
+              [
+                "price",
+                "le",
+                3302
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-15",
+      "query": "Найди рюкзаки, тираж минимум 180шт, не дороже 3112 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                180
+              ],
+              [
+                "price",
+                "le",
+                3112
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-16",
+      "query": "Ручки от 97 штук, цена до 3499 ₸",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                97
+              ],
+              [
+                "price",
+                "le",
+                3499
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-17",
+      "query": "Найди ручки, тираж минимум 598шт, не дороже 3020 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                598
+              ],
+              [
+                "price",
+                "le",
+                3020
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-18",
+      "query": "Бутылки от 398 штук, цена до 3867 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                398
+              ],
+              [
+                "price",
+                "le",
+                3867
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-19",
+      "query": "Рюкзаки от 91 штук, цена до 3239 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                91
+              ],
+              [
+                "price",
+                "le",
+                3239
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-20",
+      "query": "Рюкзаки от 285 штук, цена до 886 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                285
+              ],
+              [
+                "price",
+                "le",
+                886
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-21",
+      "query": "Бутылки от 592 штук, цена до 5258 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                592
+              ],
+              [
+                "price",
+                "le",
+                5258
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-22",
+      "query": "Найди ручки, тираж минимум 174шт, не дороже 2451 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                174
+              ],
+              [
+                "price",
+                "le",
+                2451
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-23",
+      "query": "Найди ручки, тираж минимум 124шт, не дороже 5234 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                124
+              ],
+              [
+                "price",
+                "le",
+                5234
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-24",
+      "query": "Ручки от 91 штук, цена до 3012 ₸",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                91
+              ],
+              [
+                "price",
+                "le",
+                3012
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-25",
+      "query": "Найди рюкзаки, тираж минимум 173шт, не дороже 1516 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                173
+              ],
+              [
+                "price",
+                "le",
+                1516
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-26",
+      "query": "Рюкзаки от 650 штук, цена до 2832 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                650
+              ],
+              [
+                "price",
+                "le",
+                2832
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-27",
+      "query": "Найди ручки, тираж минимум 583шт, не дороже 1195 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                583
+              ],
+              [
+                "price",
+                "le",
+                1195
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-28",
+      "query": "Найди ручки, тираж минимум 574шт, не дороже 5074 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                574
+              ],
+              [
+                "price",
+                "le",
+                5074
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-29",
+      "query": "Ручки от 254 штук, цена до 1962 ₸",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                254
+              ],
+              [
+                "price",
+                "le",
+                1962
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-30",
+      "query": "Найди рюкзаки, тираж минимум 499шт, не дороже 3098 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                499
+              ],
+              [
+                "price",
+                "le",
+                3098
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-31",
+      "query": "Найди бутылки, тираж минимум 434шт, не дороже 3004 тенге",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                434
+              ],
+              [
+                "price",
+                "le",
+                3004
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-32",
+      "query": "Бутылки от 611 штук, цена до 980 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                611
+              ],
+              [
+                "price",
+                "le",
+                980
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-33",
+      "query": "Рюкзаки от 494 штук, цена до 4192 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                494
+              ],
+              [
+                "price",
+                "le",
+                4192
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-34",
+      "query": "Рюкзаки от 446 штук, цена до 4660 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                446
+              ],
+              [
+                "price",
+                "le",
+                4660
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-35",
+      "query": "Найди рюкзаки, тираж минимум 464шт, не дороже 2045 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                464
+              ],
+              [
+                "price",
+                "le",
+                2045
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-36",
+      "query": "Рюкзаки от 450 штук, цена до 2957 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                450
+              ],
+              [
+                "price",
+                "le",
+                2957
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-37",
+      "query": "Ручки от 577 штук, цена до 3221 ₸",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                577
+              ],
+              [
+                "price",
+                "le",
+                3221
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-38",
+      "query": "Найди ручки, тираж минимум 524шт, не дороже 2323 тенге",
+      "concepts": [
+        "pen"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                524
+              ],
+              [
+                "price",
+                "le",
+                2323
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-39",
+      "query": "Рюкзаки от 206 штук, цена до 2822 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                206
+              ],
+              [
+                "price",
+                "le",
+                2822
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-40",
+      "query": "Найди рюкзаки, тираж минимум 396шт, не дороже 2436 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                396
+              ],
+              [
+                "price",
+                "le",
+                2436
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-41",
+      "query": "Бутылки от 542 штук, цена до 4779 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                542
+              ],
+              [
+                "price",
+                "le",
+                4779
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-42",
+      "query": "Рюкзаки от 135 штук, цена до 980 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                135
+              ],
+              [
+                "price",
+                "le",
+                980
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-43",
+      "query": "Бутылки от 416 штук, цена до 4817 ₸",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                416
+              ],
+              [
+                "price",
+                "le",
+                4817
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-44",
+      "query": "Найди бутылки, тираж минимум 236шт, не дороже 2464 тенге",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                236
+              ],
+              [
+                "price",
+                "le",
+                2464
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-45",
+      "query": "Найди бутылки, тираж минимум 489шт, не дороже 3603 тенге",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                489
+              ],
+              [
+                "price",
+                "le",
+                3603
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-46",
+      "query": "Найди бутылки, тираж минимум 159шт, не дороже 5061 тенге",
+      "concepts": [
+        "bottle"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                159
+              ],
+              [
+                "price",
+                "le",
+                5061
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-47",
+      "query": "Рюкзаки от 337 штук, цена до 3636 ₸",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                337
+              ],
+              [
+                "price",
+                "le",
+                3636
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-48",
+      "query": "Найди рюкзаки, тираж минимум 462шт, не дороже 1939 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                462
+              ],
+              [
+                "price",
+                "le",
+                1939
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    },
+    {
+      "id": "H927651-49",
+      "query": "Найди рюкзаки, тираж минимум 298шт, не дороже 1513 тенге",
+      "concepts": [
+        "backpack"
+      ],
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                298
+              ],
+              [
+                "price",
+                "le",
+                1513
+              ]
+            ]
+          }
+        ]
+      },
+      "family": "holdout"
+    }
+  ]
+}

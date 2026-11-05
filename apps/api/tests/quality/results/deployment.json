@@ -1,0 +1,8 @@
+{
+  "migration_before": "0023_request_epoch",
+  "migration_after": "0023_request_epoch",
+  "api_health": 200,
+  "supplier_lease_active_at_restart": false,
+  "postgres_stopped": false,
+  "ollama_stopped": false
+}

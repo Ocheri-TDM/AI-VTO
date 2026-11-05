@@ -1,15 +1,19 @@
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from app.api.request_safety import validate_query
 from app.api.research import render
 
 router = APIRouter(tags=["project queries"])
 
 
 class QueryCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
     query: str = Field(min_length=1, max_length=2000)
+
+    _query = field_validator("query")(validate_query)
 
 
 def owner(request):
@@ -32,7 +36,11 @@ async def submit(project_id: UUID, body: QueryCreate, request: Request):
     except ValueError as exc:
         if str(exc) == "STATE_CONFLICT":
             raise HTTPException(409, "Подборка изменилась. Повторите уточнение.") from exc
-        raise
+        if str(exc) == "UNKNOWN_BRANCH":
+            raise HTTPException(422, "В текущем запросе нет такой категории.") from exc
+        raise HTTPException(
+            422, "Не удалось применить условия. Проверьте количество, цену и исключения."
+        ) from exc
     if result is None:
         raise HTTPException(404, "Project not found")
     return {
@@ -45,7 +53,14 @@ async def submit(project_id: UUID, body: QueryCreate, request: Request):
 
 @router.post("/api/projects/{project_id}/queries/{query_id}/activate")
 async def activate(project_id: UUID, query_id: UUID, request: Request):
-    result = await request.app.state.project_queries.activate(str(project_id), str(query_id), owner(request))
+    try:
+        result = await request.app.state.project_queries.activate(
+            str(project_id), str(query_id), owner(request)
+        )
+    except ValueError as exc:
+        if str(exc) == "STATE_CONFLICT":
+            raise HTTPException(409, "Открыт другой запрос. Обновите историю.") from exc
+        raise HTTPException(422, "Не удалось восстановить запрос.") from exc
     if result is None:
         raise HTTPException(404, "Query not found")
     return {"mode": "GRID", "query": result["query"], "research": await render(request, result["research"])}

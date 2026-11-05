@@ -1562,3 +1562,454 @@ prefix audit found zero acceptance accounts. Two real user-created drafts were
 preserved. Temporary probes were removed; managed assets/models, PostgreSQL,
 backup and source checkpoints were retained. PostgreSQL, Ollama, main API and
 production frontend remain running.
+
+## Project collection, selected-panel fix and PDF Design V2 — 2026-10-30
+
+The selection now belongs to the project. NEW_SEARCH formerly created a fresh
+ResearchSession with empty selected_ids, and the drawer read only that research's
+selected_products. Migration 0022 adds project collection/item tables, seeds only
+the canonical active research, and preserves exact offer IDs/order/provenance.
+Historical selections are never unioned. PostgreSQL project-row locks serialize
+idempotent item operations and versioned clear/snapshot creation. Research
+selection fields remain compatibility projections; collection writes no longer
+create filter Undo entries. Optimistic operations roll back/report failures,
+can be retried, and reject stale versions/project responses.
+
+The image overlap was reproduced in the installed system Edge. Desktop image
+height was 341 px inside a 228 px image area; mobile 417 px inside 250 px. Grid
+intrinsic minimum sizes and percentage image sizing let the image escape its
+area. A fixed ImageArea with bounded contain sizing, zero automatic minimums and
+normal-flow information/actions fixes the geometry. Desktop images now fit the
+196 px inner region; mobile fits 218 px. No text z-index workaround or whole-card
+text clipping is used. Errors/retry controls are visible inside the modal.
+
+The required presentation-title field was removed from settings. Internal names
+are automatic; company/subtitle can form the cover. Old drafts/PDFs still open.
+Product names remain editable. The separate composition-refresh action creates
+a new draft version; adding/removing collection items never mutates saved PDFs.
+
+Editorial, Premium Dark and Modern Graphic now share one renderer and reusable
+hero/asymmetric/variants/lineup/category components, photo/caption/price/logo,
+typography/palette tokens, footer and boundary checks. Their geometry, object
+scale, heading treatment and covers differ on the same palette. The original
+three-page Melango fixture was visually compared with the V2 two-page version:
+cover plus three independent variant photographs/colors/prices on one page.
+Mandatory repeated grey cards are gone. A footer/price collision found during
+review and an initially insufficiently distinct Modern cover were corrected.
+
+Optional local Qwen uses the existing bounded inference queue, not per-product
+calls. It receives compact catalog labels, exact refs and prepared-image geometry;
+no client identity/logo, prices, SKU, source URLs or entire catalog. Dynamic schema
+enums admit only selected offer IDs, never parent IDs. Server validation checks
+coverage, duplicates, density, headings, palette, style and seed. Facts remain
+renderer-bound snapshot values. The validated plan is persisted before rendering
+and reused on retry. Timeout/default fallback remain bounded and explicitly
+label ai_used=false with a reason. No executable model output or external AI is used.
+
+Initial live plans timed out at about 25 s and safely used fallback; a separate
+invalid parent-ID proposal was rejected. After tightening the variant-ref schema,
+actual stored AI revisions succeeded in 3.877 / 4.386 s. The first kept the
+baseline composition; no creative difference is attributed to it. Another design
+with seed=1 changed the layout to pair+hero and three pages, with the same IDs.
+
+| Live control | Final pages | Total seconds | PDF bytes |
+|---|---:|---:|---:|
+| 1 item / Editorial | 2 | .657 | 1,380,037 |
+| 1 item / Premium Dark | 2 | .699 | 1,380,301 |
+| 1 item / Modern Graphic | 2 | .609 | 1,380,115 |
+| 3 Melango variants / Editorial | 2 | 1.229 | 2,790,143 |
+| 3 Melango variants / Premium Dark | 2 | 1.500 | 2,790,626 |
+| 3 Melango variants / Modern Graphic | 2 | 1.219 | 2,790,292 |
+| 12 mixed items / Editorial | 7 | 3.901 | 4,691,197 |
+| 12 mixed items / Premium Dark | 7 | 2.564 | 4,692,080 |
+| 12 mixed items / Modern Graphic | 7 | 1.854 | 4,691,561 |
+| 3 variants / accepted AI plan | 2 | 5.698 | 2,790,143 |
+| 3 variants / alternate accepted AI plan | 3 | 6.580 | 2,791,021 |
+
+All 42 final pages, including logo-on/off, were rasterized and visually inspected
+after the last layout corrections. Authenticated downloads matched preview PDF
+hashes. Cache-backed photo preparation was .016–.075 s in the last main controls;
+the first 12-item preparation took 4.204 s. Final worker peak RSS was about
+70–94 MiB, excluding the separate Ollama/GPU; this is cached-mask performance,
+not cold U2-Net memory or load p95. Full stage timings and limits are in
+[project-collection-pdf-v2.md](project-collection-pdf-v2.md).
+
+| Acceptance | Actual result |
+|---|---|
+| Full backend suite | PASS: 400 passed, 1 opt-in deselected; 253.08 s |
+| Final collection/design/API/render checks | PASS: 41 focused regressions after compatibility/layout changes |
+| Frontend components/operation queue | PASS: 13 |
+| Ruff / ESLint / TypeScript / production build / git diff --check | PASS |
+| Real 12-step collection HTTP chain | PASS: 2 pens → backpack → bottle; four-item snapshot; remove/project switch → 3 |
+| Migration of preexisting selection | PASS: two live selected IDs retained; active-only/history exclusion regression passed |
+| Two API clients / two actual Edge tabs | PASS: no lost update; browser 3→4→3 with focus reconciliation |
+| F5 / editor creation / back | PASS: actual browser restored four items and created their four-item snapshot |
+| Desktop/mobile image bounds, long pen, backpack, square/missing photo, footer | PASS: rendered Edge DOM and screenshots inspected |
+| Failed save / retry / clear cancel+confirm / foreign ownership | PASS: browser, HTTP and permanent regressions |
+| Actual Qwen / bounded fallback / invalid-plan validation | PASS; actual ai_used/fallback outcomes recorded |
+| Actual VTO item without price | NOT AVAILABLE in the live sample; PDF fixtures pass for all three styles |
+| Long load/p95, every browser, screen reader | NOT TESTED |
+| Original separate reference-image pixel comparison | NOT POSSIBLE; available attachments contain text only |
+
+The catalog retained 4,371 offers and the same offer/observation fingerprint
+`b64e9d7dfb7cc8b653d9389f8cd6e4dc`. Two preexisting real drafts retained identical
+fingerprints. Their snapshots/PDFs and managed prepared-image cache were not
+removed. VTO job/checkpoint page 22 and its own TEMPORARILY_UNAVAILABLE backoff
+remain independent of the presentation worker. No database/catalog/user reset
+or destructive migration was performed.
+
+Permanent V2 comparison PDFs and their public plan/hash manifest are in
+`apps/api/tests/fixtures/presentations/v2/`; the V1 fixture remains. The existing
+project skill was updated, not duplicated. Existing HTTP acceptance scripts now
+use collection versions for compatibility selection writes. Cleanup uses only
+the exact disposable IDs recorded by this run; system Edge installation and user
+browser profiles are outside cleanup.
+
+Final cleanup was executed, including a fresh prepare/cleanup smoke of the
+permanent acceptance script. Read-only SQL found zero `collection-v2-*`
+accounts, 4,371 catalog offers and the two original NEEDS_REVIEW revisions.
+Disposable render folders, cookies/ledger, probes, screenshots and the separate
+task-owned Edge profile were removed. Public PDF fixtures and managed assets
+remain. API `/api/health`, frontend and its health proxy returned HTTP 200 after
+cleanup; PostgreSQL, Ollama, API and frontend remain running. The temporary
+browser debugging listener is closed. Final `git diff --check` passed.
+
+## Premium Dark 3 — reference-driven visual refinement, 2026-10-30
+
+The supplied inline reference and actual rendered V2 PDFs were visually reviewed.
+No image file was found in the current attachment directory or attachment tree:
+an opened local reference original or pixel match to it is not claimed. No foreign
+logos/event identities/architecture photography were copied.
+
+Confirmed cause: the pale ovals were renderer ellipses triggered by mean image
+brightness, not backgrounds inside the Melango PNGs. Premium Dark 3 uses a deep
+palette-derived light field, sparse contour arcs, a leading cover object and
+smaller supporting variants. The comparison page has a small category, one model
+heading, alpha-bounds-aligned objects about 252 pt tall (previously about 195 pt)
+and compact color/brand/price groups. Product pixels and commercial facts remain
+unchanged. The shared renderer/components remain; there is no Melango-only engine.
+
+New Premium Dark generations use persisted style_version=3. Existing V2 plans,
+PDFs and failed-revision retries remain V2. All three V2 reference PDFs reproduced
+their original SHA-256 hashes and identical pixels on all six pages. Editorial
+and Modern Graphic were not visually changed. A final pale-palette luminance
+guard preserves the same default-palette control PDF.
+
+Actual HTTP generation after the final API restart produced two pages / 2,823,039
+bytes in 2.189 s (assets .775, PDF 1.055, preview .173). AI was disabled; no extra
+Qwen calls/retries were introduced. Persisted input and plan both use version 3;
+authenticated download and both previews match the visually reviewed output.
+Control SHA-256: `5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d`.
+
+Visual inspection covered 16 final pages: Melango, narrow object, long Russian
+name, three distinct backpack models, white/glass products and logo on/off.
+Melango control/layout/data: PASS. Existing non-control asset masks: PARTIAL —
+Kentucky retains a pale region between strap/body, and Bailey glass/lid alpha is
+inexact. The original-versus-mask evidence is preserved; illumination does not
+repair or hide those defects. No claim of successful matting is made for them.
+
+Validation: full backend 410 passed / 1 opt-in deselected in 198.14 s, followed by
+51 final render/design/API regressions in 10.14 s after the pale-palette guard;
+Ruff, skill validation and git diff --check passed. Frontend/browser checks were
+not repeated in this iteration; the UI was not changed. No Chromium was installed.
+
+The real catalog retained 4,371 offers and fingerprint
+`b64e9d7dfb7cc8b653d9389f8cd6e4dc`. No migration/reset or catalog/job/checkpoint
+repair was performed. Exact-ID disposable HTTP accounts/projects/documents and
+owned temporary renders/probes were cleaned; real selections, user PDFs, logos
+and managed prepared-image cache remain. Active service logs remain.
+
+Artifacts, comparison images and the detailed limits:
+[premium-dark-refinement.md](premium-dark-refinement.md). The original V2 fixtures
+remain; new public controls are in `apps/api/tests/fixtures/presentations/premium-dark-v3/`.
+
+---
+
+# Custom presentation assets — 2026-10-30
+
+Premium Dark 3 now supports optional private COVER_PHOTO, BACKGROUND and multiple
+DECORATION uploads in the existing editor. Existing LOGO remains separate.
+The shared worker prepares PNG/JPEG/WebP with EXIF/ICC handling, immutable original
+and versioned hash cache. No automatic background removal or external image service
+is used. Existing queue, ownership, document CAS and revision snapshots are reused;
+no migration or catalog changes were required.
+
+The painter measures actual wrapped text/photo/logo/footer geometry before placing
+custom layers. Busy backgrounds receive local contrast protection; decoration uses
+free corridors. Required impossible placements produce NEEDS_REVIEW and block
+download/approval. Previous preview remains visible and clearly labeled during
+generation. Replacement inherits settings; deletion preserves historical bytes.
+Empty and disabled materials reproduce the approved V3 PDF byte for byte. All three
+V2 references replay with identical PDF hashes and all six pages pixel-identical.
+
+Live A–J plus product-page scope and successful replacement passed through the main
+HTTP API. Installed Edge verified desktop/mobile upload, no implicit generation,
+F5, settings, old-preview retention, generate/download, remove, history and reopen.
+All 30 final PDFium pages were visually inspected; authorized downloads matched
+their revision hashes. Custom fixtures are original synthetic illustrations,
+not corporate assets or photographs of real architecture.
+
+Final gates: **427 backend tests passed, 1 opt-in deselected (248.26 s)**;
+**18 frontend tests passed**; Ruff, ESLint, TypeScript and production build passed.
+The combined two-page document took 2.969 s; per-file preparation .017–.117 s.
+Cached worker RSS was about 92–107 MiB, but the six-product run reached 749 MiB
+while preparing additional product masks. SIMPLE HTTP smoke took .528 s.
+These are smoke measurements, not load p95. Live Qwen with custom materials,
+other browsers and broad load are **NOT TESTED**; closed-schema/timeout fallback
+has permanent regression coverage.
+
+The catalog retains **4,371 offers** and unchanged commercial/observation fingerprint
+`b64e9d7dfb7cc8b653d9389f8cd6e4dc`. VTO jobs/checkpoints, real selections,
+documents, logos and product-image cache were not reset. Exact-ID cleanup is
+recorded in the detailed report after artifact preservation.
+
+Implementation, limits, actual A–L evidence, UI images and permanent control PDF:
+[custom-presentation-assets.md](custom-presentation-assets.md).
+
+Cleanup verified: 2 exact-ID disposable accounts, 4 projects/documents and their
+revisions/files removed; SQL confirms zero remaining test records. The other four
+document drafts retained their cleanup-time fingerprint. Ledger/cookies, temporary
+acceptance output, probes and stopped-service logs were removed. Skill validation
+and git diff --check passed. API, frontend and health proxy return HTTP 200;
+PostgreSQL, Ollama, API and frontend remain running.
+
+**Cleanup PARTIAL:** automatic approval review rejected recursive removal of
+`.local/custom-materials-edge-profile`; that directory remains. Edge was closed
+normally and its debugging listener is closed. No workaround was used to bypass
+the denied deletion.
+
+---
+
+# Palette Explorer and automatic decoration — 2026-10-31
+
+The existing editor now offers **328** local palettes, including **50 red**,
+after removing 94 exact and 1,954 near duplicates. Global near comparison uses
+RMS Oklab distance over seven actual rendered roles (threshold .020), not preset
+IDs or reordered swatches. Server-authoritative OKLCH roles reach the real
+Premium Dark background/illumination. Custom primary HEX remains exact and
+locked; manual changes retain provenance. The shared frozen library fixture is
+consumed by backend and frontend tests.
+
+The native desktop/mobile dialog offers 24 results per page, filters, explicit
+apply/cancel and append without losing selection. Browsing does not mutate the
+draft, run AI/matting or create PDF jobs. New documents enable subtle deterministic
+decoration independently of AI. Shared primitives use measured free corridors;
+custom art suppresses auto detail only on pages where it is actually placed.
+Logo alone and disabled uploads do not suppress it. Impossible required materials
+remain NEEDS_REVIEW, with download 409 and approval 422.
+
+Palette/decor version 1 is separate from style_version=3. Legacy missing fields
+retain the previous path. All three V2 PDFs retain their hashes and all six pages
+are pixel-identical; the approved V3 hash also remains unchanged. Full roles,
+plans, prepared assets and actual placements are frozen. Other design variants
+retain product facts/order and photographs. Text contrast is measured against
+the actual composed background, using actual font sizes and local protection.
+
+Main PostgreSQL/HTTP acceptance and installed Edge covered **34 final control
+revisions / 71 reviewed pages**, with 18 published palettes plus one custom
+palette, mixed goods, two light styles, decoration off/on, logo/custom scope,
+disabled/required files, repeat, history and real download. Minimum library role
+contrast is 4.718:1; minimum measured control text-block contrast is 6.6129:1.
+Edge desktop 1440×1000/mobile 390×844 verified cancel, more, exact HEX, manual
+provenance, F5, history, retained previous preview and authorized PDF identity.
+
+One live Qwen scenario returned INVALID_DESIGN_PLAN after 12.054 s and correctly
+used deterministic fallback (`ai_used=false`); no accepted live AI plan is claimed.
+Auto off/on on the same cached snapshot took 2.675 / 2.555 s, with 95.4 / 93.1 MiB
+worker-tree peak RSS. These are smoke measurements, not load p95 or a claim of
+speed improvement. Broad load, other browsers and full PDF accessibility remain
+NOT TESTED; visual review does not cover all 328 library entries.
+
+Exact-ID cleanup removed the two disposable accounts/projects/documents and
+their revisions/files. SQL confirms zero remaining corresponding records and
+unchanged fingerprints for all **six** other drafts. The task-owned Edge was
+closed normally; its profile, cookie ledger and temporary renders were removed.
+The catalog retained **4495 offers** before/after this task; no catalog,
+observation, source job/checkpoint or real document was reset. The existing VTO
+job's own TEMPORARILY_UNAVAILABLE backoff is separate from presentation work.
+
+Implementation, all controls, limitations and final quality gates:
+[palette-explorer-decoration.md](palette-explorer-decoration.md).
+
+Final gates: **449 backend tests passed, 1 opt-in deselected (178.03 s)**;
+**23 frontend tests passed**. Ruff, ESLint, TypeScript, Next production build,
+skill validation and git diff --check passed. Four archived complete PDFs and
+their preview pages match their live revision hashes. API, frontend, its health
+proxy and Ollama return HTTP 200; PostgreSQL/Ollama/API/frontend remain running.
+
+---
+
+# Palette dropdowns, title-only cover and composition variation — 2026-10-31
+
+All three palette filters now share one select-only combobox/listbox with explicit
+popup colors, a selected checkmark, keyboard navigation and viewport-bounded native
+popover placement inside the dialog. The previous native popup could combine a
+light system background with inherited light text. Installed Edge verified all
+three open menus and mobile viewport behavior; minimum available-option contrast
+was 9.492:1. The 328-palette library itself is unchanged.
+
+Every new explicit generation uses cover_policy=1, plan schema_version=2 and
+renderer_version=1, while keeping Premium Dark style_version=3. Page 1 is TITLE
+with empty product_refs, enforced in planning, validation and rendering. A component
+trace confirms no product photo/caption/price calls there; every selected variant
+remains in the product pages. The optional-cover checkbox is removed.
+
+The real root 251.png was inspected and packaged byte-for-byte as
+app/assets/presentations/251.png (251×30, palette alpha; SHA-256
+ede89826aed478c55b79cef412ae06a566d13c75d6a9bdfdbe5ea43b0b6ad290).
+One active valid client logo takes priority; absent/disabled custom uses VTO.
+Broken active custom produces HTTP 422 and a visible editor error. Source/hash/
+preparation version and immutable logo bytes are frozen for each revision.
+
+New request UUIDs distinguish explicit generations from replayed HTTP requests.
+Seeds are allocated once, with bounded comparison against the three recent plans.
+Fingerprints use actual title geometry/product profiles and exclude IDs/time/seed
+and unused variant values. Five title families reuse the shared renderer. Failed
+retry reuses the same input, plan, logo, signature and PDF; safe exhaustion is
+reported as CONSTRAINED. Old V2/V3 references retain their exact PDF hashes and
+all eight pages are pixel-identical.
+
+Main API/PostgreSQL acceptance produced 14 final control scenarios, 13 distinct
+revisions and **36 reviewed pages**, including five sequential designs on the
+same real Melango snapshot/palette. Default/custom/disabled/broken logos, neutral
+and long company titles, custom title art, duplicate HTTP, controlled FAILED retry
+and simultaneous isolated users passed. Edge verified error visibility, retained
+old preview, actual download identity and history/F5. The five cached generations
+took 1.924–2.064 s; this is smoke timing, not load p95. Live Qwen with TITLE,
+other browser engines, real mobile OS and screen readers are NOT TESTED.
+
+Final gates: **457 backend passed, 1 opt-in deselected (192.65 s)**; **24 frontend
+tests passed**; Ruff, ESLint, TypeScript, production build, skill validation and
+git diff --check passed. Exact-ID cleanup removed two disposable users/projects/
+documents and their revisions/files; SQL remaining counts are zero. All seven
+other drafts retained their fingerprints, and the catalog retained 4495 offers.
+No database/catalog/import/checkpoint reset was performed. Task Edge/profile and
+cookie ledger were removed; services remain running.
+
+Detailed contracts, five PDFs, comparisons and evidence:
+[title-cover-variation.md](title-cover-variation.md).
+
+## Brand-aware search and model constraints — 2026-10-31
+
+Implemented in the existing unified grid. Live PostgreSQL proved that Tippo is
+a family/model with six variants and unknown brand, while VORTEX is another
+family under B1. Query Understanding retained Tippo, but ProductBranch previously
+discarded the model and only checked category/purpose. The resulting 157 pens
+included VORTEX. Initial standalone brands also entered refinement routing, and
+an unknown explicit brand could leave the old result unchanged.
+
+A catalog-derived, Unicode-aware brand registry and shared SQL predicate now
+serve source intent, chat refinements and HUD. Literal family/model predicates
+run over the complete scalar pool before pagination. Global/local scope, brand
+OR, explicit ambiguity and unknown-name explanations are persisted. Source brand
+survives additional-filter reset; explicit removal creates a revision. Known
+brands/models stay deterministic without supplier HTTP or Qwen. Existing stock,
+purpose, collection, history, ownership and stale-response guards remain active.
+
+Live before/after: Tippo **157→6**, Melango **86→4**, standalone Molti after a pen
+search **0→64 / NEW_SEARCH**, unknown explicit brand **4→0 / NEW_SEARCH**.
+Black Molti backpacks under 10000 stayed 1; Molti writing pens stayed correctly
+0. Tippo funnel: **232 SQL →157 purpose →6 model**. VORTEX's two IDs are excluded.
+Chat/HUD full sets are equal for Molti pens (0) and B1 pens (7); source base_total
+appropriately differs. B1 OR Lecce Pen returns 13 real variants; local B1 pens
+OR Molti backpacks returns 11. ROLY exposes all **344** variants across four pages.
+
+Main HTTP/SQL acceptance verifies persisted intent, commands, reset, Undo,
+history, collection retention and two concurrent users; foreign history,
+research and collection reads return 404. Installed Edge passed **11** desktop/
+mobile DOM checks including actual keyboard input, brand checkbox, model pills,
+unknown-model explanation, F5, history and all ROLY pages. The final smoke series
+has 25 timed commands: p50 **0.608 s**, p95 **0.795 s**. Initial cold Tippo after
+restart took 2.085 s; extra catalog projections increase latency. These timings
+are not a controlled load benchmark.
+
+Final gates: **481 backend passed, 1 opt-in deselected (179.73 s)**; **24 new
+brand/model tests**, **25 frontend tests**, Ruff, ESLint, TypeScript, production
+build and git diff --check passed. Regression work also preserved typo correction,
+open catalog categories and compact quantity syntax. Native compatibility-only
+brand ownership, explicit model fields and ambiguous names use independent
+fixtures; their live counterparts are not separately claimed. Other browser
+engines, real mobile OS, screen readers, sustained load and full VTO import
+coverage are **NOT TESTED** in this task.
+
+All **4495** offers retain commercial offer/observation fingerprint
+`276337c6419e9c7c71382497655c5ec1`. All **8** pre-existing presentation drafts
+retain their own fingerprints. No database, catalog, observations, stock policy,
+images, PDF renderer, real collections or import checkpoints were reset or
+modified by task code. Cleanup removes only recorded disposable IDs and the
+task-owned browser profile; permanent tests and acceptance scripts are retained.
+
+Detailed root causes, exact Tippo IDs, funnels, command semantics, limitations
+and verification: [brand-model-search.md](brand-model-search.md).
+
+Cleanup verified by SQL: zero remaining disposable users/projects, 4495 offers
+with the same fingerprint and eight unchanged drafts. Private ledger, screenshots,
+temporary logs and isolated Edge profile were removed; task browser was closed.
+API/frontend/proxy health all return HTTP 200; normal project services remain running.
+
+## Visible query categories — 2026-10-31
+
+Implemented compact query chips above the existing filters, preserving the
+4:1 filters/selection layout. Their source is saved ProductBranch metadata:
+stable UUID, canonical concept, Russian label, original source, order and local
+constraints. Unknown explicit positions and zero-result categories remain
+visible; brand-only searches say categories are unrestricted. Different models
+of one category keep independent branches.
+
+Hide/show lives in ResearchView.hidden_branch_ids and leaves the intent intact.
+Remove revises the plan. Contextual Restore reads the existing history, restores
+the original branch/order/conditions and preserves later filter changes. It also
+works after chat Undo without rewriting the earlier snapshot. No general Undo
+button or competing history system was added. Chat category commands use the
+same deterministic operations; global Show all preserves product filters.
+
+Full-pool scalar matching precedes pagination. Counts distinguish source,
+eligible and visible sets. Hidden chip counts remain meaningful, overlapping
+offers are unioned once and a multifunction product follows its first remaining
+branch. Cursors are invalidated for category edits without breaking pagination
+on selection-only changes. The existing version/revision/ownership guards,
+serialized writer, rollback and project collection remain authoritative.
+
+Real main-API/PostgreSQL chain: initial **378** (158 pens, 134 bottles, 86
+backpacks); hide bottles **244**; show **378**; remove backpacks **292**; restore
+**378**. BLACK yields **80**; hide all yields **0 visible / 80 eligible**;
+Show all restores 80 and BLACK. F5/restart restore UUIDs, filter, visibility and
+all three selected offers. New umbrellas yield **19**, initially visible, with
+the previous collection intact. Local Molti/colour/quantity conditions survive;
+zero Molti pens do not suppress the other branches. Exact-ID sets, stale cursor,
+last-category removal and foreign-user 404s were checked.
+
+Installed Edge passed **23 distinct DOM checks**: full pagination and actual
+selection, controls, restore, zero/all-hidden/unrestricted states, mobile,
+F5, delayed page, rapid hide/show, real two-tab 409 rebase/focus reconciliation,
+failed-save rollback and project switching. A queued old SSE callback through
+the real hook issued a delayed old-research GET without replacing the new query
+or clearing selection. This is callback race testing, not sustained SSE load.
+
+Final gates: **493 backend passed, 1 opt-in deselected (215.66 s)**; **12 new
+branch regressions**, **30 frontend tests**, Ruff, ESLint, TypeScript, production
+build and git diff --check passed. Other browsers, real mobile OS, screen reader,
+sustained load and full VTO import coverage are **NOT TESTED** here. Guaranteed
+multifunction intersections and two positive model/colour branches use independent
+fixtures; the live catalogue was not modified to fit them.
+
+This run started with **4664 offers**, commercial fingerprint
+`544fd92db6fc977295711b97253f7f53`, and eight existing drafts. They are unchanged
+after exact-ID cleanup. No catalogue/observation reset, user collection deletion,
+PDF/palette/logo change or import checkpoint reset occurred. Disposable users,
+projects/researches, cookie ledger, screenshots, temporary logs and isolated
+Edge profile were removed; normal services remain running with health HTTP 200.
+
+Contracts, full 12-step results, evidence and limitations:
+[query-categories.md](query-categories.md).
+
+## Search quality, state integrity and request safety — 2026-10-31
+
+Последующий аудит и исправления поиска, числовых/identity-ограничений,
+атомарной публикации, History/SSE и входных бюджетов описаны в
+[search-quality-safety-report.md](search-quality-safety-report.md).
+Там отдельно приведены результаты непустой изолированной PostgreSQL,
+реального VTO-индекса, Edge, fault canaries и ограниченной нагрузки.
+Общий статус PARTIAL: функциональные проверки покрытых сценариев проходят,
+HUD p95 при 10 пользователях превышает ориентир 1 s; ограничения покрытия
+и фактическая очистка отражены в отчёте и sanitized JSON.

@@ -1,0 +1,152 @@
+/* Current keeps the existing tokens and the original declaration fallbacks.
+   Pulse changes semantic colour roles, never document palettes or product photos. */
+:root[data-site-theme="pulse"] {
+  color-scheme: light;
+  --canvas: #f3f5f2;
+  --panel: #FDFDFF;
+  --raised: #edf1ec;
+  --text: #1b2720;
+  --muted: #4f5e53;
+  --faint: #5e6e63;
+  --border: #cbd4cc;
+  --accent: #b52308;
+  --accent-dark: #fff0e9;
+  --warning: #805000;
+  --danger: #ae2821;
+  --shadow-panel: 0 18px 60px #263c291f;
+
+  --ui-brand: #f42902;
+  --ui-accent-bg: #f42902;
+  --ui-on-accent: #190b07;
+  --ui-accent-hover: #ff4522;
+  --ui-accent-active: #cf2608;
+  --ui-on-accent-active: #FDFDFF;
+  --ui-success: #83FD80;
+  --ui-success-text: #21512b;
+  --ui-highlight-soft: #edfbe9;
+  --ui-highlight-border: #a3c99b;
+  --ui-surface-card: #FDFDFF;
+  --ui-surface-page: #f3f5f2;
+  --ui-surface-elevated: #FDFDFF;
+  --ui-surface-muted: #edf1ec;
+  --ui-surface-input: #f8faf7;
+  --ui-text-primary: #1b2720;
+  --ui-text-secondary: #4f5e53;
+  --ui-text-muted: #5e6e63;
+  --ui-link: #a9250e;
+  --ui-border: #cbd4cc;
+  --ui-control-border: #7a8980;
+  --ui-selected-bg: #fff1eb;
+  --ui-selected-border: #c53519;
+  --ui-selected-shadow: #f4290226;
+  --ui-checkbox-bg: #FDFDFF;
+  --ui-checkbox-fg: #1b2720;
+  --ui-checkbox-checked-bg: #83FD80;
+  --ui-checkbox-border: #597462;
+  --ui-focus-ring: #b52308;
+  --ui-overlay: #10271db3;
+  --ui-warning-bg: #fff5dd;
+  --ui-warning-border: #bd944d;
+  --ui-warning-text: #805000;
+  --ui-error-bg: #fff0ec;
+  --ui-error-border: #ce8b7e;
+  --ui-error-text: #a4251d;
+  --ui-disabled-bg: #edf0eb;
+  --ui-disabled-fg: #636f65;
+  --ui-placeholder: #617065;
+  --ui-popover-bg: #FDFDFF;
+  --ui-popover-fg: #1b2720;
+  --ui-popover-border: #7a8980;
+  --ui-popover-active-bg: #fff0e9;
+  --ui-popover-active-fg: #7d1e09;
+  --ui-popover-active-border: #c53519;
+  --ui-popover-disabled-fg: #636f65;
+  --ui-shadow-color: #263c2929;
+  --ui-preview-backdrop: #e8ede7;
+  --ui-image-muted: #505e54;
+  --ui-color-scheme: light;
+}
+
+/* One control, shared by authentication, workspace and presentation editor. */
+.auth-card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.auth-card-top > small { color: var(--muted); line-height: 1.6; }
+.auth-card-top .theme-switch { font-size: 11px; }
+.auth-theme { position: absolute; right: 24px; top: 24px; }
+
+/* Theme-specific interaction treatment. Structural layout rules remain shared. */
+:root[data-site-theme="pulse"] .studio-button.primary {
+  background: var(--ui-accent-bg);
+  border-color: var(--ui-accent-bg);
+  color: var(--ui-on-accent);
+  box-shadow: 0 3px 10px #f4290214;
+}
+:root[data-site-theme="pulse"] .studio-button.primary:hover:not(:disabled) {
+  background: var(--ui-accent-hover);
+  border-color: var(--ui-accent-hover);
+}
+:root[data-site-theme="pulse"] .studio-button.primary:active:not(:disabled) {
+  background: var(--ui-accent-active);
+  border-color: var(--ui-accent-active);
+  color: var(--ui-on-accent-active);
+}
+:root[data-site-theme="pulse"] .studio-button:not(.primary):hover:not(:disabled) {
+  background: var(--ui-surface-card);
+  border-color: var(--faint);
+}
+:root[data-site-theme="pulse"] :is(button, input, select, textarea):disabled,
+:root[data-site-theme="pulse"] .studio-button:disabled {
+  opacity: 1;
+  background: var(--ui-disabled-bg);
+  border-color: var(--border);
+  color: var(--ui-disabled-fg);
+  box-shadow: none;
+}
+:root[data-site-theme="pulse"] :is(input, textarea, select) { accent-color: var(--ui-brand); }
+:root[data-site-theme="pulse"] :is(input, textarea):not([type="checkbox"]):not([type="file"]) {
+  border-color: var(--ui-control-border);
+}
+:root[data-site-theme="pulse"] :is(input, textarea)::placeholder { color: var(--ui-placeholder); opacity: 1; }
+:root[data-site-theme="pulse"] select { color-scheme: light; }
+:root[data-site-theme="pulse"] option { background: var(--panel); color: var(--text); }
+:root[data-site-theme="pulse"] :focus-visible { outline-color: var(--ui-focus-ring); }
+:root[data-site-theme="pulse"] .research-top {
+  background: var(--panel);
+  box-shadow: 0 2px 16px #263c2908;
+}
+:root[data-site-theme="pulse"] .research-hud-selected {
+  background: var(--ui-highlight-soft);
+  border-color: var(--ui-highlight-border);
+}
+:root[data-site-theme="pulse"] .research-selected-count { color: var(--ui-success-text); }
+:root[data-site-theme="pulse"] .intent-tags > span {
+  background: var(--ui-highlight-soft);
+  color: var(--ui-success-text);
+  border-color: var(--ui-highlight-border);
+}
+:root[data-site-theme="pulse"] .product-card.selected { background: var(--ui-selected-bg); }
+:root[data-site-theme="pulse"] .query-category-chip {
+  background: var(--ui-surface-card);
+  border-color: var(--ui-control-border);
+}
+:root[data-site-theme="pulse"] .query-category-chip.is-hidden {
+  background: var(--canvas);
+  border-color: var(--border);
+}
+:root[data-site-theme="pulse"] .query-category-chip.is-unresolved { border-color: var(--warning); }
+:root[data-site-theme="pulse"] .query-category-action:hover {
+  background: var(--accent-dark);
+  color: var(--accent);
+}
+:root[data-site-theme="pulse"] .research-suggestions .studio-button {
+  background: var(--accent-dark);
+  color: var(--accent);
+}
+:root[data-site-theme="pulse"] .material-file:has(input:disabled) {
+  opacity: 1;
+  color: var(--ui-disabled-fg) !important;
+  background: var(--ui-disabled-bg);
+}
+@media (max-width: 620px) {
+  .theme-switch svg { display: none; }
+  .auth-card-top { gap: 8px; }
+}

@@ -1,0 +1,29 @@
+{
+  "results": [
+    {
+      "test": "serialization_failure_preserves_workspace",
+      "status": 500,
+      "pass": true
+    },
+    {
+      "test": "origin_rejection",
+      "status": 403,
+      "pass": true
+    },
+    {
+      "test": "unknown_server_fields",
+      "status": 422,
+      "pass": true
+    },
+    {
+      "test": "body_limit",
+      "status": 413,
+      "pass": true
+    },
+    {
+      "test": "no_project_transaction_during_planning",
+      "idle_transactions": 0,
+      "pass": true
+    }
+  ]
+}

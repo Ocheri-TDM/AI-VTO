@@ -1,7 +1,7 @@
 """One 16:9 visual system. Vector text; PDFium previews of the actual PDF."""
 
 import hashlib
-from collections import OrderedDict
+import io
 from contextlib import closing
 from html import escape
 from pathlib import Path
@@ -16,7 +16,6 @@ from reportlab.pdfgen.canvas import Canvas
 from reportlab.platypus import Paragraph
 
 from app.application.presentation_assets import safe_path
-from app.domain.presentation import price_label
 
 WIDTH, HEIGHT = 960, 540
 FONT_ROOT = Path(__file__).resolve().parents[1] / "assets/fonts"
@@ -54,13 +53,13 @@ def theme_roles(palette):
         "surface": "#E7E9EB",
         "text": "#152B37",
         "muted": "#596A72",
-        "accent": base if luminance(base) < 0.38 else "#23414C",
+        "accent": base if luminance(base) <= 0.16 else "#23414C",
         "secondary": palette[1] if len(palette) > 1 else "#B79B73",
         "line": "#CDD3D5",
     }
 
 
-def text(canvas, value, x, y, width, height, size=18, color="#152B37", bold=False):
+def text(canvas, value, x, y, width, height, size=18, color="#152B37", bold=False, alignment="left"):
     style = ParagraphStyle(
         "block",
         fontName="NotoBold" if bold else "NotoRegular",
@@ -68,19 +67,45 @@ def text(canvas, value, x, y, width, height, size=18, color="#152B37", bold=Fals
         leading=size * 1.24,
         textColor=colors.HexColor(color),
         splitLongWords=True,
+        alignment=1 if alignment == "center" else 0,
     )
     paragraph = Paragraph(escape(str(value)).replace("\n", "<br/>"), style)
     _, actual = paragraph.wrap(width, height)
     if actual > height + 0.1:
         raise ValueError("Текст не помещается: сократите заголовок или подпись")
+    if hasattr(canvas, "_presentation_bounds") and actual:
+        canvas._presentation_bounds.append(
+            {
+                "kind": "text",
+                "rect": (x, y - actual, width, actual),
+                "color": color,
+                "size": size,
+                "bold": bold,
+            }
+        )
+    if actual and getattr(canvas, "_presentation_background", None) is not None:
+        from app.application.presentation_contrast import protect_text
+
+        protect_text(canvas, (x, y - actual, width, actual), color, size, bold)
     paragraph.drawOn(canvas, x, y - actual)
     return actual
 
 
-def photo(canvas, path, x, y, width, height):
+def photo(canvas, path, x, y, width, height, *, optical=False):
     with Image.open(path) as image:
+        if optical and image.mode == "RGBA":
+            # Crop transparent margins only. Keep every nonzero alpha pixel,
+            # including faint straps, highlights and original photographic edges.
+            bounds = image.getchannel("A").getbbox()
+            if bounds is None:
+                raise ValueError("Изображение не содержит видимых пикселей")
+            image = image.crop(bounds)
         ratio = min(width / image.width, height / image.height)
         w, h = image.width * ratio, image.height * ratio
+        if hasattr(canvas, "_presentation_bounds"):
+            canvas._presentation_bounds.append(
+                {"kind": "photo", "rect": (x + (width - w) / 2, y + (height - h) / 2, w, h)}
+            )
         canvas.drawImage(
             ImageReader(image), x + (width - w) / 2, y + (height - h) / 2, width=w, height=h, mask="auto"
         )
@@ -89,6 +114,8 @@ def photo(canvas, path, x, y, width, height):
 def logo(canvas, root, settings, x, y):
     if not settings.get("use_logo") or not settings.get("logo"):
         return
+    if hasattr(canvas, "_presentation_bounds"):
+        canvas._presentation_bounds.append({"kind": "logo", "rect": (x - 10, y - 8, 154, 56)})
     path = safe_path(root, settings["logo"])
     with Image.open(path) as image:
         rgba = image.convert("RGBA")
@@ -101,29 +128,11 @@ def logo(canvas, root, settings, x, y):
 
 
 def plan_pages(items, settings, category_order):
-    grouped = OrderedDict()
-    order = category_order or list(dict.fromkeys(i["category_key"] for i in items))
-    for category in order:
-        group = [i for i in items if i["category_key"] == category]
-        if group:
-            grouped[category] = group
-    pages = []
-    if settings["cover"]:
-        pages.append({"type": "cover", "items": items[:2]})
-    for group in grouped.values():
-        while group:
-            count = (
-                1
-                if len(group[0]["display_name"]) > 60 or len(group[0].get("caption", "")) > 65
-                else min(2, len(group))
-            )
-            if count == 2 and (len(group[1]["display_name"]) > 60 or len(group[1].get("caption", "")) > 65):
-                count = 1
-            pages.append({"type": "hero" if count == 1 else "category", "items": group[:count]})
-            group = group[count:]
-    if settings.get("ending_note"):
-        pages.append({"type": "ending", "items": []})
-    return pages
+    from app.domain.presentation_design import deterministic_plan
+
+    by_id = {i["offer_id"]: i for i in items}
+    plan = deterministic_plan(items, settings, category_order)
+    return [{"type": p.layout, "items": [by_id[id] for id in p.product_refs]} for p in plan.pages]
 
 
 def item_info(item, settings):
@@ -149,83 +158,57 @@ def render_document(root, revision, input_value, assets, progress=lambda x: None
     settings = input_value["settings"]
     roles = theme_roles(settings["palette"])
     items = input_value["items"]
-    pages = plan_pages(items, settings, input_value["category_order"])
+    from app.application.presentation_layouts import PagePainter
+    from app.domain.presentation_composition import novelty
+    from app.domain.presentation_design import deterministic_plan, validate_plan
+
+    materials = input_value.get("materials", [])
+    plan = (
+        validate_plan(input_value["design_plan"], items, settings, materials)
+        if input_value.get("design_plan")
+        else deterministic_plan(items, settings, input_value["category_order"], materials=materials)
+    )
+    pages = plan.pages
+    roles = theme_roles([settings["palette"][n] for n in plan.palette_order])
+    if settings.get("palette_plan"):
+        from app.domain.presentation_palette import painter_roles
+
+        roles = painter_roles(settings["palette_plan"])
     canvas = Canvas(str(target), pagesize=(WIDTH, HEIGHT), pageCompression=1, invariant=1)
-    canvas.setTitle(settings["title"])
+    canvas.setTitle(settings.get("title") or "Каталог выбранных товаров")
     canvas.setAuthor("Souvenir Studio")
     placements = []
+    painter = PagePainter(canvas, root, settings, roles, assets, plan.style, plan.style_version)
+    from app.application.presentation_decoration import DecorationLayers
+
+    decoration = DecorationLayers(plan.decoration, roles) if plan.decoration else None
+    painter.decoration_layers = decoration
+    from app.application.presentation_material_layout import MaterialLayers
+
+    layers = MaterialLayers(root, materials, roles) if materials else None
+    by_id = {i["offer_id"]: i for i in items}
     for index, page in enumerate(pages):
-        dark = page["type"] in ("cover", "ending")
-        bg = roles["cover"] if dark else roles["paper"]
-        fg = roles["cover_text"] if dark else roles["text"]
-        canvas.setFillColor(colors.HexColor(bg))
-        canvas.rect(0, 0, WIDTH, HEIGHT, fill=1, stroke=0)
-        if page["type"] == "cover":
-            logo(canvas, root, settings, 52, 447)
-            top = 390 if settings.get("use_logo") and settings.get("logo") else 444
-            if settings["client"]:
-                text(canvas, settings["client"], 52, top, 490, 56, 18, fg)
-                top -= 70
-            used = text(canvas, settings["title"], 52, top, 490, 220, 38, fg, True)
-            if settings["subtitle"]:
-                text(canvas, settings["subtitle"], 52, top - used - 24, 460, 100, 16, fg)
-            for offset, item in enumerate(page["items"]):
-                x, y = (580, 205) if offset == 0 else (720, 60)
-                canvas.setFillColor(colors.HexColor(roles["surface"]))
-                canvas.circle(x + 80, y + 95, 115, stroke=0, fill=1)
-                photo(canvas, safe_path(root, assets[item["offer_id"]]["key"]), x - 18, y - 10, 195, 230)
-        elif page["type"] == "ending":
-            text(canvas, settings["ending_note"], 80, 390, 760, 300, 26, fg)
-            logo(canvas, root, settings, 80, 70)
-        else:
-            category = page["items"][0]["category_label"]
-            text(canvas, category, 48, 498, 720, 72, 28, roles["accent"], True)
-            canvas.setStrokeColor(colors.HexColor(roles["secondary"]))
-            canvas.setLineWidth(2)
-            canvas.line(48, 408, 912, 408)
-            if page["type"] == "hero":
-                item = page["items"][0]
-                canvas.setFillColor(colors.HexColor(roles["surface"]))
-                canvas.roundRect(48, 66, 440, 318, 18, stroke=0, fill=1)
-                photo(canvas, safe_path(root, assets[item["offer_id"]]["key"]), 65, 80, 406, 290)
-                y = 365
-                y -= text(canvas, item["display_name"], 530, y, 370, 180, 24, fg, True) + 16
-                if item.get("caption"):
-                    y -= text(canvas, item["caption"], 530, y, 370, 92, 13, roles["muted"]) + 12
-                if info := item_info(item, settings):
-                    y -= text(canvas, info, 530, y, 370, 48, 12, roles["muted"]) + 12
-                if y < 120:
-                    raise ValueError("Подписи слишком длинные: сократите название или краткую подпись")
-                text(
-                    canvas,
-                    price_label(item["unit_price_kzt"]),
-                    530,
-                    max(80, y - 8),
-                    380,
-                    48,
-                    22,
-                    roles["accent"],
-                    True,
+        group = [by_id[id] for id in page.product_refs]
+        if decoration or settings.get("palette_plan") or layers and any(p.materials for p in pages):
+            measuring = Canvas(io.BytesIO(), pagesize=(WIDTH, HEIGHT), invariant=1)
+            measuring._presentation_bounds = []
+            PagePainter(measuring, root, settings, roles, assets, plan.style, plan.style_version).paint(
+                page, group, index, len(pages)
+            )
+            if layers:
+                layers.resolve(page, index, measuring._presentation_bounds)
+            if decoration:
+                decoration.resolve(
+                    page,
+                    index,
+                    measuring._presentation_bounds,
+                    layers.resolved.get(index, []) if layers else [],
                 )
-            else:
-                for column, item in enumerate(page["items"]):
-                    x = 48 + column * 448
-                    canvas.setFillColor(colors.HexColor(roles["surface"]))
-                    canvas.roundRect(x, 186, 416, 202, 14, stroke=0, fill=1)
-                    photo(canvas, safe_path(root, assets[item["offer_id"]]["key"]), x + 15, 196, 386, 182)
-                    y = 172
-                    y -= text(canvas, item["display_name"], x, y, 414, 68, 17, fg, True) + 8
-                    if item.get("caption"):
-                        y -= text(canvas, item["caption"], x, y, 414, 50, 11, roles["muted"]) + 6
-                    if info := item_info(item, settings):
-                        y -= text(canvas, info, x, y, 414, 30, 10, roles["muted"]) + 6
-                    if y < 65:
-                        raise ValueError("Длинные подписи: используйте короткое название")
-                    text(
-                        canvas, price_label(item["unit_price_kzt"]), x, 52, 416, 30, 19, roles["accent"], True
-                    )
-            placements.extend(item["offer_id"] for item in page["items"])
-        text(canvas, f"{index + 1:02} / {len(pages):02}", 854, 24, 70, 18, 9, fg)
+            del measuring
+            painter.material_layers = layers
+        painter.paint(page, group, index, len(pages))
+        if page.layout not in ("cover", "title", "ending"):
+            placements.extend(page.product_refs)
         canvas.showPage()
     canvas.save()
     if len(placements) != len(items) or set(placements) != {i["offer_id"] for i in items}:
@@ -265,6 +248,35 @@ def render_document(root, revision, input_value, assets, progress=lambda x: None
         "page_count": len(pages),
         "pages": previews,
         "placements": placements,
+        "design_plan": plan.model_dump(),
         "render_seconds": render_seconds,
         "preview_seconds": round(time.perf_counter() - preview_started, 3),
+        **(
+            {
+                "resolved_logo": settings["resolved_logo"],
+                "design_signature": novelty(plan, input_value.get("recent_designs", [])),
+                "component_trace": getattr(canvas, "_presentation_components", []),
+            }
+            if settings.get("cover_policy")
+            else {}
+        ),
+        **(
+            {
+                "palette_plan": settings["palette_plan"],
+                "contrast_audit": getattr(canvas, "_presentation_contrast", []),
+            }
+            if settings.get("palette_plan")
+            else {}
+        ),
+        **({"decoration_plan": decoration.result()} if decoration else {}),
+        **(
+            {
+                "material_usage": layers.results(),
+                "material_issues": layers.issues(),
+                "material_reservations": {str(n + 1): boxes for n, boxes in layers.reservations.items()},
+                "material_schema_version": 1,
+            }
+            if layers
+            else {}
+        ),
     }

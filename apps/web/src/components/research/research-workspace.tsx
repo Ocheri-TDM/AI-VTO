@@ -9,7 +9,7 @@ import { ProjectList } from '../projects/project-list';
 import { ProjectForm } from '../projects/project-form';
 import { Sheet } from '../common/sheet';
 import { ResearchFilterPanel } from './research-filters';
-import { ResearchHud, hasAdditionalFilters } from './research-hud';
+import { ResearchHud, CollectionSummary, hasAdditionalFilters } from './research-hud';
 import { matchCaption } from '@/lib/product-match';
 import { ResearchProgress } from './research-progress';
 import { ProductDetails } from '../product-details';
@@ -19,6 +19,8 @@ import { workspaceApi } from '@/lib/project-queries';
 import { SelectedProducts } from './selected-products';
 import { presentationApi } from '@/lib/presentations';
 import { PresentationWorkspace, PresentationList } from '../presentations/presentation-workspace';
+import {useProjectCollection} from '@/hooks/use-project-collection';
+import {ThemeSwitch} from '../theme-switch';
 
 export function ResearchWorkspace(){
   const {user,logout}=useAuthSession();
@@ -40,6 +42,8 @@ export function ResearchWorkspace(){
   function closePresentation(){setPresentation(null);window.history.replaceState(null,'',window.location.pathname+window.location.search);}
 
   const state=useResearch(chat);
+  const project=projects.find(p=>p.chat_id===chat);
+  const collection=useProjectCollection(project?.id??null);
   const {research,busy,running,error}=state;
   const {setError}=state;
   useEffect(()=>{api.projects().then(values=>{
@@ -59,19 +63,18 @@ export function ResearchWorkspace(){
       if(generation===requestGeneration.current){state.setResearch(result.research);setProjects(await api.projects());setLimit(100);}
     }catch(e){state.setError((e as Error).message);}finally{setRequestBusy(false);}
   }
-  function select(p:ResearchProduct){state.selectProduct(p.id);}
-  const project=projects.find(p=>p.chat_id===chat);
+  function select(p:ResearchProduct){collection.toggle(p,research?.id);}
   const syncDocumentProject=useCallback((projectId:string)=>{const target=projects.find(p=>p.id===projectId);if(target&&target.chat_id!==chat){requestGeneration.current++;setChat(target.chat_id);localStorage.setItem('forma-chat-id',target.chat_id);}},[projects,chat]);
   async function createPresentation(){
-    if(!project||!research||busy||creatingPresentation)return;
+    if(!project||busy||creatingPresentation)return;
     const generation=requestGeneration.current;setCreatingPresentation(true);
-    try{const value=await presentationApi.create(project.id,research.id,research.view.version);if(generation===requestGeneration.current)openPresentation(value.id);}
+    try{const saved=await collection.flush();const value=await presentationApi.create(project.id,saved.version);if(generation===requestGeneration.current)openPresentation(value.id);}
     catch(e){state.setError((e as Error).message);}finally{setCreatingPresentation(false);}
   }
   const representatives=new Set(research?.groups.map(group=>group.offer_ids[0])??[]);
   const groupedIds=new Set(research?.groups.flatMap(group=>group.offer_ids)??[]);
   const displayProducts=research?.products.filter(p=>!grouped||representatives.has(p.id)||!groupedIds.has(p.id))??[];
-  const projectList=<ProjectList projects={projects} active={chat??undefined} disabled={busy} onOpen={open}
+  const projectList=<ProjectList projects={projects} active={project?.id} disabled={busy} onOpen={open}
     onNew={()=>setForm('new')} onEdit={setForm}/>;
   const composer=<form className="research-composer" onSubmit={e=>{e.preventDefault();submit();}}>
     <label htmlFor={research?'research-message':'research-query'}>{research?'Уточните исследование':'Что нужно исследовать?'}</label>
@@ -86,11 +89,11 @@ export function ResearchWorkspace(){
       {research&&<ResearchProgress research={research}/>}</div>
     {research&&<div className="research-suggestions">{['Более премиальные','Убери пластиковые','Выбери 5 лучших'].map(text=><button disabled={busy} key={text} onClick={()=>state.send(text)}>{text}</button>)}</div>}
     {composer}</div>;
-  function cards(products:ResearchProduct[]){return <div className="research-grid">{products.map((p,index)=><div key={p.id}>
+  function cards(products:ResearchProduct[],context:'default'|'modelVariants'='default'){return <div className={`research-grid${context==='modelVariants'?' model-variants-grid':''}`}>{products.map((p,index)=><div key={p.id}>
     <div className="research-match"><span>#{research?research.products.findIndex(value=>value.id===p.id)+1:index+1}</span><span>{matchCaption(p)}</span></div>
-    <ProductCard product={p} selected={research?.view.selected_ids.includes(p.id)??false} onSelect={()=>select(p)} onDetails={()=>setDetails(p)}/>
+    <ProductCard product={p} context={context} selected={collection.value?.selected_ids.includes(p.id)??false} onSelect={()=>select(p)} onDetails={()=>setDetails(p)}/>
     {(p.material||p.capacity)&&<p className="research-attributes">{[p.material,p.capacity].filter(Boolean).join(' · ')}</p>}
-    {!family&&research?.groups.find(group=>group.offer_ids[0]===p.id&&group.offer_ids.length>1)&&<button className="studio-button" onClick={()=>{
+    {context==='default'&&research?.groups.find(group=>group.offer_ids[0]===p.id&&group.offer_ids.length>1)&&<button className="studio-button" onClick={()=>{
       const group=research.groups.find(value=>value.offer_ids.includes(p.id));setFamily(research.products.filter(value=>group?.offer_ids.includes(value.id)));}}>Варианты модели · {research.groups.find(group=>group.offer_ids.includes(p.id))?.offer_ids.length}</button>}
   </div>)}</div>;}
   if(presentation)return <PresentationWorkspace key={presentation} id={presentation} onBack={closePresentation} onProject={syncDocumentProject}/>;
@@ -99,6 +102,7 @@ export function ResearchWorkspace(){
       <strong className="research-top-brand" data-testid="header-brand">Souvenir Studio <span>Research</span></strong>
       <span className="research-top-project" data-testid="header-project-title" title={project?.name??'Исследование каталогов'}>{project?.name??'Исследование каталогов'}</span>
       <div className="research-top-account" data-testid="header-account">
+        <ThemeSwitch/>
         <button className="studio-button research-project-button" onClick={()=>setDrawer('projects')}>Проекты</button>
         <span className="research-top-username" title={user.name}>{user.name}</span>
         <button className="studio-button research-logout" data-testid="header-logout" onClick={logout}>Выйти</button>
@@ -108,34 +112,39 @@ export function ResearchWorkspace(){
     <main className="research-main">
       {project&&<WorkspaceQueries projectId={project.id} onResearch={state.setResearch} onError={state.setError}/>}
       {project&&<PresentationList projectId={project.id} onOpen={openPresentation}/>}
+      {project&&!research&&<div className="research-collection-entry"><CollectionSummary count={collection.value?.selected_ids.length??0} onOpen={()=>setDrawer('selected')}/></div>}
       {(requestBusy&&!research?<div className="research-empty" role="status"><h2>Исследую каталог…</h2></div>:!research?<div className="research-intro"><small>VTO · Реальные данные</small><h1>Исследуйте варианты.<br/>Найдите своё.</h1>
         <p>Опишите задачу. AI найдёт варианты в обновляемом каталоге и поможет уточнить подборку.</p>{composer}
         <div className="research-suggestions">{['Синие бутылки, 300 шт.','Синий мерч для IT-конференции, 300 человек'].map(text=><button key={text} onClick={()=>setQuery(text)}>{text}</button>)}</div></div>:
-      <><div className="research-heading"><small>{running?'Исследование продолжается':'Результаты исследования'}</small><h1>{research.intent.raw_query}</h1>
-        <div className="research-stats"><span>Найдено <strong>{research.pool_count}</strong></span>{research.filtered_total!==research.base_total&&<span>По фильтрам <strong>{research.filtered_total}</strong></span>}<span>Показано <strong>{displayProducts.slice(0,limit).length}</strong></span>
+      <><div className="research-heading"><small>{running?'Исследование продолжается':'Результаты исследования'}</small><h1>{research.effective_title??research.intent.raw_query}</h1>
+        <div className="research-stats"><span>Найдено <strong>{research.matching_count}</strong></span><span>Показано <strong>{displayProducts.slice(0,limit).length}</strong></span>
 {research.source_mode!=='index'&&<span>Покрытие <strong>{research.completed_sources}/{research.source_count}</strong></span>}</div>
         {research.new_matches_count>0&&<p className="research-notice" role="status">Найдено {research.new_matches_count} новых вариантов. <button className="studio-button" disabled={busy} onClick={()=>state.perform(()=>researchApi.acceptMatches(research.id))}>Показать</button></p>}
-        <ResearchHud research={research} pending={busy||requestBusy} disabled={requestBusy} grouped={grouped} onGrouped={setGrouped}
+        <ResearchHud research={{...research,selected_count:collection.value?.selected_ids.length??0,view:{...research.view,selected_ids:collection.value?.selected_ids??[]}}} pending={busy||requestBusy} disabled={requestBusy} grouped={grouped} onGrouped={setGrouped}
           onFilters={filters=>state.change({filters})} onReset={()=>state.change({restore:'reset'})}
+          onCategoryAction={action=>{setLimit(100);state.change({branch_actions:[action]});}}
           onSelected={()=>setDrawer('selected')} onMobileFilters={()=>setDrawer('filters')}/>
         {research.empty_branches?.length?<p className="research-notice">Нет результатов: {research.empty_branches.join(', ')}</p>:null}
+        {research.identity_notices?.map((notice,n)=><p className="research-notice" role="status" key={n}>{notice}</p>)}
       </div>
-      {research.products.length?cards(displayProducts.slice(0,limit)):<div className="research-empty"><h2>{running?'Исследую каталоги':'Пока нет подходящих вариантов'}</h2><p>{research.pool_count?'Уточнения скрыли товары. Можно вернуться к исходной подборке.':'Товары появятся после проверки цвета, цены и доступного количества.'}</p>
+      {research.products.length?cards(displayProducts.slice(0,limit)):<div className="research-empty"><h2>{research.result_state==='ALL_CATEGORIES_HIDDEN'?'Все категории скрыты':research.result_state==='NO_QUERY_CATEGORIES'?'В запросе не осталось категорий':running?'Исследую каталоги':'Пока нет подходящих вариантов'}</h2><p>{research.result_state==='ALL_CATEGORIES_HIDDEN'?'Покажите категории снова — их условия сохранены.':research.result_state==='NO_QUERY_CATEGORIES'?'Верните категорию выше или введите новый запрос.':research.pool_count?'Уточнения скрыли товары. Можно вернуться к исходной подборке.':'Товары появятся после проверки цвета, цены и доступного количества.'}</p>
+        {research.result_state==='ALL_CATEGORIES_HIDDEN'&&<button className="studio-button" onClick={()=>state.change({branch_actions:[{action:'show_all'}]})}>Показать все</button>}
         {hasAdditionalFilters(research.view.filters)&&<button className="studio-button" onClick={()=>state.change({restore:'reset'})}>Сбросить уточнения</button>}</div>}
       {(research.next_cursor||displayProducts.length>limit)&&<button className="studio-button" disabled={busy} onClick={()=>{setLimit(n=>n+100);if(research.next_cursor)state.loadMore();}}>Показать ещё 100 · всего {research.matching_count}</button>}</>)}
     </main>
     <aside className="research-chat">{chatPane}</aside>
     <nav className="research-mobile-nav"><button onClick={()=>setDrawer(null)}>Подборка</button><button onClick={()=>setDrawer('selected')}>Выбранные</button><button onClick={()=>setDrawer('chat')}>AI</button><button onClick={()=>setDrawer('projects')}>Проект</button></nav>
-    {error&&<div className="research-error" role="alert">{error}<button onClick={()=>state.setError('')} aria-label="Закрыть уведомление">×</button></div>}
+    {(error||collection.error)&&<div className="research-error" role="alert">{error||collection.error}{collection.error&&<button onClick={collection.retry}>Повторить сохранение</button>}<button onClick={()=>{state.setError('');collection.setError('');}} aria-label="Закрыть уведомление">×</button></div>}
     {drawer&&<Sheet className={drawer==='selected'?'selected-products-sheet':''} title={{chat:'AI Research',projects:'Исследования',filters:'Фильтры',selected:'Выбранные товары'}[drawer]} onClose={()=>setDrawer(null)}>
       {drawer==='chat'?chatPane:drawer==='projects'?projectList:drawer==='filters'&&research?<ResearchFilterPanel research={research} disabled={requestBusy} onChange={filters=>state.change({filters})}/>:
-        drawer==='selected'&&research?<SelectedProducts products={research.selected_products} count={research.view.selected_ids.length} busy={busy||creatingPresentation}
-          onRemove={state.selectProduct} onDetails={setDetails} onClear={()=>state.change({selected_ids:[]})} onCreate={()=>void createPresentation()}/>:null}</Sheet>}
+        drawer==='selected'?<SelectedProducts products={collection.value?.products??[]} count={collection.value?.selected_ids.length??0} busy={collection.busy||creatingPresentation}
+          error={collection.error||error} onRetry={collection.error?collection.retry:undefined}
+          onRemove={collection.remove} onDetails={setDetails} onClear={()=>void collection.clear()} onCreate={()=>void createPresentation()}/>:null}</Sheet>}
     {form&&<ProjectForm project={form==='new'?undefined:form} onClose={()=>setForm(null)} onSave={async(name,client)=>{
       try{if(form==='new'){const value=await api.createChat(name);open(value.id);}else await api.updateProject(form.id,name,client);
         setProjects(await api.projects());return true;}catch(e){state.setError((e as Error).message);return false;}}}
       onDelete={form==='new'?undefined:async()=>{try{await api.deleteProject(form.id);setProjects(await api.projects());setChat(null);return true;}catch(e){state.setError((e as Error).message);return false;}}}/>}
     {details&&research&&<ProductDetails product={details} sessionId={research.id} researchMode onClose={()=>setDetails(null)}/>}
-    {family&&<Sheet title="Варианты модели" onClose={()=>setFamily(null)}>{cards(family)}</Sheet>}
+    {family&&<Sheet variant="modelVariants" title="Варианты модели" onClose={()=>setFamily(null)}>{cards(family,'modelVariants')}</Sheet>}
   </div>;
 }

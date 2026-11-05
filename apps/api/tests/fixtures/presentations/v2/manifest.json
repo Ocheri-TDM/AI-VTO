@@ -1,0 +1,122 @@
+{
+  "source": "Real populated VTO/PostgreSQL, HTTP acceptance, 2026-10-30. Same snapshot and palette; original v1 PDF retained separately. Prices are observations.",
+  "offer_ids": [
+    "vto:1823109",
+    "vto:1823108",
+    "vto:1823107"
+  ],
+  "palette": [
+    "#163E52",
+    "#C9AB78"
+  ],
+  "documents": {
+    "editorial": {
+      "file": "editorial.pdf",
+      "sha256": "d5400a934c91f31c1f1cd06eb242da5f844581690ebd96a77260329d5abfd27a",
+      "pages": 2,
+      "design_plan": {
+        "pages": [
+          {
+            "motif": "rule",
+            "layout": "cover",
+            "heading": "",
+            "product_refs": [
+              "vto:1823109",
+              "vto:1823108",
+              "vto:1823107"
+            ]
+          },
+          {
+            "motif": "rule",
+            "layout": "variants",
+            "heading": "Рюкзак",
+            "product_refs": [
+              "vto:1823109",
+              "vto:1823108",
+              "vto:1823107"
+            ]
+          }
+        ],
+        "style": "editorial",
+        "design_seed": 0,
+        "palette_order": [
+          0,
+          1
+        ],
+        "style_version": 2
+      }
+    },
+    "premium-dark": {
+      "file": "premium-dark.pdf",
+      "sha256": "4455761bac6bc07e3fdf8e08d54c61fcc804767682163b4227ecd3d2d41b28b5",
+      "pages": 2,
+      "design_plan": {
+        "pages": [
+          {
+            "motif": "disc",
+            "layout": "cover",
+            "heading": "",
+            "product_refs": [
+              "vto:1823109",
+              "vto:1823108",
+              "vto:1823107"
+            ]
+          },
+          {
+            "motif": "disc",
+            "layout": "variants",
+            "heading": "Рюкзак",
+            "product_refs": [
+              "vto:1823109",
+              "vto:1823108",
+              "vto:1823107"
+            ]
+          }
+        ],
+        "style": "premium-dark",
+        "design_seed": 0,
+        "palette_order": [
+          0,
+          1
+        ],
+        "style_version": 2
+      }
+    },
+    "modern-graphic": {
+      "file": "modern-graphic.pdf",
+      "sha256": "0f8d720ec3bdc5aee75631444325168a0950462e50c33555be1c578c7f5ed17c",
+      "pages": 2,
+      "design_plan": {
+        "pages": [
+          {
+            "motif": "plane",
+            "layout": "cover",
+            "heading": "",
+            "product_refs": [
+              "vto:1823109",
+              "vto:1823108",
+              "vto:1823107"
+            ]
+          },
+          {
+            "motif": "plane",
+            "layout": "variants",
+            "heading": "Рюкзак",
+            "product_refs": [
+              "vto:1823109",
+              "vto:1823108",
+              "vto:1823107"
+            ]
+          }
+        ],
+        "style": "modern-graphic",
+        "design_seed": 0,
+        "palette_order": [
+          0,
+          1
+        ],
+        "style_version": 2
+      }
+    }
+  }
+}

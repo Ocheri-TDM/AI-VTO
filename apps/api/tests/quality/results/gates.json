@@ -1,0 +1,23 @@
+{
+  "backend": {
+    "status": "PASS",
+    "passed": 529,
+    "deselected": 1,
+    "seconds": 230.52
+  },
+  "last_request_brand_category_regressions": {
+    "status": "PASS",
+    "passed": 72
+  },
+  "frontend_tests": {
+    "status": "PASS",
+    "passed": 32
+  },
+  "ruff": "PASS",
+  "eslint": "PASS",
+  "typescript": "PASS",
+  "next_production_build": "PASS",
+  "git_diff_check": "PASS",
+  "browser": "PASS within reported scope",
+  "overall": "PARTIAL due latency/coverage limitations"
+}

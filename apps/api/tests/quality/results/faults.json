@@ -1,0 +1,214 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "fault": "initial",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "standalone_sku_after_model",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "per_user_rate_limit_forwarded_header_ignored",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "planning_deadline",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "serialization_failure",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "publication_rollback",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "sql_statement_timeout",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "pool_exhaustion",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "llm_inference_deadline",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "llm_invalid_plan",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "llm_queue_full",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "project_lock_timeout",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "caller_cancellation",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "concurrent_publication",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "history_activation_race",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "sse_capacity_failure",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "sse_reconnect_completed",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "pdf_worker_exit_7",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "dropped_model_mutation",
+      "oracle_detected": true,
+      "actual_count": 179,
+      "expected_count": 6
+    },
+    {
+      "fault": "model_mutation_restored",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "dropped_exclusion_mutation",
+      "oracle_detected": true,
+      "actual_count": 143,
+      "expected_count": 137
+    },
+    {
+      "fault": "exclusion_mutation_restored",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    },
+    {
+      "fault": "ownership_mutation_control",
+      "oracle_detected": true
+    },
+    {
+      "fault": "ownership_mutation_restored",
+      "recovery": "PASS",
+      "workspace_canaries": 2,
+      "collections_versions": "unchanged",
+      "snapshot_preview": "unchanged",
+      "idle_transactions": 0,
+      "pool_checked_out": 0
+    }
+  ],
+  "preview_sha256": "4c7305e828f8cbe4d4ab029688fde3cca9b7fe1b8261e1cdc97f3c9c139c258a",
+  "document_id": "95461885-8c24-4240-aee5-3e8c6408ff81",
+  "revision_id": "6f8e7127-a559-4d2c-bd9a-074bd526e5af",
+  "transport": "ASGI HTTP + isolated real PostgreSQL"
+}

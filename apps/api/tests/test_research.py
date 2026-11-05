@@ -60,8 +60,10 @@ async def test_intent_blue_discovery_and_query_boundaries():
     planner = ResearchPlanner()
     intent = await planner.parse('Синие бутылки, 300 шт.')
     assert intent.categories == ['bottle'] and intent.quantity == 300
-    assert {ColorGroup.BLUE, ColorGroup.NAVY, ColorGroup.LIGHT_BLUE} <= set(intent.colors)
-    assert intent.color_mode == 'family'
+    assert intent.colors == [ColorGroup.BLUE] and intent.color_mode == 'strict'
+    family = await planner.parse('Синие бутылки, можно близкие оттенки, 300 шт.')
+    assert {ColorGroup.BLUE, ColorGroup.NAVY, ColorGroup.LIGHT_BLUE} <= set(family.colors)
+    assert family.color_mode == 'family'
     strict = await planner.parse('Строго темно-синие бутылки, 300 шт.')
     assert strict.color_mode == 'strict' and ColorGroup.LIGHT_BLUE not in strict.colors
     ambiguous = await planner.parse('Синий мерч для IT конференции, 300 человек')

@@ -2,6 +2,7 @@
 
 import { createContext, FormEvent, useContext, useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
+import { ThemeSwitch } from "./theme-switch";
 
 type AuthSession = {
   user: { id: string; name: string };
@@ -43,9 +44,9 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
     }
     finally { setBusy(false); }
   }
-  if (user === undefined) return <main className="auth-screen"><p>Загрузка…</p></main>;
+  if (user === undefined) return <main className="auth-screen"><div className="auth-theme"><ThemeSwitch /></div><p>Загрузка…</p></main>;
   if (!user) return <main className="auth-screen"><form className="auth-card" onSubmit={submit}>
-    <small>Souvenir Studio · Research</small><h1>{register ? "Создать аккаунт" : "Вход"}</h1>
+    <div className="auth-card-top"><small>Souvenir Studio · Research</small><ThemeSwitch /></div><h1>{register ? "Создать аккаунт" : "Вход"}</h1>
     <label>Имя<input name="name" required maxLength={200} autoComplete="username" /></label>
     <label>Пароль<input name="password" type="password" required minLength={8} autoComplete={register ? "new-password" : "current-password"} /></label>
     {register && <label>Повторите пароль<input name="repeat" type="password" required minLength={8} autoComplete="new-password" /></label>}

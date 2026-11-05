@@ -53,8 +53,14 @@ class LocalLLMProvider(Protocol):
 
 class StructuredLocalProvider:
     def __init__(
-        self, base_url: str, model: str, timeout: float = 60, retries: int = 1,
-        concurrency: int = 1, queue_limit: int = 8, queue_timeout: float = 5,
+        self,
+        base_url: str,
+        model: str,
+        timeout: float = 60,
+        retries: int = 1,
+        concurrency: int = 1,
+        queue_limit: int = 8,
+        queue_timeout: float = 5,
     ):
         self.base_url, self.model, self.timeout, self.retries = base_url.rstrip("/"), model, timeout, retries
         self._slots = asyncio.Semaphore(concurrency)
@@ -63,6 +69,14 @@ class StructuredLocalProvider:
         self._waiting = 0
 
     async def complete(self, messages: list[dict], schema: type[BaseModel]):
+        try:
+            # Includes queueing, all retries and response/schema processing.
+            async with asyncio.timeout(self.timeout):
+                return await self._bounded_complete(messages, schema)
+        except TimeoutError as exc:
+            raise ModelUnavailable("LLM_DEADLINE") from exc
+
+    async def _bounded_complete(self, messages: list[dict], schema: type[BaseModel]):
         if not self.model:
             raise ModelUnavailable("LLM_MODEL_NOT_CONFIGURED")
         if self._waiting >= self._queue_limit and self._slots.locked():
@@ -74,7 +88,8 @@ class StructuredLocalProvider:
             await asyncio.wait_for(self._slots.acquire(), timeout=self._queue_timeout)
         except TimeoutError as exc:
             log_event(
-                "llm_queue_timeout", waiting=self._waiting,
+                "llm_queue_timeout",
+                waiting=self._waiting,
                 queue_wait_ms=round((time.perf_counter() - queued_at) * 1000, 2),
             )
             raise ModelUnavailable("LLM_QUEUE_TIMEOUT") from exc
@@ -87,7 +102,10 @@ class StructuredLocalProvider:
             self._slots.release()
 
     async def _complete_in_slot(
-        self, messages: list[dict], schema: type[BaseModel], queue_wait_ms: float,
+        self,
+        messages: list[dict],
+        schema: type[BaseModel],
+        queue_wait_ms: float,
     ):
         messages = list(messages)
         transport_schema = decoding_schema(schema.model_json_schema())
@@ -106,7 +124,8 @@ class StructuredLocalProvider:
                     raw = await self.request(client, messages, transport_schema)
                 result = schema.model_validate_json(raw)
                 log_event(
-                    "llm_structured_complete", attempt=attempt + 1,
+                    "llm_structured_complete",
+                    attempt=attempt + 1,
                     queue_wait_ms=queue_wait_ms,
                     inference_ms=round((time.perf_counter() - inference_started) * 1000, 2),
                 )

@@ -1,0 +1,260 @@
+{
+  "description": "Premium Dark 3. Real VTO snapshot; unchanged blue/grey/black Melango photographs and prices. Public control only, no account/session/client data.",
+  "palette": [
+    "#163E52",
+    "#C9AB78"
+  ],
+  "settings": {
+    "title": "Каталог выбранных товаров",
+    "client": "",
+    "subtitle": "",
+    "palette": [
+      "#163E52",
+      "#C9AB78"
+    ],
+    "cover": true,
+    "show_brand": true,
+    "use_logo": false,
+    "logo": null,
+    "ending_note": "",
+    "style": "premium-dark",
+    "style_version": 3,
+    "design_seed": 0,
+    "auto_design": false
+  },
+  "control_pdf": {
+    "sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+    "page_count": 2,
+    "bytes": 2823039,
+    "asset_seconds": 0.775,
+    "render_seconds": 1.055,
+    "preview_seconds": 0.173,
+    "ai_used": false,
+    "total_seconds": 2.189,
+    "placements": [
+      "vto:1823109",
+      "vto:1823108",
+      "vto:1823107"
+    ],
+    "design_plan": {
+      "pages": [
+        {
+          "motif": "disc",
+          "layout": "cover",
+          "heading": "",
+          "product_refs": [
+            "vto:1823109",
+            "vto:1823108",
+            "vto:1823107"
+          ]
+        },
+        {
+          "motif": "disc",
+          "layout": "variants",
+          "heading": "Рюкзак",
+          "product_refs": [
+            "vto:1823109",
+            "vto:1823108",
+            "vto:1823107"
+          ]
+        }
+      ],
+      "style": "premium-dark",
+      "design_seed": 0,
+      "palette_order": [
+        0,
+        1
+      ],
+      "style_version": 3
+    }
+  },
+  "reference_source": "Visible inline image in user message. Current attachment directory and attachments tree contain no image file; no local-byte/pixel comparison claimed.",
+  "items": [
+    {
+      "offer_id": "vto:1823109",
+      "product_id": "vto:parent:1521733",
+      "display_name": "Рюкзак-мешок Melango",
+      "brand": "Molti",
+      "colors": [
+        {
+          "original_color": "синий",
+          "normalized_color": "BLUE"
+        }
+      ],
+      "unit_price_kzt": "2084.00",
+      "source_url": "https://vto.kz/product/ryukzak-meshok-melango/",
+      "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg",
+      "prepared_sha256": "746113d925ba2fe1b34d24e51fc60fedd8b1a621627e1c8cba2c4c9977661b1a",
+      "source_sha256": "bd0eb9af00214994b3e1ef757c87ad55fd6ca0f3d51eac20e7b2e721d0498e96",
+      "alpha_bounds": [
+        24,
+        24,
+        613,
+        1021
+      ],
+      "v2_visible_height_pt": 194.63,
+      "v3_visible_height_pt": 252.28
+    },
+    {
+      "offer_id": "vto:1823108",
+      "product_id": "vto:parent:1521733",
+      "display_name": "Рюкзак-мешок Melango",
+      "brand": "Molti",
+      "colors": [
+        {
+          "original_color": "серый",
+          "normalized_color": "GREY"
+        }
+      ],
+      "unit_price_kzt": "2084.00",
+      "source_url": "https://vto.kz/product/ryukzak-meshok-melango/",
+      "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg",
+      "prepared_sha256": "f5c5fe04fa60d0556d258ec6bbac253d80a80d60b95ca5433a9b00f04a4382db",
+      "source_sha256": "ee602b5ade4ab189a7f02bfaed9e7147c6d8acad166dfe8cc3fdaac918e19436",
+      "alpha_bounds": [
+        24,
+        24,
+        654,
+        1021
+      ],
+      "v2_visible_height_pt": 194.63,
+      "v3_visible_height_pt": 252.28
+    },
+    {
+      "offer_id": "vto:1823107",
+      "product_id": "vto:parent:1521733",
+      "display_name": "Рюкзак-мешок Melango",
+      "brand": "Molti",
+      "colors": [
+        {
+          "original_color": "черный",
+          "normalized_color": "BLACK"
+        }
+      ],
+      "unit_price_kzt": "2084.00",
+      "source_url": "https://vto.kz/product/ryukzak-meshok-melango/",
+      "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg",
+      "prepared_sha256": "ffb1b86183b38bb6a68eb6448a9d59e28b90251add6ba9c28315ec4f271085a7",
+      "source_sha256": "22c10ddcf5c8a74d28ace665ca52187c5905a15ebae53336cfd57b532814a04d",
+      "alpha_bounds": [
+        24,
+        24,
+        655,
+        1020
+      ],
+      "v2_visible_height_pt": 194.621,
+      "v3_visible_height_pt": 252.28
+    }
+  ],
+  "v2_replay": {
+    "editorial": {
+      "sha256": "d5400a934c91f31c1f1cd06eb242da5f844581690ebd96a77260329d5abfd27a",
+      "exact_pdf_match": true,
+      "pixel_match_pages": [
+        1,
+        2
+      ]
+    },
+    "premium-dark": {
+      "sha256": "4455761bac6bc07e3fdf8e08d54c61fcc804767682163b4227ecd3d2d41b28b5",
+      "exact_pdf_match": true,
+      "pixel_match_pages": [
+        1,
+        2
+      ]
+    },
+    "modern-graphic": {
+      "sha256": "0f8d720ec3bdc5aee75631444325168a0950462e50c33555be1c578c7f5ed17c",
+      "exact_pdf_match": true,
+      "pixel_match_pages": [
+        1,
+        2
+      ]
+    }
+  },
+  "generality": {
+    "control": {
+      "page_count": 2,
+      "placements": [
+        "vto:1823109",
+        "vto:1823108",
+        "vto:1823107"
+      ],
+      "sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+      "render_seconds": 1.478,
+      "preview_seconds": 0.229
+    },
+    "narrow": {
+      "page_count": 2,
+      "placements": [
+        "vto:1915346"
+      ],
+      "sha256": "0269518536781121ec5fcacbae927b69c63b897d8b7341db39537cb23c3b2a7f",
+      "render_seconds": 0.098,
+      "preview_seconds": 0.146
+    },
+    "different-models": {
+      "page_count": 3,
+      "placements": [
+        "vto:1957351",
+        "vto:2032791",
+        "vto:1823109"
+      ],
+      "sha256": "4c7d1d08fe4c365a87771e7e8e1088ec2251d509c8ba8e7eed72bceea8fe59c7",
+      "render_seconds": 1.492,
+      "preview_seconds": 0.316
+    },
+    "white-glass": {
+      "page_count": 3,
+      "placements": [
+        "vto:1948520",
+        "vto:1950874"
+      ],
+      "sha256": "11b973b3084e54dcd7415caecfcc00b3c093993b181c62d600b412bb293c0ecb",
+      "render_seconds": 0.357,
+      "preview_seconds": 0.274
+    },
+    "long-name": {
+      "page_count": 2,
+      "placements": [
+        "vto:1961375"
+      ],
+      "sha256": "961bf400d235cc882bf9e4bdb50533da1507d90db0d268996d5229e4014f17c4",
+      "render_seconds": 0.081,
+      "preview_seconds": 0.149
+    },
+    "logo-on": {
+      "page_count": 2,
+      "placements": [
+        "vto:1823109",
+        "vto:1823108",
+        "vto:1823107"
+      ],
+      "sha256": "3f27e59386f7b18f5ceb8687647fa53d2cd075b799286b62323a3c4276718277",
+      "render_seconds": 1.096,
+      "preview_seconds": 0.227
+    },
+    "logo-off": {
+      "page_count": 2,
+      "placements": [
+        "vto:1823109",
+        "vto:1823108",
+        "vto:1823107"
+      ],
+      "sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+      "render_seconds": 0.895,
+      "preview_seconds": 0.211
+    }
+  },
+  "asset_limitations": [
+    "Kentucky vto:1957351 retains an opaque pale area between body and shoulder strap in the existing inferred mask.",
+    "Bailey vto:1948520 has incomplete translucent-glass/lid matting in the existing prepared asset. Geometry passes; mask quality is PARTIAL, not repaired or hidden."
+  ],
+  "visual_review_final_pages": 16,
+  "previous_http_seconds": 2.329,
+  "final_focused_tests": {
+    "passed": 51,
+    "seconds": 10.14,
+    "scope": "premium_dark, presentation_design, presentations; after pale-palette luminance guard"
+  }
+}

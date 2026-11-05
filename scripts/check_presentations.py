@@ -60,6 +60,15 @@ async def main():
     output.mkdir(parents=True, exist_ok=True)
 
     async def call(c, method, path, **kwargs):
+        body = kwargs.get('json', {})
+        if method == 'PATCH' and path.startswith('/api/researches/') and 'selected_ids' in body:
+            research = (await c.get(path.removesuffix('/view'))).json()
+            project = next(p for p in (await c.get('/api/projects')).json() if p['chat_id'] == research['chat_id'])
+            current = (await c.get(f"/api/projects/{project['id']}/collection")).json()
+            body['collection_version'] = current['version']
+        if method == 'POST' and path.startswith('/api/projects/') and path.endswith('/presentations'):
+            current = (await c.get('/api/projects/' + path.split('/')[3] + '/collection')).json()
+            kwargs['json'] = {'collection_version': current['version']}
         result = await c.request(method, path, **kwargs)
         result.raise_for_status()
         return result

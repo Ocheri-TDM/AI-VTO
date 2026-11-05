@@ -1,0 +1,10 @@
+{
+  "seed": 20261033,
+  "examples": 5000,
+  "unique_inputs": 5000,
+  "duplicates": 0,
+  "scope": "numeric role / schema / identity masking; not arbitrary semantic fuzz",
+  "failures": [],
+  "seconds": 9.140999999828637,
+  "status": "PASS"
+}

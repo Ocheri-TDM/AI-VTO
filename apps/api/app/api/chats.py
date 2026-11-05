@@ -8,6 +8,7 @@ from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
+from app.api.request_safety import validate_query
 from app.application.orchestrator import ChatResponse, no_event
 from app.application.session_tools import SessionTools
 from app.application.tools import SelectInput
@@ -36,9 +37,7 @@ class MessageRequest(BaseModel):
     @field_validator("message")
     @classmethod
     def not_blank(cls, value):
-        if not value.strip():
-            raise ValueError("Empty message")
-        return value.strip()
+        return validate_query(value)
 
 
 @router.post("", status_code=201)
@@ -121,10 +120,11 @@ async def message(chat_id: UUID, body: MessageRequest, request: Request, legacy:
     if not legacy:
         from app.api.research import ResearchMessage, StartResearch, start
         from app.api.research import message as refine
+
         current = await request.app.state.research.repository.latest(str(chat_id))
-        if current is None or current.source_mode!='index':
-            return await start(StartResearch(chat_id=chat_id,query=body.message),request)
-        return await refine(UUID(current.id),ResearchMessage(message=body.message),request)
+        if current is None or current.source_mode != "index":
+            return await start(StartResearch(chat_id=chat_id, query=body.message), request)
+        return await refine(UUID(current.id), ResearchMessage(message=body.message), request)
     return await agent.execute(str(chat_id), body.message)
 
 
@@ -142,11 +142,13 @@ async def stream(chat_id: UUID, body: MessageRequest, request: Request, legacy: 
     agent = request.app.state.orchestrator
     await check_chat(agent, str(chat_id), getattr(getattr(request.state, "user", None), "id", None))
     if not legacy:
+
         async def indexed_events():
-            yield 'event: agent.started\ndata: {}\n\n'
-            result = await message(chat_id,body,request)
-            yield 'event: agent.completed\ndata: '+json.dumps(result,ensure_ascii=False)+'\n\n'
-        return StreamingResponse(indexed_events(),media_type='text/event-stream')
+            yield "event: agent.started\ndata: {}\n\n"
+            result = await message(chat_id, body, request)
+            yield "event: agent.completed\ndata: " + json.dumps(result, ensure_ascii=False) + "\n\n"
+
+        return StreamingResponse(indexed_events(), media_type="text/event-stream")
 
     async def events():
         queue = asyncio.Queue(maxsize=100)

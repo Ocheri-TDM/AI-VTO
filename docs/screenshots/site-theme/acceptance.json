@@ -1,0 +1,450 @@
+{
+  "status": "PARTIAL",
+  "theme_status": "PASS",
+  "run": "site-theme-d0293a20f8a74123b80db401d816a4e0",
+  "checks": [
+    {
+      "check": "Default auth theme",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme pulse",
+      "status": "PASS"
+    },
+    {
+      "check": "Readable auth error",
+      "status": "PASS"
+    },
+    {
+      "check": "Login retains theme and populated grid",
+      "status": "PASS"
+    },
+    {
+      "check": "Photos loaded from verified cache",
+      "status": "PASS"
+    },
+    {
+      "check": "Hover/pressed CTA stays readable",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme current",
+      "status": "PASS"
+    },
+    {
+      "check": "Current theme remains dark",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme pulse",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 restores Pulse/workspace/selection",
+      "status": "PASS"
+    },
+    {
+      "check": "Other tab synchronizes Current",
+      "status": "PASS"
+    },
+    {
+      "check": "Other tab synchronizes Pulse",
+      "status": "PASS"
+    },
+    {
+      "check": "Keyboard focus visible",
+      "status": "PASS"
+    },
+    {
+      "check": "Desktop layout",
+      "status": "PASS"
+    },
+    {
+      "check": "Empty state keeps selection",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme current",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme pulse",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme preserves effective filter",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset returns the original matching grid",
+      "status": "PASS"
+    },
+    {
+      "check": "Selected panel",
+      "status": "PASS"
+    },
+    {
+      "check": "Selected modal closed",
+      "status": "PASS"
+    },
+    {
+      "check": "Product details dialog",
+      "status": "PASS"
+    },
+    {
+      "check": "Details dialog closed",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile layout",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile filters modal",
+      "status": "PASS"
+    },
+    {
+      "check": "Presentation editor theme",
+      "status": "PASS"
+    },
+    {
+      "check": "Editor F5 keeps theme and document",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette library",
+      "status": "PASS"
+    },
+    {
+      "check": "Open palette listbox",
+      "status": "PASS"
+    },
+    {
+      "check": "First Escape preserves palette dialog",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme current",
+      "status": "PASS"
+    },
+    {
+      "check": "Current palette library",
+      "status": "PASS"
+    },
+    {
+      "check": "Original palette colours preserved",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme pulse",
+      "status": "PASS"
+    },
+    {
+      "check": "Back preserves theme and selected items",
+      "status": "PASS"
+    },
+    {
+      "check": "New unauthenticated session keeps Pulse",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile auth layout",
+      "status": "PASS"
+    },
+    {
+      "check": "New login keeps Pulse and collection",
+      "status": "PASS"
+    },
+    {
+      "check": "Reopen editor on mobile",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile palette",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile popover fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Pulse before hydration",
+      "status": "PASS"
+    },
+    {
+      "check": "Hydration restores editor after blocked-bundle check",
+      "status": "PASS"
+    },
+    {
+      "check": "Theme/palette browsing leaves document and collection unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "No hydration/runtime errors",
+      "status": "PASS"
+    }
+  ],
+  "contrast": [
+    {
+      "selector": ".auth-card .field-error",
+      "minimum": 4.5,
+      "ratio": 7.225295346225053,
+      "foreground": [
+        164,
+        37,
+        29
+      ],
+      "background": [
+        253,
+        253,
+        255
+      ]
+    },
+    {
+      "selector": ".auth-card .primary",
+      "minimum": 4.5,
+      "ratio": 4.728376671564249,
+      "foreground": [
+        25,
+        11,
+        7
+      ],
+      "background": [
+        244,
+        41,
+        2
+      ]
+    },
+    {
+      "selector": ".product-name",
+      "minimum": 4.5,
+      "ratio": 15.225120527698381,
+      "foreground": [
+        27,
+        39,
+        32
+      ],
+      "background": [
+        253,
+        253,
+        255
+      ]
+    },
+    {
+      "selector": ".product-category",
+      "minimum": 4.5,
+      "ratio": 5.31860315868865,
+      "foreground": [
+        94,
+        110,
+        99
+      ],
+      "background": [
+        253,
+        253,
+        255
+      ]
+    },
+    {
+      "selector": ".research-selected-count",
+      "minimum": 4.5,
+      "ratio": 8.599264554104026,
+      "foreground": [
+        33,
+        81,
+        43
+      ],
+      "background": [
+        237,
+        251,
+        233
+      ]
+    },
+    {
+      "selector": ".research-composer .studio-button:disabled",
+      "minimum": 4.5,
+      "ratio": 4.575038435887345,
+      "foreground": [
+        99,
+        111,
+        101
+      ],
+      "background": [
+        237,
+        240,
+        235
+      ]
+    },
+    {
+      "selector": ".research-inline-filters .ui-select-trigger",
+      "minimum": 4.5,
+      "ratio": 15.225120527698381,
+      "foreground": [
+        27,
+        39,
+        32
+      ],
+      "background": [
+        253,
+        253,
+        255
+      ]
+    },
+    {
+      "selector": ".research-hud-selected .studio-button.primary",
+      "minimum": 4.5,
+      "ratio": 5.608813667433698,
+      "foreground": [
+        25,
+        11,
+        7
+      ],
+      "background": [
+        255,
+        69,
+        34
+      ]
+    },
+    {
+      "selector": ".research-hud-selected .studio-button.primary",
+      "minimum": 4.5,
+      "ratio": 5.254582633236909,
+      "foreground": [
+        253,
+        253,
+        255
+      ],
+      "background": [
+        207,
+        38,
+        8
+      ]
+    },
+    {
+      "selector": ".sheet[open] .ui-select-trigger",
+      "minimum": 4.5,
+      "ratio": 15.225120527698381,
+      "foreground": [
+        27,
+        39,
+        32
+      ],
+      "background": [
+        253,
+        253,
+        255
+      ]
+    },
+    {
+      "selector": ".palette-explorer-filters .ui-select-trigger",
+      "minimum": 4.5,
+      "ratio": 13.548426633815792,
+      "foreground": [
+        27,
+        39,
+        32
+      ],
+      "background": [
+        237,
+        241,
+        236
+      ]
+    },
+    {
+      "selector": ".palette-explorer .ui-select-popup [role=option][data-active=true]",
+      "minimum": 4.5,
+      "ratio": 13.915544833751486,
+      "foreground": [
+        27,
+        39,
+        32
+      ],
+      "background": [
+        255,
+        240,
+        233
+      ]
+    },
+    {
+      "selector": ".palette-explorer .ui-select-popup [role=option]:not([data-active=true])",
+      "minimum": 4.5,
+      "ratio": 15.225120527698381,
+      "foreground": [
+        27,
+        39,
+        32
+      ],
+      "background": [
+        253,
+        253,
+        255
+      ]
+    },
+    {
+      "selector": ".palette-dialog-body footer .primary:disabled",
+      "minimum": 4.5,
+      "ratio": 4.575038435887345,
+      "foreground": [
+        99,
+        111,
+        101
+      ],
+      "background": [
+        237,
+        240,
+        235
+      ]
+    }
+  ],
+  "known_unrelated_defects": [
+    {
+      "status": "FAIL",
+      "scope": "pre-existing auth/API defect; no theme code runs on this endpoint",
+      "request": "POST /api/auth/logout; Content-Type application/json; empty body",
+      "http_status": 400,
+      "code": "INVALID_JSON"
+    }
+  ],
+  "browser": "installed Microsoft Edge",
+  "main_services_initial": [
+    3000,
+    8000,
+    11434,
+    55432
+  ],
+  "database": "disposable SQLite; real existing API; main PostgreSQL untouched",
+  "photos": "three verified cached real VTO variants; other cards deliberately lack images",
+  "runtime_errors": [],
+  "screenshots": [
+    "current-grid-desktop.png",
+    "pulse-auth-mobile.png",
+    "pulse-auth.png",
+    "pulse-editor.png",
+    "pulse-empty.png",
+    "pulse-filters-mobile.png",
+    "pulse-grid-desktop.png",
+    "pulse-grid-mobile.png",
+    "pulse-palette-dropdown.png",
+    "pulse-palette-mobile.png",
+    "pulse-product-details.png",
+    "pulse-selected.png"
+  ],
+  "mutations": [
+    "POST /api/auth/login",
+    "POST /api/auth/login",
+    "PATCH /api/researches/5d5783be-18f2-4aec-beac-ca7d2e319c46/view",
+    "PATCH /api/researches/5d5783be-18f2-4aec-beac-ca7d2e319c46/view",
+    "POST /api/auth/login"
+  ],
+  "pdf_generation": "NOT RUN: site theme only",
+  "cleanup": {
+    "disposable_database_removed": true,
+    "test_processes_stopped": true,
+    "main_services_final": [
+      3000,
+      8000,
+      11434,
+      55432
+    ]
+  }
+}
