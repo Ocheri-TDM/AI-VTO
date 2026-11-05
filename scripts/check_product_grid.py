@@ -1,6 +1,5 @@
 """Live grid HTTP acceptance; deletes only its exact recorded users/projects."""
 
-# ruff: noqa: E402
 import argparse
 import asyncio
 import json
@@ -53,6 +52,9 @@ async def main():
             return value
 
         async def change(r, **changes):
+            if 'selected_ids' in changes:
+                collection = (await call('GET', f'/api/projects/{projects[0]}/collection')).json()
+                changes['collection_version'] = collection['version']
             response = await call(
                 "PATCH", f"/api/researches/{r['id']}/view", json={"version": r["view"]["version"], **changes}
             )

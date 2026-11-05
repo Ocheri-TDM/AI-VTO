@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "main_database_preserved": true,
+  "offers_before": 4664,
+  "offers_after": 4664,
+  "commercial_changed_ids": [],
+  "added_offer_ids": [],
+  "removed_offer_ids": [],
+  "commercial_sha256_before": "2c643f055a5d9491604d6d04fc019bd25e1ce4a0a5ceb7428bde2f23735098de",
+  "commercial_sha256_after": "2c643f055a5d9491604d6d04fc019bd25e1ce4a0a5ceb7428bde2f23735098de",
+  "deleted_test_users": 3,
+  "deleted_test_projects": 3,
+  "deleted_test_documents": 3,
+  "other_document_drafts_unchanged": 8,
+  "alembic": "0023_request_epoch",
+  "catalog_jobs": [
+    {
+      "id": "3af11531-88ce-4c5f-b33d-869c4045d606",
+      "status": "PENDING",
+      "error": "VTO_HTTP_ERROR",
+      "updated_at": "2026-10-31 11:27:33.263240+00:00"
+    },
+    {
+      "id": "46d59da7-676a-4571-8092-e93a02167082",
+      "status": "PENDING",
+      "error": "VTO_NOT_FOUND",
+      "updated_at": "2026-10-31 15:12:52.684665+00:00"
+    }
+  ],
+  "disposable_cluster_removed": true,
+  "isolated_processes_stopped": true,
+  "temporary_targets_removed": 85,
+  "private_ledger_removed": true,
+  "health": {
+    "http://127.0.0.1:8000/api/health": 200,
+    "http://127.0.0.1:3000/": 200,
+    "http://127.0.0.1:3000/api/health": 200
+  }
+}

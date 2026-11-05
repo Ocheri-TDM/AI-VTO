@@ -15,7 +15,7 @@ from sqlalchemy import select
 
 from app.database.models import ProductConcept, SupplierOffer
 from app.domain.intent import CATEGORY_TERMS
-from app.domain.taxonomy import SEEDS, terms
+from app.domain.taxonomy import SEEDS, UniversalCategoryResolver, terms
 
 
 class DecisionAction(StrEnum):
@@ -442,6 +442,20 @@ class QueryUnderstandingService:
     def _decide(self, token, index, tokens):
         low = token.casefold()
         role = _input_role(token, index, tokens)
+        # A known compound product noun is stronger evidence than morphology
+        # learned from a supplier's broad merchandising category label.
+        if "-" in token and UniversalCategoryResolver().resolve(token):
+            return CorrectionDecision(
+                original_token=token,
+                candidate=token,
+                action=DecisionAction.PRESERVE,
+                confidence=1,
+                score=1,
+                margin=1,
+                evidence=["TAXONOMY_COMPOUND"],
+                token_role=role,
+                candidate_role=TokenRole.CATEGORY,
+            )
         if token[0].isdigit() or low in _STOP or _PROTECTED.match(token) or low in self._protected_terms:
             return CorrectionDecision(
                 original_token=token,
@@ -613,7 +627,7 @@ class QueryUnderstandingService:
                         original=token,
                         replacement=decision.candidate,
                         concept=best.concept,
-                    confidence=decision.confidence,
+                        confidence=decision.confidence,
                         resolver=resolver,
                         evidence=decision.evidence,
                     )

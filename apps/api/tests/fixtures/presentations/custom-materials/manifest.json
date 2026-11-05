@@ -1,0 +1,6015 @@
+{
+  "date": "2026-10-30",
+  "source": "Real populated PostgreSQL and HTTP API; installed system Edge; PDFium visual review. Only original synthetic custom materials, no corporate uploads.",
+  "style": "premium-dark",
+  "style_version": 3,
+  "material_schema_version": 1,
+  "offer_ids": [
+    "vto:1823109",
+    "vto:1823108",
+    "vto:1823107"
+  ],
+  "palette": [
+    "#163E52",
+    "#C9AB78"
+  ],
+  "control_pdf": {
+    "file": "premium-dark-custom.pdf",
+    "sha256": "0d3e12813977aff62a015be2cdfebbddfdb88ee2851bd0923d8145185da5724b",
+    "pages": 2
+  },
+  "catalog_before_after": {
+    "offers": 4371,
+    "fingerprint": "b64e9d7dfb7cc8b653d9389f8cd6e4dc"
+  },
+  "cases": {
+    "A-empty": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+        "bytes": 2823039,
+        "page_count": 2,
+        "asset_seconds": 0.734,
+        "render_seconds": 1.066,
+        "preview_seconds": 0.172,
+        "total_seconds": 2.167,
+        "peak_rss_bytes": 104042496,
+        "material_usage": null,
+        "material_reservations": null,
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": null
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "B-cover": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "9b1a255bb091304ec6f6a1c8791e8d184d85b7d22e3d12d5013b1306c25e43aa",
+        "bytes": 2946733,
+        "page_count": 2,
+        "asset_seconds": 0.031,
+        "render_seconds": 2.338,
+        "preview_seconds": 0.184,
+        "total_seconds": 2.727,
+        "peak_rss_bytes": 106364928,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [
+              1
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  430,
+                  72,
+                  506,
+                  405
+                ],
+                "role": "COVER_PHOTO",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 24
+              }
+            ],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                280.36,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": false,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "COVER",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "C-decoration": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "6fd68d37fb7ba6696e50b8345e56d64fd32c896a1dd4f5589a7d66339693b927",
+        "bytes": 2830051,
+        "page_count": 2,
+        "asset_seconds": 0.029,
+        "render_seconds": 2.245,
+        "preview_seconds": 0.195,
+        "total_seconds": 2.646,
+        "peak_rss_bytes": 101367808,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                280.36,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": false,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "COVER",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.5,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.5,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "D-texture": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "e5316deb1ccb91606f998724801f50f0555f927147d106d97b57f8430037da77",
+        "bytes": 2896556,
+        "page_count": 2,
+        "asset_seconds": 0.028,
+        "render_seconds": 2.308,
+        "preview_seconds": 0.392,
+        "total_seconds": 2.894,
+        "peak_rss_bytes": 112197632,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  0,
+                  0,
+                  960,
+                  540
+                ],
+                "role": "BACKGROUND",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  0,
+                  0,
+                  960,
+                  540
+                ],
+                "role": "BACKGROUND",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              }
+            ],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                280.36,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": false,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "COVER",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "E-combined": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "0d3e12813977aff62a015be2cdfebbddfdb88ee2851bd0923d8145185da5724b",
+        "bytes": 3004439,
+        "page_count": 2,
+        "asset_seconds": 0.03,
+        "render_seconds": 2.399,
+        "preview_seconds": 0.378,
+        "total_seconds": 2.969,
+        "peak_rss_bytes": 104194048,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [
+              1
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [
+              {
+                "crop": true,
+                "page": 1,
+                "rect": [
+                  430,
+                  72,
+                  506,
+                  405
+                ],
+                "role": "COVER_PHOTO",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 24
+              }
+            ],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "logo",
+              "rect": [
+                56,
+                408,
+                154,
+                56
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                69.0,
+                416.0,
+                128.0,
+                40.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                243.35999999999999,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a"
+                },
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": true,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "COVER",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "F-disabled": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+        "bytes": 2823039,
+        "page_count": 2,
+        "asset_seconds": 0.029,
+        "render_seconds": 1.043,
+        "preview_seconds": 0.169,
+        "total_seconds": 1.416,
+        "peak_rss_bytes": 96186368,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {},
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": true,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "COVER",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "G-one": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "396a827b88d469f62bba306746eabbd89ea6741df1149ec55022b82ff43f0f20",
+        "bytes": 1438392,
+        "page_count": 2,
+        "asset_seconds": 0.309,
+        "render_seconds": 1.156,
+        "preview_seconds": 0.159,
+        "total_seconds": 1.804,
+        "peak_rss_bytes": 101330944,
+        "material_usage": [
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "ab20b5f0-397c-4707-a38f-00b5bc3ea429",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "ab20b5f0-397c-4707-a38f-00b5bc3ea429",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "ab20b5f0-397c-4707-a38f-00b5bc3ea429",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                308.88,
+                358,
+                109.12
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                255.12,
+                350,
+                29.759999999999998
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                48,
+                458.8,
+                740,
+                37.2
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                597.5687061183551,
+                82.0,
+                200.86258776328987,
+                340.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                52,
+                352.24,
+                380,
+                29.759999999999998
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                52,
+                330.6,
+                380,
+                13.64
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                52,
+                66.2,
+                380,
+                24.8
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "ab20b5f0-397c-4707-a38f-00b5bc3ea429"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "hero",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "ab20b5f0-397c-4707-a38f-00b5bc3ea429"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ab20b5f0-397c-4707-a38f-00b5bc3ea429",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.5,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.021,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "G-three": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "89caec9bea8808df7e7bc851b30724932249601261c9670f311dbb15aab359ee",
+        "bytes": 2832035,
+        "page_count": 2,
+        "asset_seconds": 0.724,
+        "render_seconds": 2.245,
+        "preview_seconds": 0.19,
+        "total_seconds": 3.341,
+        "peak_rss_bytes": 98676736,
+        "material_usage": [
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "c19f2155-f22d-44ae-a7bf-7c9ad917b0fb",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "c19f2155-f22d-44ae-a7bf-7c9ad917b0fb",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "c19f2155-f22d-44ae-a7bf-7c9ad917b0fb",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                308.88,
+                358,
+                109.12
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                255.12,
+                350,
+                29.759999999999998
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "c19f2155-f22d-44ae-a7bf-7c9ad917b0fb"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "c19f2155-f22d-44ae-a7bf-7c9ad917b0fb"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "c19f2155-f22d-44ae-a7bf-7c9ad917b0fb",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.5,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.002,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "G-six": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "f0700f009b7c43e664eaa0f47069370bf48483daf13dc2cd6167d5852320cbad",
+        "bytes": 3853638,
+        "page_count": 4,
+        "asset_seconds": 5.04,
+        "render_seconds": 2.777,
+        "preview_seconds": 0.479,
+        "total_seconds": 8.458,
+        "peak_rss_bytes": 785457152,
+        "material_usage": [
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "fb22c9c3-3b00-4465-9881-0aaafefe9278",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "fb22c9c3-3b00-4465-9881-0aaafefe9278",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "fb22c9c3-3b00-4465-9881-0aaafefe9278",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.5,
+                  0.5
+                ]
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [
+              {
+                "page": 3,
+                "reason": "Недостаточно свободного места с учётом текста, товаров и выбранного размещения"
+              },
+              {
+                "page": 4,
+                "reason": "Недостаточно свободного места с учётом текста, товаров и выбранного размещения"
+              }
+            ],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                308.88,
+                358,
+                109.12
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                255.12,
+                350,
+                29.759999999999998
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "3": [
+            {
+              "kind": "text",
+              "rect": [
+                48,
+                458.8,
+                740,
+                37.2
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                148.375,
+                212.0,
+                215.25,
+                210.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                48.0,
+                155.84,
+                416.0,
+                42.16
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                48.0,
+                134.2,
+                416.0,
+                13.64
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                48.0,
+                51.2,
+                416.0,
+                24.8
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                597.3969465648855,
+                212.0,
+                213.206106870229,
+                210.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                496.0,
+                176.92000000000002,
+                416.0,
+                21.08
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                496.0,
+                155.28000000000003,
+                416.0,
+                13.64
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                496.0,
+                51.2,
+                416.0,
+                24.8
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "4": [
+            {
+              "kind": "text",
+              "rect": [
+                48,
+                458.8,
+                740,
+                37.2
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                641.7903225806451,
+                82.0,
+                112.41935483870968,
+                340.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                52,
+                292.72,
+                380,
+                89.28
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                52,
+                271.08000000000004,
+                380,
+                13.64
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                52,
+                66.2,
+                380,
+                24.8
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "fb22c9c3-3b00-4465-9881-0aaafefe9278"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "fb22c9c3-3b00-4465-9881-0aaafefe9278"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "category",
+              "heading": "Ручка",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "fb22c9c3-3b00-4465-9881-0aaafefe9278"
+                }
+              ],
+              "product_refs": [
+                "vto:1961375",
+                "vto:1950874"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "hero",
+              "heading": "Бутылка",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "fb22c9c3-3b00-4465-9881-0aaafefe9278"
+                }
+              ],
+              "product_refs": [
+                "vto:1883738"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107",
+          "vto:1961375",
+          "vto:1950874",
+          "vto:1883738"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1961375",
+          "display_name": "Ручка пластиковая шариковая «Миллениум Color BRL»",
+          "brand": null,
+          "unit_price_kzt": "82.35",
+          "image_url": "https://s.a-5.ru/p/b8/d0/fd8c95b0a0a8f0d7.jpg"
+        },
+        {
+          "offer_id": "vto:1950874",
+          "display_name": "Ручка Melody в футляре LineLogic прозрачном",
+          "brand": null,
+          "unit_price_kzt": "1555.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/09/vto.kz-4204d824_a1e4_11f1_b08c_000c2936abcb-3.jpg"
+        },
+        {
+          "offer_id": "vto:1883738",
+          "display_name": "Бутылка для воды FLOW с цветной крышкой, 650 мл; пластик rPET",
+          "brand": "Happy gifts",
+          "unit_price_kzt": "1623.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/07/vto.kz-406eb562-81be-11f1-96b3-00155d41c408.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "fb22c9c3-3b00-4465-9881-0aaafefe9278",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.5,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.002,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "I-required-skip": {
+      "status": "NEEDS_REVIEW",
+      "expected_required_review": true,
+      "metrics": {
+        "sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+        "bytes": 2823039,
+        "page_count": 2,
+        "asset_seconds": 0.028,
+        "render_seconds": 2.292,
+        "preview_seconds": 0.159,
+        "total_seconds": 2.653,
+        "peak_rss_bytes": 98418688,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [],
+            "reason": "Недостаточно свободного места с учётом текста, товаров и выбранного размещения",
+            "status": "SKIPPED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [
+              {
+                "page": 1,
+                "reason": "Недостаточно свободного места с учётом текста, товаров и выбранного размещения"
+              },
+              {
+                "page": 2,
+                "reason": "Недостаточно свободного места с учётом текста, товаров и выбранного размещения"
+              }
+            ],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                280.36,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "LEFT",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "LEFT",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": true,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "COVER",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "LEFT",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "LEFT",
+          "required": true,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "LEFT",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [
+        {
+          "message": "Обязательный материал «ornament.png» не применён: Недостаточно свободного места с учётом текста, товаров и выбранного размещения",
+          "asset_id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "offer_id": null
+        }
+      ],
+      "download_sha_verified": false
+    },
+    "UI-prime": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "0d3e12813977aff62a015be2cdfebbddfdb88ee2851bd0923d8145185da5724b",
+        "bytes": 3004439,
+        "page_count": 2,
+        "asset_seconds": 0.027,
+        "render_seconds": 2.294,
+        "preview_seconds": 0.356,
+        "total_seconds": 2.846,
+        "peak_rss_bytes": 106475520,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [
+              1
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [
+              {
+                "crop": true,
+                "page": 1,
+                "rect": [
+                  430,
+                  72,
+                  506,
+                  405
+                ],
+                "role": "COVER_PHOTO",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 24
+              }
+            ],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "logo",
+              "rect": [
+                56,
+                408,
+                154,
+                56
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                69.0,
+                416.0,
+                128.0,
+                40.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                243.35999999999999,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a"
+                },
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": true,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "COVER",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "K-photo-products": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "a27bef21896d17b619e906d2a302d452a0efafcd1aeb7c977f4bf2625da42e4e",
+        "bytes": 2884553,
+        "page_count": 2,
+        "asset_seconds": 0.044,
+        "render_seconds": 2.408,
+        "preview_seconds": 0.301,
+        "total_seconds": 2.967,
+        "peak_rss_bytes": 105656320,
+        "material_usage": [
+          {
+            "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+            "role": "COVER_PHOTO",
+            "pages": [
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "architecture.jpg",
+            "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+            "placements": [
+              {
+                "crop": true,
+                "page": 2,
+                "rect": [
+                  688.09,
+                  151.0,
+                  159.83,
+                  252.28
+                ],
+                "role": "COVER_PHOTO",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 24
+              }
+            ],
+            "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "logo",
+              "rect": [
+                56,
+                408,
+                154,
+                56
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                69.0,
+                416.0,
+                128.0,
+                40.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                243.35999999999999,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a"
+                },
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "ee1ee41f-ca30-4974-b990-4f351cd5ed3a",
+          "crop": true,
+          "hash": "625a0d55107ba75e668b96ec537af5cf8bba6f163994f6f1447301de789a69b3",
+          "role": "COVER_PHOTO",
+          "bytes": 137497,
+          "scope": "PRODUCTS",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "architecture.jpg",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "e70113d81cb9d2be6c935112149e923e14cea0ba1efc49a0f275c76a7aaf2a2b",
+          "preparation_seconds": 0.117,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    },
+    "L-replaced": {
+      "status": "READY",
+      "expected_required_review": false,
+      "metrics": {
+        "sha256": "a27bef21896d17b619e906d2a302d452a0efafcd1aeb7c977f4bf2625da42e4e",
+        "bytes": 2884553,
+        "page_count": 2,
+        "asset_seconds": 0.028,
+        "render_seconds": 2.58,
+        "preview_seconds": 0.262,
+        "total_seconds": 3.039,
+        "peak_rss_bytes": 108564480,
+        "material_usage": [
+          {
+            "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "role": "DECORATION",
+            "pages": [
+              1,
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "ornament.png",
+            "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+            "placements": [
+              {
+                "crop": false,
+                "page": 1,
+                "rect": [
+                  620.0,
+                  486.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              },
+              {
+                "crop": false,
+                "page": 2,
+                "rect": [
+                  808.0,
+                  482.0,
+                  96.0,
+                  16.62
+                ],
+                "role": "DECORATION",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 0
+              }
+            ],
+            "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+            "role": "BACKGROUND",
+            "pages": [],
+            "reason": "Выключен пользователем",
+            "status": "DISABLED",
+            "filename": "texture.webp",
+            "asset_ref": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+            "placements": [],
+            "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+            "skipped_pages": [],
+            "preparation_version": 1
+          },
+          {
+            "hash": "7b8fdff580008ae43fe1a8ad4f0145c4fd3cbbd9776eef33c21744c3b5670942",
+            "role": "COVER_PHOTO",
+            "pages": [
+              2
+            ],
+            "reason": null,
+            "status": "USED",
+            "filename": "replacement.png",
+            "asset_ref": "435fd4a9-c057-4264-b2a3-363f4aef05c8",
+            "placements": [
+              {
+                "crop": true,
+                "page": 2,
+                "rect": [
+                  688.09,
+                  151.0,
+                  159.83,
+                  252.28
+                ],
+                "role": "COVER_PHOTO",
+                "opacity": 1.0,
+                "position": "AUTO",
+                "asset_ref": "435fd4a9-c057-4264-b2a3-363f4aef05c8",
+                "harmonize": false,
+                "expression": "NORMAL",
+                "focal_point": [
+                  0.75,
+                  0.5
+                ],
+                "edge_feather": 24
+              }
+            ],
+            "prepared_hash": "646a2f759b0e89dba4d1ce0f28c6a8b99608e7700160a337de3205adc6bc4499",
+            "skipped_pages": [],
+            "preparation_version": 1
+          }
+        ],
+        "material_reservations": {
+          "1": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                474.6,
+                370,
+                12.4
+              ]
+            },
+            {
+              "kind": "logo",
+              "rect": [
+                56,
+                408,
+                154,
+                56
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                69.0,
+                416.0,
+                128.0,
+                40.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                243.35999999999999,
+                358,
+                137.64000000000001
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                133.88,
+                345,
+                16.12
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                435.2306920762287,
+                100.0,
+                129.53861584754262,
+                205.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                803.5160642570281,
+                92.0,
+                108.96787148594377,
+                172.0
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                577.1163490471414,
+                93.0,
+                219.76730190571718,
+                372.0
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ],
+          "2": [
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                480.6,
+                600,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                56,
+                431.28,
+                810,
+                34.72
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                60.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                117.47997993981947,
+                151.0,
+                149.04004012036106,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                83.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                348.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                400.2926780341023,
+                151.0,
+                159.41464393179538,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                371.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                636.0,
+                371.64,
+                30,
+                13.64
+              ]
+            },
+            {
+              "kind": "photo",
+              "rect": [
+                688.0860040160643,
+                151.0,
+                159.82799196787147,
+                252.27999999999997
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                117.12,
+                228.0,
+                14.879999999999999
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                98.72,
+                228.0,
+                12.4
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                659.0,
+                66.4,
+                228.0,
+                22.32
+              ]
+            },
+            {
+              "kind": "text",
+              "rect": [
+                844,
+                13.6,
+                86,
+                12.4
+              ]
+            },
+            {
+              "kind": "footer",
+              "rect": [
+                0,
+                0,
+                960,
+                52
+              ]
+            }
+          ]
+        },
+        "design_plan": {
+          "pages": [
+            {
+              "motif": "disc",
+              "layout": "cover",
+              "heading": "",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            },
+            {
+              "motif": "disc",
+              "layout": "variants",
+              "heading": "Рюкзак",
+              "materials": [
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "435fd4a9-c057-4264-b2a3-363f4aef05c8"
+                },
+                {
+                  "preset": "AUTO",
+                  "asset_ref": "52b6819f-0894-4531-9b11-b75d466b81b5"
+                }
+              ],
+              "product_refs": [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107"
+              ]
+            }
+          ],
+          "style": "premium-dark",
+          "design_seed": 0,
+          "palette_order": [
+            0,
+            1
+          ],
+          "style_version": 3,
+          "material_schema_version": 1
+        },
+        "placements": [
+          "vto:1823109",
+          "vto:1823108",
+          "vto:1823107"
+        ]
+      },
+      "facts": [
+        {
+          "offer_id": "vto:1823109",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.40_4_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823108",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.10_3_1000x1000.jpg"
+        },
+        {
+          "offer_id": "vto:1823107",
+          "display_name": "Рюкзак-мешок Melango",
+          "brand": "Molti",
+          "unit_price_kzt": "2084.00",
+          "image_url": "https://vto.kz/wp-content/uploads/2026/06/vto.kz-12449.30_3_1000x1000.jpg"
+        }
+      ],
+      "material_input": [
+        {
+          "id": "52b6819f-0894-4531-9b11-b75d466b81b5",
+          "crop": false,
+          "hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "role": "DECORATION",
+          "bytes": 2161,
+          "scope": "DOCUMENT",
+          "width": 640,
+          "height": 160,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "ornament.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": true,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "cc38e81dc627ca0c4e6000921714a07bb0a3d51c6eee823e613ed80e129eb7ae",
+          "preparation_seconds": 0.017,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "b31eadf8-738e-4adf-9e52-f177deaf39b4",
+          "crop": false,
+          "hash": "d662d517e10798e3531ea8d040f0264c78c46f40f951b4ded16a44fd1f540aba",
+          "role": "BACKGROUND",
+          "bytes": 500,
+          "scope": "DOCUMENT",
+          "width": 1200,
+          "height": 675,
+          "status": "READY",
+          "enabled": false,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "texture.webp",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "438e815edc39e9ed2d9fff54c87cb55818681e661ffe3709e2d9bab185702ef6",
+          "preparation_seconds": 0.103,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        },
+        {
+          "id": "435fd4a9-c057-4264-b2a3-363f4aef05c8",
+          "crop": true,
+          "hash": "7b8fdff580008ae43fe1a8ad4f0145c4fd3cbbd9776eef33c21744c3b5670942",
+          "role": "COVER_PHOTO",
+          "bytes": 347310,
+          "scope": "PRODUCTS",
+          "width": 1600,
+          "height": 1000,
+          "status": "READY",
+          "enabled": true,
+          "focal_x": 0.75,
+          "focal_y": 0.5,
+          "opacity": 1.0,
+          "filename": "replacement.png",
+          "pipeline": "custom-srgb-exif-v1",
+          "position": "AUTO",
+          "required": false,
+          "harmonize": false,
+          "has_alpha": false,
+          "expression": "NORMAL",
+          "color_space": "sRGB",
+          "description": "",
+          "prepared_hash": "646a2f759b0e89dba4d1ce0f28c6a8b99608e7700160a337de3205adc6bc4499",
+          "preparation_seconds": 0.127,
+          "preparation_version": 1,
+          "asset_schema_version": 1
+        }
+      ],
+      "issues": [],
+      "download_sha_verified": true
+    }
+  },
+  "browser": {
+    "desktop": [
+      1440,
+      1000
+    ],
+    "mobile": [
+      390,
+      844
+    ],
+    "upload_without_auto_render": true,
+    "settings_f5": true,
+    "previous_preview_during_job": true,
+    "current_download_sha": "5ca924a74cdc0e917712311e9ec14030d76ad8565f0907705e1b151df1ff2242",
+    "page_count": 2,
+    "scope_usage_pages": [
+      1
+    ],
+    "remove_retains_old_file": true,
+    "back_and_reopen": true,
+    "collection_ids_preserved": true,
+    "final_scope_products": true,
+    "required_history_no_download": true,
+    "required_history_no_approve": true,
+    "required_history_warnings": [
+      "Предпросмотр относится к предыдущей версии. Сгенерируйте PDF с текущими настройками.",
+      "Обязательный материал «ornament.png» не применён: Недостаточно свободного места с учётом текста, товаров и выбранного размещения"
+    ],
+    "final_desktop_overflow": false,
+    "final_mobile_overflow": false
+  },
+  "browser_pdf_sha256": "5ca924a74cdc0e917712311e9ec14030d76ad8565f0907705e1b151df1ff2242",
+  "visual_pages": {
+    "pages/A-empty/page-1.png": "e214e31c891cf6f4e97a92c03e72abab8ceac93c9990f35f149e901cacf7bca7",
+    "pages/A-empty/page-2.png": "4e5b2966df48012164568777157f4527f42436ecca29ebf11478ed7222359c98",
+    "pages/B-cover/page-1.png": "c98dcb6e7357f2e69759a30337abfa0ea2d373cc8fac92565764dc6adb7263d5",
+    "pages/B-cover/page-2.png": "4e5b2966df48012164568777157f4527f42436ecca29ebf11478ed7222359c98",
+    "pages/C-decoration/page-1.png": "6e8a4d0a0a5992295960e697ae1985bcf20adaff6a16a7f206264dbc903b0fd8",
+    "pages/C-decoration/page-2.png": "5bf5c3dd5e38eea4a7c0372e2b320f3e02606be5d751a11861dee2bb2581cc77",
+    "pages/D-texture/page-1.png": "15274a17bcf639dffd5932aabfcf3aee24c12cb70cd107445d65aec0171dc744",
+    "pages/D-texture/page-2.png": "056d6e2b637c52b07718bfef6902ea54be5d4db64f4011812310e5ee2fefc7ef",
+    "pages/E-combined/page-1.png": "922ee1c38d21679e5bae55a1e7c9bb2cc592a443ac599567b5adec58d731cc86",
+    "pages/E-combined/page-2.png": "5bf5c3dd5e38eea4a7c0372e2b320f3e02606be5d751a11861dee2bb2581cc77",
+    "pages/F-disabled/page-1.png": "e214e31c891cf6f4e97a92c03e72abab8ceac93c9990f35f149e901cacf7bca7",
+    "pages/F-disabled/page-2.png": "4e5b2966df48012164568777157f4527f42436ecca29ebf11478ed7222359c98",
+    "pages/G-one/page-1.png": "5ba5ab6cf038b7a7817ac1e016c025eec9e41381094ffc43739254633fb680a1",
+    "pages/G-one/page-2.png": "46f5ce02f4953e751aa90e8d9734acfd3fe4587c09bf74614d870bb662855e0c",
+    "pages/G-six/page-1.png": "db089dda112221d217b55b0c85dce0565c881deedb7ee0896976d925c3b3d748",
+    "pages/G-six/page-2.png": "66970cffb78848d4fb52c678d52853017898bbd6970f8245a8c4082fd3092c38",
+    "pages/G-six/page-3.png": "063e4c01623665ff09c15e9cf3ddb848785655c6d5c28b178344bb7f6c75e9cc",
+    "pages/G-six/page-4.png": "3d6428ebbf194d3c2107e1e12e682a569168cc4dd7fd0e3053caa26cbf1d8e20",
+    "pages/G-three/page-1.png": "a79c11d7ad3b2ca17acfdfe9053b8acd8c0c46bd0decc5bf54b7aad46950fc17",
+    "pages/G-three/page-2.png": "5bf5c3dd5e38eea4a7c0372e2b320f3e02606be5d751a11861dee2bb2581cc77",
+    "pages/I-required-skip/page-1.png": "e214e31c891cf6f4e97a92c03e72abab8ceac93c9990f35f149e901cacf7bca7",
+    "pages/I-required-skip/page-2.png": "4e5b2966df48012164568777157f4527f42436ecca29ebf11478ed7222359c98",
+    "pages/K-photo-products/page-1.png": "19bb31e74c74cfd0c2bba3e98f9c7657b39da97364a5c76fccc70c96a50e3fc0",
+    "pages/K-photo-products/page-2.png": "fb723041ae390aa47ba647cb3dc84bcab6264477585f115a640c525cbe7af60f",
+    "pages/L-replaced/page-1.png": "19bb31e74c74cfd0c2bba3e98f9c7657b39da97364a5c76fccc70c96a50e3fc0",
+    "pages/L-replaced/page-2.png": "fb723041ae390aa47ba647cb3dc84bcab6264477585f115a640c525cbe7af60f",
+    "pages/UI-browser/page-1.png": "793ec065148c60fee2203970a1fedaa6b486094b9979a4cd44599f24098b6e2c",
+    "pages/UI-browser/page-2.png": "5bf5c3dd5e38eea4a7c0372e2b320f3e02606be5d751a11861dee2bb2581cc77",
+    "pages/UI-prime/page-1.png": "922ee1c38d21679e5bae55a1e7c9bb2cc592a443ac599567b5adec58d731cc86",
+    "pages/UI-prime/page-2.png": "5bf5c3dd5e38eea4a7c0372e2b320f3e02606be5d751a11861dee2bb2581cc77"
+  },
+  "visually_reviewed_final_page_count": 30,
+  "legacy_compatibility": {
+    "editorial": {
+      "sha256": "d5400a934c91f31c1f1cd06eb242da5f844581690ebd96a77260329d5abfd27a",
+      "pages": 2,
+      "pdf_identical": true,
+      "pixels_identical": true,
+      "rgb_pixel_sha256": [
+        "056a23a62830dd13d2ed416cb8ad2ecf55dffe30c266d4d98a81e22d795c87ff",
+        "767b14da29c7c91d05a63c87f141159bb7a78fcf9441cf63b032107c5ea10ca6"
+      ]
+    },
+    "premium-dark": {
+      "sha256": "4455761bac6bc07e3fdf8e08d54c61fcc804767682163b4227ecd3d2d41b28b5",
+      "pages": 2,
+      "pdf_identical": true,
+      "pixels_identical": true,
+      "rgb_pixel_sha256": [
+        "4ba3bf821329b74d6f0f668862557a1d50880e49e18a8749e78b6517001ff606",
+        "caf3d56cedb0975eb36f63d5ece6a38dcd6aeb11b67f9f71360198dc5a405cb0"
+      ]
+    },
+    "modern-graphic": {
+      "sha256": "0f8d720ec3bdc5aee75631444325168a0950462e50c33555be1c578c7f5ed17c",
+      "pages": 2,
+      "pdf_identical": true,
+      "pixels_identical": true,
+      "rgb_pixel_sha256": [
+        "f6b887a4de215635bb415719b46acd813f7ed0e3f27cc894de2c02c3ad17cf34",
+        "02da0735a66c1d48eadede46c743d9b7f3ec62860a1c2936c69a175f2f1446d7"
+      ]
+    }
+  },
+  "smoke": {
+    "seconds": 0.528,
+    "http": 202,
+    "returned_cards": 85,
+    "health_seconds": [
+      0.0073,
+      0.0087,
+      0.0056,
+      0.1044,
+      0.0055,
+      0.0036,
+      0.004,
+      0.004,
+      0.0034,
+      0.0035
+    ],
+    "collection_preserved": true
+  },
+  "gates": {
+    "backend": "427 passed, 1 opt-in deselected; 248.26s",
+    "frontend_components": "18 passed",
+    "ruff": "PASS",
+    "eslint": "PASS",
+    "typescript": "PASS",
+    "production_build": "PASS",
+    "live_ai_with_custom_materials": "NOT TESTED; deterministic acceptance; strict schema/fallback covered by regressions",
+    "load_p95": "NOT TESTED",
+    "skill_validation": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "cleanup": {
+    "exact_test_users_deleted": 2,
+    "exact_test_projects_deleted": 4,
+    "exact_test_documents_deleted": 4,
+    "remaining_test_users": 0,
+    "remaining_test_documents": 0,
+    "remaining_test_revisions": 0,
+    "remaining_other_documents": 4,
+    "other_document_drafts_unchanged_during_cleanup": true,
+    "ledger_and_temporary_acceptance_output_removed": true,
+    "task_edge_closed": true,
+    "edge_profile_removed": false,
+    "edge_profile_limitation": "Automatic approval review rejected recursive removal of the task-owned profile; directory retained.",
+    "catalog_after": {
+      "offers": 4371,
+      "fingerprint": "b64e9d7dfb7cc8b653d9389f8cd6e4dc"
+    },
+    "temporary_probes_removed": true,
+    "final_health": {
+      "api": 200,
+      "frontend": 200,
+      "frontend_health_proxy": 200
+    },
+    "debug_listener_closed": true
+  }
+}

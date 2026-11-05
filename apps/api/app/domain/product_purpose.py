@@ -224,7 +224,13 @@ def query_relation(query):
     identity = identity_inputs(cleaned)
     # Retain the earlier chat contract for imperative assembly wording. It
     # means category retrieval, never a revival of the removed allocator.
-    assembly = bool(re.search(r"\b(?:собери|собрать|составь)\b", query, re.I))
+    assembly = bool(
+        re.search(
+            r"\b(?:собери|собрать|составь)\b|\b\d+\s+(?:[а-яё-]+\s+){0,2}(?:набор|комплект|сет)\w*\s*(?:из\b|:)|\bв\s+каждом\b",
+            query,
+            re.I,
+        )
+    )
     if (
         identity.role in ("SET", "PACKAGING", "ACCESSORY", "COMPONENT")
         and identity.subject != "implicit_set"

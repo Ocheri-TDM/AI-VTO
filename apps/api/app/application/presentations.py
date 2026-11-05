@@ -12,13 +12,14 @@ from datetime import timedelta
 from uuid import uuid4
 
 import psutil
-from sqlalchemy import func, select, text, update
+from sqlalchemy import func, or_, select, text, update
 
 from app.application.presentation_assets import safe_path, store_upload
+from app.application.presentation_materials import MATERIAL_JOB, PresentationMaterials
 from app.config import ROOT
-from app.database.models import Chat, ProductObservation, Project, ResearchRecord, SupplierOffer
 from app.database.models import PresentationDocument as Document
 from app.database.models import PresentationRevision as Revision
+from app.database.models import ProductObservation, Project, SupplierOffer
 from app.domain.intent import CATEGORY_TERMS
 from app.domain.models import utcnow
 from app.domain.presentation import ACTIVE, Theme, short_display_name
@@ -43,13 +44,14 @@ async def stop_render_process(process):
         await asyncio.to_thread(psutil.wait_procs, children, timeout=3)
 
 
-class PresentationService:
-    def __init__(self, sessions, settings, research_repository):
+class PresentationService(PresentationMaterials):
+    def __init__(self, sessions, settings, research_repository, collections=None, model=None):
         self.sessions, self.settings, self.research_repository = sessions, settings, research_repository
         self.root = settings.presentation_storage.resolve()
         self.root.mkdir(parents=True, exist_ok=True)
         self.task = None
         self.local_lock = asyncio.Lock()
+        self.collections, self.model = collections, model
 
     async def owned(self, identifier, user):
         async with self.sessions() as db:
@@ -76,6 +78,10 @@ class PresentationService:
         for offer, observation in rows:
             if offer.supplier != "vto":
                 raise ValueError("В презентации разрешены только варианты VTO")
+            if offer.lifecycle == "REMOVED":
+                raise ValueError(
+                    "Выбранный вариант недоступен в каталоге. Уберите его из подборки перед созданием нового документа."
+                )
             p = offer.payload
             m = p.get("metadata", {})
             identity = identity_inputs(
@@ -138,29 +144,33 @@ class PresentationService:
         project = await self.project(project_id, user)
         if not project:
             return None
-        # The snapshot is read from persisted selection under its existing lock,
-        # never from client page DTOs or the current visible filters.
-        async with self.research_repository.mutation_lock(body.research_id):
-            async with self.sessions() as db:
-                record = await db.scalar(
-                    select(ResearchRecord)
-                    .join(Chat)
-                    .where(ResearchRecord.id == body.research_id, Chat.project_id == project_id)
-                )
-                if not record:
-                    return None
-                payload = record.payload
-                view = payload["view"]
-                if view.get("version", 0) != body.selection_version:
-                    raise ValueError("STATE_CONFLICT")
-                ids = list(dict.fromkeys(view["selected_ids"]))
-                if not ids:
-                    raise ValueError("Сначала выберите товары")
-                if len(ids) > 200:
-                    raise ValueError("Один документ поддерживает до 200 выбранных вариантов")
+        if self.collections is None:
+            raise ValueError("Подборка проекта недоступна")
+        # The project row lock serializes both collection operations and the
+        # document snapshot transaction. No supplier HTTP is involved.
+        async with self.collections.locked(project_id, user) as (collection, db):
+            if collection is None:
+                return None
+            version = (
+                body.collection_version if body.collection_version is not None else body.selection_version
+            )
+            if version != collection.version:
+                raise ValueError("STATE_CONFLICT")
+            state = await self.collections.state(db, collection)
+            ids = state["selected_ids"]
+            if not ids:
+                raise ValueError("Сначала выберите товары")
+            if len(ids) > 200:
+                raise ValueError("Один документ поддерживает до 200 выбранных вариантов")
             items = await self.snapshots(ids)
         settings = Theme(
-            title=project.name[:160] or "Товарная подборка", client=project.client_name or ""
+            title="Подборка для " + project.client_name[:100]
+            if project.client_name
+            else "Каталог выбранных товаров",
+            client=(project.client_name or "")[:100],
+            auto_decoration={"version": 1, "enabled": True, "intensity": "SUBTLE"},
+            cover_policy=1,
+            renderer_version=1,
         ).model_dump()
         async with self.sessions.begin() as db:
             row = Document(
@@ -169,6 +179,7 @@ class PresentationService:
                 draft={
                     "research_id": body.research_id,
                     "selection_version": body.selection_version,
+                    "collection_version": version,
                     "items": items,
                     "settings": settings,
                     "category_order": list(dict.fromkeys(i["category_key"] for i in items)),
@@ -213,12 +224,23 @@ class PresentationService:
                     .order_by(Revision.created_at.desc())
                 )
             ).all()
+        row = await self.reconcile_material_failures(row, revisions)
+        draft = copy.deepcopy(row.draft)
+        for material in draft.get("materials", []):
+            if material["status"] == "READY":
+                material["thumbnail_url"] = (
+                    f"/api/presentations/{identifier}/materials/{material['id']}?thumbnail=true"
+                )
         return {
             "id": row.id,
             "project_id": row.project_id,
             "version": row.version,
-            "draft": row.draft,
-            "revisions": [self.revision_view(r) for r in revisions],
+            "draft": draft,
+            "revisions": [self.revision_view(r) for r in revisions if r.input.get("kind") != MATERIAL_JOB],
+            "materials_preparing": any(
+                r.input.get("kind") == MATERIAL_JOB and r.status in ACTIVE for r in revisions
+            ),
+            "material_limits": self.material_limits(),
         }
 
     def revision_view(self, row):
@@ -242,6 +264,7 @@ class PresentationService:
             "error": row.error,
             "result": result,
             "created_at": row.created_at.isoformat(),
+            "request_id": row.input.get("generation_request_id"),
         }
 
     async def save(self, identifier, user, body):
@@ -267,6 +290,25 @@ class PresentationService:
             item.update(change.model_dump())
             items.append(item)
         settings = body.settings.model_dump()
+        for field in ("palette_plan", "auto_decoration", "cover_policy", "renderer_version"):
+            if field not in body.settings.model_fields_set:
+                settings[field] = copy.deepcopy(row.draft["settings"].get(field))
+        from app.domain.presentation_palette import manual_plan, resolve_choice
+
+        choice = settings.get("palette_plan")
+        if choice is None and settings["palette"] != row.draft["settings"]["palette"]:
+            old_colors = row.draft["settings"]["palette"]
+            slots = [
+                n for n, c in enumerate(settings["palette"]) if n >= len(old_colors) or old_colors[n] != c
+            ]
+            choice = manual_plan(settings["palette"], edited_slots=slots)
+        settings["palette_plan"] = await asyncio.to_thread(resolve_choice, choice, settings["palette"])
+        settings["style_version"] = 3 if settings["style"] == "premium-dark" else 2
+        settings["title"] = (
+            "Подборка для " + settings["client"].strip()
+            if settings["client"].strip()
+            else "Каталог выбранных товаров"
+        )
         logo = settings["logo"]
         if logo and (
             not re.fullmatch(r"documents/" + re.escape(identifier) + r"/uploads/[0-9a-f]{64}\.png", logo)
@@ -285,6 +327,7 @@ class PresentationService:
             category_order=order,
             original_fallback_ids=body.original_fallback_ids,
         )
+        self.edit_materials(draft, body.materials)
         await self.replace_draft(row, body.version, draft)
         return await self.get(identifier, user)
 
@@ -293,6 +336,9 @@ class PresentationService:
             current = await db.scalar(select(Document).where(Document.id == row.id).with_for_update())
             if current is None or current.version != version:
                 raise ValueError("STATE_CONFLICT")
+            removed = {m["id"] for m in current.draft.get("materials", [])} - {
+                m["id"] for m in draft.get("materials", [])
+            }
             # A worker may have frozen original bytes while the editor was
             # typing. Preserve this technical publication across the CAS edit.
             originals = {i["offer_id"]: i for i in current.draft["items"]}
@@ -307,6 +353,17 @@ class PresentationService:
             )
             if result.rowcount != 1:
                 raise ValueError("STATE_CONFLICT")
+            if removed:
+                await db.execute(
+                    update(Revision)
+                    .where(
+                        Revision.document_id == row.id,
+                        Revision.status.in_(ACTIVE),
+                        Revision.input["kind"].as_string() == MATERIAL_JOB,
+                        Revision.input["material"]["id"].as_string().in_(removed),
+                    )
+                    .values(status="CANCELLED", updated_at=utcnow())
+                )
 
     async def refresh(self, identifier, user, version):
         row = await self.owned(identifier, user)
@@ -320,6 +377,45 @@ class PresentationService:
         draft["original_fallback_ids"] = []
         draft["category_order"] = list(dict.fromkeys(i["category_key"] for i in fresh))
         await self.replace_draft(row, version, draft)
+        return await self.get(identifier, user)
+
+    async def refresh_composition(self, identifier, user, version, collection_version):
+        row = await self.owned(identifier, user)
+        if not row:
+            return None
+        async with self.collections.locked(row.project_id, user) as (collection, db):
+            if collection.version != collection_version:
+                raise ValueError("STATE_CONFLICT")
+            state = await self.collections.state(db, collection)
+            if not state["selected_ids"] or len(state["selected_ids"]) > 200:
+                raise ValueError("Для документа выберите от 1 до 200 вариантов")
+            fresh = await self.snapshots(state["selected_ids"])
+            previous = {i["offer_id"]: i for i in row.draft["items"]}
+            items = [previous.get(i["offer_id"], i) for i in fresh]
+            draft = copy.deepcopy(row.draft)
+            draft.update(
+                items=items,
+                collection_version=collection_version,
+                category_order=list(dict.fromkeys(i["category_key"] for i in items)),
+                original_fallback_ids=[
+                    id for id in draft["original_fallback_ids"] if id in state["selected_ids"]
+                ],
+            )
+            await self.replace_draft(row, version, draft)
+        return await self.get(identifier, user)
+
+    async def alternate(self, identifier, user, version, request_id=None):
+        if request_id is not None:
+            await self.enqueue(identifier, user, version, request_id)
+            return await self.get(identifier, user)
+        row = await self.owned(identifier, user)
+        if not row:
+            return None
+        self.check_generation_materials(row.draft)
+        draft = copy.deepcopy(row.draft)
+        draft["settings"]["design_seed"] = (draft["settings"].get("design_seed", 0) + 1) % 2_147_483_648
+        await self.replace_draft(row, version, draft)
+        await self.enqueue(identifier, user, version + 1)
         return await self.get(identifier, user)
 
     async def upload(self, identifier, user, data, version, offer_id=None):
@@ -340,22 +436,70 @@ class PresentationService:
         await self.replace_draft(row, version, draft)
         return await self.get(identifier, user)
 
-    async def enqueue(self, identifier, user, version):
-        if not await self.owned(identifier, user):
+    async def enqueue(self, identifier, user, version, request_id=None):
+        owned = await self.owned(identifier, user)
+        if not owned:
             return None
+        key = str(request_id) if request_id else None
+
+        def request_filter():
+            return (
+                Revision.input["generation_request_id"].as_string() == key
+                if key
+                else Revision.source_version == version
+            )
+
+        async with self.sessions() as db:
+            previous = await db.scalar(
+                select(Revision).where(
+                    Revision.document_id == identifier,
+                    request_filter(),
+                    or_(
+                        Revision.input["kind"].as_string().is_(None),
+                        Revision.input["kind"].as_string() != MATERIAL_JOB,
+                    ),
+                )
+            )
+        # Resolving/copying logo bytes is bounded filesystem work outside a DB lock.
+        # Retry reuses its frozen input even if the current draft has changed.
+        from app.application.presentation_logo import freeze_logo
+
+        resolved_logo = (
+            None if previous else await asyncio.to_thread(freeze_logo, self.root, owned.draft["settings"])
+        )
         async with self.local_lock, self.sessions.begin() as db:
             if db.bind.dialect.name == "postgresql":
                 await db.execute(text("SELECT pg_advisory_xact_lock(hashtext('presentation-enqueue'))"))
             row = await db.scalar(
                 select(Document).where(Document.id == identifier, Document.user_id == user).with_for_update()
             )
-            if row.version != version:
-                raise ValueError("STATE_CONFLICT")
             old = await db.scalar(
-                select(Revision).where(Revision.document_id == identifier, Revision.source_version == version)
+                select(Revision).where(
+                    Revision.document_id == identifier,
+                    request_filter(),
+                    or_(
+                        Revision.input["kind"].as_string().is_(None),
+                        Revision.input["kind"].as_string() != MATERIAL_JOB,
+                    ),
+                )
             )
             if old and old.status != "FAILED":
                 return self.revision_view(old)
+            if row.version != version and not (key and old):
+                raise ValueError("STATE_CONFLICT")
+            self.check_generation_materials(row.draft)
+            active = await db.scalar(
+                select(Revision).where(
+                    Revision.document_id == identifier,
+                    Revision.status.in_(ACTIVE),
+                    or_(
+                        Revision.input["kind"].as_string().is_(None),
+                        Revision.input["kind"].as_string() != MATERIAL_JOB,
+                    ),
+                )
+            )
+            if active:
+                return self.revision_view(active)
             queued = await db.scalar(
                 select(func.count()).select_from(Revision).where(Revision.status.in_(ACTIVE))
             )
@@ -375,10 +519,57 @@ class PresentationService:
                 old.status, old.error, old.claim = "QUEUED", None, None
                 await db.flush()
                 return self.revision_view(old)
+            value = copy.deepcopy(row.draft) | {"document_id": identifier}
+            # Only a newly requested revision adopts the current template.
+            # Existing revision inputs/plans and failed-revision retries stay frozen.
+            value["settings"]["style_version"] = 3 if value["settings"].get("style") == "premium-dark" else 2
+            from app.domain.presentation_composition import novelty
+            from app.domain.presentation_design import deterministic_plan
+            from app.domain.presentation_palette import manual_plan
+
+            recent = (
+                await db.scalars(
+                    select(Revision)
+                    .where(Revision.document_id == identifier, Revision.input["kind"].as_string().is_(None))
+                    .order_by(Revision.created_at.desc())
+                    .limit(3)
+                )
+            ).all()
+            value["recent_designs"] = [
+                r.result["design_signature"] for r in recent if r.result.get("design_signature")
+            ]
+            seed = max((r.input.get("settings", {}).get("design_seed", -1) for r in recent), default=-1) + 1
+            seed = max(seed, value["settings"].get("design_seed", 0))
+            value["settings"].update(
+                cover=True, cover_policy=1, renderer_version=1, resolved_logo=resolved_logo
+            )
+            if not value["settings"].get("palette_plan"):
+                value["settings"]["palette_plan"] = manual_plan(value["settings"]["palette"])
+            for attempt in range(10):
+                value["settings"]["design_seed"] = (seed + attempt) % 2_147_483_648
+                candidate = deterministic_plan(
+                    value["items"],
+                    value["settings"],
+                    value["category_order"],
+                    materials=value.get("materials", []),
+                )
+                if novelty(candidate, value["recent_designs"])["status"] == "DISTINCT":
+                    break
+            value["variation_attempts"] = attempt + 1
+            value["generation_request_id"] = key
+            # A completed request followed by an explicit new key is a new
+            # source version. Replayed HTTP keys above never increment it.
+            if key and await db.scalar(
+                select(func.count())
+                .select_from(Revision)
+                .where(Revision.document_id == identifier, Revision.source_version == row.version)
+            ):
+                row.version += 1
+                row.updated_at = utcnow()
             revision = Revision(
                 document_id=identifier,
-                source_version=version,
-                input=copy.deepcopy(row.draft) | {"document_id": identifier},
+                source_version=row.version,
+                input=value,
             )
             db.add(revision)
             await db.flush()
@@ -508,15 +699,46 @@ class PresentationService:
         folder.mkdir(parents=True, exist_ok=True)
         source = folder / "input.json"
         output = folder / "result.json"
+        plan_file = folder / "design-plan.json"
+        if plan_file.exists():
+            plan_file.unlink()  # Only this exact retry's IPC file; persisted results remain.
+        worker_input = copy.deepcopy(row.input)
+        if row.input.get("kind") == MATERIAL_JOB:
+            async with self.sessions() as db:
+                jobs = (
+                    await db.scalars(select(Revision).where(Revision.document_id == row.document_id))
+                ).all()
+            used = sum(
+                j.input.get("material", {}).get("bytes", 0)
+                + j.result.get("material", {}).get("prepared_bytes", 0)
+                for j in jobs
+                if j.input.get("kind") == MATERIAL_JOB
+            )
+            worker_input["limits"]["remaining_bytes"] = max(
+                0, self.settings.presentation_material_max_total_bytes - used
+            )
+            worker_input["limits"]["known_keys"] = [
+                j.result["material"]["key"]
+                for j in jobs
+                if j.input.get("kind") == MATERIAL_JOB and j.result.get("material", {}).get("key")
+            ]
         source.write_text(
             json.dumps(
-                {"storage": str(self.root), "revision": row.id, "input": row.input, "output": str(output)},
+                {
+                    "storage": str(self.root),
+                    "revision": row.id,
+                    "input": worker_input,
+                    "output": str(output),
+                    "plan_file": str(plan_file),
+                    "plan_timeout": self.settings.presentation_design_timeout_seconds,
+                },
                 ensure_ascii=False,
             ),
             "utf-8",
         )
         process = None
         reader = None
+        planning = None
         peak = 0
         started = time.perf_counter()
         try:
@@ -547,16 +769,58 @@ class PresentationService:
                             current is None or current.status == "CANCELLED" or current.claim != row.claim
                         )
                     if cancelled:
+                        if planning:
+                            planning.cancel()
                         await stop_render_process(process)
                         return
-                    if time.perf_counter() - started > self.settings.presentation_timeout_seconds:
+                    timeout = (
+                        self.settings.presentation_material_timeout_seconds
+                        if row.input.get("kind") == MATERIAL_JOB
+                        else self.settings.presentation_timeout_seconds
+                    )
+                    if time.perf_counter() - started > timeout:
                         raise TimeoutError()
                     if done:
                         line = reader.result()
                         if not line:
                             break
                         try:
-                            phase = json.loads(line).get("phase")
+                            event = json.loads(line)
+                            phase = event.get("phase")
+                            if phase == "PLANNING_DESIGN" and planning is None:
+
+                                async def plan(geometry=event["geometry"]):
+                                    from app.application.presentation_design import prepare_design
+
+                                    if row.result.get("design_plan"):
+                                        from app.domain.presentation_design import validate_plan
+
+                                        saved = validate_plan(
+                                            row.result["design_plan"],
+                                            row.input["items"],
+                                            row.input["settings"],
+                                            row.input.get("materials", []),
+                                        )
+                                        result = {
+                                            k: row.result.get(k)
+                                            for k in ("ai_used", "fallback_reason", "ai_seconds")
+                                        }
+                                        result["design_plan"] = saved.model_dump()
+                                    else:
+                                        result = await prepare_design(
+                                            self.model,
+                                            row.input,
+                                            geometry,
+                                            self.settings.presentation_design_timeout_seconds,
+                                        )
+                                        # Persist the validated plan before rendering. A retry of this
+                                        # revision reuses it even if Qwen would answer differently.
+                                        await self.publish(row, "PLANNING_DESIGN", result=result)
+                                    part = plan_file.with_suffix(".tmp")
+                                    part.write_text(json.dumps(result, ensure_ascii=False), "utf-8")
+                                    part.replace(plan_file)
+
+                                planning = asyncio.create_task(plan())
                             if phase in ACTIVE[1:]:
                                 await self.publish(row, phase)
                         except (ValueError, AttributeError):
@@ -567,9 +831,14 @@ class PresentationService:
                 raise RuntimeError("worker failed")
             result = json.loads(output.read_text("utf-8"))
             result["peak_rss_bytes"] = peak
-            await self.freeze_assets(row, result)
-            await self.publish(row, result["status"], result=result, error=None, lease_until=None)
+            if row.input.get("kind") == MATERIAL_JOB:
+                await self.finish_material(row, result)
+            else:
+                await self.freeze_assets(row, result)
+                await self.publish(row, result["status"], result=result, error=None, lease_until=None)
         except asyncio.CancelledError:
+            if planning:
+                planning.cancel()
             if process and process.returncode is None:
                 await stop_render_process(process)
             with suppress(Exception):
@@ -578,8 +847,20 @@ class PresentationService:
                 )
             raise
         except Exception as exc:
+            if planning:
+                planning.cancel()
             if process and process.returncode is None:
                 await stop_render_process(process)
+            if row.input.get("kind") == MATERIAL_JOB:
+                await self.finish_material(
+                    row,
+                    {
+                        "status": "FAILED",
+                        "message": "Превышено время подготовки"
+                        if isinstance(exc, TimeoutError)
+                        else "Подготовка не завершилась. Замените файл.",
+                    },
+                )
             await self.publish(
                 row,
                 "FAILED",
@@ -589,6 +870,11 @@ class PresentationService:
                 lease_until=None,
             )
         finally:
+            if planning:
+                if not planning.done():
+                    planning.cancel()
+                with suppress(asyncio.CancelledError, Exception):
+                    await planning
             if reader and not reader.done():
                 reader.cancel()
                 with suppress(asyncio.CancelledError):

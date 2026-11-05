@@ -1,0 +1,6103 @@
+{
+  "version": "search-safety-20261031-v1.1",
+  "seed": 20261031,
+  "products": [
+    {
+      "key": "tippo-BLACK",
+      "id": "vto:9900000",
+      "title": "Ручка шариковая Tippo",
+      "concepts": [
+        "pen",
+        "writing"
+      ],
+      "brand": null,
+      "color": "BLACK",
+      "price": 500,
+      "stock": 300,
+      "material": "пластик",
+      "model": "Tippo"
+    },
+    {
+      "key": "tippo-RED",
+      "id": "vto:9900001",
+      "title": "Ручка шариковая Tippo",
+      "concepts": [
+        "pen",
+        "writing"
+      ],
+      "brand": null,
+      "color": "RED",
+      "price": 500,
+      "stock": 500,
+      "material": "пластик",
+      "model": "Tippo"
+    },
+    {
+      "key": "tippo-BLUE",
+      "id": "vto:9900002",
+      "title": "Ручка шариковая Tippo",
+      "concepts": [
+        "pen",
+        "writing"
+      ],
+      "brand": null,
+      "color": "BLUE",
+      "price": 500,
+      "stock": 249,
+      "material": "пластик",
+      "model": "Tippo"
+    },
+    {
+      "key": "tippo-WHITE",
+      "id": "vto:9900003",
+      "title": "Ручка шариковая Tippo",
+      "concepts": [
+        "pen",
+        "writing"
+      ],
+      "brand": null,
+      "color": "WHITE",
+      "price": 500,
+      "stock": 0,
+      "material": "пластик",
+      "model": "Tippo"
+    },
+    {
+      "key": "tippo-GREEN",
+      "id": "vto:9900004",
+      "title": "Ручка шариковая Tippo",
+      "concepts": [
+        "pen",
+        "writing"
+      ],
+      "brand": null,
+      "color": "GREEN",
+      "price": 500,
+      "stock": null,
+      "material": "пластик",
+      "model": "Tippo"
+    },
+    {
+      "key": "tippo-ORANGE",
+      "id": "vto:9900005",
+      "title": "Ручка шариковая Tippo",
+      "concepts": [
+        "pen",
+        "writing"
+      ],
+      "brand": null,
+      "color": "ORANGE",
+      "price": 500,
+      "stock": 1000,
+      "material": "пластик",
+      "model": "Tippo"
+    },
+    {
+      "key": "vortex",
+      "id": "vto:9900006",
+      "title": "Ручка шариковая VORTEX",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "B1",
+      "color": "BLACK",
+      "price": 1800,
+      "stock": 400,
+      "material": "металл",
+      "model": "VORTEX"
+    },
+    {
+      "key": "case-pen",
+      "id": "vto:9900007",
+      "title": "Ручка шариковая Vector в футляре",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл",
+      "model": "Vector"
+    },
+    {
+      "key": "pen-case",
+      "id": "vto:9900008",
+      "title": "Футляр для ручки Molti",
+      "concepts": [
+        "pen_case"
+      ],
+      "brand": "Other",
+      "color": "BLACK",
+      "price": 100,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "pen-box",
+      "id": "vto:9900009",
+      "title": "Пустая коробка для ручки",
+      "concepts": [
+        "pen_box"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 100,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "pen-set",
+      "id": "vto:9900010",
+      "title": "Подарочный набор с ручкой и блокнотом",
+      "concepts": [
+        "giftset"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "hybrid",
+      "id": "vto:9900011",
+      "title": "Ручка и вечный карандаш 2 в 1",
+      "concepts": [
+        "pen",
+        "pencil"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл",
+      "model": "Eternal"
+    },
+    {
+      "key": "galaxy-Alpha",
+      "id": "vto:9900012",
+      "title": "Карандаш Галактика",
+      "concepts": [
+        "pencil"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 700,
+      "stock": 500,
+      "material": "дерево",
+      "model": "Галактика"
+    },
+    {
+      "key": "deep-Alpha",
+      "id": "vto:9900013",
+      "title": "Ручка шариковая Deep Space",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Alpha",
+      "color": "BLUE",
+      "price": 1700,
+      "stock": 700,
+      "material": "металл",
+      "model": "Deep Space"
+    },
+    {
+      "key": "galaxy-Beta",
+      "id": "vto:9900014",
+      "title": "Карандаш Галактика",
+      "concepts": [
+        "pencil"
+      ],
+      "brand": "Beta",
+      "color": "BLACK",
+      "price": 700,
+      "stock": 500,
+      "material": "дерево",
+      "model": "Галактика"
+    },
+    {
+      "key": "deep-Beta",
+      "id": "vto:9900015",
+      "title": "Ручка шариковая Deep Space",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Beta",
+      "color": "BLUE",
+      "price": 1700,
+      "stock": 700,
+      "material": "металл",
+      "model": "Deep Space"
+    },
+    {
+      "key": "melango-BLACK",
+      "id": "vto:9900016",
+      "title": "Рюкзак-мешок Melango",
+      "concepts": [
+        "backpack"
+      ],
+      "brand": "Molti",
+      "color": "BLACK",
+      "price": 2084,
+      "stock": 600,
+      "material": "полиэстер",
+      "model": "Melango",
+      "sku": "GF-12449.30"
+    },
+    {
+      "key": "melango-BLUE",
+      "id": "vto:9900017",
+      "title": "Рюкзак-мешок Melango",
+      "concepts": [
+        "backpack"
+      ],
+      "brand": "Molti",
+      "color": "BLUE",
+      "price": 2084,
+      "stock": 600,
+      "material": "полиэстер",
+      "model": "Melango",
+      "sku": "GF-12449.40"
+    },
+    {
+      "key": "melango-RED",
+      "id": "vto:9900018",
+      "title": "Рюкзак-мешок Melango",
+      "concepts": [
+        "backpack"
+      ],
+      "brand": "Molti",
+      "color": "RED",
+      "price": 2084,
+      "stock": 600,
+      "material": "полиэстер",
+      "model": "Melango",
+      "sku": "GF-12449.50"
+    },
+    {
+      "key": "melango-GREY",
+      "id": "vto:9900019",
+      "title": "Рюкзак-мешок Melango",
+      "concepts": [
+        "backpack"
+      ],
+      "brand": "Molti",
+      "color": "GREY",
+      "price": 2084,
+      "stock": 600,
+      "material": "полиэстер",
+      "model": "Melango",
+      "sku": "GF-12449.10"
+    },
+    {
+      "key": "bottle-500",
+      "id": "vto:9900020",
+      "title": "Бутылка с карабином River 500 мл",
+      "concepts": [
+        "bottle"
+      ],
+      "brand": "Molti",
+      "color": "BLACK",
+      "price": 2500,
+      "stock": 80,
+      "material": "металл",
+      "capacity_ml": 500,
+      "model": "River"
+    },
+    {
+      "key": "bottle-750",
+      "id": "vto:9900021",
+      "title": "Бутылка River 750 мл",
+      "concepts": [
+        "bottle"
+      ],
+      "brand": "Beta",
+      "color": "BLUE",
+      "price": 3500,
+      "stock": 300,
+      "material": "пластик",
+      "capacity_ml": 750,
+      "model": "River"
+    },
+    {
+      "key": "bottle-holder",
+      "id": "vto:9900022",
+      "title": "Держатель для бутылки",
+      "concepts": [
+        "bottle_holder"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 300,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "mug",
+      "id": "vto:9900023",
+      "title": "Кружка керамическая с ручкой",
+      "concepts": [
+        "mug"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "керамика"
+    },
+    {
+      "key": "thermal",
+      "id": "vto:9900024",
+      "title": "Термокружка North",
+      "concepts": [
+        "thermomug"
+      ],
+      "brand": "Alpha",
+      "color": "NAVY",
+      "price": 3000,
+      "stock": 200,
+      "material": "сталь"
+    },
+    {
+      "key": "tumbler",
+      "id": "vto:9900025",
+      "title": "Термостакан City",
+      "concepts": [
+        "thermocup"
+      ],
+      "brand": "Beta",
+      "color": "LIGHT_BLUE",
+      "price": 2800,
+      "stock": 200,
+      "material": "сталь"
+    },
+    {
+      "key": "thermos",
+      "id": "vto:9900026",
+      "title": "Термос Trek",
+      "concepts": [
+        "thermos"
+      ],
+      "brand": "Alpha",
+      "color": "BLUE",
+      "price": 4000,
+      "stock": 500,
+      "material": "сталь"
+    },
+    {
+      "key": "umbrella",
+      "id": "vto:9900027",
+      "title": "Зонт с ручкой",
+      "concepts": [
+        "umbrella"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "diary",
+      "id": "vto:9900028",
+      "title": "Ежедневник датированный Horizon",
+      "concepts": [
+        "notebook"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "кожа",
+      "subtype": "diary"
+    },
+    {
+      "key": "notepad",
+      "id": "vto:9900029",
+      "title": "Блокнот Plain",
+      "concepts": [
+        "notebook"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "бумага",
+      "subtype": "notepad"
+    },
+    {
+      "key": "shopper",
+      "id": "vto:9900030",
+      "title": "Сумка-шоппер Cotton",
+      "concepts": [
+        "shopperbag"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "хлопок"
+    },
+    {
+      "key": "bag",
+      "id": "vto:9900031",
+      "title": "Спортивная сумка Carry",
+      "concepts": [
+        "bag"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "полиэстер"
+    },
+    {
+      "key": "power",
+      "id": "vto:9900032",
+      "title": "Внешний аккумулятор Charge 10000 мАч",
+      "concepts": [
+        "powerbank"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл",
+      "capacity_mah": 10000
+    },
+    {
+      "key": "power-small",
+      "id": "vto:9900033",
+      "title": "Внешний аккумулятор Charge 5000 мАч",
+      "concepts": [
+        "powerbank"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл",
+      "capacity_mah": 5000
+    },
+    {
+      "key": "charger",
+      "id": "vto:9900034",
+      "title": "Сетевое зарядное устройство USB",
+      "concepts": [
+        "charger"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "flash",
+      "id": "vto:9900035",
+      "title": "USB-накопитель Storage 32 ГБ",
+      "concepts": [
+        "flashdrive"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл",
+      "storage_gb": 32
+    },
+    {
+      "key": "humidifier",
+      "id": "vto:9900036",
+      "title": "USB-увлажнитель Egg",
+      "concepts": [
+        "humidifier"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "lamp",
+      "id": "vto:9900037",
+      "title": "USB-лампа Read",
+      "concepts": [
+        "lamp"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "hub",
+      "id": "vto:9900038",
+      "title": "USB-хаб Connect",
+      "concepts": [
+        "hub"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "shirt-xl",
+      "id": "vto:9900039",
+      "title": "Футболка Cotton красная XL",
+      "concepts": [
+        "tshirt"
+      ],
+      "brand": "Alpha",
+      "color": "RED",
+      "price": 2000,
+      "stock": 250,
+      "material": "хлопок",
+      "size": "XL"
+    },
+    {
+      "key": "shirt-s",
+      "id": "vto:9900040",
+      "title": "Футболка Cotton красная S",
+      "concepts": [
+        "tshirt"
+      ],
+      "brand": "Alpha",
+      "color": "RED",
+      "price": 2000,
+      "stock": 150,
+      "material": "хлопок",
+      "size": "S"
+    },
+    {
+      "key": "no-price",
+      "id": "vto:9900041",
+      "title": "Бутылка NoPrice",
+      "concepts": [
+        "bottle"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": null,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "stale",
+      "id": "vto:9900042",
+      "title": "Бутылка OldPositive",
+      "concepts": [
+        "bottle"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 400,
+      "material": "металл",
+      "stale": true
+    },
+    {
+      "key": "zero",
+      "id": "vto:9900043",
+      "title": "Бутылка LatestZero",
+      "concepts": [
+        "bottle"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 0,
+      "material": "металл",
+      "previous_stock": 500
+    },
+    {
+      "key": "incoming",
+      "id": "vto:9900044",
+      "title": "Бутылка Incoming",
+      "concepts": [
+        "bottle"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": null,
+      "material": "металл",
+      "incoming": 1000
+    },
+    {
+      "key": "shared",
+      "id": "vto:9900045",
+      "title": "Бутылка Shared",
+      "concepts": [
+        "bottle"
+      ],
+      "brand": "Alpha",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": null,
+      "material": "металл",
+      "parent_shared": 1000
+    },
+    {
+      "key": "multi-brand",
+      "id": "vto:9900046",
+      "title": "Ручка шариковая Plus",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Alpha Studio",
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "unknown-brand",
+      "id": "vto:9900047",
+      "title": "Ручка шариковая Anonymous",
+      "concepts": [
+        "pen"
+      ],
+      "brand": null,
+      "color": "BLACK",
+      "price": 1500,
+      "stock": 300,
+      "material": "металл"
+    },
+    {
+      "key": "sku",
+      "id": "vto:9900048",
+      "title": "Ежедневник Trend A5",
+      "concepts": [
+        "notebook"
+      ],
+      "brand": "Beta",
+      "color": "NAVY",
+      "price": 1200,
+      "stock": 12,
+      "material": "кожа",
+      "model": "Trend",
+      "sku": "3-516.08",
+      "size": "A5",
+      "subtype": "diary"
+    },
+    {
+      "key": "page-0",
+      "id": "vto:9900049",
+      "title": "Ручка шариковая Page 0",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1000,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-1",
+      "id": "vto:9900050",
+      "title": "Ручка шариковая Page 1",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1001,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-2",
+      "id": "vto:9900051",
+      "title": "Ручка шариковая Page 2",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1002,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-3",
+      "id": "vto:9900052",
+      "title": "Ручка шариковая Page 3",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1003,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-4",
+      "id": "vto:9900053",
+      "title": "Ручка шариковая Page 4",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1004,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-5",
+      "id": "vto:9900054",
+      "title": "Ручка шариковая Page 5",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1005,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-6",
+      "id": "vto:9900055",
+      "title": "Ручка шариковая Page 6",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1006,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-7",
+      "id": "vto:9900056",
+      "title": "Ручка шариковая Page 7",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1007,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-8",
+      "id": "vto:9900057",
+      "title": "Ручка шариковая Page 8",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1008,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-9",
+      "id": "vto:9900058",
+      "title": "Ручка шариковая Page 9",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1009,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-10",
+      "id": "vto:9900059",
+      "title": "Ручка шариковая Page 10",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1010,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-11",
+      "id": "vto:9900060",
+      "title": "Ручка шариковая Page 11",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1011,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-12",
+      "id": "vto:9900061",
+      "title": "Ручка шариковая Page 12",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1012,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-13",
+      "id": "vto:9900062",
+      "title": "Ручка шариковая Page 13",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1013,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-14",
+      "id": "vto:9900063",
+      "title": "Ручка шариковая Page 14",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1014,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-15",
+      "id": "vto:9900064",
+      "title": "Ручка шариковая Page 15",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1015,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-16",
+      "id": "vto:9900065",
+      "title": "Ручка шариковая Page 16",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1016,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-17",
+      "id": "vto:9900066",
+      "title": "Ручка шариковая Page 17",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1017,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-18",
+      "id": "vto:9900067",
+      "title": "Ручка шариковая Page 18",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1018,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-19",
+      "id": "vto:9900068",
+      "title": "Ручка шариковая Page 19",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1019,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-20",
+      "id": "vto:9900069",
+      "title": "Ручка шариковая Page 20",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1020,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-21",
+      "id": "vto:9900070",
+      "title": "Ручка шариковая Page 21",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1021,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-22",
+      "id": "vto:9900071",
+      "title": "Ручка шариковая Page 22",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1022,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-23",
+      "id": "vto:9900072",
+      "title": "Ручка шариковая Page 23",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1023,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-24",
+      "id": "vto:9900073",
+      "title": "Ручка шариковая Page 24",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1024,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-25",
+      "id": "vto:9900074",
+      "title": "Ручка шариковая Page 25",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1025,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-26",
+      "id": "vto:9900075",
+      "title": "Ручка шариковая Page 26",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1026,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-27",
+      "id": "vto:9900076",
+      "title": "Ручка шариковая Page 27",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1027,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-28",
+      "id": "vto:9900077",
+      "title": "Ручка шариковая Page 28",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1028,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-29",
+      "id": "vto:9900078",
+      "title": "Ручка шариковая Page 29",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1029,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-30",
+      "id": "vto:9900079",
+      "title": "Ручка шариковая Page 30",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1030,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-31",
+      "id": "vto:9900080",
+      "title": "Ручка шариковая Page 31",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1031,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-32",
+      "id": "vto:9900081",
+      "title": "Ручка шариковая Page 32",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1032,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-33",
+      "id": "vto:9900082",
+      "title": "Ручка шариковая Page 33",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1033,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-34",
+      "id": "vto:9900083",
+      "title": "Ручка шариковая Page 34",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1034,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-35",
+      "id": "vto:9900084",
+      "title": "Ручка шариковая Page 35",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1035,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-36",
+      "id": "vto:9900085",
+      "title": "Ручка шариковая Page 36",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1036,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-37",
+      "id": "vto:9900086",
+      "title": "Ручка шариковая Page 37",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1037,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-38",
+      "id": "vto:9900087",
+      "title": "Ручка шариковая Page 38",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1038,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-39",
+      "id": "vto:9900088",
+      "title": "Ручка шариковая Page 39",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1039,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-40",
+      "id": "vto:9900089",
+      "title": "Ручка шариковая Page 40",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1040,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-41",
+      "id": "vto:9900090",
+      "title": "Ручка шариковая Page 41",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1041,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-42",
+      "id": "vto:9900091",
+      "title": "Ручка шариковая Page 42",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1042,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-43",
+      "id": "vto:9900092",
+      "title": "Ручка шариковая Page 43",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1043,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-44",
+      "id": "vto:9900093",
+      "title": "Ручка шариковая Page 44",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1044,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-45",
+      "id": "vto:9900094",
+      "title": "Ручка шариковая Page 45",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1045,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-46",
+      "id": "vto:9900095",
+      "title": "Ручка шариковая Page 46",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1046,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-47",
+      "id": "vto:9900096",
+      "title": "Ручка шариковая Page 47",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1047,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-48",
+      "id": "vto:9900097",
+      "title": "Ручка шариковая Page 48",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1048,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-49",
+      "id": "vto:9900098",
+      "title": "Ручка шариковая Page 49",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1049,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-50",
+      "id": "vto:9900099",
+      "title": "Ручка шариковая Page 50",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1050,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-51",
+      "id": "vto:9900100",
+      "title": "Ручка шариковая Page 51",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1051,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-52",
+      "id": "vto:9900101",
+      "title": "Ручка шариковая Page 52",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1052,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-53",
+      "id": "vto:9900102",
+      "title": "Ручка шариковая Page 53",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1053,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-54",
+      "id": "vto:9900103",
+      "title": "Ручка шариковая Page 54",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1054,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-55",
+      "id": "vto:9900104",
+      "title": "Ручка шариковая Page 55",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1055,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-56",
+      "id": "vto:9900105",
+      "title": "Ручка шариковая Page 56",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1056,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-57",
+      "id": "vto:9900106",
+      "title": "Ручка шариковая Page 57",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1057,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-58",
+      "id": "vto:9900107",
+      "title": "Ручка шариковая Page 58",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1058,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-59",
+      "id": "vto:9900108",
+      "title": "Ручка шариковая Page 59",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1059,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-60",
+      "id": "vto:9900109",
+      "title": "Ручка шариковая Page 60",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1060,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-61",
+      "id": "vto:9900110",
+      "title": "Ручка шариковая Page 61",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1061,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-62",
+      "id": "vto:9900111",
+      "title": "Ручка шариковая Page 62",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1062,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-63",
+      "id": "vto:9900112",
+      "title": "Ручка шариковая Page 63",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1063,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-64",
+      "id": "vto:9900113",
+      "title": "Ручка шариковая Page 64",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1064,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-65",
+      "id": "vto:9900114",
+      "title": "Ручка шариковая Page 65",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1065,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-66",
+      "id": "vto:9900115",
+      "title": "Ручка шариковая Page 66",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1066,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-67",
+      "id": "vto:9900116",
+      "title": "Ручка шариковая Page 67",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1067,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-68",
+      "id": "vto:9900117",
+      "title": "Ручка шариковая Page 68",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1068,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-69",
+      "id": "vto:9900118",
+      "title": "Ручка шариковая Page 69",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1069,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-70",
+      "id": "vto:9900119",
+      "title": "Ручка шариковая Page 70",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1070,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-71",
+      "id": "vto:9900120",
+      "title": "Ручка шариковая Page 71",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1071,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-72",
+      "id": "vto:9900121",
+      "title": "Ручка шариковая Page 72",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1072,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-73",
+      "id": "vto:9900122",
+      "title": "Ручка шариковая Page 73",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1073,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-74",
+      "id": "vto:9900123",
+      "title": "Ручка шариковая Page 74",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1074,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-75",
+      "id": "vto:9900124",
+      "title": "Ручка шариковая Page 75",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1075,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-76",
+      "id": "vto:9900125",
+      "title": "Ручка шариковая Page 76",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1076,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-77",
+      "id": "vto:9900126",
+      "title": "Ручка шариковая Page 77",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1077,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-78",
+      "id": "vto:9900127",
+      "title": "Ручка шариковая Page 78",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1078,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-79",
+      "id": "vto:9900128",
+      "title": "Ручка шариковая Page 79",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1079,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-80",
+      "id": "vto:9900129",
+      "title": "Ручка шариковая Page 80",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1080,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-81",
+      "id": "vto:9900130",
+      "title": "Ручка шариковая Page 81",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1081,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-82",
+      "id": "vto:9900131",
+      "title": "Ручка шариковая Page 82",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1082,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-83",
+      "id": "vto:9900132",
+      "title": "Ручка шариковая Page 83",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1083,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-84",
+      "id": "vto:9900133",
+      "title": "Ручка шариковая Page 84",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1084,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-85",
+      "id": "vto:9900134",
+      "title": "Ручка шариковая Page 85",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1085,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-86",
+      "id": "vto:9900135",
+      "title": "Ручка шариковая Page 86",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1086,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-87",
+      "id": "vto:9900136",
+      "title": "Ручка шариковая Page 87",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1087,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-88",
+      "id": "vto:9900137",
+      "title": "Ручка шариковая Page 88",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1088,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-89",
+      "id": "vto:9900138",
+      "title": "Ручка шариковая Page 89",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1089,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-90",
+      "id": "vto:9900139",
+      "title": "Ручка шариковая Page 90",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1090,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-91",
+      "id": "vto:9900140",
+      "title": "Ручка шариковая Page 91",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1091,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-92",
+      "id": "vto:9900141",
+      "title": "Ручка шариковая Page 92",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1092,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-93",
+      "id": "vto:9900142",
+      "title": "Ручка шариковая Page 93",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1093,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-94",
+      "id": "vto:9900143",
+      "title": "Ручка шариковая Page 94",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1094,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-95",
+      "id": "vto:9900144",
+      "title": "Ручка шариковая Page 95",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1095,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-96",
+      "id": "vto:9900145",
+      "title": "Ручка шариковая Page 96",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1096,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-97",
+      "id": "vto:9900146",
+      "title": "Ручка шариковая Page 97",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1097,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-98",
+      "id": "vto:9900147",
+      "title": "Ручка шариковая Page 98",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1098,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-99",
+      "id": "vto:9900148",
+      "title": "Ручка шариковая Page 99",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1099,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-100",
+      "id": "vto:9900149",
+      "title": "Ручка шариковая Page 100",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1100,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-101",
+      "id": "vto:9900150",
+      "title": "Ручка шариковая Page 101",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1101,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-102",
+      "id": "vto:9900151",
+      "title": "Ручка шариковая Page 102",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1102,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-103",
+      "id": "vto:9900152",
+      "title": "Ручка шариковая Page 103",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1103,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-104",
+      "id": "vto:9900153",
+      "title": "Ручка шариковая Page 104",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1104,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-105",
+      "id": "vto:9900154",
+      "title": "Ручка шариковая Page 105",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1105,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-106",
+      "id": "vto:9900155",
+      "title": "Ручка шариковая Page 106",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1106,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-107",
+      "id": "vto:9900156",
+      "title": "Ручка шариковая Page 107",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1107,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-108",
+      "id": "vto:9900157",
+      "title": "Ручка шариковая Page 108",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1108,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-109",
+      "id": "vto:9900158",
+      "title": "Ручка шариковая Page 109",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1109,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-110",
+      "id": "vto:9900159",
+      "title": "Ручка шариковая Page 110",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1110,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-111",
+      "id": "vto:9900160",
+      "title": "Ручка шариковая Page 111",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1111,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-112",
+      "id": "vto:9900161",
+      "title": "Ручка шариковая Page 112",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1112,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-113",
+      "id": "vto:9900162",
+      "title": "Ручка шариковая Page 113",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1113,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-114",
+      "id": "vto:9900163",
+      "title": "Ручка шариковая Page 114",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1114,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-115",
+      "id": "vto:9900164",
+      "title": "Ручка шариковая Page 115",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1115,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-116",
+      "id": "vto:9900165",
+      "title": "Ручка шариковая Page 116",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1116,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-117",
+      "id": "vto:9900166",
+      "title": "Ручка шариковая Page 117",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1117,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-118",
+      "id": "vto:9900167",
+      "title": "Ручка шариковая Page 118",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1118,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-119",
+      "id": "vto:9900168",
+      "title": "Ручка шариковая Page 119",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1119,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-120",
+      "id": "vto:9900169",
+      "title": "Ручка шариковая Page 120",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1120,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-121",
+      "id": "vto:9900170",
+      "title": "Ручка шариковая Page 121",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1121,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-122",
+      "id": "vto:9900171",
+      "title": "Ручка шариковая Page 122",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1122,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-123",
+      "id": "vto:9900172",
+      "title": "Ручка шариковая Page 123",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1123,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-124",
+      "id": "vto:9900173",
+      "title": "Ручка шариковая Page 124",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1124,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-125",
+      "id": "vto:9900174",
+      "title": "Ручка шариковая Page 125",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1125,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-126",
+      "id": "vto:9900175",
+      "title": "Ручка шариковая Page 126",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1126,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-127",
+      "id": "vto:9900176",
+      "title": "Ручка шариковая Page 127",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1127,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-128",
+      "id": "vto:9900177",
+      "title": "Ручка шариковая Page 128",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1128,
+      "stock": 500,
+      "material": "металл"
+    },
+    {
+      "key": "page-129",
+      "id": "vto:9900178",
+      "title": "Ручка шариковая Page 129",
+      "concepts": [
+        "pen"
+      ],
+      "brand": "Page Brand",
+      "color": "BLACK",
+      "price": 1129,
+      "stock": 500,
+      "material": "металл"
+    }
+  ],
+  "cases": [
+    {
+      "id": "Q001",
+      "query": "ручка",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q002",
+      "query": "ручки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q003",
+      "query": "ручек",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q004",
+      "query": "карандаш",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pencil"
+          }
+        ]
+      },
+      "concepts": [
+        "pencil"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q005",
+      "query": "карандаши",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pencil"
+          }
+        ]
+      },
+      "concepts": [
+        "pencil"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q006",
+      "query": "корондаш",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pencil"
+          }
+        ]
+      },
+      "concepts": [
+        "pencil"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q007",
+      "query": "карондаш",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pencil"
+          }
+        ]
+      },
+      "concepts": [
+        "pencil"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q008",
+      "query": "karandash",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pencil"
+          }
+        ]
+      },
+      "concepts": [
+        "pencil"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q009",
+      "query": "шопер",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "shopperbag"
+          }
+        ]
+      },
+      "concepts": [
+        "shopperbag"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q010",
+      "query": "шоппер",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "shopperbag"
+          }
+        ]
+      },
+      "concepts": [
+        "shopperbag"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q011",
+      "query": "шоперов",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "shopperbag"
+          }
+        ]
+      },
+      "concepts": [
+        "shopperbag"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q012",
+      "query": "шопперов",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "shopperbag"
+          }
+        ]
+      },
+      "concepts": [
+        "shopperbag"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q013",
+      "query": "powerbank",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "powerbank"
+          }
+        ]
+      },
+      "concepts": [
+        "powerbank"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q014",
+      "query": "power bank",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "powerbank"
+          }
+        ]
+      },
+      "concepts": [
+        "powerbank"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q015",
+      "query": "повербанк",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "powerbank"
+          }
+        ]
+      },
+      "concepts": [
+        "powerbank"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q016",
+      "query": "пауэрбанк",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "powerbank"
+          }
+        ]
+      },
+      "concepts": [
+        "powerbank"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q017",
+      "query": "внешний аккумулятор",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "powerbank"
+          }
+        ]
+      },
+      "concepts": [
+        "powerbank"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q018",
+      "query": "термокружка",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "thermomug"
+          }
+        ]
+      },
+      "concepts": [
+        "thermomug"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q019",
+      "query": "термо кружка",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "thermomug"
+          }
+        ]
+      },
+      "concepts": [
+        "thermomug"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q020",
+      "query": "термо-кружка",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "thermomug"
+          }
+        ]
+      },
+      "concepts": [
+        "thermomug"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q021",
+      "query": "USB-накопитель",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "flashdrive"
+          }
+        ]
+      },
+      "concepts": [
+        "flashdrive"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q022",
+      "query": "флешка",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "flashdrive"
+          }
+        ]
+      },
+      "concepts": [
+        "flashdrive"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q023",
+      "query": "USB flash drive",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "flashdrive"
+          }
+        ]
+      },
+      "concepts": [
+        "flashdrive"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q024",
+      "query": "бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q025",
+      "query": "БУТЫЛКИ",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q026",
+      "query": "  бутылки  ",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q027",
+      "query": "рюкзак",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack"
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q028",
+      "query": "рюкзаки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack"
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q029",
+      "query": "зонт",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "umbrella"
+          }
+        ]
+      },
+      "concepts": [
+        "umbrella"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q030",
+      "query": "зонты",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "umbrella"
+          }
+        ]
+      },
+      "concepts": [
+        "umbrella"
+      ],
+      "family": "equivalence"
+    },
+    {
+      "id": "Q031",
+      "query": "ручки бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          },
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "bottle"
+      ],
+      "family": "union"
+    },
+    {
+      "id": "Q032",
+      "query": "ручки, бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          },
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "bottle"
+      ],
+      "family": "union"
+    },
+    {
+      "id": "Q033",
+      "query": "ручки и бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          },
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "bottle"
+      ],
+      "family": "union"
+    },
+    {
+      "id": "Q034",
+      "query": "ручки\nбутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          },
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "bottle"
+      ],
+      "family": "union"
+    },
+    {
+      "id": "Q035",
+      "query": "ручки бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          },
+          {
+            "concept": "bottle"
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "bottle"
+      ],
+      "family": "union"
+    },
+    {
+      "id": "Q036",
+      "query": "Molti",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "brand": [
+                "Molti"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [],
+      "family": "brand"
+    },
+    {
+      "id": "Q037",
+      "query": "ручки Molti",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "brand": [
+                "Molti"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q038",
+      "query": "рюкзаки бренда Molti до 10000 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "brand": [
+                "Molti"
+              ]
+            },
+            "bounds": [
+              [
+                "price",
+                "le",
+                10000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ]
+    },
+    {
+      "id": "Q039",
+      "query": "Ручка шариковая Tippo",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "model": [
+                "Tippo"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "model"
+    },
+    {
+      "id": "Q040",
+      "query": "Tippo",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "model": [
+                "Tippo"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "model"
+    },
+    {
+      "id": "Q041",
+      "query": "РУЧКИ TIPPO",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "model": [
+                "Tippo"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "model"
+    },
+    {
+      "id": "Q042",
+      "query": "Рюкзак-мешок Melango синий",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "model": [
+                "Melango"
+              ],
+              "color": [
+                "BLUE"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ]
+    },
+    {
+      "id": "Q043",
+      "query": "GF-12449.40",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "sku": [
+                "GF-12449.40"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "sku"
+    },
+    {
+      "id": "Q044",
+      "query": "ручки бренда Unknown729",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "brand": [
+                "Unknown729"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ]
+    },
+    {
+      "id": "Q045",
+      "query": "бренд Alpha Studio",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "brand": [
+                "Alpha Studio"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [],
+      "family": "brand"
+    },
+    {
+      "id": "Q046",
+      "query": "карандаши модели Галактика",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "model": [
+                "Галактика"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pencil"
+      ]
+    },
+    {
+      "id": "Q047",
+      "query": "ручки модель Deep Space",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "model": [
+                "Deep Space"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ]
+    },
+    {
+      "id": "Q048",
+      "query": "ручка в футляре",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "key": [
+                "case-pen"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "purpose-role"
+    },
+    {
+      "id": "Q049",
+      "query": "футляр для ручки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen_case"
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "purpose-role"
+    },
+    {
+      "id": "Q050",
+      "query": "бутылка с карабином",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "key": [
+                "bottle-500"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "purpose-role"
+    },
+    {
+      "id": "Q051",
+      "query": "держатель для бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle_holder"
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "purpose-role"
+    },
+    {
+      "id": "Q052",
+      "query": "Чёрные ручки от 300 шт, до 2000 тенге за штуку",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ],
+              [
+                "price",
+                "le",
+                2000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ]
+    },
+    {
+      "id": "Q053",
+      "query": "Красные ручки от 500 шт и синие бутылки от 100 шт",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "color": [
+                "RED"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                500
+              ]
+            ]
+          },
+          {
+            "concept": "bottle",
+            "in": {
+              "color": [
+                "BLUE"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "bottle"
+      ]
+    },
+    {
+      "id": "Q054",
+      "query": "Бутылки 500 мл от 80 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "capacity_ml": [
+                500
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "numeric-role"
+    },
+    {
+      "id": "Q055",
+      "query": "Повербанки 10000 мАч, 100 штук, до 12000 ₸",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "powerbank",
+            "in": {
+              "capacity_mah": [
+                10000
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ],
+              [
+                "price",
+                "le",
+                12000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "powerbank"
+      ],
+      "family": "numeric-role"
+    },
+    {
+      "id": "Q056",
+      "query": "Футболки размера XL, от 200 шт",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "tshirt",
+            "in": {
+              "size": [
+                "XL"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                200
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "tshirt"
+      ],
+      "family": "numeric-role"
+    },
+    {
+      "id": "Q057",
+      "query": "ручки желательно металлические",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "soft"
+    },
+    {
+      "id": "Q058",
+      "query": "ручки сначала чёрные",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "soft"
+    },
+    {
+      "id": "Q059",
+      "query": "ручки только металлические",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "material": [
+                "металл"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "hard"
+    },
+    {
+      "id": "Q060",
+      "query": "ручки, но не исключай пластик",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "negation"
+    },
+    {
+      "id": "Q061",
+      "query": "ручки без пластика",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "not_in": {
+              "material": [
+                "пластик"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "negation"
+    },
+    {
+      "id": "Q062",
+      "query": "ручки не белые",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "not_in": {
+              "color": [
+                "WHITE"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "negation"
+    },
+    {
+      "id": "Q063",
+      "query": "бутылки от 80 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q064",
+      "query": "бутылки от 250 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                250
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q065",
+      "query": "бутылки от 300 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q066",
+      "query": "бутылки от 500 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q067",
+      "query": "бутылки не меньше 80 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q068",
+      "query": "бутылки не меньше 250 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                250
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q069",
+      "query": "бутылки не меньше 300 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q070",
+      "query": "бутылки не меньше 500 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q071",
+      "query": "бутылки больше 80 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "gt",
+                80
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q072",
+      "query": "бутылки больше 250 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "gt",
+                250
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q073",
+      "query": "бутылки больше 300 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "gt",
+                300
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q074",
+      "query": "бутылки больше 500 штук",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "gt",
+                500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "quantity-boundary"
+    },
+    {
+      "id": "Q075",
+      "query": "ручки до 500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q076",
+      "query": "ручки до 1500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                1500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q077",
+      "query": "ручки до 2500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                2500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q078",
+      "query": "ручки до 5000 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                5000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q079",
+      "query": "ручки не дороже 500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q080",
+      "query": "ручки не дороже 1500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                1500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q081",
+      "query": "ручки не дороже 2500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                2500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q082",
+      "query": "ручки не дороже 5000 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "le",
+                5000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q083",
+      "query": "ручки дешевле 500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "lt",
+                500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q084",
+      "query": "ручки дешевле 1500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "lt",
+                1500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q085",
+      "query": "ручки дешевле 2500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "lt",
+                2500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q086",
+      "query": "ручки дешевле 5000 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "lt",
+                5000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-boundary"
+    },
+    {
+      "id": "Q087",
+      "query": "чёрные ручки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q088",
+      "query": "чёрные бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q089",
+      "query": "чёрные рюкзаки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q090",
+      "query": "красные ручки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "color": [
+                "RED"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q091",
+      "query": "красные бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "color": [
+                "RED"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q092",
+      "query": "красные рюкзаки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "color": [
+                "RED"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q093",
+      "query": "тёмно-синие ручки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "color": [
+                "DARK_BLUE"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q094",
+      "query": "тёмно-синие бутылки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "color": [
+                "DARK_BLUE"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q095",
+      "query": "тёмно-синие рюкзаки",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "color": [
+                "DARK_BLUE"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "color"
+    },
+    {
+      "id": "Q096",
+      "query": "ручки бренда Alpha",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "brand": [
+                "Alpha"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q097",
+      "query": "рюкзаки бренда Alpha",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "brand": [
+                "Alpha"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q098",
+      "query": "бутылки бренда Alpha",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "brand": [
+                "Alpha"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q099",
+      "query": "ручки бренда Beta",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "brand": [
+                "Beta"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q100",
+      "query": "рюкзаки бренда Beta",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "brand": [
+                "Beta"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q101",
+      "query": "бутылки бренда Beta",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "brand": [
+                "Beta"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q102",
+      "query": "ручки бренда Page Brand",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "brand": [
+                "Page Brand"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q103",
+      "query": "рюкзаки бренда Page Brand",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "brand": [
+                "Page Brand"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q104",
+      "query": "бутылки бренда Page Brand",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "brand": [
+                "Page Brand"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q105",
+      "query": "ручки бренда B1",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "brand": [
+                "B1"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q106",
+      "query": "рюкзаки бренда B1",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "brand": [
+                "B1"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q107",
+      "query": "бутылки бренда B1",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "brand": [
+                "B1"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q108",
+      "query": "ручки бренда Molti",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "brand": [
+                "Molti"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q109",
+      "query": "рюкзаки бренда Molti",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "in": {
+              "brand": [
+                "Molti"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "backpack"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q110",
+      "query": "бутылки бренда Molti",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "in": {
+              "brand": [
+                "Molti"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "brand"
+    },
+    {
+      "id": "Q111",
+      "query": "шопбер",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "id": []
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "preserve-unknown"
+    },
+    {
+      "id": "Q112",
+      "query": "квантосборник",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "id": []
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "preserve-unknown"
+    },
+    {
+      "id": "Q113",
+      "query": "бренд NoSuchName729",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "id": []
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "preserve-unknown"
+    },
+    {
+      "id": "Q114",
+      "query": "ручки модель Missing729",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "id": []
+            }
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "preserve-unknown"
+    },
+    {
+      "id": "Q115",
+      "query": "Собери 10 наборов из ручек и кружек",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen"
+          },
+          {
+            "concept": "mug"
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "mug"
+      ],
+      "family": "legacy-grid"
+    },
+    {
+      "id": "Q116",
+      "query": "Собери 30 наборов из зонтов и термосов",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "umbrella"
+          },
+          {
+            "concept": "thermos"
+          }
+        ]
+      },
+      "concepts": [
+        "umbrella",
+        "thermos"
+      ],
+      "family": "legacy-grid"
+    },
+    {
+      "id": "Q117",
+      "query": "ручки от -3 штук",
+      "oracle": {},
+      "concepts": null,
+      "family": "contradiction",
+      "reject": true
+    },
+    {
+      "id": "Q118",
+      "query": "ручки цена от 5000 до 1000 тенге",
+      "oracle": {},
+      "concepts": null,
+      "family": "contradiction",
+      "reject": true
+    },
+    {
+      "id": "Q119",
+      "query": "только красные ручки, исключи красные",
+      "oracle": {},
+      "concepts": null,
+      "family": "contradiction",
+      "reject": true
+    },
+    {
+      "id": "Q120",
+      "query": "ручки от 999999999999999999999999999 штук",
+      "oracle": {},
+      "concepts": null,
+      "family": "contradiction",
+      "reject": true
+    },
+    {
+      "id": "Q121",
+      "query": "Бутылки от 79 шт. до 2200 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                79
+              ],
+              [
+                "price",
+                "le",
+                2200
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q122",
+      "query": "Бутылки от 80 шт. до 2210 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                2210
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q123",
+      "query": "Бутылки от 249 шт. до 2220 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                249
+              ],
+              [
+                "price",
+                "le",
+                2220
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q124",
+      "query": "Бутылки от 250 шт. до 2230 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                250
+              ],
+              [
+                "price",
+                "le",
+                2230
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q125",
+      "query": "Бутылки от 299 шт. до 2240 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                299
+              ],
+              [
+                "price",
+                "le",
+                2240
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q126",
+      "query": "Бутылки от 300 шт. до 2250 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ],
+              [
+                "price",
+                "le",
+                2250
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q127",
+      "query": "Бутылки от 499 шт. до 2260 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                499
+              ],
+              [
+                "price",
+                "le",
+                2260
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q128",
+      "query": "Бутылки от 500 шт. до 2270 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                500
+              ],
+              [
+                "price",
+                "le",
+                2270
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q129",
+      "query": "Бутылки от 79 шт. до 2280 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                79
+              ],
+              [
+                "price",
+                "le",
+                2280
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q130",
+      "query": "Бутылки от 80 шт. до 2290 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                2290
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q131",
+      "query": "Бутылки от 249 шт. до 2300 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                249
+              ],
+              [
+                "price",
+                "le",
+                2300
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q132",
+      "query": "Бутылки от 250 шт. до 2310 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                250
+              ],
+              [
+                "price",
+                "le",
+                2310
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q133",
+      "query": "Бутылки от 299 шт. до 2320 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                299
+              ],
+              [
+                "price",
+                "le",
+                2320
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q134",
+      "query": "Бутылки от 300 шт. до 2330 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ],
+              [
+                "price",
+                "le",
+                2330
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q135",
+      "query": "Бутылки от 499 шт. до 2340 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                499
+              ],
+              [
+                "price",
+                "le",
+                2340
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q136",
+      "query": "Бутылки от 500 шт. до 2350 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                500
+              ],
+              [
+                "price",
+                "le",
+                2350
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q137",
+      "query": "Бутылки от 79 шт. до 2360 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                79
+              ],
+              [
+                "price",
+                "le",
+                2360
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q138",
+      "query": "Бутылки от 80 шт. до 2370 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                2370
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q139",
+      "query": "Бутылки от 249 шт. до 2380 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                249
+              ],
+              [
+                "price",
+                "le",
+                2380
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q140",
+      "query": "Бутылки от 250 шт. до 2390 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                250
+              ],
+              [
+                "price",
+                "le",
+                2390
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q141",
+      "query": "Бутылки от 299 шт. до 2400 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                299
+              ],
+              [
+                "price",
+                "le",
+                2400
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q142",
+      "query": "Бутылки от 300 шт. до 2410 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ],
+              [
+                "price",
+                "le",
+                2410
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q143",
+      "query": "Бутылки от 499 шт. до 2420 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                499
+              ],
+              [
+                "price",
+                "le",
+                2420
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q144",
+      "query": "Бутылки от 500 шт. до 2430 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                500
+              ],
+              [
+                "price",
+                "le",
+                2430
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q145",
+      "query": "Бутылки от 79 шт. до 2440 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                79
+              ],
+              [
+                "price",
+                "le",
+                2440
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q146",
+      "query": "Бутылки от 80 шт. до 2450 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                2450
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q147",
+      "query": "Бутылки от 249 шт. до 2460 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                249
+              ],
+              [
+                "price",
+                "le",
+                2460
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q148",
+      "query": "Бутылки от 250 шт. до 2470 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                250
+              ],
+              [
+                "price",
+                "le",
+                2470
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q149",
+      "query": "Бутылки от 299 шт. до 2480 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                299
+              ],
+              [
+                "price",
+                "le",
+                2480
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q150",
+      "query": "Бутылки от 300 шт. до 2490 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ],
+              [
+                "price",
+                "le",
+                2490
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "combined"
+    },
+    {
+      "id": "Q151",
+      "query": "Для записи и напитков, всё чёрное, от 100 шт",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          },
+          {
+            "concept": "pencil",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          },
+          {
+            "concept": "notebook",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          },
+          {
+            "concept": "bottle",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          },
+          {
+            "concept": "thermomug",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          },
+          {
+            "concept": "mug",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "purpose"
+    },
+    {
+      "id": "Q152",
+      "query": "Подарки сотрудникам в дороге, без кружек и футболок, до 7000 тенге, от 80 шт",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "backpack",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                7000
+              ]
+            ]
+          },
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                7000
+              ]
+            ]
+          },
+          {
+            "concept": "thermomug",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                7000
+              ]
+            ]
+          },
+          {
+            "concept": "powerbank",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                7000
+              ]
+            ]
+          },
+          {
+            "concept": "umbrella",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                7000
+              ]
+            ]
+          },
+          {
+            "concept": "organizer",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                80
+              ],
+              [
+                "price",
+                "le",
+                7000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "purpose"
+    },
+    {
+      "id": "Q153",
+      "query": "Подарки руководителям до 12000 тенге, без пластика и одежды, желательно металл или дерево",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "notebook",
+            "not_in": {
+              "material": [
+                "пластик"
+              ]
+            },
+            "bounds": [
+              [
+                "price",
+                "le",
+                12000
+              ]
+            ]
+          },
+          {
+            "concept": "thermos",
+            "not_in": {
+              "material": [
+                "пластик"
+              ]
+            },
+            "bounds": [
+              [
+                "price",
+                "le",
+                12000
+              ]
+            ]
+          },
+          {
+            "concept": "organizer",
+            "not_in": {
+              "material": [
+                "пластик"
+              ]
+            },
+            "bounds": [
+              [
+                "price",
+                "le",
+                12000
+              ]
+            ]
+          },
+          {
+            "concept": "wallet",
+            "not_in": {
+              "material": [
+                "пластик"
+              ]
+            },
+            "bounds": [
+              [
+                "price",
+                "le",
+                12000
+              ]
+            ]
+          },
+          {
+            "concept": "cardholder",
+            "not_in": {
+              "material": [
+                "пластик"
+              ]
+            },
+            "bounds": [
+              [
+                "price",
+                "le",
+                12000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "purpose"
+    },
+    {
+      "id": "Q154",
+      "query": "Что-то полезное для ноутбука, компактное, кроме зарядных устройств",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "cable"
+          }
+        ]
+      },
+      "concepts": null,
+      "family": "purpose"
+    },
+    {
+      "id": "Q155",
+      "query": "Бутылки, цена до 2500 ₸",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "price",
+                "le",
+                2500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "price-role"
+    },
+    {
+      "id": "Q156",
+      "query": "Ежедневники",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "notebook",
+            "in": {
+              "subtype": [
+                "diary"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "notebook"
+      ],
+      "family": "subtype"
+    },
+    {
+      "id": "Q157",
+      "query": "Блокноты",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "notebook",
+            "in": {
+              "subtype": [
+                "notepad"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "notebook"
+      ],
+      "family": "subtype"
+    },
+    {
+      "id": "Q158",
+      "query": "Вечные карандаши 2 в 1, желательно металлические, сначала чёрные",
+      "oracle": {
+        "branches": [
+          {
+            "in": {
+              "key": [
+                "hybrid"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pencil"
+      ],
+      "family": "hybrid"
+    },
+    {
+      "id": "Q159",
+      "query": "Ручки и бутылки Molti. Только металл, без пластика",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "in": {
+              "brand": [
+                "Molti"
+              ],
+              "material": [
+                "металл"
+              ]
+            }
+          },
+          {
+            "concept": "bottle",
+            "in": {
+              "brand": [
+                "Molti"
+              ],
+              "material": [
+                "металл"
+              ]
+            }
+          }
+        ]
+      },
+      "concepts": [
+        "pen",
+        "bottle"
+      ],
+      "family": "global-material"
+    },
+    {
+      "id": "Q160",
+      "query": "Ручки цена от 1 000 до 2 500 тенге",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "ge",
+                1000
+              ],
+              [
+                "price",
+                "le",
+                2500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "price-spaces"
+    },
+    {
+      "id": "Q161",
+      "query": "Ручки дешевле 5000",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "pen",
+            "bounds": [
+              [
+                "price",
+                "lt",
+                5000
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "pen"
+      ],
+      "family": "unqualified-price"
+    },
+    {
+      "id": "Q162",
+      "query": "Бутылки больше 250",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "bottle",
+            "bounds": [
+              [
+                "stock",
+                "gt",
+                250
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "bottle"
+      ],
+      "family": "unqualified-quantity"
+    },
+    {
+      "id": "Q163",
+      "query": "Собери 10 сетов из powerbank, шопперов, термо кружек и карондашей. Цвет navy blue, тираж минимум 150шт",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "powerbank",
+            "in": {
+              "color": [
+                "NAVY"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                150
+              ]
+            ]
+          },
+          {
+            "concept": "shopperbag",
+            "in": {
+              "color": [
+                "NAVY"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                150
+              ]
+            ]
+          },
+          {
+            "concept": "thermomug",
+            "in": {
+              "color": [
+                "NAVY"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                150
+              ]
+            ]
+          },
+          {
+            "concept": "pencil",
+            "in": {
+              "color": [
+                "NAVY"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                150
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "powerbank",
+        "shopperbag",
+        "thermomug",
+        "pencil"
+      ],
+      "family": "legacy-grid"
+    },
+    {
+      "id": "Q164",
+      "query": "Нужно 8 наборов: красные футболки от 200 шт, чёрные повербанки от 100 шт и синие ручки от 500 шт. Никаких белых товаров",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "tshirt",
+            "in": {
+              "color": [
+                "RED"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                200
+              ]
+            ]
+          },
+          {
+            "concept": "powerbank",
+            "in": {
+              "color": [
+                "BLACK"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                100
+              ]
+            ]
+          },
+          {
+            "concept": "pen",
+            "in": {
+              "color": [
+                "BLUE"
+              ]
+            },
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                500
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "tshirt",
+        "powerbank",
+        "pen"
+      ],
+      "family": "local-constraints"
+    },
+    {
+      "id": "Q165",
+      "query": "Собери ровно 30 разных наборов из зонтов, дождевиков, носков и термосов. В каждом по 3 разных товара каждой категории, от 300 штук. Не повторяй товары между наборами",
+      "oracle": {
+        "branches": [
+          {
+            "concept": "umbrella",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ]
+            ]
+          },
+          {
+            "concept": "raincoat",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ]
+            ]
+          },
+          {
+            "concept": "socks",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ]
+            ]
+          },
+          {
+            "concept": "thermos",
+            "bounds": [
+              [
+                "stock",
+                "ge",
+                300
+              ]
+            ]
+          }
+        ]
+      },
+      "concepts": [
+        "umbrella",
+        "raincoat",
+        "socks",
+        "thermos"
+      ],
+      "family": "legacy-grid"
+    }
+  ]
+}

@@ -1,12 +1,14 @@
 """Authenticated project document API. Storage paths are never client-controlled."""
 
+from urllib.parse import unquote
 from uuid import UUID
 
 from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import FileResponse
 
 from app.application.presentation_assets import MAX_BYTES, safe_path
-from app.domain.presentation import Approve, DocumentCreate, DocumentEdit, Generate
+from app.domain.presentation import Approve, CompositionRefresh, DocumentCreate, DocumentEdit, Generate
+from app.domain.presentation_materials import MaterialRole
 
 router = APIRouter(prefix="/api", tags=["presentations"])
 
@@ -37,6 +39,26 @@ async def action(call):
             if status == 429
             else str(exc),
         ) from exc
+
+
+@router.get("/presentations/palettes")
+def palette_catalog(
+    request: Request,
+    direction: str = "red",
+    page: int = Query(default=1, ge=1, le=50),
+    character: str | None = None,
+    application: str | None = None,
+    contrast_accent: bool | None = None,
+    primary: str | None = None,
+):
+    # FastAPI runs this bounded CPU-only, cached library in its thread pool.
+    context(request)
+    from app.domain.presentation_palette import catalog
+
+    try:
+        return catalog(direction, page, character, application, contrast_accent, primary)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
 
 
 @router.get("/projects/{project_id}/presentations")
@@ -72,7 +94,21 @@ async def refresh(identifier: UUID, body: Generate, request: Request):
 @router.post("/presentations/{identifier}/generate", status_code=202)
 async def generate(identifier: UUID, body: Generate, request: Request):
     service, user = context(request)
-    return await action(service.enqueue(str(identifier), user, body.version))
+    return await action(service.enqueue(str(identifier), user, body.version, body.request_id))
+
+
+@router.post("/presentations/{identifier}/composition")
+async def composition(identifier: UUID, body: CompositionRefresh, request: Request):
+    service, user = context(request)
+    return await action(
+        service.refresh_composition(str(identifier), user, body.version, body.collection_version)
+    )
+
+
+@router.post("/presentations/{identifier}/alternate", status_code=202)
+async def alternate(identifier: UUID, body: Generate, request: Request):
+    service, user = context(request)
+    return await action(service.alternate(str(identifier), user, body.version, body.request_id))
 
 
 @router.post("/presentations/{identifier}/revisions/{revision}/cancel")
@@ -109,6 +145,46 @@ async def logo(identifier: UUID, request: Request):
         raise HTTPException(404, "Логотип не загружен")
     return FileResponse(
         safe_path(service.root, key), media_type="image/png", headers={"Cache-Control": "private, no-store"}
+    )
+
+
+@router.post("/presentations/{identifier}/materials", status_code=202)
+async def upload_material(
+    identifier: UUID,
+    request: Request,
+    role: MaterialRole,
+    version: int = Query(ge=1),
+    replace: UUID | None = None,
+):
+    service, user = context(request)
+    required(await service.owned(str(identifier), user))
+    data = bytearray()
+    maximum = service.settings.presentation_material_max_bytes
+    async for chunk in request.stream():
+        data.extend(chunk)
+        if len(data) > maximum:
+            raise HTTPException(413, f"Максимальный размер файла — {maximum // (1024 * 1024)} МБ")
+    return await action(
+        service.upload_material(
+            str(identifier),
+            user,
+            bytes(data),
+            version,
+            role,
+            unquote(request.headers.get("X-Filename", "Изображение")),
+            str(replace) if replace else None,
+        )
+    )
+
+
+@router.get("/presentations/{identifier}/materials/{asset_id}")
+async def material_file(identifier: UUID, asset_id: UUID, request: Request, thumbnail: bool = False):
+    service, user = context(request)
+    material = required(await service.material(str(identifier), str(asset_id), user))
+    return FileResponse(
+        safe_path(service.root, material["thumbnail" if thumbnail else "key"]),
+        media_type="image/png",
+        headers={"Cache-Control": "private, no-store"},
     )
 
 

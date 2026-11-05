@@ -65,7 +65,26 @@ class Settings(BaseSettings):
     auth_session_days: int = Field(default=30, ge=1, le=365)
     api_host: str = "127.0.0.1"
     api_port: int = 8000
+    api_http_concurrency: int = Field(default=64, ge=16, le=256)
+    search_json_max_bytes: int = Field(default=65536, ge=4096, le=262144)
+    search_deadline_seconds: float = Field(default=45, ge=1, le=120)
+    search_concurrency: int = Field(default=8, ge=1, le=16)
+    search_queue_limit: int = Field(default=24, ge=0, le=64)
+    search_queue_timeout_seconds: float = Field(default=3, ge=0.1, le=10)
+    search_requests_per_minute: int = Field(default=120, ge=10, le=10000)
+    trusted_frontend_origins: list[str] = Field(
+        default_factory=lambda: ["http://127.0.0.1:3000", "http://localhost:3000"]
+    )
     presentation_storage: Path = ROOT / ".local" / "presentations"
     presentation_worker_enabled: bool = True
     presentation_timeout_seconds: int = Field(default=300, ge=30, le=1800)
     presentation_queue_limit: int = Field(default=12, ge=1, le=50)
+    presentation_design_timeout_seconds: int = Field(default=25, ge=1, le=60)
+    presentation_material_max_bytes: int = Field(default=12 * 1024 * 1024, ge=1024, le=30 * 1024 * 1024)
+    presentation_material_max_pixels: int = Field(default=16_000_000, ge=100_000, le=30_000_000)
+    presentation_material_max_total_bytes: int = Field(
+        default=64 * 1024 * 1024, ge=1024, le=512 * 1024 * 1024
+    )
+    presentation_material_max_files: int = Field(default=12, ge=3, le=20)
+    presentation_material_max_decorations: int = Field(default=6, ge=1, le=12)
+    presentation_material_timeout_seconds: int = Field(default=20, ge=2, le=60)

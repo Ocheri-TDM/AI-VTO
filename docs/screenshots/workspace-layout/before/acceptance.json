@@ -1,0 +1,806 @@
+{
+  "run": "site-theme-67ce1e0d1b644d3ab3f9935a75ebf0f2",
+  "status": "BASELINE",
+  "measurements": [
+    {
+      "theme": "current",
+      "projects": [
+        {
+          "name": "ПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробелов",
+          "active": false,
+          "card": {
+            "x": 20,
+            "y": 234.53125,
+            "width": 174,
+            "height": 79,
+            "right": 194,
+            "bottom": 313.53125
+          },
+          "settings": {
+            "x": 161,
+            "y": 237.53125,
+            "width": 32,
+            "height": 29,
+            "right": 193,
+            "bottom": 266.53125
+          },
+          "title": {
+            "x": 57,
+            "y": 248.53125,
+            "width": 101,
+            "height": 17,
+            "right": 158,
+            "bottom": 265.53125
+          },
+          "icon": {
+            "x": 31,
+            "y": 248.53125,
+            "width": 16,
+            "height": 16,
+            "right": 47,
+            "bottom": 264.53125
+          },
+          "meta": {
+            "x": 57,
+            "y": 271.53125,
+            "width": 101,
+            "height": 28,
+            "right": 158,
+            "bottom": 299.53125
+          },
+          "position": "absolute",
+          "padding": "0px",
+          "offsetY": -5,
+          "sidebar": 230
+        },
+        {
+          "name": "Короткий",
+          "active": false,
+          "card": {
+            "x": 20,
+            "y": 319.53125,
+            "width": 174,
+            "height": 79,
+            "right": 194,
+            "bottom": 398.53125
+          },
+          "settings": {
+            "x": 161,
+            "y": 322.53125,
+            "width": 32,
+            "height": 29,
+            "right": 193,
+            "bottom": 351.53125
+          },
+          "title": {
+            "x": 57,
+            "y": 333.53125,
+            "width": 101,
+            "height": 17,
+            "right": 158,
+            "bottom": 350.53125
+          },
+          "icon": {
+            "x": 31,
+            "y": 333.53125,
+            "width": 16,
+            "height": 16,
+            "right": 47,
+            "bottom": 349.53125
+          },
+          "meta": {
+            "x": 57,
+            "y": 356.53125,
+            "width": 101,
+            "height": 28,
+            "right": 158,
+            "bottom": 384.53125
+          },
+          "position": "absolute",
+          "padding": "0px",
+          "offsetY": -5,
+          "sidebar": 230
+        },
+        {
+          "name": "Подборка корпоративных подарков для большой команды с очень длинным названием проекта",
+          "active": true,
+          "card": {
+            "x": 20,
+            "y": 404.53125,
+            "width": 174,
+            "height": 79,
+            "right": 194,
+            "bottom": 483.53125
+          },
+          "settings": {
+            "x": 161,
+            "y": 407.53125,
+            "width": 32,
+            "height": 29,
+            "right": 193,
+            "bottom": 436.53125
+          },
+          "title": {
+            "x": 57,
+            "y": 418.53125,
+            "width": 101,
+            "height": 17,
+            "right": 158,
+            "bottom": 435.53125
+          },
+          "icon": {
+            "x": 31,
+            "y": 418.53125,
+            "width": 16,
+            "height": 16,
+            "right": 47,
+            "bottom": 434.53125
+          },
+          "meta": {
+            "x": 57,
+            "y": 441.53125,
+            "width": 101,
+            "height": 28,
+            "right": 158,
+            "bottom": 469.53125
+          },
+          "position": "absolute",
+          "padding": "0px",
+          "offsetY": -5,
+          "sidebar": 230
+        }
+      ]
+    },
+    {
+      "theme": "current",
+      "panel": {
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "drawer": {
+          "x": 960,
+          "y": 0,
+          "width": 480,
+          "height": 1000,
+          "right": 1440,
+          "bottom": 1000
+        },
+        "body": {
+          "x": 961,
+          "y": 82,
+          "width": 478,
+          "height": 917,
+          "right": 1439,
+          "bottom": 999
+        },
+        "padding": "24px",
+        "columns": "132.656px 132.672px 132.672px",
+        "cards": [
+          {
+            "name": "Рюкзак-мешок Melango — черный",
+            "card": {
+              "x": 985,
+              "y": 128,
+              "width": 132.65625,
+              "height": 323.65625,
+              "right": 1117.65625,
+              "bottom": 451.65625
+            },
+            "photo": {
+              "x": 994,
+              "y": 137,
+              "width": 114.65625,
+              "height": 114.65625,
+              "right": 1108.65625,
+              "bottom": 251.65625
+            },
+            "image": {
+              "x": 1012,
+              "y": 155,
+              "width": 78.65625,
+              "height": 78.65625,
+              "right": 1090.65625,
+              "bottom": 233.65625
+            },
+            "info": {
+              "x": 986,
+              "y": 259.65625,
+              "width": 130.65625,
+              "height": 191,
+              "right": 1116.65625,
+              "bottom": 450.65625
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — серый",
+            "card": {
+              "x": 1133.65625,
+              "y": 128,
+              "width": 132.671875,
+              "height": 323.671875,
+              "right": 1266.328125,
+              "bottom": 451.671875
+            },
+            "photo": {
+              "x": 1142.65625,
+              "y": 137,
+              "width": 114.671875,
+              "height": 114.671875,
+              "right": 1257.328125,
+              "bottom": 251.671875
+            },
+            "image": {
+              "x": 1160.65625,
+              "y": 155,
+              "width": 78.671875,
+              "height": 78.671875,
+              "right": 1239.328125,
+              "bottom": 233.671875
+            },
+            "info": {
+              "x": 1134.65625,
+              "y": 259.671875,
+              "width": 130.671875,
+              "height": 191,
+              "right": 1265.328125,
+              "bottom": 450.671875
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — синий",
+            "card": {
+              "x": 1282.328125,
+              "y": 128,
+              "width": 132.671875,
+              "height": 323.671875,
+              "right": 1415,
+              "bottom": 451.671875
+            },
+            "photo": {
+              "x": 1291.328125,
+              "y": 137,
+              "width": 114.671875,
+              "height": 114.671875,
+              "right": 1406,
+              "bottom": 251.671875
+            },
+            "image": {
+              "x": 1309.328125,
+              "y": 155,
+              "width": 78.671875,
+              "height": 78.671875,
+              "right": 1388,
+              "bottom": 233.671875
+            },
+            "info": {
+              "x": 1283.328125,
+              "y": 259.671875,
+              "width": 130.671875,
+              "height": 191,
+              "right": 1414,
+              "bottom": 450.671875
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — красный",
+            "card": {
+              "x": 985,
+              "y": 528.671875,
+              "width": 132.65625,
+              "height": 323.65625,
+              "right": 1117.65625,
+              "bottom": 852.328125
+            },
+            "photo": {
+              "x": 994,
+              "y": 537.671875,
+              "width": 114.65625,
+              "height": 114.65625,
+              "right": 1108.65625,
+              "bottom": 652.328125
+            },
+            "image": null,
+            "info": {
+              "x": 986,
+              "y": 660.328125,
+              "width": 130.65625,
+              "height": 191,
+              "right": 1116.65625,
+              "bottom": 851.328125
+            }
+          }
+        ],
+        "scrollHeight": 917,
+        "clientHeight": 917
+      }
+    },
+    {
+      "theme": "pulse",
+      "projects": [
+        {
+          "name": "ПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробеловПроектБезПробелов",
+          "active": false,
+          "card": {
+            "x": 20,
+            "y": 234.53125,
+            "width": 174,
+            "height": 79,
+            "right": 194,
+            "bottom": 313.53125
+          },
+          "settings": {
+            "x": 161,
+            "y": 237.53125,
+            "width": 32,
+            "height": 29,
+            "right": 193,
+            "bottom": 266.53125
+          },
+          "title": {
+            "x": 57,
+            "y": 248.53125,
+            "width": 101,
+            "height": 17,
+            "right": 158,
+            "bottom": 265.53125
+          },
+          "icon": {
+            "x": 31,
+            "y": 248.53125,
+            "width": 16,
+            "height": 16,
+            "right": 47,
+            "bottom": 264.53125
+          },
+          "meta": {
+            "x": 57,
+            "y": 271.53125,
+            "width": 101,
+            "height": 28,
+            "right": 158,
+            "bottom": 299.53125
+          },
+          "position": "absolute",
+          "padding": "0px",
+          "offsetY": -5,
+          "sidebar": 230
+        },
+        {
+          "name": "Короткий",
+          "active": false,
+          "card": {
+            "x": 20,
+            "y": 319.53125,
+            "width": 174,
+            "height": 79,
+            "right": 194,
+            "bottom": 398.53125
+          },
+          "settings": {
+            "x": 161,
+            "y": 322.53125,
+            "width": 32,
+            "height": 29,
+            "right": 193,
+            "bottom": 351.53125
+          },
+          "title": {
+            "x": 57,
+            "y": 333.53125,
+            "width": 101,
+            "height": 17,
+            "right": 158,
+            "bottom": 350.53125
+          },
+          "icon": {
+            "x": 31,
+            "y": 333.53125,
+            "width": 16,
+            "height": 16,
+            "right": 47,
+            "bottom": 349.53125
+          },
+          "meta": {
+            "x": 57,
+            "y": 356.53125,
+            "width": 101,
+            "height": 28,
+            "right": 158,
+            "bottom": 384.53125
+          },
+          "position": "absolute",
+          "padding": "0px",
+          "offsetY": -5,
+          "sidebar": 230
+        },
+        {
+          "name": "Подборка корпоративных подарков для большой команды с очень длинным названием проекта",
+          "active": true,
+          "card": {
+            "x": 20,
+            "y": 404.53125,
+            "width": 174,
+            "height": 79,
+            "right": 194,
+            "bottom": 483.53125
+          },
+          "settings": {
+            "x": 161,
+            "y": 407.53125,
+            "width": 32,
+            "height": 29,
+            "right": 193,
+            "bottom": 436.53125
+          },
+          "title": {
+            "x": 57,
+            "y": 418.53125,
+            "width": 101,
+            "height": 17,
+            "right": 158,
+            "bottom": 435.53125
+          },
+          "icon": {
+            "x": 31,
+            "y": 418.53125,
+            "width": 16,
+            "height": 16,
+            "right": 47,
+            "bottom": 434.53125
+          },
+          "meta": {
+            "x": 57,
+            "y": 441.53125,
+            "width": 101,
+            "height": 28,
+            "right": 158,
+            "bottom": 469.53125
+          },
+          "position": "absolute",
+          "padding": "0px",
+          "offsetY": -5,
+          "sidebar": 230
+        }
+      ]
+    },
+    {
+      "theme": "pulse",
+      "panel": {
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "drawer": {
+          "x": 960,
+          "y": 0,
+          "width": 480,
+          "height": 1000,
+          "right": 1440,
+          "bottom": 1000
+        },
+        "body": {
+          "x": 961,
+          "y": 82,
+          "width": 478,
+          "height": 917,
+          "right": 1439,
+          "bottom": 999
+        },
+        "padding": "24px",
+        "columns": "132.656px 132.672px 132.672px",
+        "cards": [
+          {
+            "name": "Рюкзак-мешок Melango — черный",
+            "card": {
+              "x": 985,
+              "y": 128,
+              "width": 132.65625,
+              "height": 323.65625,
+              "right": 1117.65625,
+              "bottom": 451.65625
+            },
+            "photo": {
+              "x": 994,
+              "y": 137,
+              "width": 114.65625,
+              "height": 114.65625,
+              "right": 1108.65625,
+              "bottom": 251.65625
+            },
+            "image": {
+              "x": 1012,
+              "y": 155,
+              "width": 78.65625,
+              "height": 78.65625,
+              "right": 1090.65625,
+              "bottom": 233.65625
+            },
+            "info": {
+              "x": 986,
+              "y": 259.65625,
+              "width": 130.65625,
+              "height": 191,
+              "right": 1116.65625,
+              "bottom": 450.65625
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — серый",
+            "card": {
+              "x": 1133.65625,
+              "y": 128,
+              "width": 132.671875,
+              "height": 323.671875,
+              "right": 1266.328125,
+              "bottom": 451.671875
+            },
+            "photo": {
+              "x": 1142.65625,
+              "y": 137,
+              "width": 114.671875,
+              "height": 114.671875,
+              "right": 1257.328125,
+              "bottom": 251.671875
+            },
+            "image": {
+              "x": 1160.65625,
+              "y": 155,
+              "width": 78.671875,
+              "height": 78.671875,
+              "right": 1239.328125,
+              "bottom": 233.671875
+            },
+            "info": {
+              "x": 1134.65625,
+              "y": 259.671875,
+              "width": 130.671875,
+              "height": 191,
+              "right": 1265.328125,
+              "bottom": 450.671875
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — синий",
+            "card": {
+              "x": 1282.328125,
+              "y": 128,
+              "width": 132.671875,
+              "height": 323.671875,
+              "right": 1415,
+              "bottom": 451.671875
+            },
+            "photo": {
+              "x": 1291.328125,
+              "y": 137,
+              "width": 114.671875,
+              "height": 114.671875,
+              "right": 1406,
+              "bottom": 251.671875
+            },
+            "image": {
+              "x": 1309.328125,
+              "y": 155,
+              "width": 78.671875,
+              "height": 78.671875,
+              "right": 1388,
+              "bottom": 233.671875
+            },
+            "info": {
+              "x": 1283.328125,
+              "y": 259.671875,
+              "width": 130.671875,
+              "height": 191,
+              "right": 1414,
+              "bottom": 450.671875
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — красный",
+            "card": {
+              "x": 985,
+              "y": 528.671875,
+              "width": 132.65625,
+              "height": 323.65625,
+              "right": 1117.65625,
+              "bottom": 852.328125
+            },
+            "photo": {
+              "x": 994,
+              "y": 537.671875,
+              "width": 114.65625,
+              "height": 114.65625,
+              "right": 1108.65625,
+              "bottom": 652.328125
+            },
+            "image": null,
+            "info": {
+              "x": 986,
+              "y": 660.328125,
+              "width": 130.65625,
+              "height": 191,
+              "right": 1116.65625,
+              "bottom": 851.328125
+            }
+          }
+        ],
+        "scrollHeight": 917,
+        "clientHeight": 917
+      }
+    },
+    {
+      "theme": "pulse",
+      "mobile": {
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "drawer": {
+          "x": 0,
+          "y": 84.40625,
+          "width": 390,
+          "height": 759.59375,
+          "right": 390,
+          "bottom": 844
+        },
+        "body": {
+          "x": 1,
+          "y": 154.40625,
+          "width": 388,
+          "height": 688.59375,
+          "right": 389,
+          "bottom": 843
+        },
+        "padding": "20px 16px",
+        "columns": "165.5px 165.5px",
+        "cards": [
+          {
+            "name": "Рюкзак-мешок Melango — черный",
+            "card": {
+              "x": 17,
+              "y": 195.40625,
+              "width": 165.5,
+              "height": 317.5,
+              "right": 182.5,
+              "bottom": 512.90625
+            },
+            "photo": {
+              "x": 23,
+              "y": 201.40625,
+              "width": 153.5,
+              "height": 153.5,
+              "right": 176.5,
+              "bottom": 354.90625
+            },
+            "image": {
+              "x": 41,
+              "y": 219.40625,
+              "width": 117.5,
+              "height": 117.5,
+              "right": 158.5,
+              "bottom": 336.90625
+            },
+            "info": {
+              "x": 18,
+              "y": 359.90625,
+              "width": 163.5,
+              "height": 152,
+              "right": 181.5,
+              "bottom": 511.90625
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — серый",
+            "card": {
+              "x": 192.5,
+              "y": 195.40625,
+              "width": 165.5,
+              "height": 317.5,
+              "right": 358,
+              "bottom": 512.90625
+            },
+            "photo": {
+              "x": 198.5,
+              "y": 201.40625,
+              "width": 153.5,
+              "height": 153.5,
+              "right": 352,
+              "bottom": 354.90625
+            },
+            "image": {
+              "x": 216.5,
+              "y": 219.40625,
+              "width": 117.5,
+              "height": 117.5,
+              "right": 334,
+              "bottom": 336.90625
+            },
+            "info": {
+              "x": 193.5,
+              "y": 359.90625,
+              "width": 163.5,
+              "height": 152,
+              "right": 357,
+              "bottom": 511.90625
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — синий",
+            "card": {
+              "x": 17,
+              "y": 582.90625,
+              "width": 165.5,
+              "height": 317.5,
+              "right": 182.5,
+              "bottom": 900.40625
+            },
+            "photo": {
+              "x": 23,
+              "y": 588.90625,
+              "width": 153.5,
+              "height": 153.5,
+              "right": 176.5,
+              "bottom": 742.40625
+            },
+            "image": {
+              "x": 41,
+              "y": 606.90625,
+              "width": 117.5,
+              "height": 117.5,
+              "right": 158.5,
+              "bottom": 724.40625
+            },
+            "info": {
+              "x": 18,
+              "y": 747.40625,
+              "width": 163.5,
+              "height": 152,
+              "right": 181.5,
+              "bottom": 899.40625
+            }
+          },
+          {
+            "name": "Рюкзак-мешок Melango — красный",
+            "card": {
+              "x": 192.5,
+              "y": 582.90625,
+              "width": 165.5,
+              "height": 317.5,
+              "right": 358,
+              "bottom": 900.40625
+            },
+            "photo": {
+              "x": 198.5,
+              "y": 588.90625,
+              "width": 153.5,
+              "height": 153.5,
+              "right": 352,
+              "bottom": 742.40625
+            },
+            "image": null,
+            "info": {
+              "x": 193.5,
+              "y": 747.40625,
+              "width": 163.5,
+              "height": 152,
+              "right": 357,
+              "bottom": 899.40625
+            }
+          }
+        ],
+        "scrollHeight": 799,
+        "clientHeight": 689
+      }
+    }
+  ],
+  "cleanup": {
+    "disposable_database_removed": true,
+    "test_processes_stopped": true,
+    "main_services_final": [
+      3000,
+      8000,
+      11434,
+      55432
+    ]
+  }
+}

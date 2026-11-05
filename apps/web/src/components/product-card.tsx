@@ -19,19 +19,26 @@ export function ProductCard({
   disabled = false,
   onSelect,
   onDetails,
+  context = "default",
 }: {
   product: Product;
   selected: boolean;
   disabled?: boolean;
   onSelect: () => void;
   onDetails: () => void;
+  context?: "default" | "modelVariants";
 }) {
   const [imageFailed, setImageFailed] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const image = safeWebUrl(product.primary_image);
   const color = product.colors[0];
+  const selection = <label className={context === "modelVariants" ? "model-variant-choice" : "product-checkbox"}>
+    <input type="checkbox" checked={selected} disabled={disabled} onChange={onSelect} aria-label={`Выбрать ${product.name}`}/>
+    <span>{selected && <Check size={14}/>}</span>
+    {context === "modelVariants" && <span className="model-variant-select-label" aria-hidden="true">{selected ? "В подборке" : "Выбрать вариант"}</span>}
+  </label>;
   return (
-    <article className={`product-card ${selected ? "selected" : ""}`}>
+    <article data-offer-id={product.id} className={`product-card ${selected ? "selected" : ""} ${context === "modelVariants" ? "model-variant-card" : ""}`}>
       <div
         className={`product-image-wrap ${image && !imageLoaded && !imageFailed ? "image-loading" : ""}`}
       >
@@ -58,20 +65,11 @@ export function ProductCard({
             </div>
           )}
         </button>
-        <label className="product-checkbox">
-          <input
-            type="checkbox"
-            checked={selected}
-            disabled={disabled}
-            onChange={onSelect}
-            aria-label={`Выбрать ${product.name}`}
-          />
-          <span>{selected && <Check size={14} />}</span>
-        </label>
+        {context === "default" && selection}
       </div>
       <div className="product-info">
         <span className="product-category">
-          {primaryProductLabel(product,categoryLabel(product.category))}
+          {primaryProductLabel(product,categoryLabel(product.branch_category??product.category))}
         </span>
         <button className="product-name" onClick={onDetails}>
           {product.name}
@@ -106,6 +104,7 @@ export function ProductCard({
           </small>
         ) : null}
       </div>
+      {context === "modelVariants" && <div className="model-variant-actions">{selection}</div>}
     </article>
   );
 }

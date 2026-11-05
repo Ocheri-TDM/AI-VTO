@@ -1,0 +1,4360 @@
+{
+  "run": "site-theme-ef8b5c0434bc45aebbe4e3a06157d395",
+  "status": "PASS",
+  "browser": "installed Microsoft Edge",
+  "checks": [
+    {
+      "check": "Auth renders shared theme control",
+      "status": "PASS"
+    },
+    {
+      "check": "current auth theme fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse auth theme fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Fixture search and collection load",
+      "status": "PASS"
+    },
+    {
+      "check": "current Цвет fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Цвет returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "current Материал fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Material search is focused",
+      "status": "PASS"
+    },
+    {
+      "check": "Long material wraps within bounded menu",
+      "status": "PASS"
+    },
+    {
+      "check": "Material empty result",
+      "status": "PASS"
+    },
+    {
+      "check": "Материал returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "current Размер fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Размер returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "current Представление товаров fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Представление товаров returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "current brands fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Brand rows use checkbox/name/count columns",
+      "status": "PASS"
+    },
+    {
+      "check": "Brands scroll separately",
+      "status": "PASS"
+    },
+    {
+      "check": "Brand 02 applies immediately",
+      "status": "PASS"
+    },
+    {
+      "check": "Brand search filters rows",
+      "status": "PASS"
+    },
+    {
+      "check": "Second brand via keyboard",
+      "status": "PASS"
+    },
+    {
+      "check": "Search clear retains both selected brands",
+      "status": "PASS"
+    },
+    {
+      "check": "Long brand wraps in its own row",
+      "status": "PASS"
+    },
+    {
+      "check": "Unknown brand remains a separate value",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 restores theme and brand filter",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset retains original filter timing",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset restores all fixture products",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse Цвет fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Цвет returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse Материал fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Material search is focused",
+      "status": "PASS"
+    },
+    {
+      "check": "Long material wraps within bounded menu",
+      "status": "PASS"
+    },
+    {
+      "check": "Material empty result",
+      "status": "PASS"
+    },
+    {
+      "check": "Материал returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse Размер fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Размер returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse Представление товаров fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Представление товаров returns focus",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse brands fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Brand rows use checkbox/name/count columns",
+      "status": "PASS"
+    },
+    {
+      "check": "Brands scroll separately",
+      "status": "PASS"
+    },
+    {
+      "check": "Brand 02 applies immediately",
+      "status": "PASS"
+    },
+    {
+      "check": "Brand search filters rows",
+      "status": "PASS"
+    },
+    {
+      "check": "Second brand via keyboard",
+      "status": "PASS"
+    },
+    {
+      "check": "Search clear retains both selected brands",
+      "status": "PASS"
+    },
+    {
+      "check": "Long brand wraps in its own row",
+      "status": "PASS"
+    },
+    {
+      "check": "Unknown brand remains a separate value",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 restores theme and brand filter",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset retains original filter timing",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset restores all fixture products",
+      "status": "PASS"
+    },
+    {
+      "check": "Opening a sibling dismisses previous popup",
+      "status": "PASS"
+    },
+    {
+      "check": "Open popup follows external theme change",
+      "status": "PASS"
+    },
+    {
+      "check": "Outside click closes without choosing",
+      "status": "PASS"
+    },
+    {
+      "check": "Model grouping changes immediately",
+      "status": "PASS"
+    },
+    {
+      "check": "Tab commits and leaves single-select trigger",
+      "status": "PASS"
+    },
+    {
+      "check": "Typeahead activates the matching color",
+      "status": "PASS"
+    },
+    {
+      "check": "Keyboard color selection keeps canonical BLACK",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 restores color and collection",
+      "status": "PASS"
+    },
+    {
+      "check": "Color reset",
+      "status": "PASS"
+    },
+    {
+      "check": "Material query finds exact raw facet",
+      "status": "PASS"
+    },
+    {
+      "check": "Material applies immediately",
+      "status": "PASS"
+    },
+    {
+      "check": "Material reset",
+      "status": "PASS"
+    },
+    {
+      "check": "Size applies immediately",
+      "status": "PASS"
+    },
+    {
+      "check": "Size reset",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile filter modal",
+      "status": "PASS"
+    },
+    {
+      "check": "current mobile brands fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Escape closes only nested dropdown",
+      "status": "PASS"
+    },
+    {
+      "check": "current scrolled modal material fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Second Escape closes filter modal",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile filter modal",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse mobile brands fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Escape closes only nested dropdown",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse scrolled modal material fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Second Escape closes filter modal",
+      "status": "PASS"
+    },
+    {
+      "check": "Editor populated",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor Фото этого варианта fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor Визуальное направление fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor Выразительность fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor Версия презентации fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor Где использовать fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor Выразительность fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor Размещение fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette catalog loaded",
+      "status": "PASS"
+    },
+    {
+      "check": "current palette Ведущее направление fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Popup remains in palette modal DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette modal survives first Escape",
+      "status": "PASS"
+    },
+    {
+      "check": "current palette Характер fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Popup remains in palette modal DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette modal survives first Escape",
+      "status": "PASS"
+    },
+    {
+      "check": "current palette Применение fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Popup remains in palette modal DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette modal survives first Escape",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette popup retains focus on theme change",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor Фото этого варианта fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor Визуальное направление fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor Выразительность fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor Версия презентации fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor Где использовать fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor Выразительность fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor Размещение fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette catalog loaded",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse palette Ведущее направление fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Popup remains in palette modal DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette modal survives first Escape",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse palette Характер fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Popup remains in palette modal DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette modal survives first Escape",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse palette Применение fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Popup remains in palette modal DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette modal survives first Escape",
+      "status": "PASS"
+    },
+    {
+      "check": "Palette popup retains focus on theme change",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile palette loaded",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile palette fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Scrolled palette modal fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Bottom-edge material fits viewport",
+      "status": "PASS"
+    },
+    {
+      "check": "Bottom-edge popup opens above trigger",
+      "status": "PASS"
+    },
+    {
+      "check": "System high contrast remains enabled",
+      "status": "PASS"
+    },
+    {
+      "check": "Document, palette, snapshots and collection unchanged",
+      "status": "PASS"
+    }
+  ],
+  "geometry": [
+    {
+      "control": "current auth theme",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 160,
+      "height": 92,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse auth theme",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 160,
+      "height": 92,
+      "placement": "bottom"
+    },
+    {
+      "control": "current Цвет",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 252,
+      "placement": "bottom"
+    },
+    {
+      "control": "current Материал",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "current Размер",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 132,
+      "placement": "bottom"
+    },
+    {
+      "control": "current Представление товаров",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 160,
+      "height": 107.6875,
+      "placement": "bottom"
+    },
+    {
+      "control": "current brands",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 340,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse Цвет",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 252,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse Материал",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse Размер",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 132,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse Представление товаров",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 160,
+      "height": 107.6875,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse brands",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 340,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "current mobile brands",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 356,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "current scrolled modal material",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 356,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse mobile brands",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 356,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse scrolled modal material",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 356,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "current editor Фото этого варианта",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 92,
+      "placement": "bottom"
+    },
+    {
+      "control": "current editor Визуальное направление",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 179.0625,
+      "placement": "bottom"
+    },
+    {
+      "control": "current editor Выразительность",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 132,
+      "placement": "top"
+    },
+    {
+      "control": "current editor Версия презентации",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 92,
+      "placement": "bottom"
+    },
+    {
+      "control": "current editor Где использовать",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 132,
+      "placement": "top"
+    },
+    {
+      "control": "current editor Выразительность",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 132,
+      "placement": "top"
+    },
+    {
+      "control": "current editor Размещение",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 212,
+      "placement": "top"
+    },
+    {
+      "control": "current palette Ведущее направление",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "current palette Характер",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 212,
+      "placement": "bottom"
+    },
+    {
+      "control": "current palette Применение",
+      "theme": "current",
+      "bg": "rgb(28, 40, 34)",
+      "text": "rgb(245, 245, 239)",
+      "width": 280,
+      "height": 172,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse editor Фото этого варианта",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 92,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse editor Визуальное направление",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 179.0625,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse editor Выразительность",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 132,
+      "placement": "top"
+    },
+    {
+      "control": "pulse editor Версия презентации",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 92,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse editor Где использовать",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 132,
+      "placement": "top"
+    },
+    {
+      "control": "pulse editor Выразительность",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 132,
+      "placement": "top"
+    },
+    {
+      "control": "pulse editor Размещение",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 212,
+      "placement": "top"
+    },
+    {
+      "control": "pulse palette Ведущее направление",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse palette Характер",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 212,
+      "placement": "bottom"
+    },
+    {
+      "control": "pulse palette Применение",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 172,
+      "placement": "bottom"
+    },
+    {
+      "control": "Mobile palette",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 280,
+      "height": 172,
+      "placement": "bottom"
+    },
+    {
+      "control": "Scrolled palette modal",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 324,
+      "height": 360,
+      "placement": "bottom"
+    },
+    {
+      "control": "Bottom-edge material",
+      "theme": "pulse",
+      "bg": "rgb(253, 253, 255)",
+      "text": "rgb(27, 39, 32)",
+      "width": 313,
+      "height": 212,
+      "placement": "top"
+    }
+  ],
+  "contrast": {
+    "samples": 501,
+    "minimum": 6.758554764500505,
+    "measurements": [
+      {
+        "control": "current auth theme",
+        "text": "Текущая",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current auth theme",
+        "text": "Pulse",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "pulse auth theme",
+        "text": "Текущая",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse auth theme",
+        "text": "Pulse",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "current Цвет",
+        "text": "Все",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current Цвет",
+        "text": "Чёрный",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Цвет",
+        "text": "2",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Цвет",
+        "text": "Синий",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Цвет",
+        "text": "2",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Цвет",
+        "text": "Серый",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Цвет",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Цвет",
+        "text": "Красный",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Цвет",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Цвет",
+        "text": "Белый",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Цвет",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Все",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 00",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 02",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 03",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 04",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 05",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 06",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 07",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 08",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 09",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 10",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 11",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 12",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 13",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 14",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 15",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 16",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 17",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 18",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Демонстрационный материал 19",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "Металл с длинным описанием декоративного покрытия и натуральными вставками",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "металл",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "3",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Материал",
+        "text": "полиэстер, 300D",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Материал",
+        "text": "4",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Размер",
+        "text": "Все",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current Размер",
+        "text": "A4",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Размер",
+        "text": "10",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Размер",
+        "text": "A5",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current Размер",
+        "text": "10",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current Представление товаров",
+        "text": "Все варианты",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current Представление товаров",
+        "text": "По моделям",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "Бренд не указан",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Molti",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "4",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 02",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 03",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 04",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 05",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 06",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 07",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 08",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 09",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 10",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 11",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 12",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 13",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 14",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 15",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 16",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 17",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 18",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демо бренд 19",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демонстрационный бренд с очень длинным названием для проверки переноса",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current brands",
+        "text": "Демонстрационный каталог",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current brands",
+        "text": "3",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "Все",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "Чёрный",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "2",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "Синий",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "2",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "Серый",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "Красный",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "Белый",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Цвет",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Все",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 00",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 02",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 03",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 04",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 05",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 06",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 07",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 08",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 09",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 10",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 11",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 12",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 13",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 14",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 15",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 16",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 17",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 18",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Демонстрационный материал 19",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "Металл с длинным описанием декоративного покрытия и натуральными вставками",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "металл",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "3",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Материал",
+        "text": "полиэстер, 300D",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Материал",
+        "text": "4",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Размер",
+        "text": "Все",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse Размер",
+        "text": "A4",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Размер",
+        "text": "10",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Размер",
+        "text": "A5",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse Размер",
+        "text": "10",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse Представление товаров",
+        "text": "Все варианты",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse Представление товаров",
+        "text": "По моделям",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "Бренд не указан",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Molti",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "4",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 02",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 03",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 04",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 05",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 06",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 07",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 08",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 09",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 10",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 11",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 12",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 13",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 14",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 15",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 16",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 17",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 18",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демо бренд 19",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демонстрационный бренд с очень длинным названием для проверки переноса",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse brands",
+        "text": "Демонстрационный каталог",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse brands",
+        "text": "3",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Бренд не указан",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Molti",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "4",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 02",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 03",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 04",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 05",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 06",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 07",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 08",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 09",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 10",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 11",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 12",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 13",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 14",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 15",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 16",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 17",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 18",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демо бренд 19",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демонстрационный бренд с очень длинным названием для проверки переноса",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current mobile brands",
+        "text": "Демонстрационный каталог",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current mobile brands",
+        "text": "3",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Все",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 00",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 02",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 03",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 04",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 05",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 06",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 07",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 08",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 09",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 10",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 11",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 12",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 13",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 14",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 15",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 16",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 17",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 18",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Демонстрационный материал 19",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "Металл с длинным описанием декоративного покрытия и натуральными вставками",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "1",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "металл",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "3",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "полиэстер, 300D",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current scrolled modal material",
+        "text": "4",
+        "fg": "rgb(187, 199, 188)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 8.727164534915675
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Бренд не указан",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Molti",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "4",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 02",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 03",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 04",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 05",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 06",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 07",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 08",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 09",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 10",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 11",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 12",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 13",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 14",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 15",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 16",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 17",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 18",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демо бренд 19",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демонстрационный бренд с очень длинным названием для проверки переноса",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "Демонстрационный каталог",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse mobile brands",
+        "text": "3",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Все",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 00",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 02",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 03",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 04",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 05",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 06",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 07",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 08",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 09",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 10",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 11",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 12",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 13",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 14",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 15",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 16",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 17",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 18",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Демонстрационный материал 19",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "Металл с длинным описанием декоративного покрытия и натуральными вставками",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "1",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "металл",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "3",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "полиэстер, 300D",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse scrolled modal material",
+        "text": "4",
+        "fg": "rgb(79, 94, 83)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 6.758554764500505
+      },
+      {
+        "control": "current editor Фото этого варианта",
+        "text": "Фото 1",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current editor Фото этого варианта",
+        "text": "Фото 2",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Визуальное направление",
+        "text": "Editorial — журнальная композиция",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Визуальное направление",
+        "text": "Premium Dark — контраст и крупные предметы",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current editor Визуальное направление",
+        "text": "Modern Graphic — цвет и модульная сетка",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Выразительность",
+        "text": "Деликатно",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current editor Выразительность",
+        "text": "Умеренно",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Выразительность",
+        "text": "Выразительно",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Версия презентации",
+        "text": "v1 · Ошибка генерации",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current editor Версия презентации",
+        "text": "v2 · Ошибка генерации",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Где использовать",
+        "text": "Только обложка",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Где использовать",
+        "text": "Товарные страницы",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Где использовать",
+        "text": "Весь документ",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current editor Выразительность",
+        "text": "Деликатно",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Выразительность",
+        "text": "Обычно",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current editor Выразительность",
+        "text": "Выразительно",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Размещение",
+        "text": "Автоматически",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current editor Размещение",
+        "text": "Вверху",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Размещение",
+        "text": "Внизу",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Размещение",
+        "text": "Слева",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current editor Размещение",
+        "text": "Справа",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Красное · 50",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Оранжевое · 16",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Жёлтое · 38",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Зелёное · 34",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Бирюзовое · 29",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Голубое · 33",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Синее · 29",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Фиолетовое · 33",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Розовое · 34",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Коричневое · 8",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Нейтральное · 24",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Ведущее направление",
+        "text": "Свой основной цвет",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Характер",
+        "text": "Все",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current palette Характер",
+        "text": "Спокойный",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Характер",
+        "text": "Мягкий",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Характер",
+        "text": "Насыщенный",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Характер",
+        "text": "Контрастный",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Применение",
+        "text": "Любое",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(51, 75, 60)",
+        "ratio": 8.673612652590988
+      },
+      {
+        "control": "current palette Применение",
+        "text": "Светлое",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Применение",
+        "text": "Тёмное",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "current palette Применение",
+        "text": "Универсальное",
+        "fg": "rgb(245, 245, 239)",
+        "bg": "rgb(28, 40, 34)",
+        "ratio": 13.946212322515585
+      },
+      {
+        "control": "pulse editor Фото этого варианта",
+        "text": "Фото 1",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse editor Фото этого варианта",
+        "text": "Фото 2",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Визуальное направление",
+        "text": "Editorial — журнальная композиция",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Визуальное направление",
+        "text": "Premium Dark — контраст и крупные предметы",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse editor Визуальное направление",
+        "text": "Modern Graphic — цвет и модульная сетка",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Выразительность",
+        "text": "Деликатно",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse editor Выразительность",
+        "text": "Умеренно",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Выразительность",
+        "text": "Выразительно",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Версия презентации",
+        "text": "v1 · Ошибка генерации",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse editor Версия презентации",
+        "text": "v2 · Ошибка генерации",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Где использовать",
+        "text": "Только обложка",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Где использовать",
+        "text": "Товарные страницы",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Где использовать",
+        "text": "Весь документ",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse editor Выразительность",
+        "text": "Деликатно",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Выразительность",
+        "text": "Обычно",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse editor Выразительность",
+        "text": "Выразительно",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Размещение",
+        "text": "Автоматически",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse editor Размещение",
+        "text": "Вверху",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Размещение",
+        "text": "Внизу",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Размещение",
+        "text": "Слева",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse editor Размещение",
+        "text": "Справа",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Красное · 50",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Оранжевое · 16",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Жёлтое · 38",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Зелёное · 34",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Бирюзовое · 29",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Голубое · 33",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Синее · 29",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Фиолетовое · 33",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Розовое · 34",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Коричневое · 8",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Нейтральное · 24",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Ведущее направление",
+        "text": "Свой основной цвет",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Характер",
+        "text": "Все",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse palette Характер",
+        "text": "Спокойный",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Характер",
+        "text": "Мягкий",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Характер",
+        "text": "Насыщенный",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Характер",
+        "text": "Контрастный",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Применение",
+        "text": "Любое",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "pulse palette Применение",
+        "text": "Светлое",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Применение",
+        "text": "Тёмное",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "pulse palette Применение",
+        "text": "Универсальное",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Mobile palette",
+        "text": "Любое",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "Mobile palette",
+        "text": "Светлое",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Mobile palette",
+        "text": "Тёмное",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Mobile palette",
+        "text": "Универсальное",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Красное · 50",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Оранжевое · 16",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Жёлтое · 38",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Зелёное · 34",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Бирюзовое · 29",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Голубое · 33",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Синее · 29",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Фиолетовое · 33",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Розовое · 34",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Коричневое · 8",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Нейтральное · 24",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Scrolled palette modal",
+        "text": "Свой основной цвет",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Bottom-edge material",
+        "text": "Автоматически",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(255, 240, 233)",
+        "ratio": 13.915544833751486
+      },
+      {
+        "control": "Bottom-edge material",
+        "text": "Вверху",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Bottom-edge material",
+        "text": "Внизу",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Bottom-edge material",
+        "text": "Слева",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      },
+      {
+        "control": "Bottom-edge material",
+        "text": "Справа",
+        "fg": "rgb(27, 39, 32)",
+        "bg": "rgb(253, 253, 255)",
+        "ratio": 15.225120527698381
+      }
+    ]
+  },
+  "errors": [],
+  "fixture": "27 isolated offers; real Melango source photos plus explicitly labeled demo facets/material/revisions",
+  "postgresql": "untouched; existing main services retained",
+  "other_browsers": "NOT TESTED",
+  "screen_reader": "NOT TESTED",
+  "cleanup": {
+    "disposable_database_removed": true,
+    "test_processes_stopped": true,
+    "main_services_final": [
+      3000,
+      8000,
+      11434,
+      55432
+    ]
+  }
+}

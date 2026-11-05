@@ -6,11 +6,13 @@ export function Sheet({
   children,
   onClose,
   className = "",
+  variant = "default",
 }: {
   title: string;
   children: ReactNode;
   onClose: () => void;
   className?: string;
+  variant?: "default" | "modelVariants";
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -28,7 +30,7 @@ export function Sheet({
   return (
     <dialog
       ref={ref}
-      className={`sheet ${className}`}
+      className={`sheet ${variant === "modelVariants" ? "model-variants-sheet" : ""} ${className}`}
       aria-label={title}
       onCancel={onClose}
       onClick={(e) => {

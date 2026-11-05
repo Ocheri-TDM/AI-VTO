@@ -1,0 +1,49 @@
+{
+  "status": "PASS",
+  "browser": "installed Microsoft Edge",
+  "desktop": "1440x1000",
+  "mobile": "390x844",
+  "checks": [
+    {
+      "check": "Authenticated persisted workspace",
+      "pass": true
+    },
+    {
+      "check": "Hide retains category",
+      "pass": true
+    },
+    {
+      "check": "Show retains project selection",
+      "pass": true
+    },
+    {
+      "check": "Remove changes source workspace",
+      "pass": true
+    },
+    {
+      "check": "Context restore",
+      "pass": true
+    },
+    {
+      "check": "F5 restores categories and collection",
+      "pass": true
+    },
+    {
+      "check": "No desktop horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "No mobile horizontal overflow",
+      "pass": true
+    },
+    {
+      "check": "Mobile collection count retained",
+      "pass": true
+    }
+  ],
+  "screenshots": [
+    "desktop.png",
+    "mobile.png"
+  ],
+  "main_api_health": 200
+}

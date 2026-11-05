@@ -1,0 +1,234 @@
+{
+  "levels": [
+    {
+      "users": 1,
+      "classes": {
+        "category": {
+          "n": 100,
+          "p50": 0.21748099999967963,
+          "p95": 0.34247439983300865,
+          "p99": 0.7392655001021922,
+          "max": 0.7392655001021922
+        },
+        "model": {
+          "n": 100,
+          "p50": 0.09607185004279017,
+          "p95": 0.17015700018964708,
+          "p99": 0.3560254001058638,
+          "max": 0.3560254001058638
+        },
+        "brand": {
+          "n": 100,
+          "p50": 0.07991254993248731,
+          "p95": 0.11867009988054633,
+          "p99": 0.15313479979522526,
+          "max": 0.15313479979522526
+        },
+        "union": {
+          "n": 100,
+          "p50": 0.22177369997370988,
+          "p95": 0.3326061998959631,
+          "p99": 0.4133105999790132,
+          "max": 0.4133105999790132
+        }
+      },
+      "client_loop_lag_seconds": {
+        "n": 633,
+        "p50": 0.00827449988573789,
+        "p95": 0.02326440005563199,
+        "p99": 0.025660900026559824,
+        "max": 0.04093250012956559
+      },
+      "free_memory_mb": 3763
+    },
+    {
+      "users": 5,
+      "classes": {
+        "category": {
+          "n": 100,
+          "p50": 0.7991103999083862,
+          "p95": 0.9265586999244988,
+          "p99": 1.0367586000356823,
+          "max": 1.0367586000356823
+        },
+        "model": {
+          "n": 100,
+          "p50": 0.4003685498610139,
+          "p95": 0.5211281999945641,
+          "p99": 0.5710843000560999,
+          "max": 0.5710843000560999
+        },
+        "brand": {
+          "n": 100,
+          "p50": 0.37148534995503724,
+          "p95": 0.5244570998474956,
+          "p99": 0.6462757000699639,
+          "max": 0.6462757000699639
+        },
+        "union": {
+          "n": 100,
+          "p50": 0.8187781501328573,
+          "p95": 1.0348364999517798,
+          "p99": 1.1413881001062691,
+          "max": 1.1413881001062691
+        }
+      },
+      "client_loop_lag_seconds": {
+        "n": 462,
+        "p50": 0.00794665000867098,
+        "p95": 0.019011500151827926,
+        "p99": 0.024753999989479775,
+        "max": 0.027212799852713937
+      },
+      "free_memory_mb": 3688
+    },
+    {
+      "users": 10,
+      "classes": {
+        "category": {
+          "n": 100,
+          "p50": 1.7589579499326646,
+          "p95": 2.1160753001458943,
+          "p99": 2.3559824998956174,
+          "max": 2.3559824998956174
+        },
+        "model": {
+          "n": 100,
+          "p50": 0.8918283500242978,
+          "p95": 1.2571592000313103,
+          "p99": 1.3808822000864893,
+          "max": 1.3808822000864893
+        },
+        "brand": {
+          "n": 100,
+          "p50": 0.7668026000028476,
+          "p95": 1.1868793999310583,
+          "p99": 1.2504296000115573,
+          "max": 1.2504296000115573
+        },
+        "union": {
+          "n": 100,
+          "p50": 1.7007708499440923,
+          "p95": 2.200096599990502,
+          "p99": 2.5806629001162946,
+          "max": 2.5806629001162946
+        }
+      },
+      "client_loop_lag_seconds": {
+        "n": 503,
+        "p50": 0.007225699815899128,
+        "p95": 0.02330900016240775,
+        "p99": 0.025056399963796133,
+        "max": 0.04449830004014074
+      },
+      "free_memory_mb": 3621
+    }
+  ],
+  "pool_oracle": "all matching offer IDs, independent labelled fixture",
+  "runtime": {
+    "pool_checkout_seconds": {
+      "n": 2048,
+      "max": 0.06940849986858666,
+      "p50": 4.299916326999664e-06,
+      "p95": 9.200070053339005e-06
+    },
+    "pool_checked_out": 0,
+    "pool_checkouts": 30515,
+    "sql_seconds": {
+      "n": 2048,
+      "max": 0.17002999992109835,
+      "p50": 0.002558500040322542,
+      "p95": 0.016473300056532025
+    },
+    "event_loop_lag_seconds": {
+      "n": 1737,
+      "max": 0.09707380002364516,
+      "p50": 0,
+      "p95": 0.021061600046232337
+    },
+    "admission_active": 0,
+    "admission_queued": 0,
+    "admission_rejected": 0
+  },
+  "background": {
+    "jobs": 59,
+    "statuses": [
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED",
+      "COMPLETED"
+    ],
+    "source_http_requests": 0,
+    "source": "fixture provider through existing BackgroundIndex queue/lease/staging/checkpoints"
+  },
+  "pdf_during_load": {
+    "status": "READY",
+    "pages": 23,
+    "seconds": 4.701071299845353,
+    "peak_worker_rss_bytes": 83378176,
+    "source": "synthetic isolated snapshot, existing real PDF worker"
+  },
+  "http_requests": 1842,
+  "mutation_control": {
+    "dropped_model_detected": true,
+    "dropped_material_exclusion_detected": true,
+    "ownership_bypass_detected": true,
+    "dataset_sha256": "96ebda668ff895aa9aedb4cc315fa48fbeb2797de01653d9779d11809905d5cc"
+  },
+  "status": "PASS"
+}

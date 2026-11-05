@@ -19,12 +19,8 @@ class ResearchRepository:
             pg = db.bind.dialect.name == "postgresql"
             key = "research:" + identifier
             if pg:
-                await db.execute(text("SELECT pg_advisory_lock(hashtext(:key))"), {"key": key})
-            try:
-                yield
-            finally:
-                if pg:
-                    await db.execute(text("SELECT pg_advisory_unlock(hashtext(:key))"), {"key": key})
+                await db.execute(text("SELECT pg_advisory_xact_lock(hashtext(:key))"), {"key": key})
+            yield
 
     async def hydrate(self, db, payload):
         value = ResearchSession.model_validate(payload)
@@ -66,22 +62,27 @@ class ResearchRepository:
             )
             return await self.hydrate(db, row.payload) if row else None
 
-    async def save(self, research: ResearchSession):
+    async def save(self, research: ResearchSession, *, db=None):
         research.updated_at = utcnow()
         research.revision += 1
-        async with self.sessions() as db, db.begin():
-            row = await db.get(ResearchRecord, research.id)
-            if row is None:
-                row = ResearchRecord(id=research.id, chat_id=research.chat_id, created_at=research.created_at)
-                db.add(row)
-            # Cursor and products commit atomically. No cache TTL is consulted here.
-            if research.source_mode == "index":
-                if not research.unified:
-                    research.pool_offer_ids = [p.id for p in research.products]
-                row.payload = research.model_dump(mode="json", exclude={"products"})
-            else:
-                row.payload = research.model_dump(mode="json")
-            row.updated_at = research.updated_at
+        if db is None:
+            async with self.sessions.begin() as transaction:
+                await self._save(transaction, research)
+        else:
+            await self._save(db, research)
+
+    async def _save(self, db, research):
+        row = await db.get(ResearchRecord, research.id)
+        if row is None:
+            row = ResearchRecord(id=research.id, chat_id=research.chat_id, created_at=research.created_at)
+            db.add(row)
+        if research.source_mode == "index":
+            if not research.unified:
+                research.pool_offer_ids = [p.id for p in research.products]
+            row.payload = research.model_dump(mode="json", exclude={"products"})
+        else:
+            row.payload = research.model_dump(mode="json")
+        row.updated_at = research.updated_at
 
     async def job(self, research_id: str) -> str:
         async with self.sessions() as db, db.begin():

@@ -15,22 +15,24 @@ function SelectedImage({product}:{product:ResearchProduct}){
   return !failed&&safeWebUrl(product.primary_image)?<Image src={safeWebUrl(product.primary_image)!} alt={product.name} width={500} height={380} onError={()=>setFailed(true)}/>:<span>Фото недоступно</span>;
 }
 
-export function SelectedProducts({products,count,busy,onRemove,onDetails,onClear,onCreate}:{
+export function SelectedProducts({products,count,busy,onRemove,onDetails,onClear,onCreate,error,onRetry}:{
   products:ResearchProduct[];count:number;busy:boolean;onRemove:(id:string)=>void;
   onDetails:(product:ResearchProduct)=>void;onClear:()=>void;onCreate:()=>void;
+  error?:string;onRetry?:()=>void;
 }){
   return <div className="selected-products-panel">
+    {error&&<p className="selected-products-error" role="alert">{error} {onRetry&&<button className="studio-button" onClick={onRetry}>Повторить сохранение</button>}</p>}
     <div className="selected-products-scroll"><div className="selected-products-grid">
       {products.map(product=><article className="selected-product" key={product.id}>
-        <button className="selected-product-image" onClick={()=>onDetails(product)} aria-label={`Подробнее: ${product.name}`}>
+        <div className="selected-product-image-area"><button className="selected-product-image" onClick={()=>onDetails(product)} aria-label={`Подробнее: ${product.name}`}>
           <SelectedImage product={product}/>
-        </button>
+        </button></div>
         <div className="selected-product-info"><button className="selected-product-name" onClick={()=>onDetails(product)}>{product.name}</button>
           <p>{[product.brand,product.colors[0]&&colorLabel(product.colors[0].normalized_color)].filter(Boolean).join(' · ')}</p>
           <strong>{product.price_kzt===null?'Цена по запросу':formatPrice(product.price_kzt)}</strong>
-          <small title="Полные сведения и дата наличия доступны в деталях товара">{briefAvailability(product)}</small>
-          <button className="studio-button" disabled={busy} onClick={()=>onRemove(product.id)} aria-label={`Убрать из выбранных: ${product.name}`}>Убрать</button>
+          <small title="Полные сведения и дата наличия доступны в деталях товара">{product.unavailable?'Вариант недоступен в каталоге — можно убрать из подборки':briefAvailability(product)}</small>
         </div>
+        <div className="selected-product-actions"><button className="studio-button" disabled={busy} onClick={()=>onRemove(product.id)} aria-label={`Убрать из выбранных: ${product.name}`}>Убрать</button></div>
       </article>)}
     </div>{!count&&<p className="research-empty">Выберите товары в сетке — здесь будут именно выбранные цвета и варианты.</p>}</div>
     <footer className="selected-products-actions"><div><strong>Выбрано: {count}</strong><button className="studio-button" disabled={busy||!count} onClick={onClear}>Очистить выбор</button></div>

@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "offers": 179,
+  "north_original_color": "navy blue",
+  "stale_observation": "2020-01-01",
+  "zero_history": true,
+  "parent_shared": true,
+  "scope": "isolated PostgreSQL only"
+}

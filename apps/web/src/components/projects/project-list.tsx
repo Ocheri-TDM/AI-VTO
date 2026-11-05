@@ -35,12 +35,13 @@ export function ProjectList({
             key={p.id}
           >
             <button
+              className="project-open"
+              title={p.name}
               disabled={disabled}
               aria-current={active === p.id ? "page" : undefined}
               onClick={() => onOpen(p.chat_id)}
             >
               <Folder size={16} />
-              <span>
                 <strong>{p.name}</strong>
                 <small>
                   {new Date(p.updated_at).toLocaleDateString("ru-RU", {
@@ -49,7 +50,6 @@ export function ProjectList({
                   })}{" "}
                   · {p.summary ? "Есть подборка" : "Новый проект"}
                 </small>
-              </span>
             </button>
             <button
               className="icon-button project-settings"

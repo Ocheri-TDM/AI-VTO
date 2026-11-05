@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "late closed SSE callback cannot restore the old workspace",
+      "pass": true
+    },
+    {
+      "check": "harmless HTML/XSS canary remains inert in rendered UI",
+      "pass": true
+    }
+  ],
+  "api": "isolated PostgreSQL/API only",
+  "frontend": "read-only local production assets",
+  "http_requests": 15
+}

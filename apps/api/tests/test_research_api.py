@@ -6,6 +6,7 @@ from app.main import create_app
 
 
 async def test_research_api_persistence_conflict_chat_sse_and_privacy(settings):
+    settings.auth_required = True
     app = create_app(settings, [ResearchProvider()])
     async with app.state.engine.begin() as db:
         await db.run_sync(Base.metadata.create_all)
@@ -22,6 +23,7 @@ async def test_research_api_persistence_conflict_chat_sse_and_privacy(settings):
     app.state.research._request = immediate
     async with app.router.lifespan_context(app):
         async with AsyncClient(transport=ASGITransport(app=app),base_url='http://test') as client:
+            await client.post('/api/auth/register', json={'name':'research-collection-owner','password':'research-collection-pass-123'})
             chat = (await client.post('/api/chats',json={'project_name':'Research'})).json()['id']
             started = await client.post('/api/researches',json={'chat_id':chat,'query':'Синие бутылки, 300 шт.',
                                                               'budget':{'max_query_expansions':1}})
@@ -35,10 +37,11 @@ async def test_research_api_persistence_conflict_chat_sse_and_privacy(settings):
             assert result['products'][0]['source_url'].startswith('https://vto.kz/id/')
             assert not {'supplier','stock_quantity','metadata'} & result['products'][0].keys()
             selected = [result['products'][0]['id']]
-            result = (await client.patch(base+'/view',json={'version':0,'selected_ids':selected})).json()
+            result = (await client.patch(base+'/view',json={'version':0,'selected_ids':selected,'collection_version':0})).json()
             assert result['selected_products'][0]['id'] == selected[0]
-            assert (await client.patch(base+'/view',json={'version':0,'selected_ids':[]})).status_code == 409
-            assert (await client.patch(base+'/view',json={'version':1,'selected_ids':['fake']})).status_code == 422
+            assert (await client.patch(base+'/view',json={'version':0,'selected_ids':[],'collection_version':0})).status_code == 409
+            assert not result['can_undo']
+            assert (await client.patch(base+'/view',json={'version':0,'selected_ids':['fake'],'collection_version':1})).status_code == 422
             result = (await client.post(base+'/messages',json={'message':'Убери всё дороже 100'})).json()
             assert result['products']==[] and len(result['selected_products'])==1
             result = (await client.post(base+'/messages',json={'message':'Верни предыдущий вариант'})).json()

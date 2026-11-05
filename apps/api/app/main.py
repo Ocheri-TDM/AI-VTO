@@ -1,7 +1,10 @@
 import asyncio
+import time
+from collections import deque
 from contextlib import asynccontextmanager, suppress
 
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from pydantic import ValidationError
 from sqlalchemy import text
@@ -59,21 +62,31 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     from app.database.index import IndexRepository
     from app.database.research import ResearchRepository
     from app.domain.query_understanding import QueryUnderstandingService
+
     index = IndexRepository(sessions, settings)
     query_understanding = QueryUnderstandingService(sessions)
     from app.domain.conversation_router import ConversationQueryRouter
+
     conversation_router = ConversationQueryRouter(query_understanding)
     research = IndexedResearchService(
         ResearchRepository(sessions), providers, settings, model, index, query_understanding
     )
-    background = BackgroundIndex(index,providers,settings)
+    background = BackgroundIndex(index, providers, settings)
     orchestrator.research = research
     from app.application.project_queries import ProjectQueryService
+
     project_queries = ProjectQueryService(sessions, research, conversation_router)
+    from app.application.collections import CollectionService
+
+    collections = CollectionService(sessions, index)
+    research.collections = collections
     from app.application.presentations import PresentationService
-    presentations = PresentationService(sessions, settings, research.repository)
+
+    presentations = PresentationService(sessions, settings, research.repository, collections, model)
+
     async def publish_index_update(job):
         await research.on_index_update(job)
+
     background.on_update = publish_index_update
 
     async def clean_cache() -> None:
@@ -95,6 +108,14 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
         await research.repository.recover()
         await project_queries.recover()
         cleanup = asyncio.create_task(clean_cache(), name="cache-cleanup")
+
+        async def loop_probe():
+            while True:
+                before = time.perf_counter()
+                await asyncio.sleep(0.1)
+                app.state.loop_lag.append(max(0, time.perf_counter() - before - 0.1))
+
+        probe = asyncio.create_task(loop_probe(), name="event-loop-probe")
         if settings.background_research_enabled:
             background.start()
         if settings.presentation_worker_enabled:
@@ -103,8 +124,11 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
             yield
         finally:
             cleanup.cancel()
+            probe.cancel()
             with suppress(asyncio.CancelledError):
                 await cleanup
+            with suppress(asyncio.CancelledError):
+                await probe
             await search.close()
             await presentations.close()
             await background.close()
@@ -122,14 +146,23 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     )
     app.state.repository, app.state.search = repository, search
     app.state.engine = engine
+    app.state.loop_lag = deque(maxlen=2048)
     app.state.sessions, app.state.settings = sessions, settings
     app.state.conversations, app.state.orchestrator = conversations, orchestrator
     app.state.research = research
     app.state.query_understanding = query_understanding
     app.state.project_queries = project_queries
     app.state.presentations = presentations
+    app.state.collections = collections
     app.state.conversation_router = conversation_router
     app.state.index, app.state.background_index = index, background
+    from app.api.request_safety import Admission, RequestBoundary, RequestProblem, problem_response
+
+    admission = Admission(settings)
+    app.state.admission = admission
+    app.state.stream_admission = Admission(
+        settings.model_copy(update={"search_concurrency": 16, "search_queue_limit": 0})
+    )
     app.include_router(router)
     app.include_router(auth_router)
     app.include_router(chat_router)
@@ -137,36 +170,77 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
 
     app.include_router(projects_router)
     from app.api.research import router as research_router
+
     app.include_router(research_router)
     from app.api.diagnostics import router as diagnostics_router
+
     app.include_router(diagnostics_router)
     from app.api.project_queries import router as project_queries_router
+
     app.include_router(project_queries_router)
     from app.api.presentations import router as presentations_router
+
     app.include_router(presentations_router)
+    from app.api.collections import router as collections_router
+
+    app.include_router(collections_router)
 
     @app.middleware("http")
     async def authenticated_user(request: Request, call_next):
-        protected = request.url.path.startswith((
-            "/api/chats", "/api/projects", "/api/researches", "/api/searches", "/api/hard-requests", "/api/presentations",
-        ))
+        protected = request.url.path.startswith(
+            (
+                "/api/chats",
+                "/api/projects",
+                "/api/researches",
+                "/api/searches",
+                "/api/hard-requests",
+                "/api/presentations",
+            )
+        )
         if protected and settings.auth_required:
             user = await current_user(request)
             if user is None:
                 return JSONResponse(status_code=401, content={"detail": "Authentication required"})
             request.state.user = user
+        search_operation = (
+            request.method in ("GET", "POST", "PATCH", "PUT", "DELETE")
+            and request.url.path.startswith(
+                ("/api/projects", "/api/researches", "/api/chats", "/api/searches")
+            )
+            and not request.url.path.endswith("/events")
+        )
+        if search_operation:
+            try:
+                # Workspace hydration reads history, collection and research in
+                # parallel. Keep writes at two; allow four bounded read calls.
+                async with admission.enter(
+                    getattr(getattr(request.state, "user", None), "id", None),
+                    per_user_limit=4 if request.method == "GET" else 2,
+                ):
+                    return await call_next(request)
+            except RequestProblem as exc:
+                return problem_response(exc, getattr(request.state, "trace_id", ""))
         return await call_next(request)
+
+    app.add_middleware(RequestBoundary, settings=settings)
 
     @app.exception_handler(ConnectionError)
     @app.exception_handler(SQLAlchemyError)
     async def database_error(_request: Request, exc: Exception):
-        log_event("database_error", error_type=type(exc).__name__, error=str(exc)[:1000])
-        return JSONResponse(status_code=503, content={"detail": "База данных временно недоступна."})
+        log_event(
+            "database_error", error_type=type(exc).__name__, trace_id=getattr(_request.state, "trace_id", "")
+        )
+        return problem_response(
+            RequestProblem("DATABASE_UNAVAILABLE", "База данных временно недоступна.", 503, "database"),
+            getattr(_request.state, "trace_id", ""),
+        )
 
     @app.exception_handler(ValidationError)
+    @app.exception_handler(RequestValidationError)
     async def intent_error(_request: Request, _exc: ValidationError):
-        return JSONResponse(
-            status_code=422, content={"detail": "Не удалось разобрать запрос. Проверьте тираж и фильтры."}
+        return problem_response(
+            RequestProblem("INVALID_REQUEST", "Не удалось разобрать запрос. Проверьте тираж и фильтры.", 422),
+            getattr(_request.state, "trace_id", ""),
         )
 
     @app.get("/api/health", tags=["health"])

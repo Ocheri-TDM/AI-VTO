@@ -17,7 +17,7 @@ export function useResearch(chatId:string|null) {
   const [writer]=useState(()=>new ResearchViewWriter(researchApi.change,researchApi.get,(value,pending,sent)=>{
       const previous=latest.current;
       if(!previous||previous.id!==value.id)return;
-      if(pending?.filters)return; // Never publish an older filter's grid under the newest draft.
+      if(pending?.filters||pending?.branch_actions?.length)return; // Keep a later draft while the serialized writes finish.
       let next=value;
       if(sent.selected_ids&&Object.keys(sent).length===1){
         next={...value,products:previous.products,groups:previous.groups,next_cursor:previous.next_cursor};
@@ -42,11 +42,15 @@ export function useResearch(chatId:string|null) {
       writer.reset(value);commit(value);
     }).catch(()=>{});
   },[writer,commit]);
-  useEffect(()=>{if(!id||running)return;const timer=setInterval(()=>refresh(id),60000);return()=>clearInterval(timer);},[id,running,refresh]);
+  useEffect(()=>{if(!id||running)return;const sync=()=>{const current=generation.current;if(!chatId)return;
+    researchApi.latest(chatId).then(value=>{if(current!==generation.current||writer.saving||!value)return;
+      const previous=latest.current;if(previous?.id===value.id&&value.revision<previous.revision)return;external(value);}).catch(()=>{});};
+    const timer=setInterval(()=>refresh(id),60000);window.addEventListener('focus',sync);return()=>{clearInterval(timer);window.removeEventListener('focus',sync);};},[id,running,chatId,writer,external,refresh]);
   useEffect(()=>{
     if(!id||!running)return;
     const events=new EventSource(apiPath(`/researches/${id}/events`),{withCredentials:true});
     events.addEventListener('research.updated',e=>{if(JSON.parse((e as MessageEvent).data).id===id)refresh(id);});
+    events.addEventListener('request.failed',e=>{if(latest.current?.id===id){setError(JSON.parse((e as MessageEvent).data).detail);events.close();}});
     events.addEventListener('research.completed',()=>events.close());return()=>events.close();
   },[id,running,refresh]);
   const perform=useCallback(async(call:()=>Promise<Research>)=>{

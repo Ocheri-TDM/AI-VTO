@@ -1,0 +1,95 @@
+/* Popovers remain inside their modal DOM and inherit root theme tokens. */
+:root {
+  --control-bg: var(--raised);
+  --control-text: var(--text);
+  --control-border: #718477;
+  --popup-bg: #1c2822;
+  --popup-text: #f5f5ef;
+  --popup-border: #829a88;
+  --popup-shadow: 0 14px 35px #0007;
+  --option-hover: #334b3c;
+  --option-selected: #2b422f;
+  --option-disabled: #aeb8b0;
+  --dropdown-secondary: #bbc7bc;
+  --dropdown-focus: var(--accent);
+}
+:root[data-site-theme="pulse"] {
+  --control-bg: #fdfdff;
+  --control-text: #1b2720;
+  --control-border: #7a8980;
+  --popup-bg: #fdfdff;
+  --popup-text: #1b2720;
+  --popup-border: #7a8980;
+  --popup-shadow: 0 14px 35px #263c2929;
+  --option-hover: #fff0e9;
+  --option-selected: #e3f8df;
+  --option-disabled: #636f65;
+  --dropdown-secondary: #4f5e53;
+  --dropdown-focus: #b52308;
+}
+.ui-select {display:flex;flex-direction:column;gap:6px;min-width:0;max-width:100%;font-size:12px;color:var(--control-text)}
+.ui-select > .ui-select-label {display:block;margin:0;font:inherit;font-size:11px;color:var(--muted)}
+.ui-select .ui-select-trigger {
+  display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-width:0;min-height:40px;
+  padding:9px 10px;margin:0;border:1px solid var(--control-border);border-radius:8px;
+  background:var(--control-bg);color:var(--control-text);font:inherit;line-height:1.4;text-align:left;cursor:pointer;
+}
+.ui-select-value {min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ui-select-trigger > svg {flex:none}
+.ui-select .ui-select-trigger:hover:not(:disabled) {border-color:var(--dropdown-focus);filter:none}
+.ui-select .ui-select-trigger:disabled {opacity:1;color:var(--option-disabled);cursor:not-allowed}
+.ui-select.is-compact {flex:none;width:auto;max-width:190px;font-size:12px}
+.ui-select.is-compact .ui-select-trigger {min-height:38px;padding:8px}
+.ui-select-popup {
+  display:flex;flex-direction:column;
+  position:fixed;inset:auto;margin:0;padding:5px;box-sizing:border-box;border:1px solid var(--popup-border);border-radius:10px;
+  width:280px;max-width:calc(100vw - 24px);max-height:360px;overflow:hidden;background:var(--popup-bg);color:var(--popup-text);
+  box-shadow:var(--popup-shadow);font-family:inherit;font-size:13px;line-height:1.45;color-scheme:var(--ui-color-scheme,dark);
+}
+.ui-select-popup[hidden] {display:none}
+.ui-select-content {display:flex;flex-direction:column;min-height:0;flex:1}
+.ui-select-options {min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable;scroll-padding:4px;flex:1 1 auto}
+.ui-select-popup .ui-select-option {
+  display:flex;align-items:center;gap:10px;min-width:0;min-height:40px;margin:0;padding:8px 10px;border:1px solid transparent;
+  border-radius:6px;font:inherit;line-height:1.45;text-align:left;color:var(--popup-text);background:transparent;cursor:pointer;
+}
+.ui-select-option-text {flex:1;min-width:0;overflow-wrap:anywhere;white-space:normal}
+.ui-select-count {flex:none;align-self:center;font-size:11px;font-variant-numeric:tabular-nums;color:var(--dropdown-secondary);text-align:right}
+.ui-select-check {display:flex;width:16px;flex:none}
+.ui-select-option[aria-selected="true"],.ui-select-option:has(input:checked) {background:var(--option-selected);font-weight:600}
+.ui-select-popup .ui-select-option[data-active="true"],.ui-select-popup .ui-select-option:hover {background:var(--option-hover)}
+.ui-select-option[data-active="true"] {border-color:var(--popup-border)}
+.ui-select-popup .ui-select-option[aria-disabled="true"],.ui-select-popup .ui-select-option:has(input:disabled) {color:var(--option-disabled);cursor:not-allowed}
+.ui-select-popup .ui-checkbox-option {display:grid;grid-template-columns:18px minmax(0,1fr) auto;gap:10px;align-items:center}
+.ui-select-popup .ui-checkbox-option input[type="checkbox"] {
+  appearance:auto;align-self:center;width:18px;height:18px;min-width:18px;min-height:18px;margin:0;padding:0;
+  accent-color:var(--accent);cursor:pointer;
+}
+.ui-select-popup .ui-checkbox-option input:disabled {cursor:not-allowed}
+.ui-select-option small {display:block;font-size:11px;font-weight:400;color:var(--dropdown-secondary)}
+.ui-select-popup .ui-select-search {display:flex;align-items:center;flex:none;gap:7px;padding:5px 5px 9px;color:var(--dropdown-secondary)}
+.ui-select-popup .ui-select-search input {
+  width:100%;min-width:0;min-height:38px;margin:0;padding:8px;border:1px solid var(--control-border);border-radius:6px;
+  background:var(--control-bg);color:var(--control-text);font:inherit;
+}
+.ui-select-search input::placeholder {color:var(--dropdown-secondary);opacity:1}
+.ui-select-empty,.ui-select-help {margin:0;padding:10px;color:var(--dropdown-secondary);font-size:12px;line-height:1.5}
+.ui-select-help {flex:none;border-top:1px solid var(--popup-border);margin-top:4px}
+.ui-select-trigger:focus-visible,.ui-select-popup :focus-visible {outline:2px solid var(--dropdown-focus);outline-offset:2px}
+.ui-checkbox-option:focus-within {outline:2px solid var(--dropdown-focus);outline-offset:-2px}
+.research-inline-filters > .ui-select {flex:1 1 100px}
+.research-filters > .ui-select {min-width:0}
+.research-view-setting {display:flex;align-items:center;gap:6px}
+.research-view-setting > .ui-select {max-width:180px}
+.palette-explorer-filters > .ui-select {min-width:180px}
+.presentation-preview-heading > .ui-select {max-width:260px}
+.theme-switch {display:inline-flex;align-items:center;flex:none;gap:5px;min-width:0;color:var(--text)}
+.theme-switch > svg {color:var(--accent);flex:none}
+.theme-switch > .ui-select {max-width:135px}
+.theme-switch .ui-select-trigger {min-height:40px}
+@media(max-width:700px) {.palette-explorer-filters > .ui-select {width:100%;min-width:0}}
+@media(max-width:620px) {.theme-switch > svg {display:none}}
+@media(forced-colors:active) {
+  .ui-select-option[aria-selected="true"],.ui-select-option:has(input:checked) {border-color:Highlight}
+  .ui-select-popup .ui-select-option[data-active="true"],.ui-checkbox-option:focus-within {outline:2px solid Highlight;outline-offset:-2px}
+}

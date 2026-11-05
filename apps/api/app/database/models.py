@@ -35,7 +35,9 @@ class PresentationRevision(Base):
     __tablename__ = "presentation_revisions"
     __table_args__ = (Index("ix_presentation_queue", "status", "created_at"),)
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
-    document_id: Mapped[str] = mapped_column(ForeignKey("presentation_documents.id", ondelete="CASCADE"), index=True)
+    document_id: Mapped[str] = mapped_column(
+        ForeignKey("presentation_documents.id", ondelete="CASCADE"), index=True
+    )
     source_version: Mapped[int] = mapped_column(Integer)
     status: Mapped[str] = mapped_column(String(32), default="QUEUED")
     input: Mapped[dict] = mapped_column(JsonType)
@@ -49,7 +51,7 @@ class PresentationRevision(Base):
 
 
 class IndexedProduct(Base):
-    __tablename__ = 'indexed_products'
+    __tablename__ = "indexed_products"
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
     name: Mapped[str] = mapped_column(Text)
     category: Mapped[str | None] = mapped_column(String(200), index=True)
@@ -79,45 +81,45 @@ class ProductConceptOffer(Base):
 
 
 class SupplierOffer(Base):
-    __tablename__ = 'supplier_offers'
+    __tablename__ = "supplier_offers"
     id: Mapped[str] = mapped_column(String(200), primary_key=True)
-    product_id: Mapped[str] = mapped_column(ForeignKey('indexed_products.id'), index=True)
+    product_id: Mapped[str] = mapped_column(ForeignKey("indexed_products.id"), index=True)
     supplier: Mapped[str] = mapped_column(String(40), index=True)
     source_url: Mapped[str] = mapped_column(Text)
     payload: Mapped[dict] = mapped_column(JsonType)
     normalized_colors: Mapped[list] = mapped_column(JsonType, default=list)
-    lifecycle: Mapped[str] = mapped_column(String(30), default='ACTIVE', server_default='ACTIVE')
-    missing_runs: Mapped[int] = mapped_column(Integer, default=0, server_default='0')
+    lifecycle: Mapped[str] = mapped_column(String(30), default="ACTIVE", server_default="ACTIVE")
+    missing_runs: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
     metadata_hash: Mapped[str | None] = mapped_column(String(64))
     commercial_hash: Mapped[str | None] = mapped_column(String(64), index=True)
     last_searched_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
     last_opened_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
     last_selected_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
-    research_hit_count: Mapped[int] = mapped_column(Integer, default=0, server_default='0')
-    unchanged_refreshes: Mapped[int] = mapped_column(Integer, default=0, server_default='0')
+    research_hit_count: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
+    unchanged_refreshes: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
     last_commercial_change_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class CatalogRun(Base):
-    __tablename__ = 'catalog_runs'
+    __tablename__ = "catalog_runs"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     supplier: Mapped[str] = mapped_column(String(40), index=True)
     kind: Mapped[str] = mapped_column(String(40))
-    status: Mapped[str] = mapped_column(String(30), default='PARTIAL')
+    status: Mapped[str] = mapped_column(String(30), default="PARTIAL")
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     anomalies: Mapped[list] = mapped_column(JsonType, default=list)
 
 
 class CatalogSeen(Base):
-    __tablename__ = 'catalog_seen'
-    run_id: Mapped[str] = mapped_column(ForeignKey('catalog_runs.id'), primary_key=True)
+    __tablename__ = "catalog_seen"
+    run_id: Mapped[str] = mapped_column(ForeignKey("catalog_runs.id"), primary_key=True)
     offer_id: Mapped[str] = mapped_column(String(200), primary_key=True)
     payload: Mapped[dict] = mapped_column(JsonType)
 
 
 class TaxonomySuggestion(Base):
-    __tablename__ = 'taxonomy_suggestions'
+    __tablename__ = "taxonomy_suggestions"
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
     supplier: Mapped[str] = mapped_column(String(40))
     supplier_label: Mapped[str] = mapped_column(Text)
@@ -125,12 +127,14 @@ class TaxonomySuggestion(Base):
     samples: Mapped[list] = mapped_column(JsonType, default=list)
     suggested_mapping: Mapped[str | None] = mapped_column(String(200))
     confidence: Mapped[Any] = mapped_column(Numeric(5, 4), default=0)
-    status: Mapped[str] = mapped_column(String(30), default='PENDING_REVIEW')
+    status: Mapped[str] = mapped_column(String(30), default="PENDING_REVIEW")
 
 
 class ProductObservation(Base):
-    __tablename__ = 'product_observations'
-    offer_id: Mapped[str] = mapped_column(ForeignKey('supplier_offers.id', ondelete='CASCADE'), primary_key=True)
+    __tablename__ = "product_observations"
+    offer_id: Mapped[str] = mapped_column(
+        ForeignKey("supplier_offers.id", ondelete="CASCADE"), primary_key=True
+    )
     price_kzt: Mapped[Any | None] = mapped_column(Numeric(18, 2))
     stock: Mapped[int | None] = mapped_column(Integer)
     incoming: Mapped[int | None] = mapped_column(Integer)
@@ -144,14 +148,14 @@ class ProductObservation(Base):
     observed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
     last_verified_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), index=True)
-    status: Mapped[str] = mapped_column(String(30), default='FRESH')
+    status: Mapped[str] = mapped_column(String(30), default="FRESH")
     payload: Mapped[dict] = mapped_column(JsonType)
 
 
 class AvailabilityObservation(Base):
-    __tablename__ = 'availability_observations'
+    __tablename__ = "availability_observations"
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
-    offer_id: Mapped[str] = mapped_column(ForeignKey('supplier_offers.id', ondelete='CASCADE'), index=True)
+    offer_id: Mapped[str] = mapped_column(ForeignKey("supplier_offers.id", ondelete="CASCADE"), index=True)
     location_code: Mapped[str | None] = mapped_column(String(100))
     location_label: Mapped[str | None] = mapped_column(Text)
     state: Mapped[str] = mapped_column(String(40), index=True)
@@ -165,11 +169,11 @@ class AvailabilityObservation(Base):
     parser_version: Mapped[str] = mapped_column(String(80))
     source_label: Mapped[str] = mapped_column(Text)
     source_evidence: Mapped[dict] = mapped_column(JsonType, default=dict)
-    confidence: Mapped[str] = mapped_column(String(20), default='HIGH')
+    confidence: Mapped[str] = mapped_column(String(20), default="HIGH")
 
 
 class SupplierSyncState(Base):
-    __tablename__ = 'supplier_sync_states'
+    __tablename__ = "supplier_sync_states"
     supplier: Mapped[str] = mapped_column(String(40), primary_key=True)
     lease_owner: Mapped[str | None] = mapped_column(String(36))
     lease_until: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
@@ -185,12 +189,12 @@ class SupplierSyncState(Base):
 
 
 class CatalogSyncJob(Base):
-    __tablename__ = 'catalog_sync_jobs'
-    __table_args__ = (Index('ix_sync_queue', 'status', 'available_at', 'priority'),)
+    __tablename__ = "catalog_sync_jobs"
+    __table_args__ = (Index("ix_sync_queue", "status", "available_at", "priority"),)
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     supplier: Mapped[str] = mapped_column(String(40), index=True)
     kind: Mapped[str] = mapped_column(String(40))
-    status: Mapped[str] = mapped_column(String(30), default='PENDING')
+    status: Mapped[str] = mapped_column(String(30), default="PENDING")
     priority: Mapped[int] = mapped_column(Integer, default=0)
     dedup_key: Mapped[str] = mapped_column(String(64), unique=True)
     available_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
@@ -201,18 +205,20 @@ class CatalogSyncJob(Base):
 
 
 class ResearchRecord(Base):
-    __tablename__ = 'research_sessions'
+    __tablename__ = "research_sessions"
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    chat_id: Mapped[str] = mapped_column(ForeignKey('chats.id', ondelete='CASCADE'), index=True)
+    chat_id: Mapped[str] = mapped_column(ForeignKey("chats.id", ondelete="CASCADE"), index=True)
     payload: Mapped[dict[str, Any]] = mapped_column(JsonType)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow, index=True)
 
 
 class ResearchJobRecord(Base):
-    __tablename__ = 'research_jobs'
+    __tablename__ = "research_jobs"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
-    research_id: Mapped[str] = mapped_column(ForeignKey('research_sessions.id', ondelete='CASCADE'), index=True)
+    research_id: Mapped[str] = mapped_column(
+        ForeignKey("research_sessions.id", ondelete="CASCADE"), index=True
+    )
     status: Mapped[str] = mapped_column(String(20))
     started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
@@ -244,6 +250,7 @@ class Project(Base):
     name: Mapped[str] = mapped_column(String(300))
     client_name: Mapped[str | None] = mapped_column(String(300))
     active_query_id: Mapped[str | None] = mapped_column(String(36), index=True)
+    request_epoch: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
@@ -261,6 +268,26 @@ class ProjectQuery(Base):
     status: Mapped[str] = mapped_column(String(20), default="ACTIVE", index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ProjectCollection(Base):
+    __tablename__ = "project_collections"
+    project_id: Mapped[str] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), primary_key=True)
+    version: Mapped[int] = mapped_column(Integer, default=0)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ProjectCollectionItem(Base):
+    __tablename__ = "project_collection_items"
+    project_id: Mapped[str] = mapped_column(
+        ForeignKey("project_collections.project_id", ondelete="CASCADE"), primary_key=True
+    )
+    # Deliberately not cascading from the catalog: unavailable items remain visible.
+    offer_id: Mapped[str] = mapped_column(String(200), primary_key=True)
+    display_order: Mapped[int] = mapped_column(Integer)
+    added_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    source_research_id: Mapped[str | None] = mapped_column(String(36))
+    last_known: Mapped[dict] = mapped_column(JsonType, default=dict)
 
 
 class HardRequestRecord(Base):
@@ -285,7 +312,9 @@ class HardRequestCase(Base):
     __tablename__ = "hard_request_cases"
     __table_args__ = (Index("uq_hard_case_number", "hard_request_id", "case_number", unique=True),)
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
-    hard_request_id: Mapped[str] = mapped_column(ForeignKey("hard_requests.id", ondelete="CASCADE"), index=True)
+    hard_request_id: Mapped[str] = mapped_column(
+        ForeignKey("hard_requests.id", ondelete="CASCADE"), index=True
+    )
     case_number: Mapped[int] = mapped_column(Integer)
     score: Mapped[Any] = mapped_column(Numeric(10, 4), default=0)
     status: Mapped[str] = mapped_column(String(20), default="COMPLETE")
@@ -307,9 +336,15 @@ class HardRequestCandidate(Base):
     __tablename__ = "hard_request_candidates"
     __table_args__ = (Index("uq_hard_candidate_offer", "position_id", "supplier_offer_id", unique=True),)
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
-    position_id: Mapped[str] = mapped_column(ForeignKey("hard_request_positions.id", ondelete="CASCADE"), index=True)
-    indexed_product_id: Mapped[str] = mapped_column(ForeignKey("indexed_products.id", ondelete="CASCADE"), index=True)
-    supplier_offer_id: Mapped[str] = mapped_column(ForeignKey("supplier_offers.id", ondelete="CASCADE"), index=True)
+    position_id: Mapped[str] = mapped_column(
+        ForeignKey("hard_request_positions.id", ondelete="CASCADE"), index=True
+    )
+    indexed_product_id: Mapped[str] = mapped_column(
+        ForeignKey("indexed_products.id", ondelete="CASCADE"), index=True
+    )
+    supplier_offer_id: Mapped[str] = mapped_column(
+        ForeignKey("supplier_offers.id", ondelete="CASCADE"), index=True
+    )
     rank: Mapped[int] = mapped_column(Integer)
     availability_tier: Mapped[str] = mapped_column(String(1), index=True)
     score: Mapped[Any] = mapped_column(Numeric(10, 4), default=0)

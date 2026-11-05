@@ -23,7 +23,7 @@ dev = ["pytest>=8,<10", "pytest-asyncio>=0.25,<2", "aiosqlite>=0.20,<1", "ruff>=
 include = ["app*"]
 
 [tool.setuptools.package-data]
-app = ["assets/fonts/*.ttf", "assets/fonts/OFL.txt"]
+app = ["assets/fonts/*.ttf", "assets/fonts/OFL.txt", "assets/presentations/*.png"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

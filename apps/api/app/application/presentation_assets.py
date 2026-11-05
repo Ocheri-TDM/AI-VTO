@@ -11,7 +11,7 @@ from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
 import httpx
-from PIL import Image, ImageOps, UnidentifiedImageError
+from PIL import Image, ImageCms, ImageOps, UnidentifiedImageError
 
 from app.domain.presentation import MODEL_MD5, MODEL_NAME, PIPELINE
 
@@ -28,20 +28,40 @@ def safe_path(root, key):
     return path
 
 
-def decode_image(data):
-    if len(data) > MAX_BYTES:
-        raise ValueError("Изображение превышает 12 МБ")
+def decode_image(data, *, max_bytes=MAX_BYTES, max_pixels=MAX_PIXELS, color_management=False):
+    if len(data) > max_bytes:
+        raise ValueError("Изображение превышает допустимый размер файла")
     try:
         src = Image.open(io.BytesIO(data))
         with src:
             if src.format not in ("PNG", "JPEG", "WEBP") or getattr(src, "n_frames", 1) != 1:
                 raise ValueError("Разрешены статические PNG, JPEG и WebP")
-            if src.width * src.height > MAX_PIXELS or min(src.size) < 24:
+            if src.width * src.height > max_pixels or min(src.size) < 24:
                 raise ValueError("Разрешение изображения должно быть от 24 px до 16 Мп")
             src.load()
+            if color_management and src.info.get("icc_profile"):
+                alpha = src.convert("RGBA").getchannel("A")
+                try:
+                    profile = ImageCms.ImageCmsProfile(io.BytesIO(src.info["icc_profile"]))
+                    working = (
+                        src
+                        if src.mode in ("RGB", "CMYK", "L")
+                        else src.convert("L" if src.mode == "LA" else "RGB")
+                    )
+                    converted = ImageCms.profileToProfile(
+                        working, profile, ImageCms.createProfile("sRGB"), outputMode="RGB"
+                    )
+                except (ImageCms.PyCMSError, ValueError, OSError) as exc:
+                    raise ValueError("Не удалось прочитать цветовой профиль изображения") from exc
+                converted.putalpha(alpha)
+                # EXIF orientation still belongs to the original image.
+                converted.info["exif"] = src.info.get("exif", b"")
+                return ImageOps.exif_transpose(converted).convert("RGBA")
             return ImageOps.exif_transpose(src).convert("RGBA")
     except (UnidentifiedImageError, OSError, Image.DecompressionBombError) as exc:
-        raise ValueError("Файл не является допустимым изображением") from exc
+        raise ValueError(
+            "Файл не является допустимым изображением PNG, JPEG или WebP. SVG не поддерживается."
+        ) from exc
 
 
 def transparent(image):
@@ -72,6 +92,78 @@ def store_upload(root, doc_id, data, prepared=False):
     original = safe_path(root, f"documents/{doc_id}/uploads/{digest}.original")
     original.write_bytes(data)
     return key
+
+
+def store_material_source(root, doc_id, asset_id, data):
+    """IO only; decoding and preparation belong to the sole existing worker."""
+    key = f"documents/{doc_id}/materials/{asset_id}/original.bin"
+    path = safe_path(root, key)
+    path.parent.mkdir(parents=True, exist_ok=False)
+    path.write_bytes(data)
+    return key
+
+
+def prepare_material(root, material, limits):
+    started = time.perf_counter()
+    data = safe_path(root, material["original"]).read_bytes()
+    if len(data) > limits["max_bytes"]:
+        raise ValueError("Изображение превышает допустимый размер файла")
+    digest = hashlib.sha256(data).hexdigest()
+    if digest != material["hash"]:
+        raise ValueError("Файл материала повреждён: hash не совпадает")
+    pipeline = "custom-srgb-exif-v1"
+    # Shared content-addressed copies keep Windows paths bounded. Access still
+    # resolves an owned document/asset ID, never a caller-supplied cache path.
+    key = f"assets/custom/{digest}.v1.png"
+    meta = safe_path(root, key + ".json")
+    if meta.exists() and safe_path(root, key).is_file():
+        info = json.loads(meta.read_text("utf-8"))
+    else:
+        image = decode_image(
+            data, max_bytes=limits["max_bytes"], max_pixels=limits["max_pixels"], color_management=True
+        )
+        if not image.getchannel("A").getbbox():
+            raise ValueError("Изображение не содержит видимых пикселей")
+        width, height = image.size
+        image.thumbnail((3000, 3000), Image.Resampling.LANCZOS)
+        path = safe_path(root, key)
+        thumb = key.removesuffix(".png") + "-thumb.png"
+        thumbnail = image.copy()
+        thumbnail.thumbnail((320, 180), Image.Resampling.LANCZOS)
+        full_data, thumb_data = io.BytesIO(), io.BytesIO()
+        image.save(full_data, format="PNG")
+        thumbnail.save(thumb_data, format="PNG")
+        size = full_data.tell() + thumb_data.tell()
+        if size > limits.get("remaining_bytes", limits["max_total_bytes"]):
+            raise ValueError("Подготовленная копия превышает суммарный лимит материалов документа")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(full_data.getvalue())
+        safe_path(root, thumb).write_bytes(thumb_data.getvalue())
+        info = {
+            "key": key,
+            "thumbnail": thumb,
+            "width": width,
+            "height": height,
+            "has_alpha": transparent(image),
+            "prepared_hash": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "pipeline": pipeline,
+            "color_space": "sRGB",
+            "preparation_version": 1,
+            "file_bytes": size,
+        }
+        meta.write_text(json.dumps(info), "utf-8")
+    if info["width"] * info["height"] > limits["max_pixels"]:
+        raise ValueError("Разрешение изображения превышает допустимое число пикселей")
+    charge = 0 if key in limits.get("known_keys", []) else info["file_bytes"]
+    if charge > limits.get("remaining_bytes", limits["max_total_bytes"]):
+        raise ValueError("Подготовленная копия превышает суммарный лимит материалов документа")
+    if material["role"] == "COVER_PHOTO" and (
+        max(info["width"], info["height"]) < 640 or min(info["width"], info["height"]) < 160
+    ):
+        raise ValueError("Нужна другая фотография: разрешение слишком низкое (от 640 × 160 px)")
+    if material["role"] == "BACKGROUND" and min(info["width"], info["height"]) < 128:
+        raise ValueError("Нужен другой фон: разрешение слишком низкое (от 128 px по каждой стороне)")
+    return info | {"prepared_bytes": charge, "preparation_seconds": round(time.perf_counter() - started, 3)}
 
 
 def valid_source(url, resolve=True):

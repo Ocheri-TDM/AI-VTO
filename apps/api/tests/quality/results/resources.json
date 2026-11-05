@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "users": 10,
+  "read_requests": 40,
+  "latency": {
+    "n": 40,
+    "p50": 0.7943972999928519,
+    "p95": 2.391281299991533,
+    "p99": 2.6147725000046194,
+    "max": 2.6147725000046194
+  },
+  "peak_owned_rss_bytes": 546144256,
+  "minimum_free_memory_mb": 3152,
+  "db_peak_connections": 11,
+  "runtime": {
+    "pool_checkout_seconds": {
+      "n": 327,
+      "max": 0.1377043998800218,
+      "p50": 4.1997991502285e-06,
+      "p95": 0.024408699944615364
+    },
+    "pool_checked_out": 0,
+    "pool_checkouts": 327,
+    "sql_seconds": {
+      "n": 1247,
+      "max": 0.15622409991919994,
+      "p50": 0.004184199962764978,
+      "p95": 0.04453119984827936
+    },
+    "event_loop_lag_seconds": {
+      "n": 63,
+      "max": 0.16664640009403228,
+      "p50": 0.00806160001084208,
+      "p95": 0.05582720004022121
+    },
+    "admission_active": 0,
+    "admission_queued": 0,
+    "admission_rejected": 0
+  },
+  "scope": "separate final 40-request characterization; not the peak over the earlier complete load run"
+}
