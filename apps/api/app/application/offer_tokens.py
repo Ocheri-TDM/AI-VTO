@@ -12,9 +12,12 @@ from cryptography.fernet import Fernet
 
 
 class TokenVault:
-    def __init__(self, root):
+    def __init__(self, root, *, create=True):
         path = Path(root) / "keys/commercial-offers.key"
         path.parent.mkdir(parents=True, exist_ok=True)
+        if not path.exists() and not create:
+            self.cipher = None
+            return
         if not path.exists():
             with tempfile.NamedTemporaryFile(dir=path.parent, delete=False) as stream:
                 stream.write(Fernet.generate_key())
@@ -29,10 +32,14 @@ class TokenVault:
         self.cipher = Fernet(path.read_bytes())
 
     def create(self):
+        if self.cipher is None:
+            raise ValueError("Восстановите ключ шифрования ссылок из согласованной резервной копии")
         token = secrets.token_urlsafe(32)
         return token, self.digest(token), self.cipher.encrypt(token.encode()).decode()
 
     def reveal(self, encrypted):
+        if self.cipher is None:
+            raise ValueError("Восстановите ключ шифрования ссылок из согласованной резервной копии")
         return self.cipher.decrypt(encrypted.encode()).decode()
 
     @staticmethod

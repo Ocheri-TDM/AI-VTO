@@ -1,0 +1,63 @@
+{
+  "tables": {
+    "supplier_offers": {
+      "status": "PASS",
+      "count": 6634,
+      "fingerprint": "4403ec27f434e486a6d89d07bb165ce8"
+    },
+    "product_observations": {
+      "status": "PASS",
+      "count": 6634,
+      "fingerprint": "837d79cc9327a9a7fb326aaf2fde9286"
+    },
+    "availability_observations": {
+      "status": "PASS",
+      "count": 6634,
+      "fingerprint": "97a56b45e2896ca53a94b9d705eb1c41"
+    },
+    "presentation_documents": {
+      "status": "PASS",
+      "count": 14,
+      "fingerprint": "75d005aae1c68ce6ddfdfc82304dbb08"
+    },
+    "presentation_revisions": {
+      "status": "PASS",
+      "count": 16,
+      "fingerprint": "76099457ba2bcd06452100b27fe9e380"
+    },
+    "project_collection_items": {
+      "status": "PASS",
+      "count": 6,
+      "fingerprint": "1a4ec1550c75dd50afc755ccb541cb5a"
+    }
+  },
+  "health": [
+    {
+      "origin": "http://127.0.0.1:8000",
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:3000",
+      "path": "/",
+      "status": 200
+    },
+    {
+      "origin": "http://127.0.0.1:3000",
+      "path": "/api/health",
+      "status": 200
+    },
+    {
+      "origin": "https://souvenir-studio-three.vercel.app",
+      "path": "/api/health",
+      "status": 200
+    }
+  ],
+  "remaining_disposable_users": 0,
+  "remaining_disposable_projects": 0,
+  "remaining_disposable_presentation_documents": 0,
+  "migration": "0025_offer_lifecycle",
+  "temporary_listeners": [],
+  "managed_key_exists": true,
+  "ledger_removed": true
+}

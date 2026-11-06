@@ -1,0 +1,35 @@
+{
+  "backend_full": {
+    "status": "PASS",
+    "passed": 593,
+    "deselected": 1,
+    "seconds": 345.7
+  },
+  "commercial_and_lifecycle": {
+    "status": "PASS",
+    "passed": 26,
+    "seconds": 25.14
+  },
+  "strengthened_lifecycle": {
+    "status": "PASS",
+    "passed": 8,
+    "seconds": 13.06
+  },
+  "frontend": {
+    "status": "PASS",
+    "passed": 64
+  },
+  "ruff": "PASS",
+  "eslint": "PASS",
+  "typescript": "PASS",
+  "production_build": "PASS",
+  "git_diff_check": "PASS",
+  "new_vercel_frontend_deployment": "NOT DEPLOYED: user requested preparation without Vercel login",
+  "native_excel": "NOT TESTED",
+  "real_seven_day_observation": "NOT TESTED",
+  "browser": {
+    "status": "PASS",
+    "checks": 30,
+    "mobile": "owner editor and anonymous view at 390px"
+  }
+}

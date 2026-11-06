@@ -27,6 +27,7 @@ from app.domain.commercial_offer import (
     validate_document,
 )
 from app.domain.models import utcnow
+from app.domain.offer_lifecycle import aware, expired, live
 
 
 def logo_background(path):
@@ -45,12 +46,46 @@ class CommercialOfferService:
     def __init__(self, documents):
         self.documents = documents
         self.sessions, self.root = documents.sessions, documents.root
-        self.vault = TokenVault(self.root)
+        self.vault = TokenVault(self.root, create=False)
         self.origin = public_origin(documents.settings.public_frontend_origin)
 
     async def owned(self, identifier, user):
         row = await self.documents.owned(identifier, user)
         return row if row and row.draft.get("kind") == KIND else None
+
+    async def ensure_vault(self):
+        if self.vault.cipher is None:
+            async with self.documents.local_lock:
+                if (self.root / "keys/commercial-offers.key").is_file():
+                    self.vault = TokenVault(self.root, create=False)
+                    return
+                async with self.sessions() as db:
+                    existing = await db.scalar(select(Share.document_id).limit(1))
+                if existing:
+                    raise ValueError(
+                        "Восстановите commercial-offers.key из согласованной резервной копии; существующие ссылки не перевыпущены"
+                    )
+                self.vault = TokenVault(self.root)
+
+    async def primary(self, project_id, user):
+        if not await self.documents.project(project_id, user):
+            raise ValueError("PROJECT_NOT_FOUND")
+        async with self.sessions() as db:
+            row = await db.scalar(
+                select(Document).where(
+                    Document.project_id == project_id,
+                    Document.user_id == user,
+                    Document.is_primary_offer.is_(True),
+                )
+            )
+        return (
+            {"id": row.id, "title": row.draft["settings"]["title"], "version": row.version} if row else None
+        )
+
+    @staticmethod
+    def editable(row):
+        if row and not row.is_primary_offer:
+            raise ValueError("ARCHIVED_OFFER")
 
     async def snapshot_items(self, state):
         base = await self.documents.snapshots(state["selected_ids"])
@@ -126,6 +161,11 @@ class CommercialOfferService:
         async with self.documents.collections.locked(project_id, user) as (collection, db):
             if collection is None:
                 return None
+            existing = await db.scalar(
+                select(Document).where(Document.project_id == project_id, Document.is_primary_offer.is_(True))
+            )
+            if existing:
+                return await self.get(existing.id, user) | {"created": False}
             if body.collection_version != collection.version:
                 raise ValueError("STATE_CONFLICT")
             state = await self.documents.collections.state(db, collection)
@@ -140,10 +180,14 @@ class CommercialOfferService:
             row = Document(
                 project_id=project_id,
                 user_id=user,
+                is_primary_offer=True,
+                primary_reason="FIRST_EXPLICIT_CREATE",
                 draft={
                     "kind": KIND,
                     "schema_version": 1,
                     "collection_version": collection.version,
+                    "collection_offer_ids": state["selected_ids"],
+                    "excluded_offer_ids": [],
                     "items": items,
                     "materials": [],
                     "settings": {
@@ -158,7 +202,7 @@ class CommercialOfferService:
             db.add(row)
             await db.flush()
             identifier = row.id
-        return await self.get(identifier, user)
+        return await self.get(identifier, user) | {"created": True}
 
     async def listing(self, project_id, user):
         if not await self.documents.project(project_id, user):
@@ -181,6 +225,7 @@ class CommercialOfferService:
                 "title": r.draft["settings"]["title"],
                 "version": r.version,
                 "updated_at": r.updated_at.isoformat(),
+                "is_primary": r.is_primary_offer,
             }
             for r in rows
         ]
@@ -199,6 +244,8 @@ class CommercialOfferService:
             ).all()
             revisions = [r for r in all_revisions if r.input.get("kind") == KIND]
             share = await db.get(Share, identifier)
+        if share:
+            await self.ensure_vault()
         row = await self.documents.reconcile_material_failures(row, all_revisions)
         draft = copy.deepcopy(row.draft)
         for item in draft["items"]:
@@ -229,6 +276,8 @@ class CommercialOfferService:
             preview["logo_background"] = "#151918"
         return {
             "id": row.id,
+            "is_primary": row.is_primary_offer,
+            "primary_offer_id": (await self.primary(row.project_id, user) or {}).get("id"),
             "project_id": row.project_id,
             "version": row.version,
             "kind": KIND,
@@ -247,6 +296,7 @@ class CommercialOfferService:
                     "error": r.error,
                     "request_id": r.input.get("generation_request_id"),
                     "publication_requested": r.input.get("publication_requested", False),
+                    "publication_epoch": r.input.get("publication_epoch"),
                     "snapshot_hash": r.result.get("snapshot_hash"),
                     "warnings": r.result.get("warnings", []),
                     "timings": r.result.get("timings", {}),
@@ -271,15 +321,34 @@ class CommercialOfferService:
                 "local_preview_path": None,
                 "published_revision_id": None,
                 "pending_revision_id": None,
+                "activated_at": None,
+                "expires_at": None,
+                "expired": False,
+                "state": "UNPUBLISHED",
             }
         path = "/offers/" + self.vault.reveal(share.encrypted_token)
+        now = self.documents.offer_now()
+        active = live(share, now)
+        is_expired = expired(share, now)
         return {
-            "active": share.active,
+            "active": active,
             "epoch": share.epoch,
-            "public_url": self.origin + path if self.origin and share.active else None,
-            "local_preview_path": path if share.active else None,
+            "public_url": self.origin + path if self.origin and active else None,
+            "local_preview_path": path if active else None,
             "published_revision_id": share.published_revision_id,
             "pending_revision_id": share.pending_revision_id,
+            "activated_at": aware(share.activated_at).isoformat() if share.activated_at else None,
+            "expires_at": aware(share.expires_at).isoformat() if share.expires_at else None,
+            "expired": is_expired,
+            "state": "EXPIRED"
+            if is_expired
+            else "ACTIVE"
+            if active
+            else "PENDING"
+            if share.pending_revision_id
+            else "REVOKED"
+            if share.epoch
+            else "UNPUBLISHED",
         }
 
     def draft_preview(self, row, draft):
@@ -287,6 +356,7 @@ class CommercialOfferService:
         by_id = {i["id"]: i for i in draft["items"]}
         base = f"/api/offers/{row.id}"
         value.update(
+            vto_logo_url="/api/branding/vto-logo.png",
             logo_url=base + f"/logo?v={row.version}",
             banner_url=base + f"/banner?v={row.version}"
             if draft["settings"].get("use_banner")
@@ -311,6 +381,7 @@ class CommercialOfferService:
         row = await self.owned(identifier, user)
         if not row:
             return None
+        self.editable(row)
         draft = copy.deepcopy(row.draft)
         known = {i["id"]: i for i in draft["items"]}
         ids = [item.id for item in body.items]
@@ -336,6 +407,11 @@ class CommercialOfferService:
             line_amount(item["unit_price"], item["quantity"])
             values.append(item)
         draft["items"] = values
+        draft["excluded_offer_ids"] = list(
+            dict.fromkeys(
+                [*draft.get("excluded_offer_ids", []), *[known[i]["offer_id"] for i in known if i not in ids]]
+            )
+        )
         if not plain_text(body.title).strip():
             raise ValueError("Укажите название предложения")
         draft["settings"].update(
@@ -351,6 +427,7 @@ class CommercialOfferService:
         row = await self.owned(identifier, user)
         if not row:
             return None
+        self.editable(row)
         old = row.draft["items"]
         state = {
             "selected_ids": [i["offer_id"] for i in old],
@@ -390,16 +467,74 @@ class CommercialOfferService:
         await self.documents.replace_draft(row, version, draft)
         return await self.get(identifier, user)
 
+    async def composition(self, identifier, user, body=None):
+        row = await self.owned(identifier, user)
+        if not row:
+            return None
+        self.editable(row)
+        async with self.documents.collections.locked(row.project_id, user) as (collection, db):
+            if collection is None:
+                return None
+            current = await db.scalar(select(Document).where(Document.id == identifier).with_for_update())
+            state = await self.documents.collections.state(db, collection)
+            selected = set(state["selected_ids"])
+            items = current.draft["items"]
+            known = {i["offer_id"] for i in items}
+            excluded = set(current.draft.get("excluded_offer_ids", []))
+            added = [i for i in state["selected_ids"] if i not in known | excluded]
+            removed = [i for i in items if i["offer_id"] not in selected]
+            fresh = (
+                await self.snapshot_items({"selected_ids": added, "items": state["items"]}) if added else []
+            )
+            comparison = {
+                "version": current.version,
+                "collection_version": collection.version,
+                "added": [{"offer_id": i["offer_id"], "title": i["title"]} for i in fresh],
+                "removed": [{"offer_id": i["offer_id"], "title": i["title"]} for i in removed],
+                "retained": sum(i["offer_id"] in selected for i in items),
+                "excluded_retained": len(excluded & selected),
+            }
+            if body is None:
+                return comparison
+            if current.version != body.version or collection.version != body.collection_version:
+                raise ValueError("STATE_CONFLICT")
+            if not body.confirmed:
+                raise ValueError("Подтвердите изменение состава")
+            values = [i for i in items if i["offer_id"] in selected] + fresh
+            if not values:
+                raise ValueError("В предложении должна остаться хотя бы одна позиция")
+            if len(values) > 200:
+                raise ValueError("Один документ поддерживает не более 200 позиций")
+            if added or removed:
+                current.draft = copy.deepcopy(current.draft) | {
+                    "items": values,
+                    "collection_version": collection.version,
+                    "collection_offer_ids": state["selected_ids"],
+                    "last_composition_changes": comparison,
+                }
+                current.version += 1
+                current.updated_at = utcnow()
+        return await self.get(identifier, user)
+
     async def publish(self, identifier, user, body, *, publish=True):
         row = await self.owned(identifier, user)
         if not row:
             return None
+        self.editable(row)
+        await self.ensure_vault()
         async with self.sessions() as db:
-            old = await db.scalar(
-                select(Revision).where(
-                    Revision.document_id == identifier,
-                    Revision.input["kind"].as_string() == KIND,
-                    Revision.input["generation_request_id"].as_string() == str(body.request_id),
+            from app.database.models import CommercialOfferRequest
+
+            receipt = await db.get(CommercialOfferRequest, (identifier, str(body.request_id)))
+            old = (
+                await db.get(Revision, receipt.revision_id)
+                if receipt
+                else await db.scalar(
+                    select(Revision).where(
+                        Revision.document_id == identifier,
+                        Revision.input["kind"].as_string() == KIND,
+                        Revision.input["generation_request_id"].as_string() == str(body.request_id),
+                    )
                 )
             )
         if old:
@@ -425,7 +560,16 @@ class CommercialOfferService:
             default_sha256=OFFER_LOGO_SHA256,
         )
         logo["background"] = await asyncio.to_thread(logo_background, safe_path(self.root, logo["key"]))
-        payload = copy.deepcopy(row.draft) | {"kind": KIND, "document_id": identifier, "resolved_logo": logo}
+        mark = await asyncio.to_thread(
+            freeze_logo, self.root, {}, default_logo=OFFER_LOGO, default_sha256=OFFER_LOGO_SHA256
+        )
+        payload = copy.deepcopy(row.draft) | {
+            "kind": KIND,
+            "document_id": identifier,
+            "resolved_logo": logo,
+            "resolved_vto_mark": mark,
+            "offer_layout_version": 2,
+        }
         if row.draft["settings"].get("use_banner"):
             materials = [
                 m for m in row.draft.get("materials", []) if m.get("enabled") and m["role"] == "COVER_PHOTO"
@@ -457,12 +601,17 @@ class CommercialOfferService:
                 raise ValueError("STATE_CONFLICT")
             share.epoch += 1
             share.pending_revision_id = None
+            share.pending_epoch = None
             if action == "revoke":
                 share.active = False
             else:
                 if not share.published_revision_id:
                     raise ValueError("Сначала дождитесь готовой опубликованной версии")
                 _, share.token_hash, share.encrypted_token = self.vault.create()
+                share.activated_at = share.expires_at = None
+                from app.domain.offer_lifecycle import activate
+
+                activate(share, self.documents.offer_now())
                 share.active = True
             share.updated_at = utcnow()
         return await self.get(identifier, user)
@@ -472,8 +621,10 @@ class CommercialOfferService:
         if not digest:
             return None
         async with self.sessions() as db:
-            share = await db.scalar(select(Share).where(Share.token_hash == digest, Share.active.is_(True)))
-            if not share or not share.published_revision_id:
+            share = await db.scalar(select(Share).where(Share.token_hash == digest))
+            if share and expired(share, self.documents.offer_now()):
+                raise ValueError("OFFER_LINK_EXPIRED")
+            if not live(share, self.documents.offer_now()) or not share.published_revision_id:
                 return None
             if revision is not None and share.published_revision_id != revision:
                 raise ValueError("REVISION_CHANGED")
@@ -486,6 +637,9 @@ class CommercialOfferService:
     def client_view(self, row, base):
         value = copy.deepcopy(row.result["client_snapshot"])
         value.update(
+            vto_logo_url=base + "/assets/vto_mark"
+            if "vto_mark" in row.result.get("asset_keys", {})
+            else "/api/branding/vto-logo.png",
             revision_id=row.id,
             snapshot_hash=row.result["snapshot_hash"],
             logo_url=base + "/assets/logo",

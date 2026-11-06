@@ -181,6 +181,13 @@ class ShareAction(BaseModel):
     epoch: int = Field(ge=0)
 
 
+class OfferComposition(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    version: int = Field(ge=1)
+    collection_version: int = Field(ge=0)
+    confirmed: bool = False
+
+
 def validate_document(draft):
     issues = []
     for item in draft["items"]:

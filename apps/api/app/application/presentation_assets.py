@@ -21,8 +21,21 @@ ALLOWED_HOSTS = {"vto.kz", "s.a-5.ru"}
 
 
 def safe_path(root, key):
-    root = Path(root).resolve()
-    path = (root / key).resolve()
+    def canonical(value):
+        resolved = Path(value).resolve()
+        # CPython/Windows can retain the equivalent extended-length prefix
+        # during concurrent atomic file publication. Normalize the two ordinary
+        # Windows path forms after resolving links, keeping the containment test.
+        if os.name == "nt":
+            raw = str(resolved)
+            if raw.startswith("\\\\?\\UNC\\"):
+                resolved = Path("\\\\" + raw[8:])
+            elif raw.startswith("\\\\?\\") and len(raw) > 6 and raw[4].isalpha() and raw[5:7] == ":\\":
+                resolved = Path(raw[4:])
+        return resolved
+
+    root = canonical(root)
+    path = canonical(root / key)
     if not path.is_relative_to(root):
         raise ValueError("Invalid storage path")
     return path

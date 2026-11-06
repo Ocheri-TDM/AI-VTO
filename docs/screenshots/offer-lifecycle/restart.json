@@ -1,0 +1,25 @@
+{
+  "checks": [
+    {
+      "check": "exact disposable owner",
+      "status": "PASS"
+    },
+    {
+      "check": "same editor after API restart",
+      "status": "PASS"
+    },
+    {
+      "check": "same active URL after restart",
+      "status": "PASS"
+    },
+    {
+      "check": "expiry unchanged after restart",
+      "status": "PASS"
+    },
+    {
+      "check": "public still anonymous",
+      "status": "PASS"
+    }
+  ],
+  "frontend_deployment": "NOT DEPLOYED: user requested preparation without Vercel login"
+}

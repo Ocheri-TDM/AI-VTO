@@ -1,0 +1,265 @@
+{
+  "checks": [
+    {
+      "check": "ordinary browser login Vercel HTTPS",
+      "status": "PASS"
+    },
+    {
+      "check": "Vercel existing editor retains exact manual values",
+      "status": "PASS"
+    },
+    {
+      "check": "ordinary browser login local new build",
+      "status": "PASS"
+    },
+    {
+      "check": "new UI removes revoke and rotate controls",
+      "status": "PASS"
+    },
+    {
+      "check": "expiry explicit UTC+5",
+      "status": "PASS"
+    },
+    {
+      "check": "ten copy actions provide the same full HTTPS URL",
+      "status": "PASS"
+    },
+    {
+      "check": "copy changes no version, revision, epoch or deadline",
+      "status": "PASS"
+    },
+    {
+      "check": "denied clipboard has visible error and readonly full URL",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 same offer and manual quantity",
+      "status": "PASS"
+    },
+    {
+      "check": "collection reopens same persistent editor",
+      "status": "PASS"
+    },
+    {
+      "check": "two real tabs read the same document and manual quantity",
+      "status": "PASS"
+    },
+    {
+      "check": "read-failure UI fixture disables creation without fallback POST",
+      "status": "PASS"
+    },
+    {
+      "check": "mobile 390 editable owner no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "mobile 390 editable owner independent footer below each complete product",
+      "status": "PASS"
+    },
+    {
+      "check": "custom header and banner survive reopen",
+      "status": "PASS"
+    },
+    {
+      "check": "desktop owner preview no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "desktop owner preview independent footer below each complete product",
+      "status": "PASS"
+    },
+    {
+      "check": "Pulse owner preview no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "Pulse owner preview independent footer below each complete product",
+      "status": "PASS"
+    },
+    {
+      "check": "explicit content update preserves URL/deadline",
+      "status": "PASS"
+    },
+    {
+      "check": "clean incognito Vercel public view without owner session",
+      "status": "PASS"
+    },
+    {
+      "check": "actual anonymous Vercel PDF download",
+      "status": "PASS"
+    },
+    {
+      "check": "PDF download matches pinned public revision",
+      "status": "PASS"
+    },
+    {
+      "check": "actual anonymous Vercel Excel download",
+      "status": "PASS"
+    },
+    {
+      "check": "Excel download matches pinned public revision",
+      "status": "PASS"
+    },
+    {
+      "check": "desktop anonymous new build no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "desktop anonymous new build independent footer below each complete product",
+      "status": "PASS"
+    },
+    {
+      "check": "mobile 390 anonymous new build no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "mobile 390 anonymous new build independent footer below each complete product",
+      "status": "PASS"
+    },
+    {
+      "check": "expired UI fixture hides all offer content",
+      "status": "PASS"
+    }
+  ],
+  "bounds": [
+    {
+      "viewport": "mobile 390 editable owner",
+      "overflow": false,
+      "rows": [
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        }
+      ]
+    },
+    {
+      "viewport": "desktop owner preview",
+      "overflow": false,
+      "rows": [
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        }
+      ]
+    },
+    {
+      "viewport": "Pulse owner preview",
+      "overflow": false,
+      "rows": [
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        }
+      ]
+    },
+    {
+      "viewport": "desktop anonymous new build",
+      "overflow": false,
+      "rows": [
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        }
+      ]
+    },
+    {
+      "viewport": "mobile 390 anonymous new build",
+      "overflow": false,
+      "rows": [
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        },
+        {
+          "footerBelow": true,
+          "leftInside": true,
+          "withinSection": true,
+          "imageLoaded": true,
+          "footerWidth": 110
+        }
+      ]
+    }
+  ],
+  "browser": "installed Microsoft Edge; task-owned profile; ordinary form logins",
+  "clipboard": "writeText transport spy and denied-permission simulation; operating system clipboard not read or changed",
+  "expired_ui": "410 UI-only fetch fixture; exact backend boundary tested with injected service clock",
+  "production_new_frontend": "NOT DEPLOYED: tested new UI locally, existing deployed UI over Vercel"
+}

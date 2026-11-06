@@ -20,6 +20,7 @@ from reportlab.platypus import (
     BaseDocTemplate,
     Flowable,
     Frame,
+    KeepTogether,
     PageBreak,
     PageTemplate,
     Paragraph,
@@ -265,7 +266,10 @@ def render_pdf(target, snapshot, paths, revision, digest):
             story.append(Spacer(1, 8))
             story.append(paragraph("Описание", 12, True))
             for block in item["description"].split("\n\n"):
-                story.append(paragraph(block, 10))
+                for part in chunks(block, 80) if paths.get("vto_mark") else [block]:
+                    story.append(paragraph(part, 10))
+        if paths.get("vto_mark"):
+            story.append(KeepTogether([story.pop(), Spacer(1, 16), image_flow(paths["vto_mark"], 95, 30)]))
     doc.build(story)
 
 
@@ -395,6 +399,10 @@ def render_offer(root, value, revision, progress=lambda phase: None):
     preparer = AssetPreparer(root)
     keys = {"logo": value["resolved_logo"]["key"]}
     paths = {"logo": frozen_logo_path(root, value["resolved_logo"])}
+    if value.get("resolved_vto_mark"):
+        mark = value["resolved_vto_mark"]
+        paths["vto_mark"] = frozen_logo_path(root, mark)
+        keys["vto_mark"] = mark["key"]
     warnings = []
     originals = {}
     assets_started = time.perf_counter()

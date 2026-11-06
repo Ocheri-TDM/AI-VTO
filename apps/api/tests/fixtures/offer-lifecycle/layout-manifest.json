@@ -1,0 +1,29 @@
+{
+  "source": "Real saved VTO variants; continuation repeats its existing prose offline without DB writes",
+  "published_revision_id": "e53209e4-e764-43fb-abde-be5b65bc4624",
+  "snapshot_hash": "d5ed64d8ddf9d76eb834b1823c3356791d2fb536cf6d484457038c377aa449a1",
+  "artifacts": {
+    "offer": {
+      "pages": 4,
+      "pdf_sha256": "ec73f464a1508ab278b908d576f2196055e562a989ed4cdd87c3c8409266c65f",
+      "kzt_glyph": true,
+      "description_characters": null,
+      "xlsx_structure": "PASS: numeric values/cached formulas, protected, thumbnails, no SUM/macros/external links"
+    },
+    "offer-custom-header": {
+      "pages": 4,
+      "pdf_sha256": "8c8eea7e16aa56274b3349e647ace457034b0778c180bf2b94ac135e3d992213",
+      "kzt_glyph": true,
+      "description_characters": null,
+      "xlsx_structure": "PASS: numeric values/cached formulas, protected, thumbnails, no SUM/macros/external links"
+    },
+    "long-description": {
+      "pages": 4,
+      "pdf_sha256": "63226965fd3531e9bb7584491854718bda069cfa0e06ba4209f8a21ab039b825",
+      "kzt_glyph": true,
+      "description_characters": 6823,
+      "xlsx_structure": "PASS: numeric values/cached formulas, protected, thumbnails, no SUM/macros/external links"
+    }
+  },
+  "visual_review": "PASS: all 12 final PDFium pages inspected; own images, brands, Cyrillic/KZT, separate header and VTO product footer, complete long continuation"
+}

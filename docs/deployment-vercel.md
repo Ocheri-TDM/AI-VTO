@@ -1,7 +1,11 @@
 # Frontend deployment to Vercel
 
-Only the Next.js frontend is deployed. FastAPI, PostgreSQL, Ollama, Chromium,
-supplier adapters, the scheduler, and background workers remain outside Vercel.
+Only the Next.js frontend is deployed. FastAPI, PostgreSQL, Ollama, the VTO
+adapter, the scheduler, document workers and persistent storage remain outside Vercel.
+
+The 6 November offer changes are **prepared, not newly deployed** at the user's
+request. The existing production proxy was tested against the updated backend.
+See [measured acceptance and exact remaining deployment steps](offer-lifecycle-vercel.md).
 
 ## Import and project settings
 
@@ -66,12 +70,19 @@ allow the production Vercel origin and the required Preview origins with credent
 and the cookie must use `Secure` plus an appropriate cross-site `SameSite` policy.
 Never combine credentialed CORS with `Access-Control-Allow-Origin: *`.
 
+Same-origin proxying does not disable backend Origin/CSRF checks. Configure the
+exact frontend in both `PUBLIC_FRONTEND_ORIGIN` (generated client links) and
+`TRUSTED_FRONTEND_ORIGINS` (JSON list used by the request boundary). For the
+current site use `https://souvenir-studio-three.vercel.app`, not a wildcard.
+Keep `AUTH_COOKIE_SECURE=true` for HTTPS. Each Preview origin needs its own
+explicit authorization or an isolated development backend.
+
 ## Images and external links
 
-Next Image Optimization allows the image hosts observed in the current supplier
-index: `kz.artegifts.by`, `files.gifts.ru`, `happygifts.ru`, `s.a-5.ru`,
-`cdn.portobello.ru`, and `cdn.insales-shop.ru`. Supplier source links remain direct
-external HTTPS links and are not proxied through Vercel.
+Next Image Optimization allows `vto.kz/wp-content/uploads/**` and the observed
+`s.a-5.ru` CDN. Supplier source links remain direct external HTTPS links.
+Offer photographs use scoped `/api/public/offers/{key}/revisions/.../assets/...`
+without the shared Next image cache; every request checks the link's deadline.
 
 ## Verification after deployment
 

@@ -23,6 +23,7 @@ function load(relative){
 
 const {OfferView}=load('src/components/offers/offer-view.tsx');
 const {offerMoney,offerApi}=load('src/lib/commercial-offers.ts');
+const {offerExpiry}=load('src/lib/commercial-offers.ts');
 const value={schema_version:1,title:'Предложение для клиента',company:'Компания',logo_url:'/api/public/offers/redacted/revisions/r/assets/logo',banner_url:null,
   items:[{id:'blue-line',title:'Рюкзак синий',sku:'00001-A.01',brand:'Molti',category:'Рюкзаки',description:'Полное описание\n\nВторой абзац.',characteristics:[{name:'Цвет',value:'синий'}],unit_price:'35224.51',quantity:100,line_amount:'3522451.00',availability:'В наличии',main_image:'blue-photo',images:[{id:'blue-photo',url:'/api/public/offers/redacted/revisions/r/assets/blue-photo'},{id:'blue-back',url:'/api/public/offers/redacted/revisions/r/assets/blue-back'}]}]};
 
@@ -62,4 +63,20 @@ test('public reads omit credentials and shared caches and do not change the supp
   global.fetch=async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>value};};
   try{await offerApi.published('test-token');assert.equal(calls[0].url,'/api/public/offers/test-token');assert.equal(calls[0].options.credentials,'omit');assert.equal(calls[0].options.cache,'no-store');assert.equal(calls[0].options.referrerPolicy,'no-referrer');}
   finally{global.fetch=previous;}
+});
+
+test('each product section owns one separate VTO footer, including with a custom header logo',()=>{
+  const item={...value.items[0],characteristics:[...value.items[0].characteristics,{name:'Бренд',value:'Molti'}]};
+  const html=renderToStaticMarkup(React.createElement(OfferView,{value:{...value,logo_url:'/custom-client.png',items:[item,{...item,id:'second'}]}}));
+  assert.equal((html.match(/class="offer-product-brand"/g)??[]).length,2);
+  assert.equal((html.match(/alt="VTO"/g)??[]).length,2);
+  assert.match(html,/custom-client.png/);
+  assert.match(html,/Molti/);
+});
+
+test('expiry uses the explicit interface timezone and readonly absence never creates an offer',async()=>{
+  assert.match(offerExpiry('2026-11-13T12:43:44Z'),/13\.11\.2026.*17:43.*UTC\+5/);
+  const calls=[],previous=global.fetch;
+  global.fetch=async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>null};};
+  try{assert.equal(await offerApi.primary('project'),null);assert.equal(calls.length,1);assert.equal(calls[0].options.method,'GET');assert.equal(calls[0].url,'/api/projects/project/offer');}finally{global.fetch=previous;}
 });

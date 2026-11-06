@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 from uuid import uuid4
 
-from sqlalchemy import JSON, DateTime, ForeignKey, Index, Integer, Numeric, String, Text
+from sqlalchemy import JSON, DateTime, ForeignKey, Index, Integer, Numeric, String, Text, false, text
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -21,11 +21,22 @@ class Base(DeclarativeBase):
 
 class PresentationDocument(Base):
     __tablename__ = "presentation_documents"
+    __table_args__ = (
+        Index(
+            "uq_primary_commercial_offer",
+            "project_id",
+            unique=True,
+            postgresql_where=text("is_primary_offer"),
+            sqlite_where=text("is_primary_offer"),
+        ),
+    )
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     project_id: Mapped[str] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE"), index=True)
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
     version: Mapped[int] = mapped_column(Integer, default=1)
     draft: Mapped[dict] = mapped_column(JsonType, default=dict)
+    is_primary_offer: Mapped[bool] = mapped_column(default=False, server_default=false())
+    primary_reason: Mapped[str | None] = mapped_column(String(64))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
@@ -59,9 +70,27 @@ class CommercialOfferShare(Base):
     encrypted_token: Mapped[str] = mapped_column(Text)
     active: Mapped[bool] = mapped_column(default=False)
     epoch: Mapped[int] = mapped_column(Integer, default=0)
+    activated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    expires_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
+    activation_source: Mapped[str | None] = mapped_column(String(64))
     published_revision_id: Mapped[str | None] = mapped_column(ForeignKey("presentation_revisions.id"))
     pending_revision_id: Mapped[str | None] = mapped_column(ForeignKey("presentation_revisions.id"))
+    pending_epoch: Mapped[int | None] = mapped_column(Integer)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class CommercialOfferRequest(Base):
+    """Idempotent action receipt, including reuse of already prepared exports."""
+
+    __tablename__ = "commercial_offer_requests"
+    document_id: Mapped[str] = mapped_column(
+        ForeignKey("presentation_documents.id", ondelete="CASCADE"), primary_key=True
+    )
+    request_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    revision_id: Mapped[str] = mapped_column(ForeignKey("presentation_revisions.id", ondelete="CASCADE"))
+    publication: Mapped[bool] = mapped_column()
+    epoch: Mapped[int | None] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
 class IndexedProduct(Base):
