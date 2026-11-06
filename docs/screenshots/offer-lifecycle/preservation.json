@@ -1,0 +1,115 @@
+{
+  "supplier_offers": {
+    "before": {
+      "count": 6634,
+      "fingerprint": "4403ec27f434e486a6d89d07bb165ce8"
+    },
+    "after_excluding_exact_disposable_ids": {
+      "count": 6634,
+      "fingerprint": "4403ec27f434e486a6d89d07bb165ce8"
+    },
+    "unchanged": true
+  },
+  "product_observations": {
+    "before": {
+      "count": 6634,
+      "fingerprint": "837d79cc9327a9a7fb326aaf2fde9286"
+    },
+    "after_excluding_exact_disposable_ids": {
+      "count": 6634,
+      "fingerprint": "837d79cc9327a9a7fb326aaf2fde9286"
+    },
+    "unchanged": true
+  },
+  "availability_observations": {
+    "before": {
+      "count": 6634,
+      "fingerprint": "97a56b45e2896ca53a94b9d705eb1c41"
+    },
+    "after_excluding_exact_disposable_ids": {
+      "count": 6634,
+      "fingerprint": "97a56b45e2896ca53a94b9d705eb1c41"
+    },
+    "unchanged": true
+  },
+  "presentation_documents": {
+    "before": {
+      "count": 14,
+      "fingerprint": "75d005aae1c68ce6ddfdfc82304dbb08"
+    },
+    "after_excluding_exact_disposable_ids": {
+      "count": 14,
+      "fingerprint": "75d005aae1c68ce6ddfdfc82304dbb08"
+    },
+    "unchanged": true
+  },
+  "presentation_revisions": {
+    "before": {
+      "count": 16,
+      "fingerprint": "76099457ba2bcd06452100b27fe9e380"
+    },
+    "after_excluding_exact_disposable_ids": {
+      "count": 16,
+      "fingerprint": "76099457ba2bcd06452100b27fe9e380"
+    },
+    "unchanged": true
+  },
+  "project_collection_items": {
+    "before": {
+      "count": 6,
+      "fingerprint": "1a4ec1550c75dd50afc755ccb541cb5a"
+    },
+    "after_excluding_exact_disposable_ids": {
+      "count": 6,
+      "fingerprint": "1a4ec1550c75dd50afc755ccb541cb5a"
+    },
+    "unchanged": true
+  },
+  "migration": "0025_offer_lifecycle",
+  "existing_commercial_documents": [
+    {
+      "id": "3aafda97-a64c-4d82-b575-db5dbb9ab7ee",
+      "version": 10,
+      "is_primary_offer": true,
+      "primary_reason": "PRESERVED_MANUAL_EDITS",
+      "active": null,
+      "activated_at": null,
+      "expires_at": null,
+      "activation_source": null,
+      "published_revision_id": null
+    },
+    {
+      "id": "ceb04f4b-6ea5-4ed5-ac0d-ae94bb0779e1",
+      "version": 1,
+      "is_primary_offer": false,
+      "primary_reason": null,
+      "active": true,
+      "activated_at": "2026-11-06 12:43:13.196393+00:00",
+      "expires_at": "2026-11-13 12:43:13.196393+00:00",
+      "activation_source": "EARLIEST_RENDER_CONSERVATIVE",
+      "published_revision_id": "848b8d4c-c0d8-48f7-940c-36a5d0c30223"
+    },
+    {
+      "id": "dc004fca-848e-4819-9fb5-b6ac106a2468",
+      "version": 1,
+      "is_primary_offer": false,
+      "primary_reason": null,
+      "active": true,
+      "activated_at": "2026-11-06 12:49:40.991417+00:00",
+      "expires_at": "2026-11-13 12:49:40.991417+00:00",
+      "activation_source": "CONFIRMED_FIRST_READY",
+      "published_revision_id": "fec2ddab-f8fa-4b6a-a2c2-cca3d593f550"
+    },
+    {
+      "id": "7cbd78ab-46d8-4232-b5a4-48bbda6f9442",
+      "version": 1,
+      "is_primary_offer": false,
+      "primary_reason": null,
+      "active": null,
+      "activated_at": null,
+      "expires_at": null,
+      "activation_source": null,
+      "published_revision_id": null
+    }
+  ]
+}

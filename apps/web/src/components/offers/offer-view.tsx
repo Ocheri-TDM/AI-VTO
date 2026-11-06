@@ -32,6 +32,7 @@ export function OfferView({value,editSlot}:{value:ClientOffer;editSlot?:OfferEdi
         {!!item.characteristics.length&&<div className="offer-characteristics"><h3>Характеристики</h3><dl>{item.characteristics.map((a,n)=><div key={n}><dt>{a.name}</dt><dd>{a.value}</dd></div>)}</dl></div>}
         {item.description&&<div className="offer-description"><h3>Описание</h3>{item.description.length>1200?<details><summary>Полное описание</summary>{item.description.split(/\n\n+/).map((p,n)=><p key={n}>{p}</p>)}</details>:item.description.split(/\n\n+/).map((p,n)=><p key={n}>{p}</p>)}</div>}
       </div></div>
+      <div className="offer-product-brand"><img src={value.vto_logo_url??'/api/branding/vto-logo.png'} alt="VTO" referrerPolicy="no-referrer"/></div>
     </section>)}</div>
     <footer className="offer-footer"><strong>Souvenir Studio</strong><span>Наличие и возможность поставки уточняются перед заказом. Предложение не резервирует товары.</span></footer>
   </main>;

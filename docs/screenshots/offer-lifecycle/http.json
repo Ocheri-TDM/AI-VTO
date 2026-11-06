@@ -1,0 +1,89 @@
+{
+  "checks": [
+    {
+      "check": "exact disposable owner",
+      "status": "PASS"
+    },
+    {
+      "check": "read GET does not create",
+      "status": "PASS"
+    },
+    {
+      "check": "snapshot quantity 250 100 1",
+      "status": "PASS"
+    },
+    {
+      "check": "stable create/open 0",
+      "status": "PASS"
+    },
+    {
+      "check": "stable create/open 1",
+      "status": "PASS"
+    },
+    {
+      "check": "stable create/open 2",
+      "status": "PASS"
+    },
+    {
+      "check": "untrusted origin and forged forwarding rejected",
+      "status": "PASS"
+    },
+    {
+      "check": "foreign editor denied",
+      "status": "PASS"
+    },
+    {
+      "check": "private export does not publish",
+      "status": "PASS"
+    },
+    {
+      "check": "full trusted frontend URL",
+      "status": "PASS"
+    },
+    {
+      "check": "seven exact days",
+      "status": "PASS"
+    },
+    {
+      "check": "anonymous public API",
+      "status": "PASS"
+    },
+    {
+      "check": "guest write rejected",
+      "status": "PASS"
+    },
+    {
+      "check": "unknown token denied",
+      "status": "PASS"
+    },
+    {
+      "check": "anonymous pdf",
+      "status": "PASS"
+    },
+    {
+      "check": "anonymous xlsx",
+      "status": "PASS"
+    },
+    {
+      "check": "same amount in xlsx",
+      "status": "PASS"
+    },
+    {
+      "check": "update same URL and deadline",
+      "status": "PASS"
+    },
+    {
+      "check": "old download pin returns 409",
+      "status": "PASS"
+    },
+    {
+      "check": "ten link reads create nothing",
+      "status": "PASS"
+    },
+    {
+      "check": "catalog unchanged",
+      "status": "PASS"
+    }
+  ],
+  "frontend_deployment": "NOT DEPLOYED: user requested preparation without Vercel login"
+}

@@ -2,11 +2,11 @@
 
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse
 
 from app.application.presentation_assets import MAX_BYTES, safe_path
-from app.domain.commercial_offer import OfferAction, OfferCreate, OfferEdit, ShareAction
+from app.domain.commercial_offer import OfferAction, OfferComposition, OfferCreate, OfferEdit, ShareAction
 
 router = APIRouter(prefix="/api", tags=["commercial offers"])
 PUBLIC_HEADERS = {
@@ -37,7 +37,15 @@ async def action(call):
     except ValueError as exc:
         code = str(exc)
         status = (
-            409 if code in ("STATE_CONFLICT", "REVISION_CHANGED") else 429 if code == "QUEUE_FULL" else 422
+            409
+            if code in ("STATE_CONFLICT", "REVISION_CHANGED", "ARCHIVED_OFFER")
+            else 410
+            if code == "OFFER_LINK_EXPIRED"
+            else 404
+            if code == "PROJECT_NOT_FOUND"
+            else 429
+            if code == "QUEUE_FULL"
+            else 422
         )
         detail = (
             "Документ или публикация изменились. Обновите состояние."
@@ -46,6 +54,10 @@ async def action(call):
             if code == "REVISION_CHANGED"
             else "Очередь занята. Повторите позже."
             if status == 429
+            else "Срок действия ссылки истёк"
+            if code == "OFFER_LINK_EXPIRED"
+            else "Это предыдущее предложение. Откройте основное предложение проекта."
+            if code == "ARCHIVED_OFFER"
             else code
         )
         raise HTTPException(status, {"code": code, "message": detail}, headers=PUBLIC_HEADERS) from None
@@ -58,15 +70,37 @@ async def listing(project_id: UUID, request: Request):
 
 
 @router.post("/projects/{project_id}/offers", status_code=201)
-async def create(project_id: UUID, body: OfferCreate, request: Request):
+async def create(project_id: UUID, body: OfferCreate, request: Request, response: Response):
     service, user = owner(request)
-    return await action(service.create(str(project_id), user, body))
+    value = await action(service.create(str(project_id), user, body))
+    response.status_code = 201 if value.pop("created") else 200
+    return value
+
+
+@router.get("/projects/{project_id}/offer")
+async def primary(project_id: UUID, request: Request):
+    service, user = owner(request)
+    try:
+        return await service.primary(str(project_id), user)
+    except ValueError:
+        raise HTTPException(404, "Проект не найден") from None
+
+
+@router.get("/branding/vto-logo.png")
+async def branding():
+    from app.application.presentation_logo import OFFER_LOGO
+
+    return FileResponse(
+        OFFER_LOGO,
+        media_type="image/png",
+        headers={"Cache-Control": "public, max-age=3600", "X-Content-Type-Options": "nosniff"},
+    )
 
 
 @router.get("/offers/{identifier}")
 async def get(identifier: UUID, request: Request):
     service, user = owner(request)
-    return required(await service.get(str(identifier), user))
+    return await action(service.get(str(identifier), user))
 
 
 @router.patch("/offers/{identifier}")
@@ -79,6 +113,18 @@ async def save(identifier: UUID, body: OfferEdit, request: Request):
 async def refresh(identifier: UUID, body: OfferAction, request: Request):
     service, user = owner(request)
     return await action(service.refresh(str(identifier), user, body.version))
+
+
+@router.get("/offers/{identifier}/composition")
+async def composition_preview(identifier: UUID, request: Request):
+    service, user = owner(request)
+    return await action(service.composition(str(identifier), user))
+
+
+@router.post("/offers/{identifier}/composition")
+async def composition_update(identifier: UUID, request: Request, body: OfferComposition):
+    service, user = owner(request)
+    return await action(service.composition(str(identifier), user, body))
 
 
 @router.post("/offers/{identifier}/publish", status_code=202)
@@ -101,7 +147,11 @@ async def share_action(identifier: UUID, body: ShareAction, request: Request):
 @router.post("/offers/{identifier}/banner", status_code=202)
 async def upload(identifier: UUID, request: Request, version: int = Query(ge=1)):
     service, user = owner(request)
-    required(await service.owned(str(identifier), user))
+    row = required(await service.owned(str(identifier), user))
+    try:
+        service.editable(row)
+    except ValueError:
+        raise HTTPException(409, "Это предыдущее предложение проекта") from None
     data = bytearray()
     async for chunk in request.stream():
         data.extend(chunk)

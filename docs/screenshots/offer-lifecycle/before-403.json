@@ -1,0 +1,59 @@
+[
+  {
+    "method": "GET",
+    "path_template": "/api/projects",
+    "status": 200,
+    "body": "owner session accepted",
+    "request_id": "0e6383d8d2ae44bc98514352cc4c5b1c"
+  },
+  {
+    "method": "GET",
+    "path_template": "/api/projects/{project_id}/collection",
+    "status": 404,
+    "body": {
+      "detail": "Документ не найден"
+    },
+    "request_id": "5ac55652b1f54406a17e2205d699eaa0"
+  },
+  {
+    "method": "GET",
+    "path_template": "/api/projects/{project_id}/offers",
+    "status": 404,
+    "body": {
+      "detail": "Предложение не найдено"
+    },
+    "request_id": "cc69495e16434f0cbdff02b80309ac88"
+  },
+  {
+    "method": "POST",
+    "path_template": "/api/projects/{project_id}/offers",
+    "status": 403,
+    "body": {
+      "detail": "Источник запроса не разрешён.",
+      "code": "ORIGIN_REJECTED",
+      "stage": "origin",
+      "trace_id": "3d5d53e689ae4d57ad5bc5e955d1b56c"
+    },
+    "request_id": "3d5d53e689ae4d57ad5bc5e955d1b56c"
+  },
+  {
+    "method": "POST",
+    "path_template": "/api/chats",
+    "status": 403,
+    "body": {
+      "detail": "Источник запроса не разрешён.",
+      "code": "ORIGIN_REJECTED",
+      "stage": "origin",
+      "trace_id": "0eba03b1dc2c49b7aebf10fd1482fa5b"
+    },
+    "request_id": "0eba03b1dc2c49b7aebf10fd1482fa5b"
+  },
+  {
+    "method": "POST",
+    "path_template": "/api/projects/{owned_project}/offers",
+    "status": 403,
+    "code": "ORIGIN_REJECTED",
+    "stage": "origin",
+    "request_id": "9b36f5cf2154421d9121cc4808605d80"
+  }
+]

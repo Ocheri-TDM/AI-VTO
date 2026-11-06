@@ -1,0 +1,13 @@
+{
+  "checks": [
+    {
+      "check": "ordinary HTTPS login",
+      "status": "PASS"
+    },
+    {
+      "check": "host-only secure httponly lax cookie",
+      "status": "PASS"
+    }
+  ],
+  "frontend_deployment": "NOT DEPLOYED: user requested preparation without Vercel login"
+}

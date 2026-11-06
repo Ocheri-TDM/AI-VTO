@@ -1,0 +1,21 @@
+{
+  "checks": [
+    {
+      "check": "exact disposable owner",
+      "status": "PASS"
+    },
+    {
+      "check": "two real API processes accepted",
+      "status": "PASS"
+    },
+    {
+      "check": "two processes one offer ID",
+      "status": "PASS"
+    },
+    {
+      "check": "PostgreSQL unique primary",
+      "status": "PASS"
+    }
+  ],
+  "frontend_deployment": "NOT DEPLOYED: user requested preparation without Vercel login"
+}

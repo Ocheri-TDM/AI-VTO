@@ -52,6 +52,7 @@ class PresentationService(PresentationMaterials):
         self.task = None
         self.local_lock = asyncio.Lock()
         self.collections, self.model = collections, model
+        self.offer_now = utcnow  # Per-service clock; tests can control UTC without changing the machine.
 
     async def owned(self, identifier, user):
         async with self.sessions() as db:
@@ -605,8 +606,10 @@ class PresentationService(PresentationMaterials):
         self, identifier, user, version, request_id, payload, vault, *, publish=True, expected_epoch=0
     ):
         """Same queue/claims/resource limits, with an explicit commercial kind."""
+        from app.database.models import CommercialOfferRequest as Receipt
         from app.database.models import CommercialOfferShare as Share
         from app.domain.commercial_offer import KIND
+        from app.domain.offer_lifecycle import activate, expired
 
         async with self.local_lock, self.sessions.begin() as db:
             if db.bind.dialect.name == "postgresql":
@@ -616,15 +619,28 @@ class PresentationService(PresentationMaterials):
             )
             if not row or row.draft.get("kind") != KIND:
                 return None
+            if not row.is_primary_offer:
+                raise ValueError("ARCHIVED_OFFER")
             share = await db.get(Share, identifier, with_for_update=True)
-            old = await db.scalar(
-                select(Revision).where(
-                    Revision.document_id == identifier,
-                    Revision.input["kind"].as_string() == KIND,
-                    Revision.input["generation_request_id"].as_string() == request_id,
+            receipt = await db.get(Receipt, (identifier, request_id))
+            old = (
+                await db.get(Revision, receipt.revision_id)
+                if receipt
+                else await db.scalar(
+                    select(Revision).where(
+                        Revision.document_id == identifier,
+                        Revision.input["kind"].as_string() == KIND,
+                        Revision.input["generation_request_id"].as_string() == request_id,
+                    )
                 )
             )
-            if old and bool(old.input.get("publication_requested", True)) != publish:
+            if (
+                receipt
+                and receipt.publication != publish
+                or not receipt
+                and old
+                and bool(old.input.get("publication_requested", True)) != publish
+            ):
                 raise ValueError("STATE_CONFLICT")
             if old and old.status != "FAILED":
                 return old.id
@@ -644,6 +660,40 @@ class PresentationService(PresentationMaterials):
                     )
                     db.add(share)
                     await db.flush()
+                now = self.offer_now()
+                new_period = expired(share, now) or (
+                    not share.active
+                    and not share.pending_revision_id
+                    and (share.activated_at is not None or share.epoch > 0)
+                )
+                if new_period:
+                    running = await db.scalar(
+                        select(Revision).where(
+                            Revision.document_id == identifier, Revision.status.in_(ACTIVE)
+                        )
+                    )
+                    if running:
+                        raise ValueError(
+                            "Дождитесь завершения прежней подготовки и повторите создание ссылки"
+                        )
+                    _, share.token_hash, share.encrypted_token = vault.create()
+                    share.epoch += 1
+                    share.active = False
+                    share.activated_at = share.expires_at = None
+                    share.pending_revision_id = share.pending_epoch = None
+
+            def remember(revision):
+                if not receipt:
+                    db.add(
+                        Receipt(
+                            document_id=identifier,
+                            request_id=request_id,
+                            revision_id=revision.id,
+                            publication=publish,
+                            epoch=share.epoch if publish else None,
+                        )
+                    )
+
             ready = await db.scalar(
                 select(Revision)
                 .where(
@@ -651,17 +701,21 @@ class PresentationService(PresentationMaterials):
                     Revision.source_version == version,
                     Revision.input["kind"].as_string() == KIND,
                     Revision.status == "READY",
+                    Revision.input["offer_layout_version"].as_integer()
+                    == payload.get("offer_layout_version", 2),
                 )
                 .order_by(Revision.created_at.desc())
             )
             if ready:
                 if publish:
-                    share.published_revision_id, share.pending_revision_id, share.active = (
+                    share.published_revision_id, share.pending_revision_id = (
                         ready.id,
                         None,
-                        True,
                     )
-                    share.updated_at = utcnow()
+                    share.pending_epoch = None
+                    activate(share, self.offer_now())
+                    share.updated_at = self.offer_now()
+                remember(ready)
                 return ready.id
             active = await db.scalar(
                 select(Revision).where(Revision.document_id == identifier, Revision.status.in_(ACTIVE))
@@ -669,7 +723,11 @@ class PresentationService(PresentationMaterials):
             if active:
                 if active.input.get("kind") == KIND and active.source_version == version:
                     if publish:
+                        if active.input.get("publication_epoch") not in (None, share.epoch):
+                            raise ValueError("Дождитесь завершения прежней подготовки")
                         share.pending_revision_id = active.id
+                        share.pending_epoch = share.epoch
+                    remember(active)
                     return active.id
                 raise ValueError("Дождитесь завершения подготовки текущей версии")
             await self.queue_capacity(db, user)
@@ -693,7 +751,9 @@ class PresentationService(PresentationMaterials):
                 await db.flush()
             if publish:
                 share.pending_revision_id = revision.id
-                share.updated_at = utcnow()
+                share.pending_epoch = share.epoch
+                share.updated_at = self.offer_now()
+            remember(revision)
             return revision.id
 
     async def cancel(self, identifier, revision, user):
@@ -799,13 +859,18 @@ class PresentationService(PresentationMaterials):
                 and revision.input.get("kind") == "COMMERCIAL_OFFER"
             ):
                 from app.database.models import CommercialOfferShare as Share
+                from app.domain.offer_lifecycle import activate, expired
 
                 share = await db.get(Share, revision.document_id, with_for_update=True)
-                if share and share.pending_revision_id == revision.id:
-                    share.published_revision_id = revision.id
+                if share and share.pending_revision_id == revision.id and share.pending_epoch == share.epoch:
                     share.pending_revision_id = None
-                    share.active = True
-                    share.updated_at = utcnow()
+                    share.pending_epoch = None
+                    if expired(share, self.offer_now()):
+                        share.active = False
+                    else:
+                        share.published_revision_id = revision.id
+                        activate(share, self.offer_now())
+                    share.updated_at = self.offer_now()
 
     async def loop(self):
         while True:

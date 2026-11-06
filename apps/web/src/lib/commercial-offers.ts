@@ -1,11 +1,13 @@
 import type {ReactNode} from 'react';
 
 export interface OfferImage {id:string;url:string}
+export interface ProjectOfferRef {id:string;title:string;version:number;is_primary?:boolean}
+export interface OfferComposition {version:number;collection_version:number;added:{offer_id:string;title:string}[];removed:{offer_id:string;title:string}[];retained:number;excluded_retained:number}
 export interface ClientOfferItem {id:string;title:string;sku:string;brand:string|null;category:string;description:string;characteristics:{name:string;value:string}[];unit_price:string|null;quantity:number;line_amount:string|null;availability:string;images:OfferImage[];main_image:string|null}
-export interface ClientOffer {schema_version:number;title:string;company:string;logo_url:string;logo_background?:string;banner_url:string|null;items:ClientOfferItem[];revision_id?:string;snapshot_hash?:string;pdf_url?:string;xlsx_url?:string}
+export interface ClientOffer {schema_version:number;title:string;company:string;logo_url:string;vto_logo_url?:string;logo_background?:string;banner_url:string|null;items:ClientOfferItem[];revision_id?:string;snapshot_hash?:string;pdf_url?:string;xlsx_url?:string}
 export interface OfferItem extends ClientOfferItem {offer_id:string;catalog_price:string|null;catalog_sku:string;price_source:string;quantity_source:string;quantity_context:{rule:string;quantity:number;research_id?:string;view_version?:number};sku_source:string;sku_note:string;warnings:string[];photos:{id:string;source_url:string}[]}
 export interface OfferForm {version:number;title:string;company:string;use_logo:boolean;use_banner:boolean;items:{id:string;title:string;sku:string;sku_note:string;unit_price:string|null;quantity:number;main_image:string|null}[]}
-export interface OfferDocument {id:string;project_id:string;version:number;kind:string;draft:{settings:{title:string;client:string;use_logo:boolean;use_banner:boolean;logo:string|null};items:OfferItem[];materials:{id:string;status:string;role:string;error?:string}[];last_catalog_changes?:{item_id:string;field:string;before:unknown;after:unknown}[]};preview:ClientOffer;issues:{item_id:string;code:string;message:string}[];materials_preparing:boolean;share:{active:boolean;epoch:number;public_url:string|null;local_preview_path:string|null;published_revision_id:string|null;pending_revision_id:string|null};revisions:{id:string;source_version:number;status:string;error:string|null;request_id:string;publication_requested:boolean;snapshot_hash:string;pdf_url:string|null;xlsx_url:string|null;warnings:{item_id:string;message:string}[]}[]}
+export interface OfferDocument {id:string;project_id:string;version:number;kind:string;is_primary:boolean;primary_offer_id:string|null;draft:{settings:{title:string;client:string;use_logo:boolean;use_banner:boolean;logo:string|null};items:OfferItem[];materials:{id:string;status:string;role:string;error?:string}[];last_catalog_changes?:{item_id:string;field:string;before:unknown;after:unknown}[]};preview:ClientOffer;issues:{item_id:string;code:string;message:string}[];materials_preparing:boolean;share:{active:boolean;epoch:number;public_url:string|null;local_preview_path:string|null;published_revision_id:string|null;pending_revision_id:string|null;activated_at:string|null;expires_at:string|null;expired:boolean;state:string};revisions:{id:string;source_version:number;status:string;error:string|null;request_id:string;publication_requested:boolean;publication_epoch?:number|null;snapshot_hash:string;pdf_url:string|null;xlsx_url:string|null;warnings:{item_id:string;message:string}[]}[]}
 export type OfferEditSlot=(item:ClientOfferItem,index:number)=>ReactNode;
 
 export class OfferError extends Error {constructor(public status:number,public code:string,message:string){super(message);}}
@@ -16,7 +18,10 @@ async function response<T>(r:Response):Promise<T>{
 }
 async function request<T>(path:string,method='GET',body?:unknown):Promise<T>{return response<T>(await fetch(path,{method,body:body===undefined?undefined:JSON.stringify(body),headers:{'Content-Type':'application/json'},cache:'no-store',credentials:'include',referrerPolicy:'no-referrer'}));}
 export const offerApi={
-  list:(project:string)=>request<{id:string;title:string;version:number}[]>(`/api/projects/${project}/offers`),
+  primary:(project:string)=>request<ProjectOfferRef|null>(`/api/projects/${project}/offer`),
+  composition:(id:string)=>request<OfferComposition>(`/api/offers/${id}/composition`),
+  updateComposition:(id:string,version:number,collection_version:number)=>request<OfferDocument>(`/api/offers/${id}/composition`,'POST',{version,collection_version,confirmed:true}),
+  list:(project:string)=>request<ProjectOfferRef[]>(`/api/projects/${project}/offers`),
   create:(project:string,version:number)=>request<OfferDocument>(`/api/projects/${project}/offers`,'POST',{collection_version:version}),
   get:(id:string)=>request<OfferDocument>(`/api/offers/${id}`),
   save:(id:string,body:OfferForm)=>request<OfferDocument>(`/api/offers/${id}`,'PATCH',body),
@@ -28,6 +33,7 @@ export const offerApi={
 
 export function offerForm(doc:OfferDocument):OfferForm{return {version:doc.version,title:doc.draft.settings.title,company:doc.draft.settings.client,use_logo:doc.draft.settings.use_logo,use_banner:doc.draft.settings.use_banner,items:doc.draft.items.map(i=>({id:i.id,title:i.title,sku:i.sku,sku_note:i.sku_note,unit_price:i.unit_price,quantity:i.quantity,main_image:i.main_image}))};}
 export function offerMoney(value:string|null):string{if(value===null)return 'Цена не указана';const [whole,fraction='00']=value.split('.');return whole.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+','+fraction.padEnd(2,'0')+' ₸';}
+export function offerExpiry(value:string):string{return new Intl.DateTimeFormat('ru-RU',{timeZone:'Asia/Yekaterinburg',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))+' (UTC+5, Екатеринбург)';}
 
 export async function downloadOffer(url:string,filename:string,guest=false){
   const r=await fetch(url,{cache:'no-store',credentials:guest?'omit':'include',referrerPolicy:'no-referrer'});

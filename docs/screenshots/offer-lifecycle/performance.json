@@ -1,0 +1,15 @@
+{
+  "sample": "Three real variants, cached source assets, no Qwen/matting; smoke only, not p95",
+  "revision_id": "0a9dfc11-1ef4-4192-aa4c-32c5a4e12564",
+  "timings_seconds": {
+    "pdf": 0.53,
+    "xlsx": 0.135,
+    "total": 1.072,
+    "assets": 0.189,
+    "preview": 0.198
+  },
+  "peak_task_tree_rss_mib": null,
+  "started_at": "2026-11-06T13:41:18.159688+00:00",
+  "ready_at": "2026-11-06T13:41:20.352264+00:00",
+  "layout_version": 2
+}

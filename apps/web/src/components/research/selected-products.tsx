@@ -15,12 +15,14 @@ function SelectedImage({product}:{product:ResearchProduct}){
   return !failed&&safeWebUrl(product.primary_image)?<Image src={safeWebUrl(product.primary_image)!} alt={product.name} width={500} height={380} onError={()=>setFailed(true)}/>:<span>Фото недоступно</span>;
 }
 
-export function SelectedProducts({products,count,busy,onRemove,onDetails,onClear,onCreate,error,onRetry}:{
+export function SelectedProducts({products,count,busy,onRemove,onDetails,onClear,onCreate,error,onRetry,hasOffer=false,offerLoading=false,offerReadError}:{
   products:ResearchProduct[];count:number;busy:boolean;onRemove:(id:string)=>void;
   onDetails:(product:ResearchProduct)=>void;onClear:()=>void;onCreate:()=>void;
   error?:string;onRetry?:()=>void;
+  hasOffer?:boolean;offerLoading?:boolean;offerReadError?:string;
 }){
   return <div className="selected-products-panel">
+    {offerReadError&&<p role="alert">Не удалось прочитать предложение: {offerReadError}. Закройте и заново откройте проект для повтора.</p>}
     {error&&<p className="selected-products-error" role="alert">{error} {onRetry&&<button className="studio-button" onClick={onRetry}>Повторить сохранение</button>}</p>}
     <div className="selected-products-scroll"><div className="selected-products-grid">
       {products.map(product=><article className="selected-product" key={product.id}>
@@ -36,6 +38,6 @@ export function SelectedProducts({products,count,busy,onRemove,onDetails,onClear
       </article>)}
     </div>{!count&&<p className="research-empty">Выберите товары в сетке — здесь будут именно выбранные цвета и варианты.</p>}</div>
     <footer className="selected-products-actions"><div><strong>Выбрано: {count}</strong><button className="studio-button" disabled={busy||!count} onClick={onClear}>Очистить выбор</button></div>
-      <button className="studio-button primary" disabled={busy||!count} onClick={onCreate}>Создать предложение</button></footer>
+      <button className="studio-button primary" disabled={busy||offerLoading||!!offerReadError||!hasOffer&&!count} onClick={onCreate}>{hasOffer?'Открыть предложение':'Создать предложение'}</button></footer>
   </div>;
 }

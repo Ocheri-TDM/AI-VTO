@@ -1,0 +1,36 @@
+{
+  "checks": [
+    {
+      "check": "exact disposable owner",
+      "status": "PASS"
+    },
+    {
+      "check": "commercial index preserved",
+      "status": "PASS"
+    },
+    {
+      "check": "managed encryption key preserved",
+      "status": "PASS"
+    }
+  ],
+  "frontend_deployment": "NOT DEPLOYED: user requested preparation without Vercel login",
+  "deleted_user_ids": [
+    "fa0cf3cc-2fb7-4e94-a87f-3bed15aee082",
+    "7842dd5f-9d7d-4768-9472-42e5299ea928"
+  ],
+  "deleted_project_ids": [
+    "18f40e8f-3998-4087-a3d5-d637c18771f8",
+    "bf61aead-1988-4b3d-baca-2ad25e85cd82"
+  ],
+  "deleted_document_ids": [
+    "518b50ff-d2bc-48cf-81c5-165f2ed824a8"
+  ],
+  "catalog_before": {
+    "offers": 6634,
+    "fingerprint": "f49f58947522179478dc4e7ed04dfa92"
+  },
+  "catalog_after": {
+    "offers": 6634,
+    "fingerprint": "f49f58947522179478dc4e7ed04dfa92"
+  }
+}

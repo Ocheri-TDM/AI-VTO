@@ -18,7 +18,7 @@ import { useAuthSession } from '../auth-gate';
 import { WorkspaceQueries } from './workspace-queries';
 import { workspaceApi } from '@/lib/project-queries';
 import { SelectedProducts } from './selected-products';
-import { offerApi } from '@/lib/commercial-offers';
+import { offerApi,type ProjectOfferRef } from '@/lib/commercial-offers';
 import {OfferList} from '@/components/offers/offer-editor';
 import { PresentationWorkspace, PresentationList } from '../presentations/presentation-workspace';
 import {useProjectCollection} from '@/hooks/use-project-collection';
@@ -46,6 +46,11 @@ export function ResearchWorkspace(){
 
   const state=useResearch(chat);
   const project=projects.find(p=>p.chat_id===chat);
+  const [projectOffer,setProjectOffer]=useState<{project:string;value:ProjectOfferRef|null}|null>(null);
+  const [offerReadError,setOfferReadError]=useState('');
+  useEffect(()=>{let live=true;if(project?.id)offerApi.primary(project.id).then(value=>{if(live){setProjectOffer({project:project.id,value});setOfferReadError('');}}).catch(e=>{if(live)setOfferReadError(e.message);});return()=>{live=false;};},[project?.id]);
+  const offerKnown=projectOffer?.project===project?.id&&!offerReadError;
+  const existingOffer=offerKnown?projectOffer?.value:null;
   const collection=useProjectCollection(project?.id??null);
   const {research,busy,running,error}=state;
   const {setError}=state;
@@ -71,7 +76,7 @@ export function ResearchWorkspace(){
   async function createPresentation(){
     if(!project||busy||creatingPresentation)return;
     const generation=requestGeneration.current;setCreatingPresentation(true);
-    try{const saved=await collection.flush();const value=await offerApi.create(project.id,saved.version);if(generation===requestGeneration.current)router.push(`/offers/${value.id}/edit`);}
+    try{const existing=await offerApi.primary(project.id);let identifier=existing?.id;if(!identifier){const saved=await collection.flush();identifier=(await offerApi.create(project.id,saved.version)).id;}if(generation===requestGeneration.current)router.push(`/offers/${identifier}/edit`);}
     catch(e){state.setError((e as Error).message);}finally{setCreatingPresentation(false);}
   }
   const representatives=new Set(research?.groups.map(group=>group.offer_ids[0])??[]);
@@ -143,7 +148,7 @@ export function ResearchWorkspace(){
       {drawer==='chat'?chatPane:drawer==='projects'?projectList:drawer==='filters'&&research?<ResearchFilterPanel research={research} disabled={requestBusy} onChange={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})}/>:
         drawer==='selected'?<SelectedProducts products={collection.value?.products??[]} count={collection.value?.selected_ids.length??0} busy={collection.busy||creatingPresentation}
           error={collection.error||error} onRetry={collection.error?collection.retry:undefined}
-          onRemove={collection.remove} onDetails={setDetails} onClear={()=>void collection.clear()} onCreate={()=>void createPresentation()}/>:null}</Sheet>}
+          hasOffer={!!existingOffer} offerLoading={!offerKnown} offerReadError={offerReadError} onRemove={collection.remove} onDetails={setDetails} onClear={()=>void collection.clear()} onCreate={()=>void createPresentation()}/>:null}</Sheet>}
     {form&&<ProjectForm project={form==='new'?undefined:form} onClose={()=>setForm(null)} onSave={async(name,client)=>{
       try{if(form==='new'){const value=await api.createChat(name);open(value.id);}else await api.updateProject(form.id,name,client);
         setProjects(await api.projects());return true;}catch(e){state.setError((e as Error).message);return false;}}}
