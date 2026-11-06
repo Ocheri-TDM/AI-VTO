@@ -1,6 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;450;500;550;600;650;700;750;800&display=swap");
-
 :root {
+  --font-ui: var(--font-geist-sans, "Segoe UI", Arial, sans-serif);
   color-scheme: dark;
   --canvas: #111413;
   --panel: #181c1a;
@@ -24,7 +23,7 @@ body {
 body {
   background: var(--canvas);
   color: var(--text);
-  font-family: "Manrope", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
 }
@@ -595,7 +594,7 @@ input::placeholder {
   padding-bottom: 4px;
 }
 .supplier-logo.ucontay {
-  font-family: "Manrope", sans-serif;
+  font-family: var(--font-ui);
   font-size: 16px;
   padding-bottom: 3px;
   color: #95a7af;

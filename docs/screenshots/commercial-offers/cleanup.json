@@ -1,0 +1,23 @@
+{
+  "catalog_before": {
+    "offers": 6634,
+    "fingerprint": "f49f58947522179478dc4e7ed04dfa92"
+  },
+  "catalog_after": {
+    "offers": 6634,
+    "fingerprint": "f49f58947522179478dc4e7ed04dfa92"
+  },
+  "deleted_user_ids": [
+    "572fe475-4aee-435e-9324-f2fbcd2d333b",
+    "c78b0fc2-fb2f-47ca-8636-21c125a8fd27"
+  ],
+  "deleted_document_ids": [
+    "01803fff-e6b9-4dec-b50e-2a109a442778",
+    "b0ee4934-d7b9-48fb-b643-9cfd9c9d522f",
+    "8b63f2e6-9d39-4d07-905a-910f02c37579",
+    "5f9dd170-38d7-48d7-b35d-eed67a6eee7e"
+  ],
+  "deleted_project_ids": [
+    "882c5269-a628-4202-a0a8-5785409821e9"
+  ]
+}

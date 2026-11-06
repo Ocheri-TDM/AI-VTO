@@ -35,6 +35,7 @@ const categories: Record<string, string> = {
   bottle: "Бутылки",
   umbrella: "Зонты",
   bag: "Сумки",
+  shopperbag: "Сумки-шопперы",
   powerbank: "Внешние аккумуляторы",
   charger: "Зарядные устройства",
   cable: "Кабели",
@@ -60,6 +61,8 @@ const colors: Record<string, { label: string; swatch: string }> = {
   PINK: { label: "Розовый", swatch: "#d999b5" },
   BROWN: { label: "Коричневый", swatch: "#8c6a52" },
   BEIGE: { label: "Бежевый", swatch: "#c8b396" },
+  SILVER: { label: "Серебристый", swatch: "#b9bec4" },
+  GOLD: { label: "Золотистый", swatch: "#c4a358" },
 };
 
 export const categoryLabel = (value: string | null) =>

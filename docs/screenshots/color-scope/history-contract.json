@@ -1,0 +1,22 @@
+{
+  "empty_json_post_status": 400,
+  "empty_json_post_body": {
+    "detail": "\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 JSON.",
+    "code": "INVALID_JSON",
+    "stage": "validation",
+    "trace_id": "424d20abf6db477b869919fb2ad8c62f"
+  },
+  "json_object_post_status": 200,
+  "restored_colors": {
+    "mode": "uniform",
+    "values": [
+      "DARK_BLUE"
+    ],
+    "source_mode": "uniform",
+    "source_values": [
+      "DARK_BLUE"
+    ],
+    "additional_values": [],
+    "conflicting_branch_ids": []
+  }
+}

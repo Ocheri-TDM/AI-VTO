@@ -1,0 +1,22 @@
+/* One UI family at the document root, shared by both themes and top-layer UI.
+   PDF pages are images; their embedded typography is independent of this file. */
+body {font-weight:400;letter-spacing:normal}
+input,textarea,select {font-weight:400}
+.presentation-workspace input:not([type="checkbox"]),.presentation-workspace textarea,
+.presentation-workspace select,.ui-select-popup .ui-select-search input {font-weight:400}
+:where(button,label,[role="tab"]) {font-weight:500}
+.studio-button {font-weight:500}
+.studio-button.primary,strong,b {font-weight:600}
+.ui-select .ui-select-trigger,.ui-select>.ui-select-label {font-weight:500}
+.product-name,.selected-product-name,.product-meta strong {font-weight:600}
+.project-item small,.research-message,.research-message small {font-weight:400}
+.research-main h1,.presentation-workspace h1,.presentation-workspace h2,
+.sheet h2,.auth-card h1,.palette-dialog-body h2 {
+  font-weight:600;
+  letter-spacing:normal;
+}
+.product-meta strong,.research-stats strong,.research-selected-count,
+.query-category-count,.ui-select-count,.section-label>span,
+.selected-products-actions strong,input[type="number"] {
+  font-variant-numeric:tabular-nums;
+}

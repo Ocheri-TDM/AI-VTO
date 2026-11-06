@@ -1,5 +1,6 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import {useRouter} from 'next/navigation';
 import { api } from '@/lib/api';
 import { researchApi, type ResearchProduct } from '@/lib/research';
 import type { Project } from '@/lib/types';
@@ -17,12 +18,14 @@ import { useAuthSession } from '../auth-gate';
 import { WorkspaceQueries } from './workspace-queries';
 import { workspaceApi } from '@/lib/project-queries';
 import { SelectedProducts } from './selected-products';
-import { presentationApi } from '@/lib/presentations';
+import { offerApi } from '@/lib/commercial-offers';
+import {OfferList} from '@/components/offers/offer-editor';
 import { PresentationWorkspace, PresentationList } from '../presentations/presentation-workspace';
 import {useProjectCollection} from '@/hooks/use-project-collection';
 import {ThemeSwitch} from '../theme-switch';
 
 export function ResearchWorkspace(){
+  const router=useRouter();
   const {user,logout}=useAuthSession();
   const [projects,setProjects]=useState<Project[]>([]);
   const [chat,setChat]=useState<string|null>(null);
@@ -68,7 +71,7 @@ export function ResearchWorkspace(){
   async function createPresentation(){
     if(!project||busy||creatingPresentation)return;
     const generation=requestGeneration.current;setCreatingPresentation(true);
-    try{const saved=await collection.flush();const value=await presentationApi.create(project.id,saved.version);if(generation===requestGeneration.current)openPresentation(value.id);}
+    try{const saved=await collection.flush();const value=await offerApi.create(project.id,saved.version);if(generation===requestGeneration.current)router.push(`/offers/${value.id}/edit`);}
     catch(e){state.setError((e as Error).message);}finally{setCreatingPresentation(false);}
   }
   const representatives=new Set(research?.groups.map(group=>group.offer_ids[0])??[]);
@@ -111,7 +114,8 @@ export function ResearchWorkspace(){
     <aside className="research-projects"><h2>Исследования</h2>{projectList}</aside>
     <main className="research-main">
       {project&&<WorkspaceQueries projectId={project.id} onResearch={state.setResearch} onError={state.setError}/>}
-      {project&&<PresentationList projectId={project.id} onOpen={openPresentation}/>}
+      {project&&<OfferList project={project.id}/>}
+      {project&&<details className="legacy-presentations"><summary>Архив дизайнерских презентаций</summary><PresentationList projectId={project.id} onOpen={openPresentation}/></details>}
       {project&&!research&&<div className="research-collection-entry"><CollectionSummary count={collection.value?.selected_ids.length??0} onOpen={()=>setDrawer('selected')}/></div>}
       {(requestBusy&&!research?<div className="research-empty" role="status"><h2>Исследую каталог…</h2></div>:!research?<div className="research-intro"><small>VTO · Реальные данные</small><h1>Исследуйте варианты.<br/>Найдите своё.</h1>
         <p>Опишите задачу. AI найдёт варианты в обновляемом каталоге и поможет уточнить подборку.</p>{composer}
@@ -121,7 +125,7 @@ export function ResearchWorkspace(){
 {research.source_mode!=='index'&&<span>Покрытие <strong>{research.completed_sources}/{research.source_count}</strong></span>}</div>
         {research.new_matches_count>0&&<p className="research-notice" role="status">Найдено {research.new_matches_count} новых вариантов. <button className="studio-button" disabled={busy} onClick={()=>state.perform(()=>researchApi.acceptMatches(research.id))}>Показать</button></p>}
         <ResearchHud research={{...research,selected_count:collection.value?.selected_ids.length??0,view:{...research.view,selected_ids:collection.value?.selected_ids??[]}}} pending={busy||requestBusy} disabled={requestBusy} grouped={grouped} onGrouped={setGrouped}
-          onFilters={filters=>state.change({filters})} onReset={()=>state.change({restore:'reset'})}
+          onFilters={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})} onReset={()=>state.change({restore:'reset'})}
           onCategoryAction={action=>{setLimit(100);state.change({branch_actions:[action]});}}
           onSelected={()=>setDrawer('selected')} onMobileFilters={()=>setDrawer('filters')}/>
         {research.empty_branches?.length?<p className="research-notice">Нет результатов: {research.empty_branches.join(', ')}</p>:null}
@@ -129,14 +133,14 @@ export function ResearchWorkspace(){
       </div>
       {research.products.length?cards(displayProducts.slice(0,limit)):<div className="research-empty"><h2>{research.result_state==='ALL_CATEGORIES_HIDDEN'?'Все категории скрыты':research.result_state==='NO_QUERY_CATEGORIES'?'В запросе не осталось категорий':running?'Исследую каталоги':'Пока нет подходящих вариантов'}</h2><p>{research.result_state==='ALL_CATEGORIES_HIDDEN'?'Покажите категории снова — их условия сохранены.':research.result_state==='NO_QUERY_CATEGORIES'?'Верните категорию выше или введите новый запрос.':research.pool_count?'Уточнения скрыли товары. Можно вернуться к исходной подборке.':'Товары появятся после проверки цвета, цены и доступного количества.'}</p>
         {research.result_state==='ALL_CATEGORIES_HIDDEN'&&<button className="studio-button" onClick={()=>state.change({branch_actions:[{action:'show_all'}]})}>Показать все</button>}
-        {hasAdditionalFilters(research.view.filters)&&<button className="studio-button" onClick={()=>state.change({restore:'reset'})}>Сбросить уточнения</button>}</div>}
+        {hasAdditionalFilters(research.view.filters,research.view.effective_overrides)&&<button className="studio-button" onClick={()=>state.change({restore:'reset'})}>Сбросить уточнения</button>}</div>}
       {(research.next_cursor||displayProducts.length>limit)&&<button className="studio-button" disabled={busy} onClick={()=>{setLimit(n=>n+100);if(research.next_cursor)state.loadMore();}}>Показать ещё 100 · всего {research.matching_count}</button>}</>)}
     </main>
     <aside className="research-chat">{chatPane}</aside>
     <nav className="research-mobile-nav"><button onClick={()=>setDrawer(null)}>Подборка</button><button onClick={()=>setDrawer('selected')}>Выбранные</button><button onClick={()=>setDrawer('chat')}>AI</button><button onClick={()=>setDrawer('projects')}>Проект</button></nav>
     {(error||collection.error)&&<div className="research-error" role="alert">{error||collection.error}{collection.error&&<button onClick={collection.retry}>Повторить сохранение</button>}<button onClick={()=>{state.setError('');collection.setError('');}} aria-label="Закрыть уведомление">×</button></div>}
     {drawer&&<Sheet className={drawer==='selected'?'selected-products-sheet':''} title={{chat:'AI Research',projects:'Исследования',filters:'Фильтры',selected:'Выбранные товары'}[drawer]} onClose={()=>setDrawer(null)}>
-      {drawer==='chat'?chatPane:drawer==='projects'?projectList:drawer==='filters'&&research?<ResearchFilterPanel research={research} disabled={requestBusy} onChange={filters=>state.change({filters})}/>:
+      {drawer==='chat'?chatPane:drawer==='projects'?projectList:drawer==='filters'&&research?<ResearchFilterPanel research={research} disabled={requestBusy} onChange={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})}/>:
         drawer==='selected'?<SelectedProducts products={collection.value?.products??[]} count={collection.value?.selected_ids.length??0} busy={collection.busy||creatingPresentation}
           error={collection.error||error} onRetry={collection.error?collection.retry:undefined}
           onRemove={collection.remove} onDetails={setDetails} onClear={()=>void collection.clear()} onCreate={()=>void createPresentation()}/>:null}</Sheet>}

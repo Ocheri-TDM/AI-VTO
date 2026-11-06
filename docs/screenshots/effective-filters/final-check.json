@@ -1,0 +1,16 @@
+{
+  "exact_deleted_resources_absent": true,
+  "health": {
+    "http://127.0.0.1:8000/api/health": 200,
+    "http://127.0.0.1:3000/": 200,
+    "http://127.0.0.1:3000/api/health": 200
+  },
+  "listening_ports": {
+    "11434": 19032,
+    "55432": 3120,
+    "3000": 14268,
+    "8000": 7540
+  },
+  "catalog_unchanged": true,
+  "no_edge_debug_listener": true
+}

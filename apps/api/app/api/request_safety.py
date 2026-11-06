@@ -121,7 +121,7 @@ class RequestBoundary:
         started = False
         is_search = scope["path"].startswith(("/api/projects", "/api/researches", "/api/chats"))
         body_limit = (
-            262144 if scope["path"].startswith("/api/presentations") else self.settings.search_json_max_bytes
+            262144 if scope["path"].startswith(("/api/presentations", "/api/offers")) else self.settings.search_json_max_bytes
         )
         token = search_transaction.set(is_search)
 

@@ -1,0 +1,35 @@
+{
+  "checks": [
+    {
+      "check": "exact disposable owner",
+      "status": "PASS"
+    },
+    {
+      "check": "real PostgreSQL simultaneous CAS 200/409",
+      "status": "PASS"
+    },
+    {
+      "check": "double publish both accepted",
+      "status": "PASS"
+    },
+    {
+      "check": "double publish single durable revision",
+      "status": "PASS"
+    },
+    {
+      "check": "worker cannot undo revoke",
+      "status": "PASS"
+    },
+    {
+      "check": "stale idempotent replay cannot resurrect link",
+      "status": "PASS"
+    },
+    {
+      "check": "catalog preserved during concurrent exports",
+      "status": "PASS"
+    }
+  ],
+  "local_only": true,
+  "external_https": "NOT TESTED",
+  "reference_pdf_xlsx": "NOT VERIFIED"
+}

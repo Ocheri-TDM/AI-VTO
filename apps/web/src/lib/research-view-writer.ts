@@ -1,8 +1,8 @@
-import type { BranchAction, Research, ResearchFilters } from './research';
+import type { BranchAction, EffectiveEdit, Research, ResearchFilters } from './research';
 
-export type ViewMutation = {filters?:ResearchFilters;selected_ids?:string[];sorting?:string;restore?:'undo'|'reset';branch_actions?:BranchAction[]};
+export type ViewMutation = {filters?:ResearchFilters;effective_changes?:EffectiveEdit[];selected_ids?:string[];sorting?:string;restore?:'undo'|'reset';branch_actions?:BranchAction[]};
 function merge(left:ViewMutation|null,right:ViewMutation):ViewMutation {
-  return {...left,...right,...(left?.branch_actions||right.branch_actions?{branch_actions:[...(left?.branch_actions??[]),...(right.branch_actions??[])]}:{})};
+  return {...left,...right,...(left?.branch_actions||right.branch_actions?{branch_actions:[...(left?.branch_actions??[]),...(right.branch_actions??[])]}:{}),...(left?.effective_changes||right.effective_changes?{effective_changes:[...(left?.effective_changes??[]),...(right.effective_changes??[])]}:{})};
 }
 
 export function draftResearch(base:Research, draft:ViewMutation, previous:Research=base):Research {

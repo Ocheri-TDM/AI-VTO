@@ -1,0 +1,103 @@
+{
+  "checks": [
+    {
+      "check": "collection to editor real primary button",
+      "status": "PASS"
+    },
+    {
+      "check": "browser quantities 250/100/1",
+      "status": "PASS"
+    },
+    {
+      "check": "manual decimal autosave and F5",
+      "status": "PASS"
+    },
+    {
+      "check": "editor preview no item inputs",
+      "status": "PASS"
+    },
+    {
+      "check": "reorder real controls",
+      "status": "PASS"
+    },
+    {
+      "check": "real safe logo and asynchronous banner uploads",
+      "status": "PASS"
+    },
+    {
+      "check": "local-only link label",
+      "status": "PASS"
+    },
+    {
+      "check": "incognito auth401 and public200",
+      "status": "PASS"
+    },
+    {
+      "check": "public no edit/chat/project controls",
+      "status": "PASS"
+    },
+    {
+      "check": "public calculation matches",
+      "status": "PASS"
+    },
+    {
+      "check": "visitor theme independent current",
+      "status": "PASS"
+    },
+    {
+      "check": "visitor theme independent pulse",
+      "status": "PASS"
+    },
+    {
+      "check": "mobile no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "print actions hidden",
+      "status": "PASS"
+    },
+    {
+      "check": "real browser download matches pdf",
+      "status": "PASS"
+    },
+    {
+      "check": "real browser download matches xlsx",
+      "status": "PASS"
+    },
+    {
+      "check": "stale manager save rejected",
+      "status": "PASS"
+    },
+    {
+      "check": "stale public download visible409",
+      "status": "PASS"
+    },
+    {
+      "check": "revoked link browser unavailable",
+      "status": "PASS"
+    },
+    {
+      "check": "rotated link browser works",
+      "status": "PASS"
+    },
+    {
+      "check": "exclude affects private document only",
+      "status": "PASS"
+    },
+    {
+      "check": "archived legacy editor and real preview remain accessible",
+      "status": "PASS"
+    },
+    {
+      "check": "gallery selection UI fixture same variant",
+      "status": "PASS"
+    },
+    {
+      "check": "full description expansion UI fixture",
+      "status": "PASS"
+    }
+  ],
+  "browser": "Edg/156.0.4314.58",
+  "native_excel": "NOT TESTED",
+  "xlsx_visual": "actual workbook values and embedded images read with openpyxl and displayed in Edge; not native Excel"
+}

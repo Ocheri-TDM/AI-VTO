@@ -2,10 +2,49 @@
 
 import re
 import unicodedata
+from dataclasses import dataclass
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from app.domain.services import ColorNormalizer
+
+
+@dataclass(frozen=True)
+class ColorSpan:
+    start: int
+    end: int
+    color: str
+    text: str
+    role: str = "COLOR"
+
+
+def color_spans(query):
+    """Match complete attribute phrases, retaining offsets in the source text.
+
+    Query typography is normalized without changing the supplier shade table.
+    Specific phrases consume their whole span before general color words.
+    """
+    normalized, offsets = [], []
+    for n, char in enumerate(query):
+        for c in unicodedata.normalize("NFKC", char).casefold().replace("ё", "е"):
+            c = "-" if c in "‐‑‒–—−" else " " if c.isspace() else c
+            if c == " " and normalized and normalized[-1] == " ":
+                offsets[-1] = (offsets[-1][0], n + 1)
+                continue
+            normalized.append(c)
+            offsets.append((n, n + 1))
+    text = "".join(normalized)
+    found = []
+    occupied = []
+    for group, pattern in ColorNormalizer.patterns:
+        for match in re.finditer(pattern, text):
+            if any(match.start() < b and match.end() > a for a, b in occupied):
+                continue
+            occupied.append(match.span())
+            start, end = offsets[match.start()][0], offsets[match.end() - 1][1]
+            found.append(ColorSpan(start, end, group.value, query[start:end]))
+    return sorted(found, key=lambda span: span.start)
+
 
 MATERIAL_ALIASES = {
     "METAL": ["металл", "сталь", "алюмин", "metal", "steel"],
@@ -189,7 +228,14 @@ def parse_constraints(query):
         if materials or colors or allowed or soft:
             spans.append((marker.start(), end))
             hard_text = hard_text[: marker.start()] + " " * (end - marker.start()) + hard_text[end:]
-    value.colors = [c.value for c in ColorNormalizer().extract(hard_text)]
+    matched_colors = color_spans(hard_text)
+    value.colors = list(dict.fromkeys(span.color for span in matched_colors))
+    # The residual model parser must never reuse a fragment of an attribute.
+    spans.extend((span.start, span.end) for span in matched_colors)
+    if len(value.colors) > 1 and re.search(r"\bодновременно\b|\bтолько\b.+\bи\s+только\b", hard_text, re.I):
+        raise ValueError(
+            "Указаны несовместимые обязательные цвета. Уточните цвет или разрешите альтернативы."
+        )
     for match in re.finditer(r"\b(?:(?:только|есть)\s+)?в\s+наличии\b|\bin\s+stock\b", hard_text, re.I):
         value.availability_only = True
         consume(match)

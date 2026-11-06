@@ -1,0 +1,207 @@
+{
+  "checks": [
+    {
+      "check": "exact disposable owner",
+      "status": "PASS"
+    },
+    {
+      "check": "quantity from 3 searches",
+      "status": "PASS"
+    },
+    {
+      "check": "SKU and exact source prices",
+      "status": "PASS"
+    },
+    {
+      "check": "Decimal example",
+      "status": "PASS"
+    },
+    {
+      "check": "unpublished private",
+      "status": "PASS"
+    },
+    {
+      "check": "guest cannot edit",
+      "status": "PASS"
+    },
+    {
+      "check": "other user denied editor",
+      "status": "PASS"
+    },
+    {
+      "check": "other user denied save",
+      "status": "PASS"
+    },
+    {
+      "check": "private exports create no link",
+      "status": "PASS"
+    },
+    {
+      "check": "ready export published without duplicate render",
+      "status": "PASS"
+    },
+    {
+      "check": "published quantity and calculation",
+      "status": "PASS"
+    },
+    {
+      "check": "readonly method",
+      "status": "PASS"
+    },
+    {
+      "check": "no public storage namespace",
+      "status": "PASS"
+    },
+    {
+      "check": "allowlisted client DTO",
+      "status": "PASS"
+    },
+    {
+      "check": "PDF real SKUs",
+      "status": "PASS"
+    },
+    {
+      "check": "XLSX SKU text/order",
+      "status": "PASS"
+    },
+    {
+      "check": "XLSX cached numeric calculations",
+      "status": "PASS"
+    },
+    {
+      "check": "XLSX locked/no external",
+      "status": "PASS"
+    },
+    {
+      "check": "XLSX actual thumbnails",
+      "status": "PASS"
+    },
+    {
+      "check": "no total rows",
+      "status": "PASS"
+    },
+    {
+      "check": "draft save does not change publication",
+      "status": "PASS"
+    },
+    {
+      "check": "pending update retains prior version",
+      "status": "PASS"
+    },
+    {
+      "check": "same URL publishes updated snapshot",
+      "status": "PASS"
+    },
+    {
+      "check": "stale download pin rejected",
+      "status": "PASS"
+    },
+    {
+      "check": "revoked scope 24",
+      "status": "PASS"
+    },
+    {
+      "check": "revoked scope 25",
+      "status": "PASS"
+    },
+    {
+      "check": "revoked scope 26",
+      "status": "PASS"
+    },
+    {
+      "check": "revoked scope 27",
+      "status": "PASS"
+    },
+    {
+      "check": "revoked scope 28",
+      "status": "PASS"
+    },
+    {
+      "check": "rotation kills previous key",
+      "status": "PASS"
+    },
+    {
+      "check": "catalog identity unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "collection unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "legacy archived renderer still generates",
+      "status": "PASS"
+    },
+    {
+      "check": "legacy owner PDF download",
+      "status": "PASS"
+    },
+    {
+      "check": "legacy guest denied",
+      "status": "PASS"
+    }
+  ],
+  "local_only": true,
+  "external_https": "NOT TESTED",
+  "reference_pdf_xlsx": "NOT VERIFIED",
+  "private_export_seconds": 2.89,
+  "pdf_pages": 4,
+  "worker": {
+    "timings": {
+      "pdf": 0.512,
+      "xlsx": 0.127,
+      "total": 1.75,
+      "assets": 0.9,
+      "preview": 0.178
+    },
+    "peak_rss_bytes": 80281600,
+    "snapshot_hash": "df947ec15cc1d3bec51e02faefac7a029f28ce36a7315d061ebb0b5e762a56fd"
+  },
+  "selections": [
+    {
+      "query": "ручки от 250 шт",
+      "offer_id": "vto:1934569",
+      "research_id": "128980cd-46ea-4fb9-92e9-c59374191346",
+      "seconds": 1.297
+    },
+    {
+      "query": "рюкзаки от 100 шт",
+      "offer_id": "vto:1823109",
+      "research_id": "0d9525cc-0dba-4b57-a977-3531a9c0e706",
+      "seconds": 1.04
+    },
+    {
+      "query": "бутылки",
+      "offer_id": "vto:1883738",
+      "research_id": "d0d9cae9-b8d0-4cc7-ab72-b82576dd3f39",
+      "seconds": 1.121
+    }
+  ],
+  "initial_items": [
+    {
+      "offer_id": "vto:1934569",
+      "sku": "HG-40404/30",
+      "quantity": 250,
+      "catalog_price": "1034.00",
+      "availability": "В наличии"
+    },
+    {
+      "offer_id": "vto:1823109",
+      "sku": "GF-12449.40",
+      "quantity": 100,
+      "catalog_price": "2084.00",
+      "availability": "В наличии"
+    },
+    {
+      "offer_id": "vto:1883738",
+      "sku": "HG-40331/08",
+      "quantity": 1,
+      "catalog_price": "1623.00",
+      "availability": "Нет в наличии"
+    }
+  ],
+  "files": {
+    "pdf_sha256": "fb52ccd8f1b7d110a9c18170cb6e83c019decfe4a2a6cfb221c350ce1f8fd3bf",
+    "xlsx_sha256": "e6ed921801e3eefcc735a9951bc53ab82c9c11584a0f4ecca66909a4ef9f263b"
+  }
+}

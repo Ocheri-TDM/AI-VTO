@@ -1,0 +1,10 @@
+{
+  "time": "2026-11-05T12:18:58.823492+00:00",
+  "removed_task_artifacts": [
+    "geist-official-v1.9.1.zip",
+    "geist-font-audit-tools",
+    "geist-tests.log",
+    "geist-dev.log"
+  ],
+  "kept": "Permanent checks, screenshots/evidence, active frontend logs, application cache and data"
+}

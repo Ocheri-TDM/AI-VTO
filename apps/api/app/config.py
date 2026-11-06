@@ -77,6 +77,7 @@ class Settings(BaseSettings):
     )
     presentation_storage: Path = ROOT / ".local" / "presentations"
     presentation_worker_enabled: bool = True
+    public_frontend_origin: str | None = None
     presentation_timeout_seconds: int = Field(default=300, ge=30, le=1800)
     presentation_queue_limit: int = Field(default=12, ge=1, le=50)
     presentation_design_timeout_seconds: int = Field(default=25, ge=1, le=60)

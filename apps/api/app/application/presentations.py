@@ -7,7 +7,7 @@ import re
 import subprocess
 import sys
 import time
-from contextlib import suppress
+from contextlib import nullcontext, suppress
 from datetime import timedelta
 from uuid import uuid4
 
@@ -198,7 +198,14 @@ class PresentationService(PresentationMaterials):
             rows = (
                 await db.scalars(
                     select(Document)
-                    .where(Document.project_id == project, Document.user_id == user)
+                    .where(
+                        Document.project_id == project,
+                        Document.user_id == user,
+                        or_(
+                            Document.draft["kind"].as_string().is_(None),
+                            Document.draft["kind"].as_string() != "COMMERCIAL_OFFER",
+                        ),
+                    )
                     .order_by(Document.updated_at.desc())
                 )
             ).all()
@@ -332,7 +339,10 @@ class PresentationService(PresentationMaterials):
         return await self.get(identifier, user)
 
     async def replace_draft(self, row, version, draft):
-        async with self.sessions.begin() as db:
+        # SQLite ignores FOR UPDATE. Keep the same CAS contract in isolated
+        # regression/local databases; PostgreSQL retains its row-level lock.
+        lock = self.local_lock if self.sessions.kw["bind"].dialect.name == "sqlite" else nullcontext()
+        async with lock, self.sessions.begin() as db:
             current = await db.scalar(select(Document).where(Document.id == row.id).with_for_update())
             if current is None or current.version != version:
                 raise ValueError("STATE_CONFLICT")
@@ -346,6 +356,13 @@ class PresentationService(PresentationMaterials):
                 previous = originals.get(item["offer_id"], {})
                 if item.get("snapshot_id") == previous.get("snapshot_id") and not item.get("original_key"):
                     item["original_key"] = previous.get("original_key")
+                by_photo = {p["id"]: p for p in previous.get("photos", [])}
+                for photo in item.get("photos", []):
+                    old_photo = by_photo.get(photo["id"], {})
+                    if old_photo.get("source_url") == photo.get("source_url"):
+                        for field in ("original_key", "cached_key", "source_hash"):
+                            if not photo.get(field) and old_photo.get(field):
+                                photo[field] = old_photo[field]
             result = await db.execute(
                 update(Document)
                 .where(Document.id == row.id, Document.version == version)
@@ -500,19 +517,7 @@ class PresentationService(PresentationMaterials):
             )
             if active:
                 return self.revision_view(active)
-            queued = await db.scalar(
-                select(func.count()).select_from(Revision).where(Revision.status.in_(ACTIVE))
-            )
-            if queued >= self.settings.presentation_queue_limit:
-                raise ValueError("QUEUE_FULL")
-            owned_count = await db.scalar(
-                select(func.count())
-                .select_from(Revision)
-                .join(Document)
-                .where(Document.user_id == user, Revision.status.in_(ACTIVE))
-            )
-            if owned_count >= 2:
-                raise ValueError("QUEUE_FULL")
+            await self.queue_capacity(db, user)
             if old:
                 if old.attempts >= 2:
                     raise ValueError("Лимит повторов исчерпан. Измените черновик перед новой генерацией.")
@@ -582,6 +587,114 @@ class PresentationService(PresentationMaterials):
             return await db.scalar(
                 select(Revision).where(Revision.id == revision, Revision.document_id == identifier)
             )
+
+    async def queue_capacity(self, db, user):
+        queued = await db.scalar(
+            select(func.count()).select_from(Revision).where(Revision.status.in_(ACTIVE))
+        )
+        owned = await db.scalar(
+            select(func.count())
+            .select_from(Revision)
+            .join(Document)
+            .where(Document.user_id == user, Revision.status.in_(ACTIVE))
+        )
+        if queued >= self.settings.presentation_queue_limit or owned >= 2:
+            raise ValueError("QUEUE_FULL")
+
+    async def enqueue_offer(
+        self, identifier, user, version, request_id, payload, vault, *, publish=True, expected_epoch=0
+    ):
+        """Same queue/claims/resource limits, with an explicit commercial kind."""
+        from app.database.models import CommercialOfferShare as Share
+        from app.domain.commercial_offer import KIND
+
+        async with self.local_lock, self.sessions.begin() as db:
+            if db.bind.dialect.name == "postgresql":
+                await db.execute(text("SELECT pg_advisory_xact_lock(hashtext('presentation-enqueue'))"))
+            row = await db.scalar(
+                select(Document).where(Document.id == identifier, Document.user_id == user).with_for_update()
+            )
+            if not row or row.draft.get("kind") != KIND:
+                return None
+            share = await db.get(Share, identifier, with_for_update=True)
+            old = await db.scalar(
+                select(Revision).where(
+                    Revision.document_id == identifier,
+                    Revision.input["kind"].as_string() == KIND,
+                    Revision.input["generation_request_id"].as_string() == request_id,
+                )
+            )
+            if old and bool(old.input.get("publication_requested", True)) != publish:
+                raise ValueError("STATE_CONFLICT")
+            if old and old.status != "FAILED":
+                return old.id
+            if row.version != version and not old:
+                raise ValueError("STATE_CONFLICT")
+            if publish:
+                if share and share.epoch != expected_epoch:
+                    raise ValueError("STATE_CONFLICT")
+                if share is None:
+                    _, digest, encrypted = vault.create()
+                    share = Share(
+                        document_id=identifier,
+                        token_hash=digest,
+                        encrypted_token=encrypted,
+                        active=False,
+                        epoch=0,
+                    )
+                    db.add(share)
+                    await db.flush()
+            ready = await db.scalar(
+                select(Revision)
+                .where(
+                    Revision.document_id == identifier,
+                    Revision.source_version == version,
+                    Revision.input["kind"].as_string() == KIND,
+                    Revision.status == "READY",
+                )
+                .order_by(Revision.created_at.desc())
+            )
+            if ready:
+                if publish:
+                    share.published_revision_id, share.pending_revision_id, share.active = (
+                        ready.id,
+                        None,
+                        True,
+                    )
+                    share.updated_at = utcnow()
+                return ready.id
+            active = await db.scalar(
+                select(Revision).where(Revision.document_id == identifier, Revision.status.in_(ACTIVE))
+            )
+            if active:
+                if active.input.get("kind") == KIND and active.source_version == version:
+                    if publish:
+                        share.pending_revision_id = active.id
+                    return active.id
+                raise ValueError("Дождитесь завершения подготовки текущей версии")
+            await self.queue_capacity(db, user)
+            if old:
+                if old.attempts >= 2 or publish and old.input.get("publication_epoch") != share.epoch:
+                    raise ValueError("Повтор этой операции больше недоступен. Создайте новую публикацию.")
+                old.status, old.error, old.claim = "QUEUED", None, None
+                revision = old
+            else:
+                revision = Revision(
+                    document_id=identifier,
+                    source_version=version,
+                    input=payload
+                    | {
+                        "generation_request_id": request_id,
+                        "publication_epoch": share.epoch if publish else None,
+                        "publication_requested": publish,
+                    },
+                )
+                db.add(revision)
+                await db.flush()
+            if publish:
+                share.pending_revision_id = revision.id
+                share.updated_at = utcnow()
+            return revision.id
 
     async def cancel(self, identifier, revision, user):
         if not await self.revision(identifier, revision, user):
@@ -671,13 +784,28 @@ class PresentationService(PresentationMaterials):
 
     async def publish(self, revision, status, **kwargs):
         async with self.sessions.begin() as db:
-            await db.execute(
+            if revision.input.get("kind") == "COMMERCIAL_OFFER":
+                await db.scalar(select(Document).where(Document.id == revision.document_id).with_for_update())
+            changed = await db.execute(
                 update(Revision)
                 .where(
                     Revision.id == revision.id, Revision.claim == revision.claim, Revision.status.in_(ACTIVE)
                 )
                 .values(status=status, updated_at=utcnow(), **kwargs)
             )
+            if (
+                changed.rowcount == 1
+                and status == "READY"
+                and revision.input.get("kind") == "COMMERCIAL_OFFER"
+            ):
+                from app.database.models import CommercialOfferShare as Share
+
+                share = await db.get(Share, revision.document_id, with_for_update=True)
+                if share and share.pending_revision_id == revision.id:
+                    share.published_revision_id = revision.id
+                    share.pending_revision_id = None
+                    share.active = True
+                    share.updated_at = utcnow()
 
     async def loop(self):
         while True:
@@ -833,6 +961,9 @@ class PresentationService(PresentationMaterials):
             result["peak_rss_bytes"] = peak
             if row.input.get("kind") == MATERIAL_JOB:
                 await self.finish_material(row, result)
+            elif row.input.get("kind") == "COMMERCIAL_OFFER":
+                await self.freeze_offer_assets(row, result)
+                await self.publish(row, result["status"], result=result, error=None, lease_until=None)
             else:
                 await self.freeze_assets(row, result)
                 await self.publish(row, result["status"], result=result, error=None, lease_until=None)
@@ -879,6 +1010,20 @@ class PresentationService(PresentationMaterials):
                 reader.cancel()
                 with suppress(asyncio.CancelledError):
                     await reader
+
+    async def freeze_offer_assets(self, revision, result):
+        async with self.sessions.begin() as db:
+            document = await db.scalar(
+                select(Document).where(Document.id == revision.document_id).with_for_update()
+            )
+            if not document:
+                return
+            draft = copy.deepcopy(document.draft)
+            for item in draft["items"]:
+                for photo in item.get("photos", []):
+                    if photo["id"] in result.get("photo_original_keys", {}):
+                        photo.update(result["photo_original_keys"][photo["id"]])
+            document.draft = draft
 
     async def freeze_assets(self, revision, result):
         """Keep source bytes across revisions until an explicit source refresh."""

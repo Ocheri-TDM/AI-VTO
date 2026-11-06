@@ -8,5 +8,5 @@ export interface ProjectQuery {
 export const workspaceApi = {
   universal: (project: string, query: string) => request<{mode:'GRID';research:Research}>(`/projects/${project}/requests`,{method:'POST',body:JSON.stringify({query})}),
   queries: (project: string) => request<ProjectQuery[]>(`/projects/${project}/queries`),
-  activate: (project: string, query: string) => request<{research:Research}>(`/projects/${project}/queries/${query}/activate`,{method:'POST'}),
+  activate: (project: string, query: string) => request<{research:Research}>(`/projects/${project}/queries/${query}/activate`,{method:'POST',body:'{}'}),
 };

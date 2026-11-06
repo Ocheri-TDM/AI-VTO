@@ -1,0 +1,80 @@
+{
+  "url": "https://github.com/vercel/geist-font/releases/download/v1.9.1/geist-font-v1.9.1.zip",
+  "archive_bytes": 8823639,
+  "archive_sha256": "f1194047382839bb3ad76a82b43694083cbb56201b2791d420282376fd592506",
+  "fonts": [
+    {
+      "file": "geist-font/Geist/ttf/Geist-Regular.ttf",
+      "bytes": 126048,
+      "sha256": "9ab5743f837ab2ca0339b29ed73d6a42764b427424cfa93c831253ea766c6be3",
+      "family": "Geist",
+      "version": "Version 1.900; ttfautohint (v1.8.4.16-eb64)",
+      "tenge": false,
+      "kazakh": true,
+      "magic": "00010000"
+    },
+    {
+      "file": "geist-font/Geist/otf/Geist-Regular.otf",
+      "bytes": 157508,
+      "sha256": "70b9f64f0726dc9a30346aecf198a0cf50be44d9005b64b2e0b3eac0c744253f",
+      "family": "Geist",
+      "version": "Version 1.900",
+      "tenge": false,
+      "kazakh": true,
+      "magic": "4f54544f"
+    },
+    {
+      "file": "geist-font/Geist/variable/Geist[wght].ttf",
+      "bytes": 169056,
+      "sha256": "30e91bab4fa8ef6a163dca4b71535566e4f3069a7cf1a177c10898b199382f32",
+      "family": "Geist",
+      "version": "Version 1.900",
+      "tenge": false,
+      "kazakh": true,
+      "magic": "00010000"
+    },
+    {
+      "file": "geist-font/Geist/variable/Geist-Italic[wght].ttf",
+      "bytes": 174584,
+      "sha256": "afaffcc946f16743e1aaab56864fc3d80c9be41aff8b02a5b9e6cd54f9661917",
+      "family": "Geist",
+      "version": "Version 1.900",
+      "tenge": false,
+      "kazakh": true,
+      "magic": "00010000"
+    },
+    {
+      "file": "geist-font/Geist/webfonts/Geist-Italic[wght].woff2",
+      "bytes": 72960,
+      "sha256": "898b698bea50b8b656f7b25beed762426b32ef511ec7b391aaf3800362d2453f",
+      "family": "Geist",
+      "version": "Version 1.900",
+      "tenge": false,
+      "kazakh": true,
+      "magic": "774f4632"
+    },
+    {
+      "file": "geist-font/Geist/webfonts/Geist[wght].woff2",
+      "bytes": 69564,
+      "sha256": "426b7334d14e0b1c4021e00249fa26938f3d812e36644a2b58b4ecfae0803bbc",
+      "family": "Geist",
+      "version": "Version 1.900",
+      "tenge": false,
+      "kazakh": true,
+      "magic": "774f4632"
+    },
+    {
+      "file": "geist-font/Geist/webfonts/Geist-Regular.woff2",
+      "bytes": 45224,
+      "sha256": "029d126c54ce16f36a2eb34d11adf3a77bd11401cee02370da9443dafb08a231",
+      "family": "Geist",
+      "version": "Version 1.900; ttfautohint (v1.8.4.16-eb64)",
+      "tenge": false,
+      "kazakh": true,
+      "magic": "774f4632"
+    }
+  ],
+  "licenses": [
+    "geist-font/OFL.txt"
+  ]
+}

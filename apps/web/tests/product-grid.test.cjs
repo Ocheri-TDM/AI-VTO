@@ -69,6 +69,114 @@ const research={intent:{raw_query:'ручки',brands:[],branches:[{label:'ру�
   id:'test-research',products:[],selected_products:[],groups:[],view:{version:2,selected_ids:[],filters:{brands:['molti'],colors:[],materials:[],sizes:[],min_price:null,max_price:5000,minimum_quantity:null,excluded_materials:[],required_terms:[],origins:{brands:'chat'}}},
   facets:{brand:[{value:'molti',label:'Molti',count:12},{value:'other',label:'Other',count:4}]}};
 
+const noEffective={mode:'none',values:[],number:null,exclusive:false};
+const effectiveCommon=(overrides={})=>Object.fromEntries(['brands','colors','materials','sizes','min_price','max_price','minimum_quantity'].map(f=>[f,overrides[f]??noEffective]));
+const commonFields=effectiveCommon({colors:{...noEffective,mode:'common',values:['DARK_BLUE']},minimum_quantity:{...noEffective,mode:'common',number:250}});
+const effectiveResearch={...research,facets:{},intent:{...research.intent,models:[],branches:[{...research.intent.branches[0],colors:['DARK_BLUE'],quantity:250}]},
+  view:{...research.view,filters:{...research.view.filters,brands:[],max_price:null,origins:{}}},effective_filters:{fields:commonFields,branches:[{id:'pen',label:'Ручки',category:'pen',fields:commonFields}]}};
+
+test('effective controls hold real common values at zero facets without duplicate condition pills',()=>{
+  let writes=0;
+  const html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:effectiveResearch,disabled:false,onChange(){writes++;},onEffectiveChange(){writes++;}}));
+  assert.match(html,/class="ui-select-value">Тёмно-синий<\/span>/);
+  assert.match(html,/aria-selected="true"[^>]*>[\s\S]*?Тёмно-синий/);
+  assert.match(html,/Тираж от, шт\.<input[^>]*type="number"[^>]*value="250"/);
+  assert.doesNotMatch(html,/Условия по категориям/);
+  assert.equal(renderToStaticMarkup(React.createElement(ResearchConditions,{research:effectiveResearch})), '');
+  assert.equal(writes,0);assert.equal(effectiveResearch.view.filters.minimum_quantity,null);
+});
+
+test('mixed projection leaves numeric input empty and exposes editable per-branch values inside filters',()=>{
+  const state={...noEffective,mode:'mixed'};
+  const local=(color,number)=>effectiveCommon({colors:{...noEffective,mode:'common',values:[color]},minimum_quantity:{...noEffective,mode:'common',number}});
+  const value={...effectiveResearch,effective_filters:{fields:{...commonFields,colors:state,minimum_quantity:state},branches:[{id:'red',label:'Ручки',category:'pen',fields:local('RED',500)},{id:'blue',label:'Бутылки',category:'bottle',fields:local('BLUE',100)}]}};
+  const html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:value,disabled:false,onChange(){},onEffectiveChange(){}}));
+  assert.match(html,/class="ui-select-value">Разные по категориям/);
+  assert.match(html,/Тираж от, шт\.<input[^>]*value=""/);assert.match(html,/Разный по категориям/);
+  assert.match(html,/<details[^>]*><summary>Условия по категориям/);
+  assert.match(html,/Тираж от, шт\. · Ручки<input[^>]*value="500"/);
+  assert.match(html,/Тираж от, шт\. · Бутылки<input[^>]*value="100"/);
+  assert.match(html,/data-filter-branch="red"/);assert.match(html,/data-filter-branch="blue"/);
+  assert.doesNotMatch(html, /value="Разный по категориям"/);
+});
+
+test('replacement options remain selectable outside the current constrained facets',()=>{
+  const value={...effectiveResearch,effective_filters:{...effectiveResearch.effective_filters,options:{colors:['DARK_BLUE','RED'],brands:['alpha','beta'],materials:['сталь','дерево'],sizes:['A5','A6']}}};
+  const html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:value,disabled:false,onChange(){},onEffectiveChange(){}}));
+  assert.match(html,/aria-selected="false" aria-disabled="false"[^>]*><span class="ui-select-option-text">Красный/);
+  assert.match(html,/class="ui-select-option-text">Красный<\/span><span class="ui-select-check"/);
+  for(const label of ['alpha','beta','сталь','дерево','A5','A6'])assert.ok(html.includes(label));
+  assert.match(html,/aria-selected="true"[^>]*><span class="ui-select-option-text">Тёмно-синий/);
+});
+
+test('effective controls preserve nontrivial requirements, models and exclusions without repeating common fields',()=>{
+  const value={...effectiveResearch,intent:{...effectiveResearch.intent,models:['Tippo'],excluded_materials:['PLASTIC'],excluded_colors:['WHITE']},query_categories:[{id:'pen',label:'Ручки',resolved:true,constraints:{constraints:{capacity_mah:10000,excluded_colors:['WHITE'],availability_only:true,features:['ETERNAL']}}}],
+    effective_filters:{...effectiveResearch.effective_filters,fields:{...commonFields,materials:{...noEffective,mode:'complex',values:['METAL','WOOD'],requirements:[['METAL'],['WOOD']]}}}};
+  const html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:value,disabled:false,onChange(){}}));
+  assert.match(html,/Несколько условий/);assert.match(html,/Одновременно: \(Металл\) и \(Дерево\)/);
+  const conditions=renderToStaticMarkup(React.createElement(ResearchConditions,{research:value}));
+  assert.match(conditions,/Модель: Tippo/);assert.match(conditions,/Без: PLASTIC/);assert.match(conditions,/10000 мАч/);assert.match(conditions,/Без цвета: Белый/);
+  assert.match(conditions,/Только в наличии/);assert.match(conditions,/Вечный пишущий элемент/);assert.equal((conditions.match(/Без цвета: Белый/g)??[]).length,1);
+  assert.doesNotMatch(conditions,/Тёмно-синий|250 шт/);
+  const {hasAdditionalFilters}=load('src/components/research/research-hud.tsx');
+  assert.equal(hasAdditionalFilters(effectiveResearch.view.filters,[{field:'colors',action:'clear'}]),true);
+});
+
+test('effective edits serialize in order and a delayed prior workspace cannot replace fields',async()=>{
+  const {ResearchViewWriter}=load('src/lib/research-view-writer.ts');
+  const calls=[],published=[];
+  const writer=new ResearchViewWriter((id,body)=>new Promise(resolve=>calls.push({id,body,resolve})),async()=>effectiveResearch,
+    (value,pending)=>{if(!pending?.effective_changes?.length)published.push(value);},()=>{},e=>{throw e;});
+  writer.reset(effectiveResearch);
+  writer.enqueue({effective_changes:[{field:'colors',action:'set',values:['RED']}]});
+  writer.enqueue({effective_changes:[{field:'minimum_quantity',action:'set',number:500}]});
+  writer.enqueue({effective_changes:[{field:'colors',action:'clear'}]});
+  calls[0].resolve({...effectiveResearch,view:{...research.view,version:3}});await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(published.length,0);assert.equal(calls[1].body.version,3);
+  assert.deepEqual(calls[1].body.effective_changes,[{field:'minimum_quantity',action:'set',number:500},{field:'colors',action:'clear'}]);
+  const next={...effectiveResearch,id:'new-workspace',effective_filters:{fields:effectiveCommon(),branches:[]}};
+  writer.reset(next);writer.enqueue({effective_changes:[{field:'colors',action:'set',values:['BLUE']}]});
+  calls[1].resolve(effectiveResearch);await new Promise(resolve=>setImmediate(resolve));
+  assert.equal(published.length,0);assert.equal(calls[2].id,'new-workspace');
+  calls[2].resolve(next);await new Promise(resolve=>setImmediate(resolve));assert.equal(published.at(-1).id,'new-workspace');
+});
+
+test('source color remains selected with zero facets without writing an additional filter',()=>{
+  const value={...research,color_state:{mode:'uniform',values:['DARK_BLUE'],source_mode:'uniform',source_values:['DARK_BLUE'],additional_values:[],conflicting_branch_ids:[]},facets:{},view:{...research.view,filters:{...research.view.filters,colors:[]}}};
+  let writes=0;
+  const html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:value,disabled:false,onChange(){writes++;}}));
+  assert.match(html,/class="ui-select-value">Тёмно-синий<\/span>/);
+  assert.match(html,/aria-selected="true"[^>]*>[\s\S]*?Тёмно-синий/);
+  assert.match(html,/Из запроса/);assert.match(html,/цвет не важен/);
+  assert.match(html,/ui-select-count">0<\/span>/);
+  assert.equal((html.match(/class="ui-select-option-text">Тёмно-синий/g)??[]).length,1);
+  assert.equal(writes,0);assert.deepEqual(value.view.filters.colors,[]);
+});
+
+test('mixed source colors and conflicting manual narrowing are explicit in the HUD',()=>{
+  const state={mode:'mixed',values:['RED','BLUE'],source_mode:'mixed',source_values:['RED','BLUE'],additional_values:[],conflicting_branch_ids:[]};
+  let html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:{...research,color_state:state},disabled:false,onChange(){}}));
+  assert.match(html,/class="ui-select-value">Разные по категориям<\/span>/);
+  html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:{...research,color_state:{...state,mode:'conflict',conflicting_branch_ids:['pen']},view:{...research.view,filters:{...research.view.filters,colors:['GREEN']}}},disabled:false,onChange(){}}));
+  assert.match(html,/Дополнительный цвет конфликтует с запросом/);
+  assert.match(html,/class="ui-select-value">Зелёный<\/span>/);
+});
+
+test('condition labels use the same branch identity as query categories',()=>{
+  const value={...research,intent:{...research.intent,branches:[{...research.intent.branches[0],id:'shopper',category:'shopperbag',label:'supplier-merch'}]},query_categories:[{id:'shopper',label:'Сумки-шопперы'}]};
+  const html=renderToStaticMarkup(React.createElement(ResearchConditions,{research:value}));
+  assert.match(html,/Сумки-шопперы: Чёрный/);assert.doesNotMatch(html,/Мерч|supplier-merch/);
+});
+
+test('history activation sends a JSON object accepted by the request validator',async()=>{
+  const {workspaceApi}=load('src/lib/project-queries.ts');
+  const previous=global.fetch;
+  let body;
+  global.fetch=async(url,options)=>{body=JSON.parse(options.body);return {ok:true,status:200,json:async()=>({research})};};
+  try {await workspaceApi.activate('project','query');assert.deepEqual(body,{});}
+  finally {global.fetch=previous;}
+});
+
 test('brand component renders real counts and selected checkbox in the existing panel',()=>{
   const html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research,disabled:false,onChange(){}}));
   assert.match(html,/Molti/);assert.match(html,/12/);assert.match(html,/checked=""/);
@@ -167,14 +275,14 @@ test('selected panel preserves two selected color variants with compact cards an
     primary_image:null,colors:[{normalized_color:color,original_color:color}],availability:{availableNow:1739,incoming:[]},freshness:'STALE'}));
   const html=renderToStaticMarkup(React.createElement(SelectedProducts,{products,count:2,busy:false,onRemove(){},onDetails(){},onClear(){},onCreate(){}}));
   assert.equal((html.match(/class="selected-product"/g)||[]).length,2);
-  assert.match(html,/selected-products-actions/);assert.match(html,/Создать презентацию/);assert.match(html,/Синий|синий/);
+  assert.match(html,/selected-products-actions/);assert.match(html,/Создать предложение/);assert.match(html,/Синий|синий/);
   assert.doesNotMatch(html,/Точное совпадение|Варианты модели|Последний известный остаток|research-match/);
 });
 
 test('empty selection cannot create a document',()=>{
   const {SelectedProducts}=load('src/components/research/selected-products.tsx');
   const html=renderToStaticMarkup(React.createElement(SelectedProducts,{products:[],count:0,busy:false,onRemove(){},onDetails(){},onClear(){},onCreate(){}}));
-  assert.match(html,/disabled="">Создать презентацию/);
+  assert.match(html,/disabled="">Создать предложение/);
 });
 
 const categoryResearch={...research,query_categories:[
@@ -183,14 +291,14 @@ const categoryResearch={...research,query_categories:[
   {id:'empty-branch',concept:'socks',label:'Носки',source_text:'носки',order:2,hidden:false,count:0,resolved:true,constraints:{}}
 ],view:{...research.view,hidden_branch_ids:['bottle-branch']}};
 
-test('query chips use saved branch IDs, accessible actions and full counts even without page products',()=>{
+test('query chips contain only names and accessible actions, retaining branch identity and order',()=>{
   const {QueryCategories}=load('src/components/research/query-categories.tsx');
   const html=renderToStaticMarkup(React.createElement(QueryCategories,{research:categoryResearch,disabled:false,pending:false,onAction(){}}));
   assert.match(html,/Категории запроса/);assert.match(html,/data-branch-id="pen-branch"/);
-  assert.match(html,/126/);assert.match(html,/25/);assert.match(html,/Носки/);
-  assert.match(html,/Скрыта/);assert.match(html,/Показать категорию «Бутылки»/);
+  assert.match(html,/Носки/);assert.match(html,/Показать категорию «Бутылки»/);
   assert.match(html,/Убрать из запроса «Бутылки»/);assert.match(html,/Показать все/);
-  assert.doesNotMatch(html,/disabled=""/);assert.match(html,/Красный/);assert.match(html,/Linear/);
+  assert.doesNotMatch(html,/disabled=""|126|25|<small|Красный|Linear|title="красные ручки|Скрыта/);
+  assert.ok(html.indexOf('pen-branch')<html.indexOf('bottle-branch')&&html.indexOf('bottle-branch')<html.indexOf('empty-branch'));
 });
 
 test('brand-only query and contextual restore have explicit distinct states',()=>{

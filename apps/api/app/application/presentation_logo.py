@@ -11,16 +11,19 @@ from app.application.presentation_assets import safe_path
 
 DEFAULT_LOGO = Path(__file__).resolve().parents[1] / "assets/presentations/251.png"
 DEFAULT_SHA256 = "ede89826aed478c55b79cef412ae06a566d13c75d6a9bdfdbe5ea43b0b6ad290"
+OFFER_LOGO = DEFAULT_LOGO.with_name("VTOlogo.png")
+OFFER_LOGO_SHA256 = "3f95f55895a6741592d41da9624e737039bb9360b8fb65991264d67219f1e06d"
 
 
-def freeze_logo(root, settings):
+def freeze_logo(root, settings, *, default_logo=None, default_sha256=None):
     custom = bool(settings.get("use_logo") and settings.get("logo"))
-    path = safe_path(root, settings["logo"]) if custom else DEFAULT_LOGO
+    default = default_logo or DEFAULT_LOGO
+    path = safe_path(root, settings["logo"]) if custom else default
     try:
         data = path.read_bytes()
         digest = hashlib.sha256(data).hexdigest()
-        if not custom and digest != DEFAULT_SHA256:
-            raise ValueError("Проектный 251.png не соответствует зарегистрированной версии")
+        if not custom and digest != (default_sha256 or DEFAULT_SHA256):
+            raise ValueError(f"Проектный {default.name} не соответствует зарегистрированной версии")
         if len(data) > 12 * 1024 * 1024:
             raise ValueError("Логотип превышает допустимый размер")
         with Image.open(path) as image:
@@ -61,7 +64,7 @@ def freeze_logo(root, settings):
         label = (
             "Активный клиентский логотип повреждён или недоступен. Загрузите исправленный файл."
             if custom
-            else "Проектный логотип 251.png недоступен или повреждён."
+            else f"Проектный логотип {default.name} недоступен или повреждён."
         )
         raise ValueError(label) from exc
 

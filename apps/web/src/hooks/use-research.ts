@@ -17,7 +17,7 @@ export function useResearch(chatId:string|null) {
   const [writer]=useState(()=>new ResearchViewWriter(researchApi.change,researchApi.get,(value,pending,sent)=>{
       const previous=latest.current;
       if(!previous||previous.id!==value.id)return;
-      if(pending?.filters||pending?.branch_actions?.length)return; // Keep a later draft while the serialized writes finish.
+      if(pending?.filters||pending?.branch_actions?.length||pending?.effective_changes?.length)return; // Keep a later draft while the serialized writes finish.
       let next=value;
       if(sent.selected_ids&&Object.keys(sent).length===1){
         next={...value,products:previous.products,groups:previous.groups,next_cursor:previous.next_cursor};

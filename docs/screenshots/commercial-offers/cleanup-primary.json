@@ -1,0 +1,7 @@
+{
+  "catalog_before": {"offers": 6634, "fingerprint": "f49f58947522179478dc4e7ed04dfa92"},
+  "catalog_after": {"offers": 6634, "fingerprint": "f49f58947522179478dc4e7ed04dfa92"},
+  "deleted_user_ids": ["3efce3fb-7d5a-49cf-9ceb-b9d011245c8d", "323ac9d6-a1c1-4999-9d2d-c10eda35fecc"],
+  "deleted_document_ids": ["59257a9f-9db7-4b5b-b352-ac76d3db64b6", "ba84869a-a788-4ed0-9815-468123b13524", "b6c8c199-59af-4563-8bdb-495c306f683f", "ad70794f-cc17-4021-9270-5935738dd29d", "dc8d6265-7bdb-46ea-8f86-e506c0658209", "e88c5125-a665-47e7-be62-758d89ac2d47", "d959767c-6a49-46ce-9d6d-65aa91a43376", "50ab1b01-97d5-456f-8e01-7867bb190310", "d59aea72-099e-48b7-adfa-dcf7c4b88c9a", "4517ab8e-f151-4c33-a8a8-0e2f9bf903fa", "7b4637a7-5683-4276-aacc-3d371cbaa671"],
+  "deleted_project_ids": ["2983c0d9-6c1f-4aca-8403-6ab9195a2b00"]
+}

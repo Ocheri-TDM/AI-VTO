@@ -1,0 +1,28 @@
+{
+  "supplier_offers": 6634,
+  "product_observations": 6634,
+  "availability_observations": 6634,
+  "presentation_documents": 10,
+  "presentation_revisions": 13,
+  "commercial_offer_shares": 0,
+  "disposable_users_remaining": 0,
+  "health": {
+    "http://127.0.0.1:8000/api/health": 200,
+    "http://127.0.0.1:3000": 200,
+    "http://127.0.0.1:3000/api/health": 200
+  },
+  "encryption_key_retained": true,
+  "temporary_ledger_removed": true,
+  "font_build_removed": true,
+  "browser_listener_closed": true,
+  "capabilities_absent_from_public_evidence_and_service_logs": true,
+  "control_export_hashes_match_manifest": true,
+  "backend_result": "585 passed, 1 deselected in 256.72s (0:04:16)",
+  "frontend_tests": 62,
+  "ruff": "PASS",
+  "eslint": "PASS",
+  "typescript": "PASS",
+  "production_build": "PASS",
+  "external_https": "NOT TESTED",
+  "reference_pdf_xlsx": "NOT VERIFIED"
+}

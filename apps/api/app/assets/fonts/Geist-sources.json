@@ -1,0 +1,15 @@
+{
+  "source": "Existing self-hosted Next.js Geist WOFF2 subsets, instantiated and merged offline",
+  "weights": [
+    400,
+    700
+  ],
+  "woff2_sha256": {
+    "53b9e256198e5412.390ncx5urfkfu.woff2": "f689f638f29fff460a2d5749edb5d5c38d7bef0389f32032d871f23fc6ebb008",
+    "7178b3e590c64307.21jp631_3pja2.woff2": "58a6b173d5ca1dec92166ea3c6cb1a84a4144556d10928ac14e8e6b40e4787bd",
+    "8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2": "6129fc8571c3e0cb0a4c41f5160c974a843b055009dc4ad8858bd808e18a2d86",
+    "caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2": "9b6f5ff45b278c744b5f379a2c4ecbaf858a842b8eaf82ac8d21b699ca16c608",
+    "fef07dbb0973bf53.p.3p2_lha1f2xer.woff2": "b7a545bbb08256bd809f11cfe66d88da3e22d169ea4407737b1ef0ec1ed3d791"
+  },
+  "currency_fallback": "Existing Noto Sans for missing glyphs including U+20B8"
+}

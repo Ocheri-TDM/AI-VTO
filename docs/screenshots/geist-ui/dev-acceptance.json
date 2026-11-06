@@ -1,0 +1,39 @@
+{
+  "status": "PASS",
+  "mode": "next dev :3016, installed Edge",
+  "fonts": [
+    {
+      "familyName": "Geist",
+      "postScriptName": "Geist-SemiBold",
+      "isCustomFont": true,
+      "glyphCount": 4
+    }
+  ],
+  "requests": [
+    {
+      "phase": "dev",
+      "request_id": "12720.2",
+      "url": "http://127.0.0.1:3016/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "dev",
+      "request_id": "12720.3",
+      "url": "http://127.0.0.1:3016/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "dev",
+      "request_id": "12720.4",
+      "url": "http://127.0.0.1:3016/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    }
+  ],
+  "runtime_errors": []
+}

@@ -13,7 +13,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from app.api.request_safety import validate_query
 from app.application.availability import ProcurementAvailabilityService
 from app.application.research_analysis import FacetService, ProductGroupingService, current_products, stale
-from app.domain.research import BranchAction, ResearchBudget, ResearchFilters
+from app.domain.research import BranchAction, EffectiveFilterEdit, ResearchBudget, ResearchFilters
 from app.domain.source_urls import validated_product_url
 
 router = APIRouter(prefix="/api/researches", tags=["research"])
@@ -37,6 +37,7 @@ class ChangeResearch(BaseModel):
     collection_version: int | None = Field(default=None, ge=0)
     restore: Literal["undo", "reset"] | None = None
     branch_actions: list[BranchAction] | None = Field(default=None, max_length=100)
+    effective_changes: list[EffectiveFilterEdit] | None = Field(default=None, max_length=100)
 
 
 class ResearchMessage(BaseModel):
@@ -276,7 +277,12 @@ async def change(identifier: UUID, body: ChangeResearch, request: Request):
         if body.selected_ids is not None:
             if body.collection_version is None or body.version != research.view.version:
                 raise ValueError("STATE_CONFLICT")
-            if body.filters is not None or body.sorting is not None or body.restore is not None:
+            if (
+                body.filters is not None
+                or body.sorting is not None
+                or body.restore is not None
+                or body.effective_changes
+            ):
                 raise HTTPException(422, "Сохраняйте фильтры и подборку отдельными операциями.")
             user = getattr(getattr(request.state, "user", None), "id", None)
             projects = await request.app.state.conversations.projects(user)
@@ -305,6 +311,7 @@ async def change(identifier: UUID, body: ChangeResearch, request: Request):
             else {
                 "UNKNOWN_BRANCH": "Категория больше не входит в запрос. Обновите состояние.",
                 "STALE_REMOVAL": "Это действие восстановления больше недоступно. Откройте историю запроса.",
+                "GLOBAL_ADDITIONAL_FILTER": "Общий дополнительный фильтр действует на все категории. Сбросьте его перед изменением одной категории.",
             }.get(str(exc), "Товар отсутствует в исследовании."),
         ) from exc
     return await render(request, value)

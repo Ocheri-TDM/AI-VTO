@@ -31,6 +31,7 @@ from check_palette_browser import Browser
 
 DROPDOWNS = "--dropdowns" in sys.argv
 WORKSPACE_LAYOUT = "--workspace-layout" in sys.argv
+FONT_UI = "--font-ui" in sys.argv
 OUTPUT = (
     ROOT
     / "docs/screenshots"
@@ -44,11 +45,20 @@ OUTPUT = (
 )
 if WORKSPACE_LAYOUT:
     OUTPUT = OUTPUT / ("before" if "--before" in sys.argv else "after")
+if FONT_UI:
+    OUTPUT = (
+        ROOT
+        / "docs/screenshots/geist-ui"
+        / ("before" if "--before" in sys.argv else "after")
+    )
 
 
 class ThemeBrowser(Browser):
     def __init__(self):
         self.errors = []
+        self.font_requests = []
+        self.font_paused = []
+        self.font_phase = "initial"
 
     async def call(self, method, params=None):
         self.number += 1
@@ -58,6 +68,32 @@ class ThemeBrowser(Browser):
         )
         while True:
             event = json.loads(await asyncio.wait_for(self.ws.recv(), 30))
+            if FONT_UI and event.get("method") == "Network.requestWillBeSent":
+                p = event["params"]
+                if (
+                    p.get("type") == "Font"
+                    or "fonts.googleapis.com" in p["request"]["url"]
+                    or "fonts.gstatic.com" in p["request"]["url"]
+                ):
+                    self.font_requests.append(
+                        {
+                            "phase": self.font_phase,
+                            "request_id": p["requestId"],
+                            "url": p["request"]["url"],
+                            "type": p.get("type"),
+                        }
+                    )
+            if FONT_UI and event.get("method") == "Fetch.requestPaused":
+                self.font_paused.append(event["params"]["requestId"])
+            if FONT_UI and event.get("method") == "Network.responseReceived":
+                p = event["params"]
+                for row in reversed(self.font_requests):
+                    if row["request_id"] == p["requestId"]:
+                        row.update(
+                            status=p["response"]["status"],
+                            cache=p["response"].get("fromDiskCache", False),
+                        )
+                        break
             if event.get("method") == "Runtime.exceptionThrown":
                 self.errors.append(str(event["params"].get("exceptionDetails"))[:700])
             if (
@@ -153,7 +189,7 @@ async def main():
             ("bottle", "Бутылка — тестовый товар", 3500, 500, "синий"),
         ]
     ]
-    if DROPDOWNS:
+    if DROPDOWNS or FONT_UI:
         products += [
             Product(
                 id=f"vto:dropdown-demo-{i}",
@@ -177,7 +213,7 @@ async def main():
             )
             for i in range(20)
         ]
-    if WORKSPACE_LAYOUT:
+    if WORKSPACE_LAYOUT or FONT_UI:
         from check_workspace_layout import fixture_products
 
         products += fixture_products()
@@ -219,7 +255,11 @@ async def main():
             result.raise_for_status()
             research = result.json()["research"]
             assert research["matching_count"] == len(products)
-            for offer in ["vto:1823109", "vto:1823108", "vto:theme-pen-long"]:
+            for offer in [
+                "vto:1823109",
+                "vto:1823108",
+                "vto:1823107" if FONT_UI else "vto:theme-pen-long",
+            ]:
                 (
                     await api.post(
                         f"/api/projects/{project['id']}/collection/items",
@@ -323,6 +363,10 @@ async def main():
                         + payload
                     )
                     await writer.drain()
+                except ConnectionError:
+                    # Reload/close can disconnect the disposable browser while
+                    # its response is being written. Upstream errors still fail.
+                    pass
                 finally:
                     writer.close()
                     with suppress(ConnectionError):
@@ -488,6 +532,21 @@ async def main():
                     },
                 )
 
+            if FONT_UI:
+                from check_geist_ui import exercise
+
+                await exercise(
+                    b,
+                    api,
+                    app,
+                    project,
+                    doc,
+                    image_map,
+                    OUTPUT,
+                    folder.name,
+                    before="--before" in sys.argv,
+                )
+                return
             if WORKSPACE_LAYOUT:
                 from check_workspace_layout import exercise
 
