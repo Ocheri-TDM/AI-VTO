@@ -11,6 +11,7 @@ from sqlalchemy import select, text, update
 
 from app.application.product_grid import brand_key
 from app.database.models import Chat, HardRequestRecord, Message, Project, ProjectQuery
+from app.domain.effective_filters import effective_intent
 from app.domain.models import ColorGroup, utcnow
 from app.domain.query_branches import branch_commands
 from app.domain.query_constraints import parse_constraints
@@ -215,6 +216,9 @@ class ProjectQueryService:
         current = await self.active(project_id, owner)
         if not current or not current.unified:
             return await self.create(project_id, message, owner)
+        # Refinements target what is currently effective, including manual view
+        # edits. The accepted refinement becomes a new intent revision.
+        current.intent = effective_intent(current)
         commands = branch_commands(message, current.intent)
         if commands:
             r = await self.change(
@@ -397,6 +401,8 @@ class ProjectQueryService:
                     for branch in targets:
                         branch.colors = [color.value]
                         branch.origins["colors"] = "chat"
+                    if not categories:
+                        current.intent.colors = [color]
                     filters.colors = []
                     intent_change = True
                     action = "MODIFY_CURRENT"
@@ -417,6 +423,7 @@ class ProjectQueryService:
         if intent_change:
             current.intent.categories = [b.category for b in current.intent.branches]
             changes["intent"] = current.intent
+            changes["clear_effective_overrides"] = True
         r = await self.change(
             project_id,
             current.id,

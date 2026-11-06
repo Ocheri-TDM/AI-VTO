@@ -83,6 +83,9 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     from app.application.presentations import PresentationService
 
     presentations = PresentationService(sessions, settings, research.repository, collections, model)
+    from app.application.commercial_offers import CommercialOfferService
+
+    offers = CommercialOfferService(presentations)
 
     async def publish_index_update(job):
         await research.on_index_update(job)
@@ -153,12 +156,18 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     app.state.query_understanding = query_understanding
     app.state.project_queries = project_queries
     app.state.presentations = presentations
+    app.state.offers = offers
     app.state.collections = collections
     app.state.conversation_router = conversation_router
     app.state.index, app.state.background_index = index, background
     from app.api.request_safety import Admission, RequestBoundary, RequestProblem, problem_response
 
     admission = Admission(settings)
+    app.state.offer_public_admission = Admission(
+        settings.model_copy(
+            update={"search_concurrency": 16, "search_queue_limit": 8, "search_requests_per_minute": 180}
+        )
+    )
     app.state.admission = admission
     app.state.stream_admission = Admission(
         settings.model_copy(update={"search_concurrency": 16, "search_queue_limit": 0})
@@ -184,6 +193,11 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     from app.api.collections import router as collections_router
 
     app.include_router(collections_router)
+    from app.api.commercial_offers import public_router
+    from app.api.commercial_offers import router as offers_router
+
+    app.include_router(offers_router)
+    app.include_router(public_router)
 
     @app.middleware("http")
     async def authenticated_user(request: Request, call_next):
@@ -195,6 +209,7 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
                 "/api/searches",
                 "/api/hard-requests",
                 "/api/presentations",
+                "/api/offers",
             )
         )
         if protected and settings.auth_required:
@@ -217,10 +232,20 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
                     getattr(getattr(request.state, "user", None), "id", None),
                     per_user_limit=4 if request.method == "GET" else 2,
                 ):
-                    return await call_next(request)
+                    response = await call_next(request)
+                    if request.url.path.endswith("/offers"):
+                        from app.api.commercial_offers import PUBLIC_HEADERS
+
+                        response.headers.update(PUBLIC_HEADERS)
+                    return response
             except RequestProblem as exc:
                 return problem_response(exc, getattr(request.state, "trace_id", ""))
-        return await call_next(request)
+        response = await call_next(request)
+        if request.url.path.startswith(("/api/public/offers", "/api/offers")):
+            from app.api.commercial_offers import PUBLIC_HEADERS
+
+            response.headers.update(PUBLIC_HEADERS)
+        return response
 
     app.add_middleware(RequestBoundary, settings=settings)
 

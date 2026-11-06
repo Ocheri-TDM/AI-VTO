@@ -50,6 +50,20 @@ class PresentationRevision(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 
+class CommercialOfferShare(Base):
+    __tablename__ = "commercial_offer_shares"
+    document_id: Mapped[str] = mapped_column(
+        ForeignKey("presentation_documents.id", ondelete="CASCADE"), primary_key=True
+    )
+    token_hash: Mapped[str] = mapped_column(String(64), unique=True, index=True)
+    encrypted_token: Mapped[str] = mapped_column(Text)
+    active: Mapped[bool] = mapped_column(default=False)
+    epoch: Mapped[int] = mapped_column(Integer, default=0)
+    published_revision_id: Mapped[str | None] = mapped_column(ForeignKey("presentation_revisions.id"))
+    pending_revision_id: Mapped[str | None] = mapped_column(ForeignKey("presentation_revisions.id"))
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
 class IndexedProduct(Base):
     __tablename__ = "indexed_products"
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
@@ -288,6 +302,7 @@ class ProjectCollectionItem(Base):
     added_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     source_research_id: Mapped[str | None] = mapped_column(String(36))
     last_known: Mapped[dict] = mapped_column(JsonType, default=dict)
+    selection_context: Mapped[dict] = mapped_column(JsonType, default=dict)
 
 
 class HardRequestRecord(Base):

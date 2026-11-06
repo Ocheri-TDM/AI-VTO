@@ -1,0 +1,15 @@
+{
+  "protected_files": 131,
+  "changed_files": 0,
+  "late_presentation_check": {
+    "presentation_documents": {
+      "count": 10,
+      "fingerprint": "0c4e8004b0cfa69577ccdbee1374a099"
+    },
+    "presentation_revisions": {
+      "count": 13,
+      "fingerprint": "62c90818803c3d271e32616a92729cf0"
+    }
+  },
+  "unchanged_since_late_snapshot": true
+}

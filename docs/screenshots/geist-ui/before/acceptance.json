@@ -1,0 +1,529 @@
+{
+  "run": "site-theme-69bb57152b314e76b20be6b8f5f2f2d4",
+  "status": "BASELINE",
+  "checks": [
+    {
+      "check": "Auth visible",
+      "status": "PASS"
+    },
+    {
+      "check": "Grid and collection visible",
+      "status": "PASS"
+    },
+    {
+      "check": "current material popup",
+      "status": "PASS"
+    },
+    {
+      "check": "current variants",
+      "status": "PASS"
+    },
+    {
+      "check": "current selected",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor preview",
+      "status": "PASS"
+    },
+    {
+      "check": "current palettes",
+      "status": "PASS"
+    },
+    {
+      "check": "current return to grid",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse material popup",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse variants",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse selected",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor preview",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse palettes",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse return to grid",
+      "status": "PASS"
+    }
+  ],
+  "fonts": [
+    {
+      "check": "auth heading",
+      "selector": ".auth-card h1",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "650",
+        "spacing": "-1.25px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-Bold",
+          "isCustomFont": true,
+          "glyphCount": 4
+        }
+      ]
+    },
+    {
+      "check": "current grid heading",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "500",
+        "spacing": "-1.25px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-Medium",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "current product name",
+      "selector": ".research-main .product-name",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current price",
+      "selector": ".research-main .product-meta strong",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "650",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-Bold",
+          "isCustomFont": true,
+          "glyphCount": 6
+        },
+        {
+          "familyName": "Segoe UI",
+          "postScriptName": "SegoeUI-Bold",
+          "isCustomFont": false,
+          "glyphCount": 1
+        }
+      ]
+    },
+    {
+      "check": "current project title",
+      "selector": ".research-projects .project-item strong",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 83
+        }
+      ]
+    },
+    {
+      "check": "current dropdown",
+      "selector": ".ui-select-popup:popover-open .ui-select-option-text",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight",
+          "isCustomFont": true,
+          "glyphCount": 72
+        }
+      ]
+    },
+    {
+      "check": "current drawer heading",
+      "selector": ".model-variants-sheet h2",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "-0.5px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "current selected heading",
+      "selector": ".selected-products-sheet h2",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "-0.5px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "current editor",
+      "selector": ".presentation-workspace h1",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "500",
+        "spacing": "-1.25px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-Medium",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current palette dialog",
+      "selector": ".palette-dialog-body h2",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse grid heading",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "500",
+        "spacing": "-1.25px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-Medium",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "pulse product name",
+      "selector": ".research-main .product-name",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse price",
+      "selector": ".research-main .product-meta strong",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "650",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-Bold",
+          "isCustomFont": true,
+          "glyphCount": 6
+        },
+        {
+          "familyName": "Segoe UI",
+          "postScriptName": "SegoeUI-Bold",
+          "isCustomFont": false,
+          "glyphCount": 1
+        }
+      ]
+    },
+    {
+      "check": "pulse project title",
+      "selector": ".research-projects .project-item strong",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 83
+        }
+      ]
+    },
+    {
+      "check": "pulse dropdown",
+      "selector": ".ui-select-popup:popover-open .ui-select-option-text",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight",
+          "isCustomFont": true,
+          "glyphCount": 72
+        }
+      ]
+    },
+    {
+      "check": "pulse drawer heading",
+      "selector": ".model-variants-sheet h2",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "-0.5px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "pulse selected heading",
+      "selector": ".selected-products-sheet h2",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "-0.5px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "pulse editor",
+      "selector": ".presentation-workspace h1",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "500",
+        "spacing": "-1.25px",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-Medium",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse palette dialog",
+      "selector": ".palette-dialog-body h2",
+      "css": {
+        "family": "Manrope, \"Segoe UI\", sans-serif",
+        "weight": "550",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Manrope ExtraLight",
+          "postScriptName": "Manrope-ExtraLight-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    }
+  ],
+  "geometry": [
+    {
+      "theme": "current",
+      "settings": 32,
+      "offsetY": 0
+    },
+    {
+      "theme": "current",
+      "drawer": 880,
+      "columns": "397.5px 397.5px"
+    },
+    {
+      "theme": "pulse",
+      "settings": 32,
+      "offsetY": 0
+    },
+    {
+      "theme": "pulse",
+      "drawer": 880,
+      "columns": "397.5px 397.5px"
+    }
+  ],
+  "network": [
+    {
+      "phase": "initial",
+      "request_id": "25876.21",
+      "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;450;500;550;600;650;700;750;800&display=swap",
+      "type": "Stylesheet"
+    },
+    {
+      "phase": "initial",
+      "request_id": "25876.24",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggOxSuXd.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "25876.28",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggexSg.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "25876.27",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggmxSuXd.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "21828.13",
+      "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;450;500;550;600;650;700;750;800&display=swap",
+      "type": "Stylesheet"
+    },
+    {
+      "phase": "initial",
+      "request_id": "21828.24",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggOxSuXd.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "21828.28",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggexSg.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "21828.27",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggmxSuXd.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "18220.13",
+      "url": "https://fonts.googleapis.com/css2?family=Manrope:wght@400;450;500;550;600;650;700;750;800&display=swap",
+      "type": "Stylesheet"
+    },
+    {
+      "phase": "initial",
+      "request_id": "18220.24",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggOxSuXd.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "18220.28",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggexSg.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "initial",
+      "request_id": "18220.27",
+      "url": "https://fonts.gstatic.com/s/manrope/v23/xn7gYHE41ni1AdIRggmxSuXd.woff2",
+      "type": "Font"
+    }
+  ],
+  "pdf_sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+  "preview_sha256": {
+    "1": "e214e31c891cf6f4e97a92c03e72abab8ceac93c9990f35f149e901cacf7bca7",
+    "2": "4e5b2966df48012164568777157f4527f42436ecca29ebf11478ed7222359c98"
+  },
+  "cleanup": {
+    "disposable_database_removed": true,
+    "test_processes_stopped": true,
+    "main_services_final": [
+      3000,
+      8000,
+      11434,
+      55432
+    ]
+  }
+}

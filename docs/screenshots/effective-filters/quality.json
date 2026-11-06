@@ -1,0 +1,39 @@
+{
+  "backend_profile": {
+    "status": "PASS",
+    "passed": 83,
+    "seconds": 76.78
+  },
+  "new_backend_final": {
+    "status": "PASS",
+    "passed": 18,
+    "seconds": 9.92
+  },
+  "frontend": {
+    "status": "PASS",
+    "passed": 57
+  },
+  "full_backend_runs": [
+    {
+      "status": "FAIL",
+      "passed": 559,
+      "failed": 1,
+      "deselected": 1,
+      "seconds": 310.08
+    },
+    {
+      "status": "FAIL",
+      "passed": 559,
+      "failed": 1,
+      "deselected": 1,
+      "seconds": 408.55
+    }
+  ],
+  "full_backend_failure": "test_title_variation.py::test_duplicate_key_new_generation_and_failed_retry_reuse_frozen_input: 422 project material 251.png unavailable",
+  "isolated_failure_repeat": "PASS",
+  "ruff": "PASS",
+  "eslint": "PASS",
+  "typescript": "PASS",
+  "next_build": "PASS",
+  "diff_check": "PASS"
+}

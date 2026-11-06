@@ -1,0 +1,29 @@
+{
+  "revision_id": "dbc823bb-cd8a-4f1e-b6bd-2b50e1a3d82e",
+  "snapshot_hash": "df947ec15cc1d3bec51e02faefac7a029f28ce36a7315d061ebb0b5e762a56fd",
+  "items": [
+    {
+      "title": "Ручка шариковая VORTEX, с грипом темно-серый/серый, металл, пластик, резина — тёмно-серый",
+      "sku": "HG-40404/30",
+      "unit_price": "1034.00",
+      "quantity": 250,
+      "line_amount": "258500.00"
+    },
+    {
+      "title": "Рюкзак-мешок Melango — синий",
+      "sku": "GF-12449.40",
+      "unit_price": "35224.51",
+      "quantity": 100,
+      "line_amount": "3522451.00"
+    },
+    {
+      "title": "Бутылка для воды FLOW с цветной крышкой, 650 мл; пластик rPET — Прозрачный",
+      "sku": "HG-40331/08",
+      "unit_price": "1623.00",
+      "quantity": 1,
+      "line_amount": "1623.00"
+    }
+  ],
+  "pdf_sha256": "fb52ccd8f1b7d110a9c18170cb6e83c019decfe4a2a6cfb221c350ce1f8fd3bf",
+  "xlsx_sha256": "e6ed921801e3eefcc735a9951bc53ab82c9c11584a0f4ecca66909a4ef9f263b"
+}

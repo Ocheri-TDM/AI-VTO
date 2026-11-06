@@ -1,0 +1,22 @@
+{
+  "supplier_offers": {
+    "count": 6634,
+    "fingerprint": "f1382fd95c4a072f1cb0d17878e92490"
+  },
+  "product_observations": {
+    "count": 6634,
+    "fingerprint": "837d79cc9327a9a7fb326aaf2fde9286"
+  },
+  "availability_observations": {
+    "count": 6634,
+    "fingerprint": "97a56b45e2896ca53a94b9d705eb1c41"
+  },
+  "presentation_documents": {
+    "count": 10,
+    "fingerprint": "0c4e8004b0cfa69577ccdbee1374a099"
+  },
+  "presentation_revisions": {
+    "count": 13,
+    "fingerprint": "62c90818803c3d271e32616a92729cf0"
+  }
+}

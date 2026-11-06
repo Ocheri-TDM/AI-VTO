@@ -1,0 +1,53 @@
+{
+  "measured_at": "2026-11-05T12:19:00.339244+00:00",
+  "font_preloads": 3,
+  "ordinary_font_files": 4,
+  "ordinary_font_bytes": 67980,
+  "build_font_bytes": 75948,
+  "ordinary_files": [
+    "7178b3e590c64307.21jp631_3pja2.woff2",
+    "8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+    "caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+    "fef07dbb0973bf53.p.3p2_lha1f2xer.woff2"
+  ],
+  "runtime_external_font_urls": [],
+  "pdf_assets_dependencies_verified": 131,
+  "antivirus": {
+    "tool": "Microsoft Defender MpCmdRun",
+    "signature": "1.463.134.0",
+    "runtime_font_scan_exit_code": 0,
+    "official_archive_scan_exit_code": 0,
+    "result": "No threats reported; not a guarantee of complete safety"
+  },
+  "edge_checks": 34,
+  "actual_font_records": 123,
+  "changed_fingerprints": [],
+  "main_services_http": {
+    "http://127.0.0.1:8000/api/health": 200,
+    "http://127.0.0.1:3000": 200,
+    "http://127.0.0.1:3000/api/health": 200,
+    "http://127.0.0.1:11434/api/tags": 200
+  },
+  "temporary_ports_closed": true,
+  "network_by_phase": {
+    "blocked": {
+      "intentionally_blocked": 8
+    },
+    "f5": {
+      "cache": 4
+    },
+    "initial": {
+      "wire": 4,
+      "cache": 8
+    },
+    "mobile": {
+      "cache": 4
+    },
+    "restored": {
+      "wire": 4
+    },
+    "slow": {
+      "wire": 4
+    }
+  }
+}

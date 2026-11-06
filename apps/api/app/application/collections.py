@@ -52,6 +52,7 @@ class CollectionService:
                     "added_at": i.added_at.isoformat(),
                     "source_research_id": i.source_research_id,
                     "last_known": i.last_known,
+                    "selection_context": i.selection_context,
                 }
                 for i in items
             ],
@@ -161,6 +162,8 @@ class CollectionService:
             for id in wanted:
                 if id not in known:
                     offer = await db.get(SupplierOffer, id)
+                    from app.domain.selection_quantity import selection_quantity
+                    source_row = await db.get(ResearchRecord, source) if source else None
                     db.add(
                         ProjectCollectionItem(
                             project_id=project,
@@ -168,6 +171,7 @@ class CollectionService:
                             display_order=position,
                             source_research_id=source,
                             last_known=offer.payload,
+                            selection_context=selection_quantity(source_row.payload if source_row else None, id),
                         )
                     )
                     position += 1

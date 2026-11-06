@@ -3,14 +3,24 @@
 from urllib.parse import unquote
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import FileResponse
 
 from app.application.presentation_assets import MAX_BYTES, safe_path
 from app.domain.presentation import Approve, CompositionRefresh, DocumentCreate, DocumentEdit, Generate
 from app.domain.presentation_materials import MaterialRole
 
-router = APIRouter(prefix="/api", tags=["presentations"])
+
+async def legacy_document(request:Request):
+    identifier=request.path_params.get("identifier")
+    if identifier:
+        service,user=context(request)
+        row=await service.owned(str(identifier),user)
+        if row and row.draft.get("kind")=="COMMERCIAL_OFFER":
+            raise HTTPException(404,"Документ не найден")
+
+
+router = APIRouter(prefix="/api", tags=["presentations"],dependencies=[Depends(legacy_document)])
 
 
 def context(request):

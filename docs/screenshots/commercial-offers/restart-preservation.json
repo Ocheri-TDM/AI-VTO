@@ -1,0 +1,65 @@
+{
+  "checks": [
+    {
+      "check": "exact disposable owner",
+      "status": "PASS"
+    },
+    {
+      "check": "recover same link after API restart",
+      "status": "PASS"
+    },
+    {
+      "check": "anonymous link after restart",
+      "status": "PASS"
+    },
+    {
+      "check": "historical assets, PDFs and dependencies preserved",
+      "status": "PASS"
+    },
+    {
+      "check": "product_observations baseline unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "availability_observations baseline unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "presentation_documents baseline unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "presentation_revisions baseline unchanged",
+      "status": "PASS"
+    }
+  ],
+  "old_data": {
+    "product_observations": {
+      "count": 6634,
+      "jsonb": "50580e3d997bf4c6a17380c47b89e209",
+      "row_json": "837d79cc9327a9a7fb326aaf2fde9286"
+    },
+    "availability_observations": {
+      "count": 6634,
+      "jsonb": "653f11f23a6eb44e67c8f6fd1d4ae879",
+      "row_json": "97a56b45e2896ca53a94b9d705eb1c41"
+    },
+    "presentation_documents": {
+      "count": 10,
+      "jsonb": "55a5ee01f9c75041a052ba744e2b8182",
+      "row_json": "0c4e8004b0cfa69577ccdbee1374a099"
+    },
+    "presentation_revisions": {
+      "count": 13,
+      "jsonb": "cc90dddaa02bb132b5c4eb94b67087a0",
+      "row_json": "62c90818803c3d271e32616a92729cf0"
+    }
+  },
+  "protected_files": 127,
+  "intentional_archive_stubs": [
+    "apps/api/app/application/presentation_design.py",
+    "apps/api/app/application/presentation_layouts.py",
+    "apps/api/app/application/presentation_render.py",
+    "apps/api/app/domain/presentation_design.py"
+  ]
+}

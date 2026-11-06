@@ -163,8 +163,42 @@ class ResearchFilters(BaseModel):
         return self
 
 
+class EffectiveFilterEdit(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    field: Literal["colors", "brands", "materials", "sizes", "minimum_quantity", "min_price", "max_price"]
+    action: Literal["set", "clear", "inherit"]
+    branch_id: str | None = Field(default=None, max_length=36)
+    values: list[str] | None = Field(default=None, max_length=200)
+    number: int | float | None = None
+
+    @model_validator(mode="after")
+    def valid_value(self):
+        import math
+
+        numeric = self.field in ("minimum_quantity", "min_price", "max_price")
+        if self.action != "set":
+            if self.values is not None or self.number is not None:
+                raise ValueError("Снятие/наследование не принимает значение.")
+        elif numeric:
+            n = self.number
+            if n is None or isinstance(n, bool) or not math.isfinite(n) or self.values is not None:
+                raise ValueError("Укажите числовое значение.")
+            if self.field == "minimum_quantity":
+                if not 1 <= n <= 10_000_000 or int(n) != n:
+                    raise ValueError("Тираж должен быть целым положительным числом.")
+            elif not 0 <= n <= 1_000_000_000:
+                raise ValueError("Некорректная цена.")
+        elif not self.values or self.number is not None or any(len(v) > 300 for v in self.values):
+            raise ValueError("Выберите значение.")
+        if self.field == "colors" and self.values:
+            for value in self.values:
+                ColorGroup(value)
+        return self
+
+
 class ResearchView(BaseModel):
     filters: ResearchFilters = Field(default_factory=ResearchFilters)
+    effective_overrides: list[EffectiveFilterEdit] = Field(default_factory=list, max_length=100)
     sorting: Literal["relevance", "price_asc", "price_desc"] = "relevance"
     preferences: list[str] = Field(default_factory=list)
     selected_ids: list[str] = Field(default_factory=list)

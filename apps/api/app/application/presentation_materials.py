@@ -37,7 +37,7 @@ class PresentationMaterials:
         if not row:
             return None
         limits = self.material_limits()
-        if row.draft["settings"].get("style") != "premium-dark":
+        if row.draft.get("kind") != "COMMERCIAL_OFFER" and row.draft["settings"].get("style") != "premium-dark":
             raise ValueError("Свои материалы пока поддерживает Premium Dark")
         if not data or len(data) > limits["max_bytes"]:
             raise ValueError("Файл пуст или превышает допустимый размер")

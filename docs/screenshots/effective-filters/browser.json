@@ -1,0 +1,116 @@
+{
+  "status": "PASS",
+  "browser": "Installed Microsoft Edge",
+  "checks": [
+    {
+      "check": "Common controls hold actual DarkBlue and numeric250",
+      "status": "PASS"
+    },
+    {
+      "check": "Four compact names with no conditions or counts",
+      "status": "PASS"
+    },
+    {
+      "check": "No duplicate common pills; collection remains separate",
+      "status": "PASS"
+    },
+    {
+      "check": "Rendered exact saved SupplierOffer IDs",
+      "status": "PASS",
+      "offer_ids": [
+        "vto:1861634",
+        "vto:1904946",
+        "vto:1944515",
+        "vto:1955686",
+        "vto:1955696",
+        "vto:1944316",
+        "vto:1944325",
+        "vto:1957387",
+        "vto:1958015",
+        "vto:1961442",
+        "vto:1949338",
+        "vto:1954159",
+        "vto:1954174"
+      ]
+    },
+    {
+      "check": "Real selected option and active checkmark",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 restores common controls and collection",
+      "status": "PASS"
+    },
+    {
+      "check": "Edits replace effective requirements in actual controls",
+      "status": "PASS"
+    },
+    {
+      "check": "Explicit removal leaves genuinely unconstrained fields",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset restores source fields",
+      "status": "PASS"
+    },
+    {
+      "check": "Zero results keep both controls and all branches",
+      "status": "PASS"
+    },
+    {
+      "check": "Missing facet retains selected DarkBlue",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 preserves hidden branch without losing common projection",
+      "status": "PASS"
+    },
+    {
+      "check": "Show retains stable four branches",
+      "status": "PASS"
+    },
+    {
+      "check": "Mixed numeric field is truly empty, dropdown mixed",
+      "status": "PASS"
+    },
+    {
+      "check": "Editable local real values",
+      "status": "PASS"
+    },
+    {
+      "check": "Local edit preserves other branch and mixed global",
+      "status": "PASS"
+    },
+    {
+      "check": "Remove makes remaining branch common",
+      "status": "PASS"
+    },
+    {
+      "check": "History restores original actual fields",
+      "status": "PASS"
+    },
+    {
+      "check": "Other project has an independent empty collection",
+      "status": "PASS"
+    },
+    {
+      "check": "Reopening project restores fields and selection",
+      "status": "PASS"
+    },
+    {
+      "check": "New standalone search does not retain old state",
+      "status": "PASS"
+    },
+    {
+      "check": "Collection exact IDs and version unchanged",
+      "status": "PASS",
+      "offer_ids": [
+        "vto:1861634"
+      ]
+    },
+    {
+      "check": "Mobile filter sheet holds same numeric value",
+      "status": "PASS"
+    }
+  ]
+}

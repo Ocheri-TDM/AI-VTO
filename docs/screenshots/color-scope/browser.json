@@ -1,0 +1,100 @@
+{
+  "status": "PASS",
+  "browser": "Installed Microsoft Edge",
+  "checks": [
+    {
+      "check": "Source color in actual dropdown",
+      "status": "PASS"
+    },
+    {
+      "check": "All four branch constraints visible",
+      "status": "PASS"
+    },
+    {
+      "check": "No residual model and consistent shopper label",
+      "status": "PASS"
+    },
+    {
+      "check": "Rendered exact SupplierOffer IDs",
+      "status": "PASS",
+      "offer_ids": [
+        "vto:1861634",
+        "vto:1904946",
+        "vto:1944515",
+        "vto:1955686",
+        "vto:1955696",
+        "vto:1944316",
+        "vto:1944325",
+        "vto:1957387",
+        "vto:1958015",
+        "vto:1961442",
+        "vto:1949338",
+        "vto:1954159",
+        "vto:1954174"
+      ]
+    },
+    {
+      "check": "All rendered variants show requested shade",
+      "status": "PASS"
+    },
+    {
+      "check": "Source option selected",
+      "status": "PASS"
+    },
+    {
+      "check": "Hide keeps common shade",
+      "status": "PASS"
+    },
+    {
+      "check": "Hide saved before reload",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 restores hidden branch and collection",
+      "status": "PASS"
+    },
+    {
+      "check": "Show restores four branches",
+      "status": "PASS"
+    },
+    {
+      "check": "Empty pool retains source color",
+      "status": "PASS"
+    },
+    {
+      "check": "Zero facet keeps selected shade",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset preserves query shade",
+      "status": "PASS"
+    },
+    {
+      "check": "Chat replacement updates all four branches",
+      "status": "PASS"
+    },
+    {
+      "check": "Mixed category colors are explicit",
+      "status": "PASS"
+    },
+    {
+      "check": "History restores corrected source plan",
+      "status": "PASS"
+    },
+    {
+      "check": "Explicit removal is reflected in HUD",
+      "status": "PASS"
+    },
+    {
+      "check": "Project collection unchanged",
+      "status": "PASS",
+      "offer_ids": [
+        "vto:1861634"
+      ]
+    },
+    {
+      "check": "Final standalone request restores exact requirement",
+      "status": "PASS"
+    }
+  ]
+}

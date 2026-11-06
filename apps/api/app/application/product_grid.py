@@ -25,8 +25,10 @@ from app.domain.catalog_identity import (
     model_evidence,
     resolve_identity,
 )
+from app.domain.effective_filters import apply_filter_edits, effective_filter_state, effective_intent
 from app.domain.hard_request import deterministic_hard_request
 from app.domain.intent import CATEGORY_TERMS
+from app.domain.models import ColorGroup
 from app.domain.product_purpose import (
     PURPOSE_VERSION,
     identity_inputs,
@@ -34,8 +36,8 @@ from app.domain.product_purpose import (
     query_relation,
     scope_words,
 )
-from app.domain.query_branches import branch_label, source_segments
-from app.domain.query_constraints import MATERIAL_ALIASES, parse_constraints
+from app.domain.query_branches import branch_label, effective_color_state, is_local_override, source_segments
+from app.domain.query_constraints import MATERIAL_ALIASES, color_spans, parse_constraints
 from app.domain.research import ProductBranch, ResearchSession, ResearchView
 from app.domain.taxonomy import QueryVocabulary, UniversalCategoryResolver, terms
 
@@ -391,7 +393,7 @@ class ProductGridMixin:
         else:
             remainder = list(query)
             for _, source, offset in source_segments(
-                query, intent.categories, await brand_registry(self.index.sessions)
+                query, intent.categories, registry, include_overrides=True
             ):
                 start = query.find(source, offset)
                 if start >= 0:
@@ -413,18 +415,35 @@ class ProductGridMixin:
             dict.fromkeys([*intent.excluded_materials, *attributes.excluded_materials])
         )
         intent.soft_terms = list(dict.fromkeys([*intent.soft_terms, *attributes.preferences]))
+        overrides = [
+            (category, source)
+            for category, source, _ in source_segments(
+                query, intent.categories, registry, include_overrides=True
+            )
+            if is_local_override(source)
+        ]
         for branch in intent.branches:
             local = (
                 parse_constraints(resolve_identity(branch.source_text, registry).attribute_query)[0]
                 if len(intent.branches) > 1
                 else attributes
             )
+            for category, source in overrides:
+                if branch.category == category:
+                    override = parse_constraints(resolve_identity(source, registry).attribute_query)[0]
+                    if override.colors:
+                        local.colors = override.colors
+                        branch.origins["colors"] = "local_override: " + source
             merged = global_attributes.model_dump()
             merged.update(
                 {k: v for k, v in local.model_dump().items() if v is not None and v != [] and v is not False}
             )
             branch.constraints = type(attributes).model_validate(merged)
             branch.colors = branch.constraints.colors
+            if branch.colors and "colors" not in branch.origins:
+                branch.origins["colors"] = (
+                    "local: " + branch.source_text if local.colors else "global: " + query
+                )
             if branch.constraints.allow_near_colors:
                 from app.application.research_planner import BLUE_FAMILY
 
@@ -434,6 +453,17 @@ class ProductGridMixin:
             branch.materials = branch.constraints.materials
             branch.min_price = branch.constraints.price_min
             branch.max_price = branch.constraints.price_max
+        intent.query_understanding["color_spans"] = [
+            {
+                "start": span.start,
+                "end": span.end,
+                "text": span.text,
+                "role": span.role,
+                "canonical": span.color,
+            }
+            for span in color_spans(identity.attribute_query)
+        ]
+        intent.query_understanding["color_scope_version"] = "color-scope-v1"
         return intent
 
     def grid_conditions(self, db, intent, branch, registry):
@@ -442,6 +472,10 @@ class ProductGridMixin:
         material = func.coalesce(o.payload["material"].as_string(), "")
         document = func.lower(func.coalesce(o.payload["metadata"]["semantic_document"].as_string(), title))
         conditions = [o.lifecycle != "REMOVED"]
+        if branch.origins.get("effective_brand_conflict"):
+            from sqlalchemy import false
+
+            conditions.append(false())
         if intent.identity_issues:
             from sqlalchemy import false
 
@@ -516,7 +550,11 @@ class ProductGridMixin:
             )
 
         for value in branch.materials:
-            conditions.append(material_match(value))
+            conditions.append(
+                material == value
+                if branch.origins.get("effective_materials") and value not in MATERIAL_ALIASES
+                else material_match(value)
+            )
         for value in intent.excluded_materials:
             conditions.append(not_(material_match(value)))
         constraints = branch.constraints
@@ -611,10 +649,11 @@ class ProductGridMixin:
         if research.intent.identity_version != IDENTITY_VERSION:
             self.grid_apply_identity(research.intent, await self.grid_identity(research.intent.raw_query))
         registry = await brand_registry(self.index.sessions)
+        intent = effective_intent(research)
         pools = []
         funnel = []
         async with self.index.sessions() as db:
-            for branch in research.intent.branches:
+            for branch in intent.branches:
                 stmt = (
                     select(
                         SupplierOffer.id,
@@ -633,14 +672,14 @@ class ProductGridMixin:
                     )
                     .join(ProductObservation, ProductObservation.offer_id == SupplierOffer.id)
                     .join(IndexedProduct, IndexedProduct.id == SupplierOffer.product_id)
-                    .where(*self.grid_conditions(db, research.intent, branch, registry))
+                    .where(*self.grid_conditions(db, intent, branch, registry))
                     .order_by(SupplierOffer.id)
                 )
                 rows = (await db.execute(stmt)).all()
                 accepted = [
                     row for row in rows if identity_purpose(identity_inputs(*row[1:7]), branch)["accepted"]
                 ]
-                models = tuple(research.intent.models + branch.models)
+                models = tuple(intent.models + branch.models)
                 matched = [
                     row[0] for row in accepted if model_evidence(models, row[7], row[1], row[8])["accepted"]
                 ]
@@ -663,7 +702,7 @@ class ProductGridMixin:
                             "max_price": None,
                         }
                     )
-                    probe_intent = research.intent.model_copy(
+                    probe_intent = intent.model_copy(
                         update={
                             "brands": [],
                             "excluded_brands": [],
@@ -695,7 +734,9 @@ class ProductGridMixin:
                     }
                 )
                 if not matched:
-                    funnel[-1].update(await self.grid_empty_diagnostic(db, research.intent, branch, registry))
+                    funnel[-1].update(await self.grid_empty_diagnostic(db, intent, branch, registry))
+        for source, effective in zip(research.intent.branches, intent.branches, strict=True):
+            source.resolved = effective.resolved
         research.branch_offer_ids = pools
         research.indexed_offer_ids = list(dict.fromkeys(id for pool in pools for id in pool))
         research.pool_offer_ids = list(research.indexed_offer_ids)
@@ -885,12 +926,15 @@ class ProductGridMixin:
                 raise ValueError("UNKNOWN_PRODUCT")
             version = r.view.version + 1
             category_version = r.view.category_version
+            previous_overrides = list(r.view.effective_overrides)
+            pool_updated = False
             if changes.get("restore") == "undo" and r.history:
                 previous = r.history.pop()
                 r.view = ResearchView.model_validate(previous["view"])
                 if previous.get("intent"):
                     r.intent = type(r.intent).model_validate(previous["intent"])
                     await self.grid_pool(r)
+                    pool_updated = True
             else:
                 r.history.append(
                     {"view": r.view.model_dump(mode="json"), "intent": r.intent.model_dump(mode="json")}
@@ -905,6 +949,8 @@ class ProductGridMixin:
                         if getattr(f, field) != getattr(r.view.filters, field):
                             f.origins[field] = changes.get("origin", "manual")
                     r.view.filters = f
+                if changes.get("effective_changes"):
+                    apply_filter_edits(r, changes["effective_changes"])
                 if changes.get("sorting"):
                     r.view.sorting = changes["sorting"]
                 if selected is not None:
@@ -929,12 +975,18 @@ class ProductGridMixin:
                                 if outer == "colors":
                                     branch.constraints.allow_near_colors = False
                     r.intent = changes["intent"]
+                    if changes.get("clear_effective_overrides"):
+                        r.view.effective_overrides = []
                     await self.grid_pool(r)
+                    pool_updated = True
                 if changes.get("branch_actions"):
                     if apply_branch_actions(r, changes["branch_actions"]):
                         await self.grid_pool(r)
+                        pool_updated = True
                 if changes.get("preferences") is not None:
                     r.view.preferences = changes["preferences"]
+            if previous_overrides != r.view.effective_overrides and not pool_updated:
+                await self.grid_pool(r)
             r.view.version = version
             r.view.category_version = category_version + int(
                 bool(
@@ -967,12 +1019,24 @@ class ProductGridMixin:
         from app.api.research import product_view
         from app.application.research_analysis import ProductGroupingService
 
+        r = r.model_copy(update={"intent": effective_intent(r)})
+
         started = time.perf_counter()
         registry = await brand_registry(self.index.sessions)
         o, p = SupplierOffer, ProductObservation
         # Scalar projection with bounded purpose excerpts across the snapshot.
         # No Product/availability DTOs are hydrated for totals or facets.
         async with self.index.sessions() as db:
+            # Replacement controls must be able to choose values outside the
+            # current constrained pool. Only distinct public scalar attributes
+            # cross this query; their counts remain the current pool's facets.
+            choices = (
+                await db.execute(
+                    select(o.payload["material"].as_string(), o.payload["metadata"]["size"].as_string())
+                    .where(o.lifecycle != "REMOVED")
+                    .distinct()
+                )
+            ).all()
             branch_conditions = [
                 and_(grid_ids(db, ids), *self.grid_conditions(db, r.intent, branch, registry))
                 for branch, ids in zip(r.intent.branches, r.branch_offer_ids, strict=True)
@@ -1286,6 +1350,16 @@ class ProductGridMixin:
             "chat_id": r.chat_id,
             "intent": r.intent.model_dump(mode="json"),
             "effective_title": effective_title,
+            "color_state": effective_color_state(r.intent, r.view.filters),
+            "effective_filters": {
+                **effective_filter_state(r, r.intent),
+                "options": {
+                    "colors": [str(c) for c in ColorGroup if c != ColorGroup.UNKNOWN],
+                    "brands": list(registry.labels),
+                    "materials": sorted({material for material, _ in choices if material}),
+                    "sizes": sorted({size.upper() for _, size in choices if size}),
+                },
+            },
             "query_categories": [
                 {
                     "id": b.id,

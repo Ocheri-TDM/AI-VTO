@@ -1,0 +1,61 @@
+{
+  "git_reference": "22368447f06764be25cada0c685c444683a756b6",
+  "files": {
+    "apps/api/app/application/presentation_render.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/application/presentation_render.py",
+      "sha256": "ed4c20677652dfb3ee63b151b57dc617fcea6cfd0a5b72789654ba39c5b7efb2"
+    },
+    "apps/api/app/application/presentation_layouts.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/application/presentation_layouts.py",
+      "sha256": "277417ee2a48c7f6cf69631044492250aff6b9e1b2a3e6739f625781286f4266"
+    },
+    "apps/api/app/application/presentation_design.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/application/presentation_design.py",
+      "sha256": "4063d80a884968eef56b7c855801fa670ddd3bc68726222d4ef0a15274469693"
+    },
+    "apps/api/app/application/presentation_decoration.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/application/presentation_decoration.py",
+      "sha256": "698ea5a562823b42b5e8a8418c4094deb4a64ea56984fc9218d4bb896a457d93"
+    },
+    "apps/api/app/application/presentation_contrast.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/application/presentation_contrast.py",
+      "sha256": "ec58890cf994534e17f0dfad235367e7d91e7cfaf5ee683ef6f6dcc55b4c9d91"
+    },
+    "apps/api/app/application/presentation_material_layout.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/application/presentation_material_layout.py",
+      "sha256": "c9019ce6725d6be916ecad71f4844b2a49c19b6c7900470fe034eda03f7add7f"
+    },
+    "apps/api/app/domain/presentation_design.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/domain/presentation_design.py",
+      "sha256": "0af3618f05eecfedd623a73ecdc46b6c45e745353653fe81215ac8cf2d3af82f"
+    },
+    "apps/api/app/domain/presentation_palette.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/domain/presentation_palette.py",
+      "sha256": "34af0f6abbd61db2f88037f80d5d12275539a05e788dfa4476f71af074fc8f04"
+    },
+    "apps/api/app/domain/presentation_composition.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/domain/presentation_composition.py",
+      "sha256": "4f035a1e9ef9869d2cfb501200e4a326edf484b789ce29d4a1a579434915a9b0"
+    },
+    "apps/api/app/domain/presentation_decoration.py": {
+      "archive": "apps/api/app/legacy/presentation_designer/domain/presentation_decoration.py",
+      "sha256": "69091c099d64d69ac859fb35368d8a09f23ccd41b53423141e0fef3f83bf81d5"
+    },
+    "apps/web/src/components/presentations/presentation-workspace.tsx": {
+      "archive": "apps/web/src/legacy/presentation-designer/presentation-workspace.tsx",
+      "sha256": "666e5f6b1ca1c73db3d59d5545cd696a2fb023eaa6a00f09657bed44c2bc75e5"
+    },
+    "apps/web/src/components/presentations/palette-select.tsx": {
+      "archive": "apps/web/src/legacy/presentation-designer/palette-select.tsx",
+      "sha256": "752022378f9bf2aa814b3be6a6721e0da4235d81297964cbf979132fb3cf196c"
+    },
+    "apps/web/src/components/presentations/palette-explorer.tsx": {
+      "archive": "apps/web/src/legacy/presentation-designer/palette-explorer.tsx",
+      "sha256": "a7630978867344d342839585c33b6445d7155bc016234f9e3889683a5e17713a"
+    },
+    "apps/web/src/components/presentations/custom-materials.tsx": {
+      "archive": "apps/web/src/legacy/presentation-designer/custom-materials.tsx",
+      "sha256": "84a02d7bc9924fb5e7b5feebcda674ef85959ce04e8c6c7e4718fc5be02466d3"
+    }
+  }
+}

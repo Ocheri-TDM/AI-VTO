@@ -1,0 +1,19 @@
+{
+  "deleted_exact_project_ids": [
+    "232ec38d-5780-4b00-a5dd-c23cb5007675",
+    "4ddfd484-021a-4167-b3c8-233b7c0cac12",
+    "ee1d7e23-4c46-4790-be95-4120d2c9abab",
+    "0847cdd3-fedb-4f61-9093-716e0fdbb8cf"
+  ],
+  "deleted_exact_user_ids": [
+    "661e82f7-f656-4dc5-ba88-a6d38c12dc05"
+  ],
+  "catalog_after": {
+    "offers": 6634,
+    "fingerprint": "f49f58947522179478dc4e7ed04dfa92"
+  },
+  "catalog_before": {
+    "offers": 5907,
+    "fingerprint": "0af52a9d4c6cf32b1c90df81ad059274"
+  }
+}

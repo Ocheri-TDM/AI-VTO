@@ -12,8 +12,6 @@ def run(input_path):
     from PIL import Image
 
     from app.application.presentation_assets import AssetPreparer, safe_path
-    from app.application.presentation_render import render_document
-    from app.domain.presentation_design import deterministic_plan
 
     payload = json.loads(Path(input_path).read_text("utf-8"))
     root = Path(payload["storage"])
@@ -22,6 +20,16 @@ def run(input_path):
 
     def progress(phase):
         print(json.dumps({"phase": phase}), flush=True)
+
+    if value.get("kind") == "COMMERCIAL_OFFER":
+        from app.application.commercial_exports import render_offer
+
+        result = render_offer(root, value, revision, progress)
+        Path(payload["output"]).write_text(json.dumps(result, ensure_ascii=False), "utf-8")
+        return
+
+    from app.application.presentation_render import render_document
+    from app.domain.presentation_design import deterministic_plan
 
     if value.get("kind") == "PREPARE_MATERIAL":
         from app.application.presentation_assets import prepare_material

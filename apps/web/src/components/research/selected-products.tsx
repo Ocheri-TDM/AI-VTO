@@ -36,6 +36,6 @@ export function SelectedProducts({products,count,busy,onRemove,onDetails,onClear
       </article>)}
     </div>{!count&&<p className="research-empty">Выберите товары в сетке — здесь будут именно выбранные цвета и варианты.</p>}</div>
     <footer className="selected-products-actions"><div><strong>Выбрано: {count}</strong><button className="studio-button" disabled={busy||!count} onClick={onClear}>Очистить выбор</button></div>
-      <button className="studio-button primary" disabled={busy||!count} onClick={onCreate}>Создать презентацию</button></footer>
+      <button className="studio-button primary" disabled={busy||!count} onClick={onCreate}>Создать предложение</button></footer>
   </div>;
 }

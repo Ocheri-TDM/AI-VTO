@@ -1,0 +1,36 @@
+{
+  "time": "2026-11-06T09:26:27.337236+00:00",
+  "remaining_test_users": 0,
+  "remaining_test_projects": 0,
+  "catalog_offers": 6634,
+  "pdf_assets_dependencies_checked": 131,
+  "changed_protected_files": [],
+  "removed_debug_artifacts": [
+    "docs\\screenshots\\color-scope\\browser-failure.png",
+    ".local\\color-component-tests.log"
+  ],
+  "http": {
+    "http://127.0.0.1:3000/": 200,
+    "http://127.0.0.1:8000/api/health": 200,
+    "http://127.0.0.1:3000/api/health": 200,
+    "http://127.0.0.1:11434/api/version": 200
+  },
+  "browser_profile_and_listener_removed": true,
+  "backend_full": {
+    "first": {
+      "passed": 548,
+      "failed": 1,
+      "deselected": 1
+    },
+    "retry_failed_test": "PASS",
+    "final": {
+      "passed": 549,
+      "failed": 0,
+      "deselected": 1,
+      "seconds": 225.63
+    }
+  },
+  "frontend_tests": 52,
+  "http_acceptance_checks": 32,
+  "edge_checks": 19
+}

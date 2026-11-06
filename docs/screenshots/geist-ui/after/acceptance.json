@@ -1,0 +1,2865 @@
+{
+  "run": "site-theme-665ed0db181a4e09b91302c9b6a4f8c3",
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "Auth visible",
+      "status": "PASS"
+    },
+    {
+      "check": "Grid and collection visible",
+      "status": "PASS"
+    },
+    {
+      "check": "current product details",
+      "status": "PASS"
+    },
+    {
+      "check": "current material popup",
+      "status": "PASS"
+    },
+    {
+      "check": "current brand rows keep grid geometry",
+      "status": "PASS"
+    },
+    {
+      "check": "current variants",
+      "status": "PASS"
+    },
+    {
+      "check": "current selected",
+      "status": "PASS"
+    },
+    {
+      "check": "current selection footer does not cover last card",
+      "status": "PASS"
+    },
+    {
+      "check": "current editor preview",
+      "status": "PASS"
+    },
+    {
+      "check": "current palettes",
+      "status": "PASS"
+    },
+    {
+      "check": "current return to grid",
+      "status": "PASS"
+    },
+    {
+      "check": "current real tabular digit widths at 400/500/600/700",
+      "status": "PASS",
+      "widths": [
+        {
+          "weight": "400",
+          "widths": [
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125
+          ]
+        },
+        {
+          "weight": "500",
+          "widths": [
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375
+          ]
+        },
+        {
+          "weight": "600",
+          "widths": [
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875
+          ]
+        },
+        {
+          "weight": "700",
+          "widths": [
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375
+          ]
+        }
+      ]
+    },
+    {
+      "check": "pulse product details",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse material popup",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse brand rows keep grid geometry",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse variants",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse selected",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse selection footer does not cover last card",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse editor preview",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse palettes",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse return to grid",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse real tabular digit widths at 400/500/600/700",
+      "status": "PASS",
+      "widths": [
+        {
+          "weight": "400",
+          "widths": [
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125,
+            19.203125
+          ]
+        },
+        {
+          "weight": "500",
+          "widths": [
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375,
+            19.59375
+          ]
+        },
+        {
+          "weight": "600",
+          "widths": [
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875,
+            19.96875
+          ]
+        },
+        {
+          "weight": "700",
+          "widths": [
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375,
+            20.359375
+          ]
+        }
+      ]
+    },
+    {
+      "check": "Mobile reload preserves Pulse and collection",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile has no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "Current mobile has no horizontal overflow",
+      "status": "PASS"
+    },
+    {
+      "check": "Mobile model variants use one column",
+      "status": "PASS"
+    },
+    {
+      "check": "Zoom equivalent 1.25 keeps two columns",
+      "status": "PASS"
+    },
+    {
+      "check": "Zoom equivalent 1.5 keeps two columns",
+      "status": "PASS"
+    },
+    {
+      "check": "Empty results remain readable",
+      "status": "PASS"
+    },
+    {
+      "check": "Reset restores all products",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 preserves Pulse and collection",
+      "status": "PASS"
+    },
+    {
+      "check": "Slow font still shows the UI",
+      "status": "PASS"
+    },
+    {
+      "check": "Blocked font still shows readable UI",
+      "status": "PASS"
+    },
+    {
+      "check": "Fonts recover after unblock",
+      "status": "PASS"
+    }
+  ],
+  "fonts": [
+    {
+      "check": "auth heading",
+      "selector": ".auth-card h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 4
+        }
+      ]
+    },
+    {
+      "check": "current grid heading",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "current product name",
+      "selector": ".research-main .product-name",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current price",
+      "selector": ".research-main .product-meta strong",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "tabular-nums"
+      },
+      "actual": [
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 6
+        }
+      ]
+    },
+    {
+      "check": "current project title",
+      "selector": ".research-projects .project-item strong",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 83
+        }
+      ]
+    },
+    {
+      "check": "current product details heading",
+      "selector": "#product-title",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "550",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current header",
+      "selector": ".research-top-brand",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 8
+        },
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "current sidebar",
+      "selector": ".research-projects h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 12
+        }
+      ]
+    },
+    {
+      "check": "current chat",
+      "selector": ".research-message p",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "current query label",
+      "selector": "label[for=research-message]",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "current categories",
+      "selector": ".query-category-caption strong",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 10
+        }
+      ]
+    },
+    {
+      "check": "current filter",
+      "selector": ".research-inline-filters .ui-select-trigger",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current counter",
+      "selector": ".research-selected-count",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "tabular-nums"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 1
+        }
+      ]
+    },
+    {
+      "check": "current dropdown",
+      "selector": ".ui-select-popup:popover-open .ui-select-option-text",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 71
+        }
+      ]
+    },
+    {
+      "check": "current brands",
+      "selector": ".ui-select-popup:popover-open .ui-select-option-text",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "current drawer heading",
+      "selector": ".model-variants-sheet h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "current selected heading",
+      "selector": ".selected-products-sheet h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "current editor",
+      "selector": ".presentation-workspace h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current palette dialog",
+      "selector": ".palette-dialog-body h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/0",
+      "selector": "#glyph-400-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/1",
+      "selector": "#glyph-400-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/2",
+      "selector": "#glyph-400-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/3",
+      "selector": "#glyph-400-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/4",
+      "selector": "#glyph-400-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/5",
+      "selector": "#glyph-400-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/6",
+      "selector": "#glyph-400-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/7",
+      "selector": "#glyph-400-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 29
+        },
+        {
+          "familyName": "Segoe UI",
+          "postScriptName": "SegoeUI",
+          "isCustomFont": false,
+          "glyphCount": 3
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/8",
+      "selector": "#glyph-400-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 400/9",
+      "selector": "#glyph-400-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/0",
+      "selector": "#glyph-500-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/1",
+      "selector": "#glyph-500-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/2",
+      "selector": "#glyph-500-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/3",
+      "selector": "#glyph-500-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/4",
+      "selector": "#glyph-500-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/5",
+      "selector": "#glyph-500-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/6",
+      "selector": "#glyph-500-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/7",
+      "selector": "#glyph-500-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 29
+        },
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 3
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/8",
+      "selector": "#glyph-500-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 500/9",
+      "selector": "#glyph-500-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/0",
+      "selector": "#glyph-600-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/1",
+      "selector": "#glyph-600-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/2",
+      "selector": "#glyph-600-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/3",
+      "selector": "#glyph-600-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/4",
+      "selector": "#glyph-600-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/5",
+      "selector": "#glyph-600-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/6",
+      "selector": "#glyph-600-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/7",
+      "selector": "#glyph-600-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 3
+        },
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/8",
+      "selector": "#glyph-600-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 600/9",
+      "selector": "#glyph-600-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/0",
+      "selector": "#glyph-700-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/1",
+      "selector": "#glyph-700-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/2",
+      "selector": "#glyph-700-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/3",
+      "selector": "#glyph-700-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/4",
+      "selector": "#glyph-700-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/5",
+      "selector": "#glyph-700-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/6",
+      "selector": "#glyph-700-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/7",
+      "selector": "#glyph-700-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        },
+        {
+          "familyName": "Segoe UI",
+          "postScriptName": "SegoeUI-Bold",
+          "isCustomFont": false,
+          "glyphCount": 3
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/8",
+      "selector": "#glyph-700-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "current glyphs 700/9",
+      "selector": "#glyph-700-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "pulse grid heading",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "pulse product name",
+      "selector": ".research-main .product-name",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse price",
+      "selector": ".research-main .product-meta strong",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "tabular-nums"
+      },
+      "actual": [
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 1
+        },
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 6
+        }
+      ]
+    },
+    {
+      "check": "pulse project title",
+      "selector": ".research-projects .project-item strong",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 83
+        }
+      ]
+    },
+    {
+      "check": "pulse product details heading",
+      "selector": "#product-title",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "550",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse header",
+      "selector": ".research-top-brand",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 8
+        },
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "pulse sidebar",
+      "selector": ".research-projects h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 12
+        }
+      ]
+    },
+    {
+      "check": "pulse chat",
+      "selector": ".research-message p",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "pulse query label",
+      "selector": "label[for=research-message]",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "pulse categories",
+      "selector": ".query-category-caption strong",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 10
+        }
+      ]
+    },
+    {
+      "check": "pulse filter",
+      "selector": ".research-inline-filters .ui-select-trigger",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse counter",
+      "selector": ".research-selected-count",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "tabular-nums"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 1
+        }
+      ]
+    },
+    {
+      "check": "pulse dropdown",
+      "selector": ".ui-select-popup:popover-open .ui-select-option-text",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 71
+        }
+      ]
+    },
+    {
+      "check": "pulse brands",
+      "selector": ".ui-select-popup:popover-open .ui-select-option-text",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "pulse drawer heading",
+      "selector": ".model-variants-sheet h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "pulse selected heading",
+      "selector": ".selected-products-sheet h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "pulse editor",
+      "selector": ".presentation-workspace h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse palette dialog",
+      "selector": ".palette-dialog-body h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/0",
+      "selector": "#glyph-400-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/1",
+      "selector": "#glyph-400-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/2",
+      "selector": "#glyph-400-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/3",
+      "selector": "#glyph-400-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/4",
+      "selector": "#glyph-400-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/5",
+      "selector": "#glyph-400-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/6",
+      "selector": "#glyph-400-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/7",
+      "selector": "#glyph-400-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 29
+        },
+        {
+          "familyName": "Segoe UI",
+          "postScriptName": "SegoeUI",
+          "isCustomFont": false,
+          "glyphCount": 3
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/8",
+      "selector": "#glyph-400-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 400/9",
+      "selector": "#glyph-400-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "400",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/0",
+      "selector": "#glyph-500-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/1",
+      "selector": "#glyph-500-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/2",
+      "selector": "#glyph-500-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/3",
+      "selector": "#glyph-500-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/4",
+      "selector": "#glyph-500-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/5",
+      "selector": "#glyph-500-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/6",
+      "selector": "#glyph-500-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/7",
+      "selector": "#glyph-500-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 29
+        },
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 3
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/8",
+      "selector": "#glyph-500-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 500/9",
+      "selector": "#glyph-500-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "500",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Medium",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/0",
+      "selector": "#glyph-600-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/1",
+      "selector": "#glyph-600-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/2",
+      "selector": "#glyph-600-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/3",
+      "selector": "#glyph-600-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/4",
+      "selector": "#glyph-600-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/5",
+      "selector": "#glyph-600-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/6",
+      "selector": "#glyph-600-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/7",
+      "selector": "#glyph-600-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 3
+        },
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/8",
+      "selector": "#glyph-600-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 600/9",
+      "selector": "#glyph-600-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/0",
+      "selector": "#glyph-700-0",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/1",
+      "selector": "#glyph-700-1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 21
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/2",
+      "selector": "#glyph-700-2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/3",
+      "selector": "#glyph-700-3",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 16
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/4",
+      "selector": "#glyph-700-4",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 19
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/5",
+      "selector": "#glyph-700-5",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/6",
+      "selector": "#glyph-700-6",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/7",
+      "selector": "#glyph-700-7",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        },
+        {
+          "familyName": "Segoe UI",
+          "postScriptName": "SegoeUI-Bold",
+          "isCustomFont": false,
+          "glyphCount": 3
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/8",
+      "selector": "#glyph-700-8",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 17
+        }
+      ]
+    },
+    {
+      "check": "pulse glyphs 700/9",
+      "selector": "#glyph-700-9",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 20
+        }
+      ]
+    },
+    {
+      "check": "mobile model variants heading",
+      "selector": ".model-variants-sheet h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 15
+        }
+      ]
+    },
+    {
+      "check": "empty state",
+      "selector": ".research-empty h2",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "700",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-Bold",
+          "isCustomFont": true,
+          "glyphCount": 29
+        }
+      ]
+    },
+    {
+      "check": "slow font fallback",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "loaded after delay",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "blocked font fallback",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Segoe UI Semibold",
+          "postScriptName": "SegoeUI-Semibold",
+          "isCustomFont": false,
+          "glyphCount": 23
+        }
+      ]
+    },
+    {
+      "check": "font restored",
+      "selector": ".research-main h1",
+      "css": {
+        "family": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "weight": "600",
+        "spacing": "normal",
+        "numeric": "normal"
+      },
+      "actual": [
+        {
+          "familyName": "Geist",
+          "postScriptName": "Geist-SemiBold",
+          "isCustomFont": true,
+          "glyphCount": 23
+        }
+      ]
+    }
+  ],
+  "geometry": [
+    {
+      "theme": "current",
+      "settings": 32,
+      "offsetY": 0
+    },
+    {
+      "theme": "current",
+      "drawer": 880,
+      "columns": "397.5px 397.5px"
+    },
+    {
+      "theme": "pulse",
+      "settings": 32,
+      "offsetY": 0
+    },
+    {
+      "theme": "pulse",
+      "drawer": 880,
+      "columns": "397.5px 397.5px"
+    }
+  ],
+  "network": [
+    {
+      "phase": "initial",
+      "request_id": "3260.2",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "initial",
+      "request_id": "3260.3",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "initial",
+      "request_id": "3260.4",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "initial",
+      "request_id": "3260.31",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "initial",
+      "request_id": "24244.2",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "initial",
+      "request_id": "24244.3",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "initial",
+      "request_id": "24244.4",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "initial",
+      "request_id": "24244.31",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "initial",
+      "request_id": "28868.2",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "initial",
+      "request_id": "28868.3",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "initial",
+      "request_id": "28868.4",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "initial",
+      "request_id": "28868.31",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "mobile",
+      "request_id": "28868.55",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "mobile",
+      "request_id": "28868.56",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "mobile",
+      "request_id": "28868.57",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "mobile",
+      "request_id": "28868.84",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "f5",
+      "request_id": "28868.162",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "f5",
+      "request_id": "28868.163",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "f5",
+      "request_id": "28868.164",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "f5",
+      "request_id": "28868.191",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": true
+    },
+    {
+      "phase": "slow",
+      "request_id": "28868.208",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "slow",
+      "request_id": "28868.209",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "slow",
+      "request_id": "28868.210",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "slow",
+      "request_id": "28868.237",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.265",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.266",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.267",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.278",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.279",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.280",
+      "url": "http://127.0.0.1:18013/_next/static/media/53b9e256198e5412.390ncx5urfkfu.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.281",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "blocked",
+      "request_id": "28868.282",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font"
+    },
+    {
+      "phase": "restored",
+      "request_id": "28868.296",
+      "url": "http://127.0.0.1:18013/_next/static/media/8a480f0b521d4e75.p.1qq4vpdcun5oj.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "restored",
+      "request_id": "28868.297",
+      "url": "http://127.0.0.1:18013/_next/static/media/caa3a2e1cccd8315.p.0wgildi0cnwt9.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "restored",
+      "request_id": "28868.298",
+      "url": "http://127.0.0.1:18013/_next/static/media/fef07dbb0973bf53.p.3p2_lha1f2xer.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    },
+    {
+      "phase": "restored",
+      "request_id": "28868.325",
+      "url": "http://127.0.0.1:18013/_next/static/media/7178b3e590c64307.21jp631_3pja2.woff2",
+      "type": "Font",
+      "status": 200,
+      "cache": false
+    }
+  ],
+  "pdf_sha256": "5f0517fd5f5fd0ae952792b854414625f82a147a62e528c50f23744bb957d92d",
+  "preview_sha256": {
+    "1": "e214e31c891cf6f4e97a92c03e72abab8ceac93c9990f35f149e901cacf7bca7",
+    "2": "4e5b2966df48012164568777157f4527f42436ecca29ebf11478ed7222359c98"
+  },
+  "cleanup": {
+    "disposable_database_removed": true,
+    "test_processes_stopped": true,
+    "main_services_final": [
+      3000,
+      8000,
+      11434,
+      55432
+    ]
+  }
+}
