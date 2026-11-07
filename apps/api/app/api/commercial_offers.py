@@ -6,7 +6,14 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from fastapi.responses import FileResponse
 
 from app.application.presentation_assets import MAX_BYTES, safe_path
-from app.domain.commercial_offer import OfferAction, OfferComposition, OfferCreate, OfferEdit, ShareAction
+from app.domain.commercial_offer import (
+    OfferAction,
+    OfferComposition,
+    OfferCreate,
+    OfferDelete,
+    OfferEdit,
+    ShareAction,
+)
 
 router = APIRouter(prefix="/api", tags=["commercial offers"])
 PUBLIC_HEADERS = {
@@ -29,6 +36,33 @@ def required(value):
     if value is None:
         raise HTTPException(404, "Предложение не найдено")
     return value
+
+
+@router.get("/offers")
+@router.get("/offers/archive")
+async def all_offers(
+    request: Request,
+    cursor: str | None = Query(default=None, max_length=256),
+    limit: int = Query(default=20, ge=1, le=50),
+):
+    from app.application.offer_listing import listing
+
+    service, user = owner(request)
+    return await action(listing(service, user, cursor, limit, request.url.path.endswith("/archive")))
+
+
+@router.get("/offers/{identifier}/link")
+async def owner_link(identifier: UUID, request: Request):
+    from app.database.models import CommercialOfferShare
+
+    service, user = owner(request)
+    required(await service.owned(str(identifier), user))
+    async with service.sessions() as db:
+        share = await db.get(CommercialOfferShare, str(identifier))
+    if share:
+        await service.ensure_vault()
+    value = service.share_view(share)
+    return {"public_url": value["public_url"], "active": value["active"], "expires_at": value["expires_at"]}
 
 
 async def action(call):
@@ -84,6 +118,18 @@ async def primary(project_id: UUID, request: Request):
         return await service.primary(str(project_id), user)
     except ValueError:
         raise HTTPException(404, "Проект не найден") from None
+
+
+@router.get("/projects/{project_id}/offer-state")
+async def offer_state(project_id: UUID, request: Request):
+    service, user = owner(request)
+    return required(await service.state(str(project_id), user))
+
+
+@router.delete("/offers/{identifier}")
+async def delete_offer(identifier: UUID, body: OfferDelete, request: Request):
+    service, user = owner(request)
+    return await action(service.delete(str(identifier), user, body))
 
 
 @router.get("/branding/vto-logo.png")

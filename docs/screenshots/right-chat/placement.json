@@ -1,0 +1,343 @@
+[
+  {
+    "check": "late response stays collapsed with a real multi-screen result grid",
+    "status": "PASS",
+    "products": 100
+  },
+  {
+    "check": "Текущая opener is at the right edge, 12px below navbar, with 44px target",
+    "status": "PASS",
+    "geometry": {
+      "x": 1344.71875,
+      "y": 76,
+      "right": 1420,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1440,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Текущая opening and collapse share the same right-side height; History does not shift",
+    "status": "PASS",
+    "opened": {
+      "x": 1310.375,
+      "y": 76,
+      "right": 1420,
+      "width": 109.625,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1100,
+      "scroll": 0,
+      "overflow": false
+    },
+    "closed": {
+      "x": 1344.71875,
+      "y": 76,
+      "right": 1420,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1440,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Текущая one labelled opener exists outside the scrolling main",
+    "status": "PASS"
+  },
+  {
+    "check": "Текущая opener stays visible after several screens of native scrolling",
+    "status": "PASS",
+    "geometry": {
+      "x": 1344.71875,
+      "y": 76,
+      "right": 1420,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1440,
+      "scroll": 1400,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Текущая history, draft and project collection survive opening",
+    "status": "PASS"
+  },
+  {
+    "check": "Pulse opener is at the right edge, 12px below navbar, with 44px target",
+    "status": "PASS",
+    "geometry": {
+      "x": 1344.71875,
+      "y": 76,
+      "right": 1420,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1440,
+      "scroll": 1593,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Pulse opening and collapse share the same right-side height; History does not shift",
+    "status": "PASS",
+    "opened": {
+      "x": 1310.375,
+      "y": 76,
+      "right": 1420,
+      "width": 109.625,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1100,
+      "scroll": 1400,
+      "overflow": false
+    },
+    "closed": {
+      "x": 1344.71875,
+      "y": 76,
+      "right": 1420,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1440,
+      "scroll": 1593,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Pulse one labelled opener exists outside the scrolling main",
+    "status": "PASS"
+  },
+  {
+    "check": "Pulse opener stays visible after several screens of native scrolling",
+    "status": "PASS",
+    "geometry": {
+      "x": 1344.71875,
+      "y": 76,
+      "right": 1420,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1440,
+      "historyY": 76,
+      "mainRight": 1440,
+      "scroll": 1400,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Pulse history, draft and project collection survive opening",
+    "status": "PASS"
+  },
+  {
+    "check": "three toggles issue no POST or new subscriptions and no repeated reads",
+    "status": "PASS",
+    "before": {
+      "gets": 12,
+      "posts": 1,
+      "sources": {
+        "created": 0,
+        "live": 0
+      }
+    },
+    "after": {
+      "gets": 13,
+      "posts": 1,
+      "sources": {
+        "created": 0,
+        "live": 0
+      }
+    }
+  },
+  {
+    "check": "closed panel leaves Tab order; focus returns to the right opener",
+    "status": "PASS"
+  },
+  {
+    "check": "selected-products modal covers and disables the underlying chat control",
+    "status": "PASS"
+  },
+  {
+    "check": "F5 restores collapsed preference, confirmed history, search, selection and draft",
+    "status": "PASS"
+  },
+  {
+    "check": "Текущая right control at 1152px / DPR 1.25 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 1056.71875,
+      "y": 76,
+      "right": 1132,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1152,
+      "historyY": 76,
+      "mainRight": 1152,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Текущая right control at 960px / DPR 1.5 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 864.71875,
+      "y": 76,
+      "right": 940,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 960,
+      "historyY": 76,
+      "mainRight": 960,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Текущая right control at 390px / DPR 1 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 298.71875,
+      "y": 123,
+      "right": 374,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 111,
+      "viewport": 390,
+      "historyY": 123,
+      "mainRight": 390,
+      "scroll": 0,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Текущая mobile uses linked existing drawer without focusing textarea or a duplicate opener",
+    "status": "PASS"
+  },
+  {
+    "check": "Текущая right control at 320px / DPR 1 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 228.71875,
+      "y": 151,
+      "right": 304,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 139,
+      "viewport": 320,
+      "historyY": 151,
+      "mainRight": 320,
+      "scroll": 970,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Pulse right control at 1152px / DPR 1.25 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 1056.71875,
+      "y": 76,
+      "right": 1132,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 1152,
+      "historyY": 76,
+      "mainRight": 1152,
+      "scroll": 987,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Pulse right control at 960px / DPR 1.5 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 864.71875,
+      "y": 76,
+      "right": 940,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 64,
+      "viewport": 960,
+      "historyY": 76,
+      "mainRight": 960,
+      "scroll": 987,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Pulse right control at 390px / DPR 1 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 298.71875,
+      "y": 123,
+      "right": 374,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 111,
+      "viewport": 390,
+      "historyY": 123,
+      "mainRight": 390,
+      "scroll": 987,
+      "overflow": false
+    }
+  },
+  {
+    "check": "Pulse mobile uses linked existing drawer without focusing textarea or a duplicate opener",
+    "status": "PASS"
+  },
+  {
+    "check": "Pulse right control at 320px / DPR 1 does not overlap or overflow",
+    "status": "PASS",
+    "geometry": {
+      "x": 228.71875,
+      "y": 151,
+      "right": 304,
+      "width": 75.28125,
+      "height": 44,
+      "headerBottom": 139,
+      "viewport": 320,
+      "historyY": 151,
+      "mainRight": 320,
+      "scroll": 970,
+      "overflow": false
+    }
+  },
+  {
+    "check": "reduced-motion setting still removes the grid transition",
+    "status": "PASS"
+  },
+  {
+    "check": "switching to an empty project shows no previous chat control, messages, products or collection",
+    "status": "PASS"
+  },
+  {
+    "check": "switching back restores the scoped history and draft",
+    "status": "PASS"
+  },
+  {
+    "check": "chat control is absent from the offers page and navbar title stays removed",
+    "status": "PASS"
+  }
+]

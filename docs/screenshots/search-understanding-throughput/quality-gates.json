@@ -1,0 +1,28 @@
+{
+  "backend": {
+    "status": "PASS",
+    "passed": 618,
+    "deselected": 1,
+    "seconds": 284.22
+  },
+  "frontend": {
+    "status": "PASS",
+    "passed": 66
+  },
+  "postgres_faults": {
+    "status": "PASS",
+    "passed": 17
+  },
+  "ruff": "PASS",
+  "eslint": "PASS",
+  "typescript": "PASS",
+  "production_build": "PASS",
+  "diff_check": "PASS",
+  "cleanup": {
+    "deleted_task_users": 2,
+    "deleted_task_projects": 64,
+    "deleted_task_documents": 0,
+    "isolated_cluster_removed": true,
+    "browser_listener_closed": true
+  }
+}

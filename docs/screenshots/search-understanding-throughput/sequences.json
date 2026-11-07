@@ -1,0 +1,909 @@
+{
+  "sequences": 100,
+  "http_requests": 1328,
+  "filled_postgresql": true,
+  "membership_oracle": "Explicit q2 concept/color/quantity IDs; broad cap includes confirmed baseballcap subtype; all pages compared",
+  "pagination_pool": 130,
+  "results": [
+    {
+      "sequence": 0,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "pen",
+        "backpack"
+      ]
+    },
+    {
+      "sequence": 1,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "notebook",
+        "bottle"
+      ]
+    },
+    {
+      "sequence": 2,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermomug",
+        "powerbank"
+      ]
+    },
+    {
+      "sequence": 3,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "cap",
+        "flashdrive"
+      ]
+    },
+    {
+      "sequence": 4,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "baseballcap",
+        "thermocup"
+      ]
+    },
+    {
+      "sequence": 5,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "backpack",
+        "thermos"
+      ]
+    },
+    {
+      "sequence": 6,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "bottle",
+        "pencil"
+      ]
+    },
+    {
+      "sequence": 7,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "powerbank",
+        "marker"
+      ]
+    },
+    {
+      "sequence": 8,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "flashdrive",
+        "highlighter"
+      ]
+    },
+    {
+      "sequence": 9,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermocup",
+        "mug"
+      ]
+    },
+    {
+      "sequence": 10,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermos",
+        "glass"
+      ]
+    },
+    {
+      "sequence": 11,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "pencil",
+        "plate"
+      ]
+    },
+    {
+      "sequence": 12,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "marker",
+        "tshirt"
+      ]
+    },
+    {
+      "sequence": 13,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "highlighter",
+        "raincoat"
+      ]
+    },
+    {
+      "sequence": 14,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "mug",
+        "socks"
+      ]
+    },
+    {
+      "sequence": 15,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "glass",
+        "hoodie"
+      ]
+    },
+    {
+      "sequence": 16,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "plate",
+        "blanket"
+      ]
+    },
+    {
+      "sequence": 17,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "tshirt",
+        "clock"
+      ]
+    },
+    {
+      "sequence": 18,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "raincoat",
+        "speaker"
+      ]
+    },
+    {
+      "sequence": 19,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "socks",
+        "headphones"
+      ]
+    },
+    {
+      "sequence": 20,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "hoodie",
+        "flashlight"
+      ]
+    },
+    {
+      "sequence": 21,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "blanket",
+        "suitcase"
+      ]
+    },
+    {
+      "sequence": 22,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "clock",
+        "wallet"
+      ]
+    },
+    {
+      "sequence": 23,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "speaker",
+        "cardholder"
+      ]
+    },
+    {
+      "sequence": 24,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "headphones",
+        "organizer"
+      ]
+    },
+    {
+      "sequence": 25,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "flashlight",
+        "lanyard"
+      ]
+    },
+    {
+      "sequence": 26,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "suitcase",
+        "bag"
+      ]
+    },
+    {
+      "sequence": 27,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "wallet",
+        "shopperbag"
+      ]
+    },
+    {
+      "sequence": 28,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "cardholder",
+        "charger"
+      ]
+    },
+    {
+      "sequence": 29,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "organizer",
+        "cable"
+      ]
+    },
+    {
+      "sequence": 30,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "lanyard",
+        "lunchbox"
+      ]
+    },
+    {
+      "sequence": 31,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "bag",
+        "umbrella"
+      ]
+    },
+    {
+      "sequence": 32,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "shopperbag",
+        "accessory"
+      ]
+    },
+    {
+      "sequence": 33,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "charger",
+        "pen"
+      ]
+    },
+    {
+      "sequence": 34,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "cable",
+        "notebook"
+      ]
+    },
+    {
+      "sequence": 35,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "lunchbox",
+        "thermomug"
+      ]
+    },
+    {
+      "sequence": 36,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "umbrella",
+        "cap"
+      ]
+    },
+    {
+      "sequence": 37,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "accessory",
+        "baseballcap"
+      ]
+    },
+    {
+      "sequence": 38,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "pen",
+        "backpack"
+      ]
+    },
+    {
+      "sequence": 39,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "notebook",
+        "bottle"
+      ]
+    },
+    {
+      "sequence": 40,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermomug",
+        "powerbank"
+      ]
+    },
+    {
+      "sequence": 41,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "cap",
+        "flashdrive"
+      ]
+    },
+    {
+      "sequence": 42,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "baseballcap",
+        "thermocup"
+      ]
+    },
+    {
+      "sequence": 43,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "backpack",
+        "thermos"
+      ]
+    },
+    {
+      "sequence": 44,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "bottle",
+        "pencil"
+      ]
+    },
+    {
+      "sequence": 45,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "powerbank",
+        "marker"
+      ]
+    },
+    {
+      "sequence": 46,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "flashdrive",
+        "highlighter"
+      ]
+    },
+    {
+      "sequence": 47,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermocup",
+        "mug"
+      ]
+    },
+    {
+      "sequence": 48,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermos",
+        "glass"
+      ]
+    },
+    {
+      "sequence": 49,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "pencil",
+        "plate"
+      ]
+    },
+    {
+      "sequence": 50,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "marker",
+        "tshirt"
+      ]
+    },
+    {
+      "sequence": 51,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "highlighter",
+        "raincoat"
+      ]
+    },
+    {
+      "sequence": 52,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "mug",
+        "socks"
+      ]
+    },
+    {
+      "sequence": 53,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "glass",
+        "hoodie"
+      ]
+    },
+    {
+      "sequence": 54,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "plate",
+        "blanket"
+      ]
+    },
+    {
+      "sequence": 55,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "tshirt",
+        "clock"
+      ]
+    },
+    {
+      "sequence": 56,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "raincoat",
+        "speaker"
+      ]
+    },
+    {
+      "sequence": 57,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "socks",
+        "headphones"
+      ]
+    },
+    {
+      "sequence": 58,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "hoodie",
+        "flashlight"
+      ]
+    },
+    {
+      "sequence": 59,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "blanket",
+        "suitcase"
+      ]
+    },
+    {
+      "sequence": 60,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "clock",
+        "wallet"
+      ]
+    },
+    {
+      "sequence": 61,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "speaker",
+        "cardholder"
+      ]
+    },
+    {
+      "sequence": 62,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "headphones",
+        "organizer"
+      ]
+    },
+    {
+      "sequence": 63,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "flashlight",
+        "lanyard"
+      ]
+    },
+    {
+      "sequence": 64,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "suitcase",
+        "bag"
+      ]
+    },
+    {
+      "sequence": 65,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "wallet",
+        "shopperbag"
+      ]
+    },
+    {
+      "sequence": 66,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "cardholder",
+        "charger"
+      ]
+    },
+    {
+      "sequence": 67,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "organizer",
+        "cable"
+      ]
+    },
+    {
+      "sequence": 68,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "lanyard",
+        "lunchbox"
+      ]
+    },
+    {
+      "sequence": 69,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "bag",
+        "umbrella"
+      ]
+    },
+    {
+      "sequence": 70,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "shopperbag",
+        "accessory"
+      ]
+    },
+    {
+      "sequence": 71,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "charger",
+        "pen"
+      ]
+    },
+    {
+      "sequence": 72,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "cable",
+        "notebook"
+      ]
+    },
+    {
+      "sequence": 73,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "lunchbox",
+        "thermomug"
+      ]
+    },
+    {
+      "sequence": 74,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "umbrella",
+        "cap"
+      ]
+    },
+    {
+      "sequence": 75,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "accessory",
+        "baseballcap"
+      ]
+    },
+    {
+      "sequence": 76,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "pen",
+        "backpack"
+      ]
+    },
+    {
+      "sequence": 77,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "notebook",
+        "bottle"
+      ]
+    },
+    {
+      "sequence": 78,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermomug",
+        "powerbank"
+      ]
+    },
+    {
+      "sequence": 79,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "cap",
+        "flashdrive"
+      ]
+    },
+    {
+      "sequence": 80,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "baseballcap",
+        "thermocup"
+      ]
+    },
+    {
+      "sequence": 81,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "backpack",
+        "thermos"
+      ]
+    },
+    {
+      "sequence": 82,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "bottle",
+        "pencil"
+      ]
+    },
+    {
+      "sequence": 83,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "powerbank",
+        "marker"
+      ]
+    },
+    {
+      "sequence": 84,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "flashdrive",
+        "highlighter"
+      ]
+    },
+    {
+      "sequence": 85,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermocup",
+        "mug"
+      ]
+    },
+    {
+      "sequence": 86,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "thermos",
+        "glass"
+      ]
+    },
+    {
+      "sequence": 87,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "pencil",
+        "plate"
+      ]
+    },
+    {
+      "sequence": 88,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "marker",
+        "tshirt"
+      ]
+    },
+    {
+      "sequence": 89,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "highlighter",
+        "raincoat"
+      ]
+    },
+    {
+      "sequence": 90,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "mug",
+        "socks"
+      ]
+    },
+    {
+      "sequence": 91,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "glass",
+        "hoodie"
+      ]
+    },
+    {
+      "sequence": 92,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "plate",
+        "blanket"
+      ]
+    },
+    {
+      "sequence": 93,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "tshirt",
+        "clock"
+      ]
+    },
+    {
+      "sequence": 94,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "raincoat",
+        "speaker"
+      ]
+    },
+    {
+      "sequence": 95,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "socks",
+        "headphones"
+      ]
+    },
+    {
+      "sequence": 96,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "hoodie",
+        "flashlight"
+      ]
+    },
+    {
+      "sequence": 97,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "blanket",
+        "suitcase"
+      ]
+    },
+    {
+      "sequence": 98,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "clock",
+        "wallet"
+      ]
+    },
+    {
+      "sequence": 99,
+      "actions": 10,
+      "pass": true,
+      "categories": [
+        "speaker",
+        "cardholder"
+      ]
+    }
+  ]
+}

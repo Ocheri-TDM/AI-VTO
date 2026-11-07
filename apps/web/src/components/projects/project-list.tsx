@@ -4,6 +4,7 @@ export function ProjectList({
   projects,
   active,
   disabled,
+  creating=false,
   onOpen,
   onNew,
   onEdit,
@@ -11,6 +12,7 @@ export function ProjectList({
   projects: Project[];
   active?: string;
   disabled: boolean;
+  creating?:boolean;
   onOpen: (id: string) => void;
   onNew: () => void;
   onEdit: (p: Project) => void;
@@ -20,15 +22,15 @@ export function ProjectList({
       <button
         className="studio-button primary"
         onClick={onNew}
-        disabled={disabled}
+        disabled={disabled||creating}
       >
         <Plus size={17} />
-        Новый проект
+        Новый чат
       </button>
       <p className="section-label">
-        ВАШИ ПРОЕКТЫ <span>{projects.length}</span>
+        Ваши чаты <span>{projects.length}</span>
       </p>
-      <nav aria-label="Проекты">
+      <nav aria-label="Чаты">
         {projects.map((p) => (
           <div
             className={`project-item ${active === p.id ? "active" : ""}`}
@@ -48,7 +50,7 @@ export function ProjectList({
                     day: "numeric",
                     month: "short",
                   })}{" "}
-                  · {p.summary ? "Есть подборка" : "Новый проект"}
+                  · {(p.has_messages??!!p.summary) ? "Есть переписка" : "Пустой чат"}
                 </small>
             </button>
             <button
@@ -64,7 +66,7 @@ export function ProjectList({
       </nav>
       {!projects.length && (
         <p className="muted">
-          Создайте проект для клиента или события. Подборки и диалоги будут
+          Создайте чат для клиента или события. Подборки и диалоги будут
           здесь.
         </p>
       )}

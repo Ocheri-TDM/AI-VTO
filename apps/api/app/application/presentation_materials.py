@@ -53,7 +53,7 @@ class PresentationMaterials:
                     await db.execute(text("SELECT pg_advisory_xact_lock(hashtext('presentation-enqueue'))"))
                 current = await db.scalar(
                     select(Document)
-                    .where(Document.id == identifier, Document.user_id == user)
+                    .where(Document.id == identifier, Document.user_id == user, Document.deleted_at.is_(None))
                     .with_for_update()
                 )
                 if not current or current.version != version:
@@ -172,7 +172,7 @@ class PresentationMaterials:
                 select(Document).where(Document.id == revision.document_id).with_for_update()
             )
             job = await db.scalar(select(Revision).where(Revision.id == revision.id).with_for_update())
-            if not job or job.claim != revision.claim or job.status not in ACTIVE:
+            if not doc or doc.deleted_at is not None or not job or job.claim != revision.claim or job.status not in ACTIVE:
                 return
             job.status, job.result, job.error, job.lease_until = result["status"], result, None, None
             job.updated_at = utcnow()
@@ -208,7 +208,7 @@ class PresentationMaterials:
         async with self.sessions.begin() as db:
             current = await db.scalar(
                 select(Document)
-                .where(Document.id == doc.id, Document.user_id == doc.user_id)
+                .where(Document.id == doc.id, Document.user_id == doc.user_id, Document.deleted_at.is_(None))
                 .with_for_update()
             )
             if current:

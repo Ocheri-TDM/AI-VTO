@@ -1,0 +1,159 @@
+{
+  "service": "PASS (read-only transactions)",
+  "http_route": "404: debug flag disabled; not changed",
+  "catalog_import": {
+    "status": "PENDING",
+    "coverage_complete": false,
+    "declared_parents": 17781,
+    "processed_parents": 3139,
+    "next_page": 42,
+    "per_page": 100,
+    "pending_products": 0,
+    "failed_products": 9,
+    "failed_listing_pages": 2,
+    "metrics": {
+      "db_ms": 50225.0,
+      "offers": 9796,
+      "http_ms": 3123554.0,
+      "parents": 3139,
+      "parse_ms": 16486.0,
+      "variants": 9169,
+      "pacing_ms": 98641.0,
+      "last_error": "VTO HTTP 502 at listing",
+      "duration_ms": 9294310,
+      "http_errors": 46,
+      "start_lag_ms": 363.42,
+      "http_requests": 5095,
+      "last_claim_at": "2026-11-07T09:54:47.451246+00:00",
+      "retry_wait_ms": 21000.0,
+      "zero_quantity": 209,
+      "known_quantity": 6411,
+      "retry_decision": {
+        "reason": "PERSISTENT_SOURCE_FAILURE",
+        "failures": 6,
+        "transport": true,
+        "assigned_by": "LOCAL_POLICY",
+        "next_attempt_at": "2026-11-07T10:21:43.951976+00:00",
+        "circuit_open_until": "2026-11-07T10:21:43.951976+00:00"
+      },
+      "errors_by_class": {
+        "VTO_HTTP_ERROR": 8
+      },
+      "failed_attempts": 48,
+      "simple_products": 627,
+      "transport_error": {
+        "class": "VTO_HTTP_ERROR",
+        "stage": "listing",
+        "attempt": 1,
+        "resource": "/wp-json/wc/store/products?page=41&per_page=100&orderby=date&order=desc",
+        "elapsed_ms": 17359.0,
+        "http_status": 502,
+        "retry_after": null,
+        "retry_after_until": null
+      },
+      "waiting_seconds": 1736.559,
+      "collection_pages": 41,
+      "core_live_offers": 1984,
+      "last_finished_at": "2026-11-07T09:55:04.862278+00:00",
+      "products_changed": 7835,
+      "progress_samples": [
+        {
+          "at": "2026-11-07T09:24:22.710336+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5088
+        },
+        {
+          "at": "2026-11-07T09:26:40.776789+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5089
+        },
+        {
+          "at": "2026-11-07T09:28:19.348425+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5090
+        },
+        {
+          "at": "2026-11-07T09:30:28.101175+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5091
+        },
+        {
+          "at": "2026-11-07T09:34:16.759970+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5092
+        },
+        {
+          "at": "2026-11-07T09:35:20.307070+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5093
+        },
+        {
+          "at": "2026-11-07T09:42:23.855623+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5094
+        },
+        {
+          "at": "2026-11-07T09:55:04.862278+00:00",
+          "offers": 9820,
+          "families": 3110,
+          "http_requests": 5095
+        }
+      ],
+      "requests_by_kind": {
+        "COLLECTION": 22,
+        "PARENT_API": 0,
+        "DETAIL_HTML": 560,
+        "VARIATION_API": 227,
+        "VARIATION_STOCK": 132
+      },
+      "unknown_quantity": 3385,
+      "variable_parents": 2512,
+      "products_unchanged": 1961,
+      "retry_after_seconds": 0,
+      "non_sellable_parents": 34,
+      "observations_created": 7835,
+      "retry_policy_version": 1,
+      "targeted_job_queue_ms": 4.0,
+      "observations_deduplicated": 1961
+    },
+    "execution": {
+      "state": "WAITING",
+      "reason": "PERSISTENT_SOURCE_FAILURE",
+      "assigned_by": "LOCAL_POLICY",
+      "next_attempt_at": "2026-11-07T10:21:43.951976+00:00",
+      "last_successful_record_at": null,
+      "transport_error": {
+        "class": "VTO_HTTP_ERROR",
+        "stage": "listing",
+        "attempt": 1,
+        "resource": "/wp-json/wc/store/products?page=41&per_page=100&orderby=date&order=desc",
+        "elapsed_ms": 17359.0,
+        "http_status": 502,
+        "retry_after": null,
+        "retry_after_until": null
+      },
+      "failures": 6,
+      "active_lease": false,
+      "lease_until": "2026-11-07T09:55:04.862278+00:00",
+      "circuit_open_until": "2026-11-07T10:21:43.951976+00:00",
+      "scheduler_poll_seconds": 1,
+      "start_lag_ms": 363.42,
+      "working_seconds": 9294.31,
+      "waiting_seconds": 1736.559,
+      "measured_window": {
+        "seconds": 1842.151942,
+        "new_unique_offers": 0,
+        "new_families": 0,
+        "offers_per_hour": 0.0,
+        "http_calls_per_new_offer": null
+      }
+    }
+  }
+}

@@ -374,8 +374,8 @@ def _semantic_deterministic_hard_request(text: str) -> HardRequestIntent:
 
     for clause in clauses:
         negative = bool(
-            _NEGATIVE_PREFIX.search(clause)
-            or re.search(r"\bно\s+не\b(?!\s+исключ)", clause)
+            _NEGATIVE_PREFIX.match(clause)
+            or re.match(r"но\s+не\b(?!\s+исключ)", clause)
         )
         soft = bool(_SOFT_PREFIX.search(clause))
         sort = bool(_SORT_PREFIX.search(clause))

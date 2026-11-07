@@ -1,0 +1,155 @@
+{
+  "status": "PASS",
+  "checks": [
+    "Ten persisted conversation messages survive API restart",
+    "Project collection survives restart",
+    "Same primary offer, manual values, key, revision and expiry after restart",
+    "Guest JSON/PDF/XLSX remain client-only and byte-identical after restart"
+  ],
+  "protected": {
+    "users": {
+      "before": {
+        "count": 3,
+        "fingerprint": "c2de5e2b0d487b993d067ec6304154d8"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "c2de5e2b0d487b993d067ec6304154d8"
+      },
+      "unchanged": true
+    },
+    "projects": {
+      "before": {
+        "count": 3,
+        "fingerprint": "fccf3edf9d10a268f1b11ef041f76e4c"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "fccf3edf9d10a268f1b11ef041f76e4c"
+      },
+      "unchanged": true
+    },
+    "messages": {
+      "before": {
+        "count": 60,
+        "fingerprint": "9cdc604a0f6617d80f022b9d67315ce2"
+      },
+      "after": {
+        "count": 60,
+        "fingerprint": "9cdc604a0f6617d80f022b9d67315ce2"
+      },
+      "unchanged": true
+    },
+    "project_collection_items": {
+      "before": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "after": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "unchanged": true
+    },
+    "presentation_documents": {
+      "before": {
+        "count": 16,
+        "fingerprint": "25659814b210da913140245c57dcee5a"
+      },
+      "after": {
+        "count": 16,
+        "fingerprint": "25659814b210da913140245c57dcee5a"
+      },
+      "unchanged": true
+    },
+    "presentation_revisions": {
+      "before": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "after": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "unchanged": true
+    }
+  },
+  "shares": [
+    {
+      "document_id": "3aafda97-a64c-4d82-b575-db5dbb9ab7ee",
+      "authorized_expiry_only": true,
+      "activation_source": "READY_ACTIVATION",
+      "expires_at": "2026-11-20 13:59:02.834369+00:00"
+    },
+    {
+      "document_id": "ceb04f4b-6ea5-4ed5-ac0d-ae94bb0779e1",
+      "authorized_expiry_only": true,
+      "activation_source": "EARLIEST_RENDER_CONSERVATIVE",
+      "expires_at": "2026-11-13 12:43:13.196393+00:00"
+    },
+    {
+      "document_id": "dc004fca-848e-4819-9fb5-b6ac106a2468",
+      "authorized_expiry_only": true,
+      "activation_source": "CONFIRMED_FIRST_READY",
+      "expires_at": "2026-11-20 12:49:40.991417+00:00"
+    }
+  ],
+  "encryption_key_unchanged": true,
+  "catalog_before": 9317,
+  "catalog_after": 9820,
+  "jobs": [
+    {
+      "id": "46d59da7-676a-4571-8092-e93a02167082",
+      "kind": "AVAILABILITY_REFRESH",
+      "status": "PENDING",
+      "error": "VTO_PARTIAL_REFRESH",
+      "page": null,
+      "coverage_complete": null
+    },
+    {
+      "id": "3af11531-88ce-4c5f-b33d-869c4045d606",
+      "kind": "FULL_CATALOG_RECONCILIATION",
+      "status": "PENDING",
+      "error": "VTO_HTTP_ERROR",
+      "page": "40",
+      "coverage_complete": null
+    }
+  ],
+  "migration": "0026_chat_workflow",
+  "timings": {
+    "history": {
+      "samples_ms": [
+        16.03,
+        8.33,
+        7.77,
+        13.39,
+        8.22
+      ],
+      "median_ms": 8.33,
+      "scope": "five sequential local reads, not load p95"
+    },
+    "offers": {
+      "samples_ms": [
+        11.22,
+        7.99,
+        10.79,
+        10.61,
+        9.09
+      ],
+      "median_ms": 10.61,
+      "scope": "five sequential local reads, not load p95"
+    }
+  },
+  "cleanup": true,
+  "removed": {
+    "users": 2,
+    "projects": 20,
+    "documents": 10
+  },
+  "health": {
+    "api": 200,
+    "frontend": 200,
+    "frontend_proxy": 200
+  },
+  "browser_debug_listener_closed": true
+}

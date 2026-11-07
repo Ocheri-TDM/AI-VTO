@@ -8,6 +8,7 @@ import "./themes.css";
 import "./dropdowns.css";
 import "./typography.css";
 import "./commercial-offer.css";
+import "./scrollbars.css";
 import { THEME_INIT_SCRIPT } from "@/lib/site-theme";
 
 const geistSans = Geist({

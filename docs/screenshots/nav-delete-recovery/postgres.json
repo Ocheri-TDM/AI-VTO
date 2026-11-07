@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "migrations": "fresh PostgreSQL to 0027",
+  "provider_tests": "See permanent pytest output",
+  "process_claims": [
+    {
+      "claimed": false
+    },
+    {
+      "claimed": true
+    }
+  ],
+  "live_vto_requests": 0
+}

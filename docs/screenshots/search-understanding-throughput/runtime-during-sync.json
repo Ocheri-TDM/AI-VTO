@@ -1,0 +1,11 @@
+{
+  "source": "Authenticated GET /api/dev/runtime at the end of the 35-second bounded import measurement; values retained from the observed tool output before the rolling buffers advanced",
+  "pool_checkout_seconds": {"n": 292, "max": 0.1444649000186473, "p50": 0.000004400033503770828, "p95": 0.0000072999391704797745},
+  "pool_checked_out": 0,
+  "pool_checkouts": 292,
+  "sql_seconds": {"n": 1092, "max": 0.7843404000159353, "p50": 0.0002288001123815775, "p95": 0.07230919995345175},
+  "event_loop_lag_seconds": {"n": 294, "max": 0.44016470001079144, "p50": 0.009164000023156399, "p95": 0.01994359991513192},
+  "admission_active": 0,
+  "admission_queued": 0,
+  "admission_rejected": 0
+}

@@ -1,0 +1,333 @@
+{
+  "status": "PASS",
+  "protected": {
+    "users": {
+      "before": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "unchanged": true
+    },
+    "projects": {
+      "before": {
+        "count": 3,
+        "fingerprint": "3fe801373c6cb9c6755d14a5b557abf1"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "3fe801373c6cb9c6755d14a5b557abf1"
+      },
+      "unchanged": true
+    },
+    "messages": {
+      "before": {
+        "count": 60,
+        "fingerprint": "0079a43b67577b8c6a21dd6004c15614"
+      },
+      "after": {
+        "count": 60,
+        "fingerprint": "0079a43b67577b8c6a21dd6004c15614"
+      },
+      "unchanged": true
+    },
+    "project_collection_items": {
+      "before": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "after": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "unchanged": true
+    },
+    "presentation_documents": {
+      "before": {
+        "count": 16,
+        "fingerprint": "25659814b210da913140245c57dcee5a"
+      },
+      "after": {
+        "count": 16,
+        "fingerprint": "25659814b210da913140245c57dcee5a"
+      },
+      "unchanged": true
+    },
+    "presentation_revisions": {
+      "before": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "after": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "unchanged": true
+    },
+    "commercial_offer_shares": {
+      "before": {
+        "count": 3,
+        "fingerprint": "821cc0c3c932b12ec7f4a66878b34769"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "821cc0c3c932b12ec7f4a66878b34769"
+      },
+      "unchanged": true
+    }
+  },
+  "original_files_verified": 259,
+  "encryption_key_unchanged": true,
+  "original_catalog_identities_preserved": 9820,
+  "offers": 9820,
+  "catalog": {
+    "offers": 9820,
+    "families": 3110,
+    "real_variants": 9193,
+    "at": "2026-11-07 09:56:05.452493+00:00",
+    "jobs": [
+      {
+        "kind": "AVAILABILITY_REFRESH",
+        "status": "PENDING",
+        "error": "VTO_PARTIAL_REFRESH",
+        "available_at": "2026-11-07 09:36:01.552648+00:00",
+        "updated_at": "2026-11-07 09:35:01.552648+00:00",
+        "seen_parents": 0,
+        "page": null,
+        "per_page": null,
+        "failed_listing_pages": {},
+        "listing_probe_attempted": false,
+        "pending": 0,
+        "failed": 14,
+        "reported_total": null,
+        "stages": null,
+        "metrics": {
+          "errors": 20,
+          "anomalies": [],
+          "last_error": "VTO HTTP 404 at parent",
+          "duration_ms": 688313.0,
+          "start_lag_ms": 412384.71,
+          "last_claim_at": "2026-11-07T09:34:17.439717+00:00",
+          "products_seen": 218,
+          "retry_decision": {
+            "reason": "CARD_REVIEW",
+            "failures": 3,
+            "transport": false,
+            "assigned_by": "LOCAL_POLICY",
+            "next_attempt_at": "2026-11-07T09:36:01.552648+00:00",
+            "circuit_open_until": null
+          },
+          "errors_by_class": {
+            "VTO_NOT_FOUND": 39
+          },
+          "transport_error": {
+            "class": "VTO_NOT_FOUND",
+            "stage": "parent",
+            "attempt": 1,
+            "resource": "/wp-json/wc/store/products/2034283",
+            "elapsed_ms": 2109.0,
+            "http_status": 404,
+            "retry_after": null,
+            "retry_after_until": null
+          },
+          "waiting_seconds": 558.645,
+          "last_finished_at": "2026-11-07T09:35:01.552648+00:00",
+          "products_changed": 97,
+          "products_updated": 218,
+          "progress_samples": [
+            {
+              "at": "2026-11-07T09:24:06.674130+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 0
+            },
+            {
+              "at": "2026-11-07T09:26:25.055007+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 0
+            },
+            {
+              "at": "2026-11-07T09:35:01.552648+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 0
+            }
+          ],
+          "products_unchanged": 2051,
+          "useful_change_rate": 0.0452,
+          "products_per_minute": 19.0,
+          "requests_per_minute": 6.89,
+          "retry_after_seconds": 0,
+          "observations_created": 97,
+          "product_pages_opened": 79,
+          "requests_per_product": 0.362,
+          "retry_policy_version": 1,
+          "requests_per_supplier": 79,
+          "targeted_job_queue_ms": 5687830.4,
+          "product_pages_opened_ms": 395166.68,
+          "observations_deduplicated": 2051
+        }
+      },
+      {
+        "kind": "FULL_CATALOG_RECONCILIATION",
+        "status": "PENDING",
+        "error": "TEMPORARILY_UNAVAILABLE",
+        "available_at": "2026-11-07 10:21:43.951976+00:00",
+        "updated_at": "2026-11-07 09:55:04.862278+00:00",
+        "seen_parents": 3139,
+        "page": 42,
+        "per_page": 100,
+        "failed_listing_pages": {
+          "40": {
+            "page": 40,
+            "attempts": 2,
+            "per_page": 100,
+            "http_status": 502
+          },
+          "41": {
+            "page": 41,
+            "attempts": 2,
+            "per_page": 100,
+            "http_status": 502
+          }
+        },
+        "listing_probe_attempted": true,
+        "pending": 0,
+        "failed": 9,
+        "reported_total": 17781,
+        "stages": {
+          "discovered_parents": 3139,
+          "stock_known_offers": 6411,
+          "stock_unknown_offers": 3385,
+          "core_committed_parents": 3139,
+          "detail_enriched_parents": 3139
+        },
+        "metrics": {
+          "db_ms": 50225.0,
+          "offers": 9796,
+          "http_ms": 3123554.0,
+          "parents": 3139,
+          "parse_ms": 16486.0,
+          "variants": 9169,
+          "pacing_ms": 98641.0,
+          "last_error": "VTO HTTP 502 at listing",
+          "duration_ms": 9294310,
+          "http_errors": 46,
+          "start_lag_ms": 363.42,
+          "http_requests": 5095,
+          "last_claim_at": "2026-11-07T09:54:47.451246+00:00",
+          "retry_wait_ms": 21000.0,
+          "zero_quantity": 209,
+          "known_quantity": 6411,
+          "retry_decision": {
+            "reason": "PERSISTENT_SOURCE_FAILURE",
+            "failures": 6,
+            "transport": true,
+            "assigned_by": "LOCAL_POLICY",
+            "next_attempt_at": "2026-11-07T10:21:43.951976+00:00",
+            "circuit_open_until": "2026-11-07T10:21:43.951976+00:00"
+          },
+          "errors_by_class": {
+            "VTO_HTTP_ERROR": 8
+          },
+          "failed_attempts": 48,
+          "simple_products": 627,
+          "transport_error": {
+            "class": "VTO_HTTP_ERROR",
+            "stage": "listing",
+            "attempt": 1,
+            "resource": "/wp-json/wc/store/products?page=41&per_page=100&orderby=date&order=desc",
+            "elapsed_ms": 17359.0,
+            "http_status": 502,
+            "retry_after": null,
+            "retry_after_until": null
+          },
+          "waiting_seconds": 1736.559,
+          "collection_pages": 41,
+          "core_live_offers": 1984,
+          "last_finished_at": "2026-11-07T09:55:04.862278+00:00",
+          "products_changed": 7835,
+          "progress_samples": [
+            {
+              "at": "2026-11-07T09:24:22.710336+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5088
+            },
+            {
+              "at": "2026-11-07T09:26:40.776789+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5089
+            },
+            {
+              "at": "2026-11-07T09:28:19.348425+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5090
+            },
+            {
+              "at": "2026-11-07T09:30:28.101175+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5091
+            },
+            {
+              "at": "2026-11-07T09:34:16.759970+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5092
+            },
+            {
+              "at": "2026-11-07T09:35:20.307070+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5093
+            },
+            {
+              "at": "2026-11-07T09:42:23.855623+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5094
+            },
+            {
+              "at": "2026-11-07T09:55:04.862278+00:00",
+              "offers": 9820,
+              "families": 3110,
+              "http_requests": 5095
+            }
+          ],
+          "requests_by_kind": {
+            "COLLECTION": 22,
+            "PARENT_API": 0,
+            "DETAIL_HTML": 560,
+            "VARIATION_API": 227,
+            "VARIATION_STOCK": 132
+          },
+          "unknown_quantity": 3385,
+          "variable_parents": 2512,
+          "products_unchanged": 1961,
+          "retry_after_seconds": 0,
+          "non_sellable_parents": 34,
+          "observations_created": 7835,
+          "retry_policy_version": 1,
+          "targeted_job_queue_ms": 4.0,
+          "observations_deduplicated": 1961
+        }
+      }
+    ],
+    "state": {
+      "retry_after": "2026-11-07 10:21:43.951976+00:00",
+      "lease_until": "2026-11-07 09:55:04.862278+00:00",
+      "circuit_open_until": "2026-11-07 10:21:43.951976+00:00",
+      "error": "TEMPORARILY_UNAVAILABLE",
+      "failures": 6,
+      "active_lease": false
+    }
+  },
+  "cleanup": false
+}

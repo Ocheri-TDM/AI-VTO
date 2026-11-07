@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "Idempotent one-click chat creation",
+      "pass": true
+    },
+    {
+      "check": "No proposal created with empty chat",
+      "pass": true
+    },
+    {
+      "check": "New chat has own empty collection",
+      "pass": true
+    },
+    {
+      "check": "Three searches and two refinements preserve all ten messages",
+      "pass": true
+    },
+    {
+      "check": "First title stays independent of current grid",
+      "pass": true
+    },
+    {
+      "check": "Standalone search does not inherit old quantity",
+      "pass": true
+    },
+    {
+      "check": "Network retry reuses turn ID",
+      "pass": true
+    },
+    {
+      "check": "No duplicate messages after retry",
+      "pass": true
+    },
+    {
+      "check": "History activation preserves later conversation",
+      "pass": true
+    },
+    {
+      "check": "Other user cannot read chat history",
+      "pass": true
+    },
+    {
+      "check": "Owner sees positive, zero and unknown numeric quantities",
+      "pass": true
+    },
+    {
+      "check": "Existing primary editor reused with manual values",
+      "pass": true
+    },
+    {
+      "check": "Separate chats have separate collections",
+      "pass": true
+    },
+    {
+      "check": "Automatic title without separate model call",
+      "pass": true
+    },
+    {
+      "check": "Navbar list includes documents from both chats exactly once",
+      "pass": true
+    },
+    {
+      "check": "List DTO contains no share keys or stock details",
+      "pass": true
+    },
+    {
+      "check": "Foreign offer list empty",
+      "pass": true
+    },
+    {
+      "check": "Foreign owner stock blocked",
+      "pass": true
+    },
+    {
+      "check": "Queue does not start link lifetime",
+      "pass": true
+    },
+    {
+      "check": "Fourteen days start at READY activation",
+      "pass": true
+    },
+    {
+      "check": "Anonymous client DTO contains no numeric inventory",
+      "pass": true
+    },
+    {
+      "check": "Public pdf download is ready",
+      "pass": true
+    },
+    {
+      "check": "Public xlsx download is ready",
+      "pass": true
+    },
+    {
+      "check": "Read and publish preserve all manual commercial fields",
+      "pass": true
+    }
+  ],
+  "owner_quantities": {
+    "vto:1823109": 2268,
+    "vto:1883738": 0,
+    "vto:333294": null
+  },
+  "history_count": 10,
+  "documents": 4,
+  "lifetime_days": 14,
+  "external_deployment": "NOT TESTED"
+}

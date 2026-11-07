@@ -1,0 +1,311 @@
+{
+  "status": "MEASURED",
+  "seconds": 95.078,
+  "before": {
+    "at": "2026-11-07 07:18:14.886878+00:00",
+    "jobs": [
+      {
+        "id": "46d59da7-676a-4571-8092-e93a02167082",
+        "kind": "AVAILABILITY_REFRESH",
+        "status": "PENDING",
+        "error": "VTO_NOT_FOUND",
+        "available_at": "2026-11-06 12:49:38.702679+00:00",
+        "updated_at": "2026-11-06 12:49:37.684587+00:00",
+        "metrics": {
+          "errors": 10,
+          "anomalies": [],
+          "duration_ms": 43884.97,
+          "products_changed": 0,
+          "products_unchanged": 0,
+          "useful_change_rate": null,
+          "products_per_minute": 0.0,
+          "requests_per_minute": 0.0,
+          "observations_created": 0,
+          "requests_per_product": null,
+          "targeted_job_queue_ms": 5687830.4,
+          "observations_deduplicated": 0
+        },
+        "checkpoint": {
+          "page": null,
+          "per_page": null,
+          "reported_total": null,
+          "reported_pages": null,
+          "start_total": null,
+          "coverage_complete": null,
+          "stages": null
+        },
+        "processed_parents": 0,
+        "pending_parents": 41,
+        "failed_cards": 0
+      },
+      {
+        "id": "3af11531-88ce-4c5f-b33d-869c4045d606",
+        "kind": "FULL_CATALOG_RECONCILIATION",
+        "status": "PENDING",
+        "error": "TIME_BUDGET",
+        "available_at": "2026-11-07 07:16:40.887468+00:00",
+        "updated_at": "2026-11-07 07:16:35.887468+00:00",
+        "metrics": {
+          "db_ms": 1284.0,
+          "offers": 6677,
+          "http_ms": 339094.0,
+          "parents": 2562,
+          "parse_ms": 1144.0,
+          "variants": 6054,
+          "pacing_ms": 6517.0,
+          "last_error": "Server error '502 Bad Gateway' for url 'https://vto.kz/wp-json/wc/store/products?page=26&per_page=100&orderby=date&order=desc'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502",
+          "duration_ms": 7235733,
+          "http_errors": 29,
+          "http_requests": 4154,
+          "retry_wait_ms": 0.0,
+          "zero_quantity": 209,
+          "known_quantity": 5252,
+          "failed_attempts": 48,
+          "simple_products": 623,
+          "collection_pages": 36,
+          "products_changed": 6677,
+          "unknown_quantity": 1425,
+          "variable_parents": 1939,
+          "products_unchanged": 0,
+          "non_sellable_parents": 34,
+          "observations_created": 6677,
+          "targeted_job_queue_ms": 4.0,
+          "observations_deduplicated": 0
+        },
+        "checkpoint": {
+          "page": 35,
+          "per_page": 100,
+          "reported_total": 17786,
+          "reported_pages": 178,
+          "start_total": 19030,
+          "coverage_complete": null,
+          "stages": {
+            "discovered_parents": 2642,
+            "stock_known_offers": 5252,
+            "stock_unknown_offers": 1425,
+            "core_committed_parents": 2562,
+            "detail_enriched_parents": 2562
+          }
+        },
+        "processed_parents": 2562,
+        "pending_parents": 80,
+        "failed_cards": 9
+      }
+    ],
+    "supplier_states": [
+      {
+        "supplier": "vto",
+        "lease_owner": null,
+        "lease_until": "2026-11-07 07:16:35.887468+00:00",
+        "next_refresh_at": "2026-10-30 10:07:27.647872+00:00",
+        "next_discovery_at": "2026-10-30 10:07:27.647872+00:00",
+        "error": null,
+        "failures": 0,
+        "retry_after": "2026-11-07 07:16:35.887468+00:00",
+        "next_incremental_at": "2026-10-30 10:07:27.647872+00:00",
+        "next_reconciliation_at": "2026-10-30 10:07:27.647872+00:00",
+        "circuit_open_until": "2026-11-05 13:26:16.264523+00:00",
+        "last_parser_version": null
+      }
+    ],
+    "catalog": {
+      "offers": 6696,
+      "families": 2533
+    }
+  },
+  "after": {
+    "at": "2026-11-07 07:19:50.014337+00:00",
+    "jobs": [
+      {
+        "id": "46d59da7-676a-4571-8092-e93a02167082",
+        "kind": "AVAILABILITY_REFRESH",
+        "status": "PENDING",
+        "error": "VTO_NOT_FOUND",
+        "available_at": "2026-11-06 12:49:38.702679+00:00",
+        "updated_at": "2026-11-06 12:49:37.684587+00:00",
+        "metrics": {
+          "errors": 10,
+          "anomalies": [],
+          "duration_ms": 43884.97,
+          "products_changed": 0,
+          "products_unchanged": 0,
+          "useful_change_rate": null,
+          "products_per_minute": 0.0,
+          "requests_per_minute": 0.0,
+          "observations_created": 0,
+          "requests_per_product": null,
+          "targeted_job_queue_ms": 5687830.4,
+          "observations_deduplicated": 0
+        },
+        "checkpoint": {
+          "page": null,
+          "per_page": null,
+          "reported_total": null,
+          "reported_pages": null,
+          "start_total": null,
+          "coverage_complete": null,
+          "stages": null
+        },
+        "processed_parents": 0,
+        "pending_parents": 41,
+        "failed_cards": 0
+      },
+      {
+        "id": "3af11531-88ce-4c5f-b33d-869c4045d606",
+        "kind": "FULL_CATALOG_RECONCILIATION",
+        "status": "PENDING",
+        "error": "TIME_BUDGET",
+        "available_at": "2026-11-07 07:19:55.001468+00:00",
+        "updated_at": "2026-11-07 07:19:50.001468+00:00",
+        "metrics": {
+          "db_ms": 3863.0,
+          "offers": 6988,
+          "http_ms": 452170.0,
+          "parents": 2567,
+          "parse_ms": 1520.0,
+          "variants": 6364,
+          "pacing_ms": 7158.0,
+          "last_error": "Server error '502 Bad Gateway' for url 'https://vto.kz/wp-json/wc/store/products?page=26&per_page=100&orderby=date&order=desc'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502",
+          "duration_ms": 7330779,
+          "http_errors": 29,
+          "http_requests": 4185,
+          "retry_wait_ms": 0.0,
+          "zero_quantity": 209,
+          "known_quantity": 5261,
+          "failed_attempts": 48,
+          "simple_products": 624,
+          "collection_pages": 36,
+          "core_live_offers": 308,
+          "products_changed": 6686,
+          "requests_by_kind": {
+            "DETAIL_HTML": 5,
+            "VARIATION_API": 15,
+            "VARIATION_STOCK": 11
+          },
+          "unknown_quantity": 1727,
+          "variable_parents": 1943,
+          "products_unchanged": 302,
+          "non_sellable_parents": 34,
+          "observations_created": 6686,
+          "targeted_job_queue_ms": 4.0,
+          "observations_deduplicated": 302
+        },
+        "checkpoint": {
+          "page": 35,
+          "per_page": 100,
+          "reported_total": 17786,
+          "reported_pages": 178,
+          "start_total": 19030,
+          "coverage_complete": null,
+          "stages": {
+            "discovered_parents": 2642,
+            "stock_known_offers": 5261,
+            "stock_unknown_offers": 1727,
+            "core_committed_parents": 2567,
+            "detail_enriched_parents": 2567
+          }
+        },
+        "processed_parents": 2567,
+        "pending_parents": 75,
+        "failed_cards": 9
+      }
+    ],
+    "supplier_states": [
+      {
+        "supplier": "vto",
+        "lease_owner": null,
+        "lease_until": "2026-11-07 07:19:50.001468+00:00",
+        "next_refresh_at": "2026-10-30 10:07:27.647872+00:00",
+        "next_discovery_at": "2026-10-30 10:07:27.647872+00:00",
+        "error": null,
+        "failures": 0,
+        "retry_after": "2026-11-07 07:19:50.001468+00:00",
+        "next_incremental_at": "2026-10-30 10:07:27.647872+00:00",
+        "next_reconciliation_at": "2026-10-30 10:07:27.647872+00:00",
+        "circuit_open_until": "2026-11-05 13:26:16.264523+00:00",
+        "last_parser_version": null
+      }
+    ],
+    "catalog": {
+      "offers": 7007,
+      "families": 2538
+    }
+  },
+  "parents_delta": 5,
+  "offers_delta": 311,
+  "parents_per_hour_window": 189.32,
+  "searches": [
+    {
+      "query": "ручки",
+      "status": 202,
+      "seconds": 1.484,
+      "mode": null
+    },
+    {
+      "query": "рюкзаки",
+      "status": 202,
+      "seconds": 1.266,
+      "mode": null
+    },
+    {
+      "query": "бутылки",
+      "status": 202,
+      "seconds": 1.437,
+      "mode": null
+    },
+    {
+      "query": "чёрные ручки",
+      "status": 202,
+      "seconds": 0.953,
+      "mode": null
+    },
+    {
+      "query": "блокноты",
+      "status": 202,
+      "seconds": 1.14,
+      "mode": null
+    },
+    {
+      "query": "ручки и блокноты",
+      "status": 202,
+      "seconds": 1.282,
+      "mode": null
+    },
+    {
+      "query": "бутылки и рюкзаки",
+      "status": 202,
+      "seconds": 1.297,
+      "mode": null
+    },
+    {
+      "query": "ручки и кепки",
+      "status": 202,
+      "seconds": 2.079,
+      "mode": null
+    },
+    {
+      "query": "что-то для записи",
+      "status": 202,
+      "seconds": 1.672,
+      "mode": null
+    },
+    {
+      "query": "подарки для руководителей до 12000 тенге",
+      "status": 202,
+      "seconds": 2.031,
+      "mode": null
+    }
+  ],
+  "search_p95_seconds_small_smoke": 2.079,
+  "http_delta": 31,
+  "errors_delta": 0,
+  "timings_ms": {
+    "http_ms": 113076.00000011735,
+    "pacing_ms": 641.0000000614673,
+    "retry_wait_ms": 0.0,
+    "parse_ms": 376.0000001639128
+  },
+  "concurrency": 2,
+  "request_delay_seconds": 0.3,
+  "note": "One bounded slice, not sustained throughput or production load p95. No before/after speedup inferred from unlike windows."
+}

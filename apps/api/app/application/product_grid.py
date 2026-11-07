@@ -202,6 +202,10 @@ class ProductGridMixin:
             branch.models = scoped.get("models", [])
 
     async def grid_plan(self, query, *, bind_sources=True):
+        from app.domain.query_normalization import normalize_query
+        original_query = query
+        normalization = normalize_query(query)
+        query = normalization.text
         registry = await brand_registry(self.index.sessions)
         identity = await self.grid_identity(query, registry)
         attributes, _ = parse_constraints(identity.attribute_query)
@@ -257,6 +261,11 @@ class ProductGridMixin:
         ):
             roles.quantity.minimum = intent.quantity
         branches = []
+        known_categories = [c for c in resolver.resolve(parsed_query) if c not in intent.excluded_categories]
+        if known_categories:
+            # Legacy punctuation fragments are not product requirements. Unknown
+            # actual list items are retained separately as unresolved branches.
+            roles.positions = [p for p in roles.positions if resolver.resolve(p.category_text)]
         for position in roles.positions:
             resolved = resolver.resolve(position.category_text)
             if not resolved:
@@ -289,7 +298,7 @@ class ProductGridMixin:
                     max_price=roles.price_max,
                     min_price=roles.price_min,
                 )
-                for c in intent.categories
+                for c in known_categories or intent.categories
             ]
         intent.branches = branches
         if relation["scope"] in ("SET", "PACKAGING", "ACCESSORY", "COMPONENT"):
@@ -331,12 +340,16 @@ class ProductGridMixin:
         intent.colors = roles.color.values
         intent.quantity = roles.quantity.minimum
         intent.material = roles.materials[0] if len(roles.materials) == 1 else None
-        intent.original_query = intent.raw_query = query
+        intent.original_query = intent.raw_query = original_query
         intent.normalized_query = query if semantic_query != query else parsed_query
         if understanding:
             intent.query_understanding = understanding.model_dump(mode="json")
             intent.query_understanding["retrieval_text_preserved"] = parsed_query == query
             intent.query_understanding["identity_protected_text"] = semantic_query
+        intent.query_understanding["normalization"] = normalization.trace()
+        intent.query_understanding["unresolved_products"] = identity.unresolved_products
+        intent.query_understanding["unresolved_attributes"] = identity.unresolved_attributes
+        intent.query_understanding["interpretation_status"] = "PARTIAL" if identity.unresolved_products or identity.unresolved_attributes else "PARSED"
         if bind_sources:
             registry = await brand_registry(self.index.sessions)
             parts = source_segments(query, [b.category for b in intent.branches], registry)
@@ -406,6 +419,22 @@ class ProductGridMixin:
             )[0]
         from app.domain.models import ColorGroup
 
+        # Product agreement: an initial common color qualifies the entire list
+        # if no branch introduces another hard color. Other local colors retain
+        # their own source scope; negative/preference colors never enter here.
+        from app.domain.query_branches import category_mentions
+        mentions = category_mentions(query, intent.categories, registry)
+        if len(intent.branches) > 1 and mentions:
+            first = min(start for start, _, _ in mentions)
+            prefix = parse_constraints(query[:first])[0]
+            if prefix.colors and set(attributes.colors) == set(prefix.colors):
+                global_attributes.colors = prefix.colors
+            amounts = list(re.finditer(r"\b(?:тираж(?:ом)?|количество|минимум|не\s+менее|от)\s+(\d+)\s*(?:шт|штук)?", query, re.I))
+            if len(amounts) == 1 and attributes.quantity_min is not None:
+                amount = amounts[0]
+                if amount.end() <= first or amount.start() >= max(end for _, end, _ in mentions):
+                    global_attributes.quantity_min = attributes.quantity_min
+
         intent.colors = [ColorGroup(c) for c in global_attributes.colors]
         intent.quantity = global_attributes.quantity_min
         intent.excluded_colors = [
@@ -464,6 +493,10 @@ class ProductGridMixin:
             for span in color_spans(identity.attribute_query)
         ]
         intent.query_understanding["color_scope_version"] = "color-scope-v1"
+        for fragment in identity.unresolved_products:
+            intent.branches.append(ProductBranch(category=resolver.dynamic_id(fragment), label=fragment, resolved=False,
+                                                  source_text=fragment, order=len(intent.branches)))
+        intent.categories = list(dict.fromkeys(b.category for b in intent.branches if b.category != "*"))
         return intent
 
     def grid_conditions(self, db, intent, branch, registry):
@@ -584,7 +617,7 @@ class ProductGridMixin:
                 if constraints.quantity_max_exclusive
                 else p.stock <= constraints.quantity_max
             )
-        for field in ("capacity_ml", "capacity_mah"):
+        for field in ("capacity_ml", "capacity_mah", "storage_gb"):
             value = getattr(constraints, field)
             if value is not None:
                 # Exact published technical evidence, never another number in
@@ -597,7 +630,7 @@ class ProductGridMixin:
                     capacity.in_([f"{value} мл", f"{value} мАч"]),
                 ]
                 if db.bind.dialect.name == "postgresql":
-                    units = "(?:м[Аа]ч|mAh)" if field == "capacity_mah" else "(?:мл|ml)"
+                    units = {"capacity_mah": "(?:м[Аа]ч|mAh)", "capacity_ml": "(?:мл|ml)", "storage_gb": "(?:ГБ|GB)"}[field]
                     pattern = rf"(^|[^0-9]){value}[[:space:]]*{units}([^[:alpha:]]|$)"
                     published = [title, cast(o.payload["metadata"]["attributes"], String)]
                     evidence.extend(column.op("~*")(pattern) for column in published)
@@ -606,6 +639,10 @@ class ProductGridMixin:
                         pattern = rf"(^|[^0-9]){litres}[[:space:]]*(?:л|l)([^[:alpha:]]|$)"
                         evidence.extend(column.op("~*")(pattern) for column in published)
                 conditions.append(or_(*evidence))
+        for connector in constraints.connectors:
+            if connector == "USB-C":
+                conditions.append(or_(document.ilike("%usb-c%"), document.ilike("%usb c%"),
+                                      title.contains("USB-C"), title.contains("USB C")))
         if constraints.sizes:
             conditions.append(func.upper(o.payload["metadata"]["size"].as_string()).in_(constraints.sizes))
         if constraints.sku:
@@ -624,6 +661,9 @@ class ProductGridMixin:
                 )
             )
         for feature in constraints.features:
+            if feature == "WITHOUT_VISOR":
+                conditions.append(or_(title.ilike("%без козырька%"),title.contains("Без козырька"),title.ilike("%without visor%")))
+                continue
             if feature == "ETERNAL":
                 conditions.append(
                     or_(title.ilike("%вечн%"), title.contains("Вечн"), title.ilike("%eternal%"))
@@ -1298,6 +1338,10 @@ class ProductGridMixin:
         if qualifiers:
             effective_title += " · " + ", ".join(qualifiers)
         notices = list(r.intent.identity_issues)
+        notices.extend(f"Не удалось распознать товарную позицию «{word}». Уточните её название; остальные категории сохранены."
+                       for word in r.intent.query_understanding.get("unresolved_products", []))
+        notices.extend(f"Условие «{word}» не удалось проверить. Уточните характеристику товара."
+                       for word in r.intent.query_understanding.get("unresolved_attributes", []))
         explanations = {
             "CATEGORY_NO_MATCH": "В текущем индексе нет предложений этой категории.",
             "BRAND_NO_MATCH": "Нет предложений с указанным брендом.",

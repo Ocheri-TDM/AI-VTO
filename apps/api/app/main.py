@@ -231,6 +231,7 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
                 async with admission.enter(
                     getattr(getattr(request.state, "user", None), "id", None),
                     per_user_limit=4 if request.method == "GET" else 2,
+                    operation="read" if request.method == "GET" else "write",
                 ):
                     response = await call_next(request)
                     if request.url.path.endswith("/offers"):

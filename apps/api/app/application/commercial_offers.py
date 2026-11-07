@@ -5,7 +5,7 @@ import copy
 from decimal import ROUND_HALF_UP, Decimal
 from uuid import uuid4
 
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from app.application.offer_tokens import TokenVault, public_origin
 from app.application.presentation_assets import safe_path, valid_source
@@ -13,7 +13,7 @@ from app.application.presentation_logo import OFFER_LOGO, OFFER_LOGO_SHA256, fre
 from app.database.models import CommercialOfferShare as Share
 from app.database.models import PresentationDocument as Document
 from app.database.models import PresentationRevision as Revision
-from app.database.models import ProductObservation, SupplierOffer
+from app.database.models import ProductObservation, Project, SupplierOffer
 from app.domain.commercial_offer import (
     KIND,
     availability,
@@ -27,7 +27,7 @@ from app.domain.commercial_offer import (
     validate_document,
 )
 from app.domain.models import utcnow
-from app.domain.offer_lifecycle import aware, expired, live
+from app.domain.offer_lifecycle import LINK_LIFETIME_DAYS, aware, expired, live
 
 
 def logo_background(path):
@@ -76,6 +76,7 @@ class CommercialOfferService:
                     Document.project_id == project_id,
                     Document.user_id == user,
                     Document.is_primary_offer.is_(True),
+                    Document.deleted_at.is_(None),
                 )
             )
         return (
@@ -86,6 +87,47 @@ class CommercialOfferService:
     def editable(row):
         if row and not row.is_primary_offer:
             raise ValueError("ARCHIVED_OFFER")
+
+    async def state(self, project_id, user):
+        project = await self.documents.project(project_id, user)
+        if not project:
+            return None
+        return {"offer": await self.primary(project_id, user), "generation": project.offer_generation}
+
+    async def delete(self, identifier, user, body):
+        # Ownership is checked even for an idempotent tombstone replay.
+        async with self.sessions() as db:
+            row = await db.get(Document, identifier)
+            if not row or row.user_id != user or row.draft.get("kind") != KIND:
+                return None
+            project_id = row.project_id
+        if not body.confirmed:
+            raise ValueError("Подтвердите удаление предложения")
+        async with self.documents.local_lock, self.sessions.begin() as db:
+            project = await db.scalar(select(Project).where(Project.id == project_id, Project.user_id == user).with_for_update())
+            row = await db.scalar(select(Document).where(Document.id == identifier, Document.user_id == user).with_for_update())
+            if not project or not row:
+                return None
+            if row.deleted_at is not None:
+                return {"id": identifier, "deleted": True, "generation": project.offer_generation}
+            if row.version != body.version:
+                raise ValueError("STATE_CONFLICT")
+            if row.is_primary_offer:
+                project.offer_generation += 1
+                row.primary_reason = "DELETED_PRIMARY"
+            else:
+                row.primary_reason = "DELETED_PREVIOUS"
+            row.deleted_at = row.updated_at = utcnow()
+            row.is_primary_offer, row.version = False, row.version + 1
+            share = await db.get(Share, identifier, with_for_update=True)
+            if share:
+                share.active = False
+                share.epoch += 1
+                share.pending_revision_id = share.pending_epoch = None
+                share.updated_at = utcnow()
+            from app.domain.presentation import ACTIVE
+            await db.execute(update(Revision).where(Revision.document_id == identifier, Revision.status.in_(ACTIVE)).values(status="CANCELLED", claim=None, lease_until=None, updated_at=utcnow()))
+            return {"id": identifier, "deleted": True, "generation": project.offer_generation}
 
     async def snapshot_items(self, state):
         base = await self.documents.snapshots(state["selected_ids"])
@@ -158,11 +200,14 @@ class CommercialOfferService:
         project = await self.documents.project(project_id, user)
         if not project:
             return None
-        async with self.documents.collections.locked(project_id, user) as (collection, db):
+        async with self.documents.local_lock, self.documents.collections.locked(project_id, user) as (collection, db):
             if collection is None:
                 return None
+            current_project = await db.get(Project, project_id)
+            if (body.offer_generation if body.offer_generation is not None else 0) != current_project.offer_generation:
+                raise ValueError("STATE_CONFLICT")
             existing = await db.scalar(
-                select(Document).where(Document.project_id == project_id, Document.is_primary_offer.is_(True))
+                select(Document).where(Document.project_id == project_id, Document.is_primary_offer.is_(True), Document.deleted_at.is_(None))
             )
             if existing:
                 return await self.get(existing.id, user) | {"created": False}
@@ -214,6 +259,7 @@ class CommercialOfferService:
                     .where(
                         Document.project_id == project_id,
                         Document.user_id == user,
+                        Document.deleted_at.is_(None),
                         Document.draft["kind"].as_string() == KIND,
                     )
                     .order_by(Document.updated_at.desc())
@@ -274,6 +320,32 @@ class CommercialOfferService:
             )
         except (OSError, ValueError):
             preview["logo_background"] = "#151918"
+        ids = [item["offer_id"] for item in draft["items"]]
+        async with self.sessions() as db:
+            stock_rows = (
+                await db.execute(
+                    select(SupplierOffer.id, SupplierOffer.supplier, ProductObservation)
+                    .outerjoin(ProductObservation, ProductObservation.offer_id == SupplierOffer.id)
+                    .where(SupplierOffer.id.in_(ids))
+                )
+            ).all()
+        current = {id: (supplier, observation) for id, supplier, observation in stock_rows}
+        owner_stock = {}
+        for item in draft["items"]:
+            supplier, observation = current.get(item["offer_id"], (None, None))
+            owner_stock[item["id"]] = {
+                "source": "LOCAL_INDEX" if observation else "SNAPSHOT_ONLY",
+                "quantity": observation.stock if observation else item.get("stock"),
+                "observed_at": observation.observed_at.isoformat()
+                if observation
+                else item.get("observed_at"),
+                "incoming_quantity": observation.incoming if observation else item.get("incoming_quantity"),
+                "label": "Остаток по данным VTO"
+                if supplier == "vto" or item.get("supplier") == "vto"
+                else "Последний известный остаток",
+                "snapshot_quantity": item.get("stock"),
+                "snapshot_observed_at": item.get("observed_at"),
+            }
         return {
             "id": row.id,
             "is_primary": row.is_primary_offer,
@@ -283,6 +355,7 @@ class CommercialOfferService:
             "kind": KIND,
             "draft": draft,
             "preview": preview,
+            "owner_stock": owner_stock,
             "issues": validate_document(draft),
             "share": self.share_view(share),
             "materials_preparing": any(
@@ -325,6 +398,7 @@ class CommercialOfferService:
                 "expires_at": None,
                 "expired": False,
                 "state": "UNPUBLISHED",
+                "lifetime_days": LINK_LIFETIME_DAYS,
             }
         path = "/offers/" + self.vault.reveal(share.encrypted_token)
         now = self.documents.offer_now()
@@ -332,6 +406,7 @@ class CommercialOfferService:
         is_expired = expired(share, now)
         return {
             "active": active,
+            "lifetime_days": LINK_LIFETIME_DAYS,
             "epoch": share.epoch,
             "public_url": self.origin + path if self.origin and active else None,
             "local_preview_path": path if active else None,
@@ -476,6 +551,8 @@ class CommercialOfferService:
             if collection is None:
                 return None
             current = await db.scalar(select(Document).where(Document.id == identifier).with_for_update())
+            if not current or current.deleted_at is not None:
+                return None
             state = await self.documents.collections.state(db, collection)
             selected = set(state["selected_ids"])
             items = current.draft["items"]
@@ -596,6 +673,8 @@ class CommercialOfferService:
             return None
         async with self.documents.local_lock, self.sessions.begin() as db:
             row = await db.scalar(select(Document).where(Document.id == identifier).with_for_update())
+            if not row or row.deleted_at is not None:
+                return None
             share = await db.get(Share, identifier, with_for_update=True)
             if row.version != body.version or not share or share.epoch != body.epoch:
                 raise ValueError("STATE_CONFLICT")
@@ -622,6 +701,9 @@ class CommercialOfferService:
             return None
         async with self.sessions() as db:
             share = await db.scalar(select(Share).where(Share.token_hash == digest))
+            document = await db.get(Document, share.document_id) if share else None
+            if not document or document.deleted_at is not None:
+                return None
             if share and expired(share, self.documents.offer_now()):
                 raise ValueError("OFFER_LINK_EXPIRED")
             if not live(share, self.documents.offer_now()) or not share.published_revision_id:

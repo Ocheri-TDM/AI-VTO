@@ -1,0 +1,21 @@
+/* Native scrolling only. Firefox uses the standard properties. Chromium/WebKit
+   use the explicit 10px rounded scrollbar; auto disables the competing standard
+   overrides there instead of assuming both mechanisms are additive. */
+:root{--scrollbar-track:#181e1a;--scrollbar-thumb:#737f76;--scrollbar-thumb-hover:#a3b28f;--scrollbar-thumb-active:var(--scrollbar-thumb-hover)}
+:root[data-site-theme="pulse"]{--scrollbar-track:var(--ui-surface-page,#f3f5f2);--scrollbar-thumb:#7b838b;--scrollbar-thumb-hover:var(--ui-brand,#f42902);--scrollbar-thumb-active:var(--ui-accent-active,#cf2608)}
+:where(html,body,.native-scroll,.research-projects,.research-main,.research-messages,.sheet-body,.selected-products-scroll,.ui-select-options,.offer-library,.commercial-public,.presentation-preview,.presentation-columns>section,.presentation-thumbnails,.presentation-page-scroll,.palette-explorer,.palette-dialog-body,.research-brand-options,textarea){scrollbar-color:var(--scrollbar-thumb) var(--scrollbar-track);scrollbar-width:thin}
+@supports selector(::-webkit-scrollbar){
+  :where(html,body,.native-scroll,.research-projects,.research-main,.research-messages,.sheet-body,.selected-products-scroll,.ui-select-options,.offer-library,.commercial-public,.presentation-preview,.presentation-columns>section,.presentation-thumbnails,.presentation-page-scroll,.palette-explorer,.palette-dialog-body,.research-brand-options,textarea){scrollbar-width:auto;scrollbar-color:auto}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background:var(--scrollbar-track)}
+  ::-webkit-scrollbar-thumb{background:var(--scrollbar-thumb);border:2px solid var(--scrollbar-track);border-radius:12px}
+  ::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-thumb-hover)}
+  ::-webkit-scrollbar-thumb:active{background:var(--scrollbar-thumb-active)}
+}
+@media(forced-colors:active){
+  :where(html,body,.native-scroll,.research-projects,.research-main,.research-messages,.sheet-body,.selected-products-scroll,.ui-select-options,.offer-library,.commercial-public,.presentation-preview,.presentation-columns>section,.presentation-thumbnails,.presentation-page-scroll,.palette-explorer,.palette-dialog-body,.research-brand-options,textarea){scrollbar-color:auto;scrollbar-width:auto}
+  ::-webkit-scrollbar{width:revert;height:revert}
+  ::-webkit-scrollbar-thumb,::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active{background:revert;border:revert;border-radius:revert}
+  ::-webkit-scrollbar-track,::-webkit-scrollbar-corner{background:revert}
+}
+@media(pointer:coarse){::-webkit-scrollbar{width:revert;height:revert}}

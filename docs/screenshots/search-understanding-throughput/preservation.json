@@ -1,0 +1,223 @@
+{
+  "status": "PASS",
+  "protected": {
+    "users": {
+      "before": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "unchanged": true
+    },
+    "projects": {
+      "before": {
+        "count": 3,
+        "fingerprint": "fd9e81d06c709db6cdb035ea94da798a"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "fd9e81d06c709db6cdb035ea94da798a"
+      },
+      "unchanged": true
+    },
+    "project_collection_items": {
+      "before": {
+        "count": 11,
+        "fingerprint": "38fbbb7491b66b9b6dc373180a3fdd6f"
+      },
+      "after": {
+        "count": 11,
+        "fingerprint": "38fbbb7491b66b9b6dc373180a3fdd6f"
+      },
+      "unchanged": true
+    },
+    "presentation_documents": {
+      "before": {
+        "count": 15,
+        "fingerprint": "b76265d6e339b96820d165dd832f5dd5"
+      },
+      "after": {
+        "count": 15,
+        "fingerprint": "b76265d6e339b96820d165dd832f5dd5"
+      },
+      "unchanged": true
+    },
+    "presentation_revisions": {
+      "before": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "after": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "unchanged": true
+    },
+    "commercial_offer_shares": {
+      "before": {
+        "count": 3,
+        "fingerprint": "83bc279af1bf08eba1897b6134125082"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "83bc279af1bf08eba1897b6134125082"
+      },
+      "unchanged": true
+    }
+  },
+  "encryption_key_unchanged": true,
+  "catalog": {
+    "offers": 7182,
+    "families": 2548,
+    "enrichment_pending": 0
+  },
+  "quantities": {
+    "positive": 5113,
+    "zero": 212,
+    "unknown": 1857
+  },
+  "catalog_growth": 548,
+  "jobs": [
+    {
+      "id": "46d59da7-676a-4571-8092-e93a02167082",
+      "kind": "AVAILABILITY_REFRESH",
+      "status": "RUNNING",
+      "error": null,
+      "metrics": {
+        "errors": 10,
+        "anomalies": [],
+        "duration_ms": 43884.97,
+        "products_changed": 0,
+        "products_unchanged": 0,
+        "useful_change_rate": null,
+        "products_per_minute": 0.0,
+        "requests_per_minute": 0.0,
+        "observations_created": 0,
+        "requests_per_product": null,
+        "targeted_job_queue_ms": 5687830.4,
+        "observations_deduplicated": 0
+      },
+      "page": null,
+      "seen_parents": 0,
+      "reported_total": null,
+      "coverage_complete": false,
+      "failed_cards": {},
+      "card_progress": {}
+    },
+    {
+      "id": "3af11531-88ce-4c5f-b33d-869c4045d606",
+      "kind": "FULL_CATALOG_RECONCILIATION",
+      "status": "PENDING",
+      "error": "TIME_BUDGET",
+      "metrics": {
+        "db_ms": 5428.0,
+        "offers": 7163,
+        "http_ms": 498921.0,
+        "parents": 2577,
+        "parse_ms": 1847.0,
+        "variants": 6538,
+        "pacing_ms": 8734.0,
+        "last_error": "Server error '502 Bad Gateway' for url 'https://vto.kz/wp-json/wc/store/products?page=26&per_page=100&orderby=date&order=desc'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502",
+        "duration_ms": 7360045,
+        "http_errors": 29,
+        "http_requests": 4200,
+        "retry_wait_ms": 0.0,
+        "zero_quantity": 209,
+        "known_quantity": 5306,
+        "failed_attempts": 48,
+        "simple_products": 625,
+        "collection_pages": 36,
+        "core_live_offers": 438,
+        "products_changed": 6731,
+        "requests_by_kind": {
+          "DETAIL_HTML": 14,
+          "VARIATION_API": 21,
+          "VARIATION_STOCK": 11
+        },
+        "unknown_quantity": 1857,
+        "variable_parents": 1952,
+        "products_unchanged": 432,
+        "non_sellable_parents": 34,
+        "observations_created": 6731,
+        "targeted_job_queue_ms": 4.0,
+        "observations_deduplicated": 432
+      },
+      "page": 35,
+      "seen_parents": 2577,
+      "reported_total": 17786,
+      "coverage_complete": false,
+      "failed_cards": {
+        "334080": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "334150": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "334702": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "335344": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "1620218": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "1620369": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "1620624": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "1620722": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        },
+        "1948539": {
+          "error": "VTO_PARSING_ERROR",
+          "attempts": 1,
+          "stage": null,
+          "core_offer_ids": null
+        }
+      },
+      "card_progress": {}
+    }
+  ],
+  "migration": "0025_offer_lifecycle",
+  "runtime": {
+    "status": "NOT AVAILABLE",
+    "http_status": 404
+  },
+  "health": 200,
+  "cleanup": true,
+  "deleted_task_users": 2,
+  "deleted_task_projects": 64,
+  "deleted_task_documents": 0,
+  "isolated_cluster_removed": true,
+  "browser_listener_closed": true
+}

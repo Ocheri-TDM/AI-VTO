@@ -166,6 +166,13 @@ class OfferEdit(BaseModel):
 class OfferCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     collection_version: int = Field(ge=0)
+    offer_generation: int | None = Field(default=None, ge=0)
+
+
+class OfferDelete(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    version: int = Field(ge=1)
+    confirmed: bool = False
 
 
 class OfferAction(BaseModel):

@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "original_records": {
+    "users": {
+      "before": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "unchanged": true
+    },
+    "projects": {
+      "before": {
+        "count": 4,
+        "fingerprint": "1887cc86836e5b652bf443b6931bf9ba"
+      },
+      "after": {
+        "count": 4,
+        "fingerprint": "1887cc86836e5b652bf443b6931bf9ba"
+      },
+      "unchanged": true
+    },
+    "messages": {
+      "before": {
+        "count": 62,
+        "fingerprint": "491685095bc35cc8e1ee1c488375498c"
+      },
+      "after": {
+        "count": 62,
+        "fingerprint": "491685095bc35cc8e1ee1c488375498c"
+      },
+      "unchanged": true
+    },
+    "project_collection_items": {
+      "before": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "after": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "unchanged": true
+    },
+    "presentation_documents": {
+      "before": {
+        "count": 16,
+        "fingerprint": "11a725f242882c70beaded873452c1f6"
+      },
+      "after": {
+        "count": 16,
+        "fingerprint": "11a725f242882c70beaded873452c1f6"
+      },
+      "unchanged": true
+    },
+    "presentation_revisions": {
+      "before": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "after": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "unchanged": true
+    },
+    "commercial_offer_shares": {
+      "before": {
+        "count": 3,
+        "fingerprint": "570e61f145dd3478c599ccc2a56d8b2d"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "570e61f145dd3478c599ccc2a56d8b2d"
+      },
+      "unchanged": true
+    }
+  },
+  "original_offer_identities": 11177,
+  "offers_now": 11177,
+  "backend_source_files_unchanged": 152,
+  "original_document_files_unchanged": 259,
+  "encryption_key_unchanged": true,
+  "cleanup": false,
+  "health": {
+    "api": 200,
+    "frontend": 200,
+    "proxy": 200
+  }
+}

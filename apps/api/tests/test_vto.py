@@ -243,7 +243,7 @@ async def test_bounded_http_retries(failure, monkeypatch):
     provider = VTOProvider(Settings(_env_file=None), httpx.AsyncClient(transport=httpx.MockTransport(transport)))
     with pytest.raises(SupplierError):
         await provider.request("https://vto.kz/product/example/")
-    assert calls == 3
+    assert calls == 1  # Durable supplier queue owns retry; no multiplicative HTTP loop.
     await provider.close()
 
 

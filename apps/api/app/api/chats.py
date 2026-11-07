@@ -4,7 +4,7 @@ from contextlib import suppress
 from typing import Literal
 from uuid import UUID
 
-from fastapi import APIRouter, HTTPException, Request
+from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -20,7 +20,8 @@ router = APIRouter(prefix="/api/chats", tags=["conversations"])
 
 class CreateChat(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    project_name: str = Field(default="Новый проект", min_length=1, max_length=300)
+    project_name: str = Field(default="Новый чат", min_length=1, max_length=300)
+    request_id: UUID | None = None
 
     @field_validator("project_name")
     @classmethod
@@ -43,7 +44,29 @@ class MessageRequest(BaseModel):
 @router.post("", status_code=201)
 async def create_chat(body: CreateChat, request: Request):
     user_id = getattr(getattr(request.state, "user", None), "id", None)
-    return {"id": await request.app.state.conversations.create(body.project_name, user_id)}
+    return {"id": await request.app.state.conversations.create(body.project_name, user_id, body.request_id)}
+
+
+@router.get("/{chat_id}/history")
+async def history(
+    chat_id: UUID,
+    request: Request,
+    before: str | None = Query(default=None, max_length=256),
+    after: str | None = Query(default=None, max_length=256),
+    limit: int = Query(default=50, ge=1, le=100),
+):
+    from app.application.conversation_history import page
+
+    user = getattr(getattr(request.state, "user", None), "id", None)
+    if user is None and not request.app.state.settings.auth_required:
+        user = "00000000-0000-0000-0000-000000000001"
+    try:
+        value = await page(request.app.state.project_queries, str(chat_id), user, before, after, limit)
+    except ValueError:
+        raise HTTPException(422, "Неверный курсор сообщений") from None
+    if value is None:
+        raise HTTPException(404, "Чат не найден")
+    return value
 
 
 @router.get("/{chat_id}")

@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "Foreign owner and guest cannot delete",
+      "pass": true
+    },
+    {
+      "check": "Origin guard preserved",
+      "pass": true
+    },
+    {
+      "check": "Unconfirmed delete refused",
+      "pass": true
+    },
+    {
+      "check": "Draft removed from list and private editor",
+      "pass": true
+    },
+    {
+      "check": "Delete retry is idempotent",
+      "pass": true
+    },
+    {
+      "check": "Stale get-or-create rejected",
+      "pass": true
+    },
+    {
+      "check": "Ordinary open did not create a replacement",
+      "pass": true
+    },
+    {
+      "check": "Explicit replacement gets a new ID",
+      "pass": true
+    },
+    {
+      "check": "Real PDF and XLSX ready before deletion",
+      "pass": true
+    },
+    {
+      "check": "Previous deletion preserves primary",
+      "pass": true
+    },
+    {
+      "check": "Legacy archive deletion refused",
+      "pass": true
+    },
+    {
+      "check": "Every tested guest resource closed",
+      "pass": true
+    },
+    {
+      "check": "Private files and compatibility routes closed",
+      "pass": true
+    },
+    {
+      "check": "Late publish rejected",
+      "pass": true
+    },
+    {
+      "check": "Chat messages and collection unchanged",
+      "pass": true
+    },
+    {
+      "check": "Publication cannot resurrect a deleted offer",
+      "pass": true
+    }
+  ],
+  "search_seconds": [
+    1.276,
+    1.95
+  ],
+  "observed_before_delete": "PREPARING_ASSETS",
+  "collection_count": 2,
+  "message_count": 4,
+  "expired_link_boundary": "controlled regression, not a live 14-day wait"
+}

@@ -5,7 +5,9 @@ import { apiPath } from '@/lib/api-config';
 import { draftResearch, ResearchViewWriter, type ViewMutation } from '@/lib/research-view-writer';
 
 export function useResearch(chatId:string|null) {
-  const [research,setResearch]=useState<Research|null>(null);
+  const [storedResearch,setResearch]=useState<Research|null>(null);
+  const [hydratedChat,setHydratedChat]=useState<string|null>(null);
+  const research=storedResearch?.chat_id===chatId?storedResearch:null;
   const [readBusy,setReadBusy]=useState(false);
   const [writeBusy,setWriteBusy]=useState(false);
   const [error,setError]=useState('');
@@ -24,11 +26,11 @@ export function useResearch(chatId:string|null) {
       }
       commit(draftResearch(next,pending??{},previous));
   },setWriteBusy,e=>setError(e instanceof Error?e.message:'Не удалось сохранить подборку.')));
-  const external=useCallback((value:Research|null)=>{generation.current+=1;writer.reset(value);commit(value);},[writer,commit]);
+  const external=useCallback((value:Research|null)=>{const previous=latest.current;if(value&&previous?.id===value.id&&value.revision<previous.revision)return;generation.current+=1;writer.reset(value);commit(value);if(value)setHydratedChat(value.chat_id);},[writer,commit]);
   useEffect(()=>{
     const current=++generation.current;writer.reset(null);
-    queueMicrotask(()=>{if(current===generation.current)commit(null);});
-    if(chatId)researchApi.latest(chatId).then(value=>{if(current===generation.current){writer.reset(value);commit(value);}})
+    queueMicrotask(()=>{if(current===generation.current){commit(null);setHydratedChat(null);}});
+    if(chatId)researchApi.latest(chatId).then(value=>{if(current===generation.current){writer.reset(value);commit(value);setHydratedChat(chatId);}})
       .catch(e=>{if(current===generation.current)setError(e.message);});
   },[chatId,writer,commit]);
   const running=!!research&&['QUEUED','RUNNING'].includes(research.status);
@@ -74,7 +76,7 @@ export function useResearch(chatId:string|null) {
       if(ids.has(productId))ids.delete(productId);else ids.add(productId);
       change({selected_ids:[...ids]});
   }
-  return {research,busy:readBusy||writeBusy,running,error,setError,perform,setResearch:external,
+  return {research,ready:!chatId||hydratedChat===chatId,busy:readBusy||writeBusy,running,error,setError,perform,setResearch:external,
     openResearch:(identifier:string)=>perform(()=>researchApi.get(identifier)),
     loadMore:async()=>{
       if(!research?.next_cursor||operation.current||writer.saving)return;

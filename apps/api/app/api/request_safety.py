@@ -16,8 +16,9 @@ search_transaction = ContextVar("search_transaction", default=False)
 
 
 class RequestProblem(Exception):
-    def __init__(self, code, detail, status=422, stage="validation"):
+    def __init__(self, code, detail, status=422, stage="validation", *, retry_after=None):
         self.code, self.detail, self.status, self.stage = code, detail, status, stage
+        self.retry_after = retry_after
         super().__init__(detail)
 
 
@@ -25,7 +26,7 @@ def problem_response(exc, trace):
     return JSONResponse(
         {"detail": exc.detail, "code": exc.code, "stage": exc.stage, "trace_id": trace},
         status_code=exc.status,
-        headers={"X-Request-ID": trace},
+        headers={"X-Request-ID": trace} | ({"Retry-After": str(exc.retry_after or 1)} if exc.status == 429 else {}),
     )
 
 
@@ -35,6 +36,9 @@ def validate_query(value):
 
     if not isinstance(value, str):
         raise ValueError("Запрос должен быть строкой.")
+    original = value
+    if len(original) > 2000 or len(original.encode("utf-8")) > 8000:
+        raise ValueError("Слишком длинный запрос.")
     value = unicodedata.normalize("NFKC", value).strip()
     if not value or not any(c.isalnum() for c in value):
         raise ValueError("Укажите товар, бренд или назначение.")
@@ -42,11 +46,11 @@ def validate_query(value):
         raise ValueError("Запрос содержит недопустимые управляющие символы.")
     if len(value) > 2000 or len(value.encode("utf-8")) > 8000:
         raise ValueError("Слишком длинный запрос.")
-    if sum(value.count(c) for c in ",;\n") > 48:
+    if len(re.findall(r"\w+", value)) > 256 or re.search(r"[^\w\s]{129,}", value):
         raise ValueError("Слишком много условий. Разделите запрос.")
     if any(len(word) > 256 for word in re.findall(r"\w+", value)):
         raise ValueError("Слишком длинное слово в запросе.")
-    return value
+    return original
 
 
 class Admission:
@@ -63,27 +67,35 @@ class Admission:
         self.active = self.queued = self.completed = self.rejected = 0
 
     @asynccontextmanager
-    async def enter(self, user, *, per_user_limit=2):
+    async def enter(self, user, *, per_user_limit=2, operation=None):
         now = time.monotonic()
         key = user or "anonymous"
         state = self.users.setdefault(key, {"active": 0, "start": now, "count": 0})
         self.users.move_to_end(key)
         if now - state["start"] >= 60:
             state.update(start=now, count=0)
-        if state["active"] >= per_user_limit or state["count"] >= self.settings.search_requests_per_minute:
+        rate_limited = state["count"] >= self.settings.search_requests_per_minute
+        concurrency_limited = state["active"] >= (8 if operation else per_user_limit)
+        if concurrency_limited or rate_limited:
             self.rejected += 1
             raise RequestProblem(
-                "USER_REQUEST_LIMIT", "Слишком много запросов. Повторите позже.", 429, "admission"
+                "USER_REQUEST_LIMIT", "Слишком много запросов. Повторите позже.", 429, "admission",
+                retry_after=max(1, int(61 - (now - state["start"]))) if rate_limited else 1,
             )
-        if self.global_slots.locked() and self.queued >= self.settings.search_queue_limit:
+        slots = state.setdefault("slots", {}).setdefault(operation, asyncio.Semaphore(per_user_limit)) if operation else None
+        if (self.global_slots.locked() or slots and slots.locked()) and self.queued >= self.settings.search_queue_limit:
             raise RequestProblem("SEARCH_QUEUE_FULL", "Поиск занят. Повторите позже.", 429, "admission")
         state["count"] += 1
         state["active"] += 1
         self.queued += 1
         acquired = False
+        local_acquired = False
         try:
             try:
                 async with asyncio.timeout(self.settings.search_queue_timeout_seconds):
+                    if slots:
+                        await slots.acquire()
+                        local_acquired = True
                     await self.global_slots.acquire()
                 acquired = True
             except TimeoutError as exc:
@@ -100,6 +112,8 @@ class Admission:
             if acquired:
                 self.active -= 1
                 self.global_slots.release()
+            if local_acquired:
+                slots.release()
             while len(self.users) > 4096:
                 inactive = next((k for k, s in self.users.items() if not s["active"]), None)
                 if inactive is None:

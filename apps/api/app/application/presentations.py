@@ -59,7 +59,7 @@ class PresentationService(PresentationMaterials):
             return await db.scalar(
                 select(Document)
                 .join(Project)
-                .where(Document.id == identifier, Document.user_id == user, Project.user_id == user)
+                .where(Document.id == identifier, Document.user_id == user, Project.user_id == user, Document.deleted_at.is_(None))
             )
 
     async def project(self, identifier, user):
@@ -202,6 +202,7 @@ class PresentationService(PresentationMaterials):
                     .where(
                         Document.project_id == project,
                         Document.user_id == user,
+                        Document.deleted_at.is_(None),
                         or_(
                             Document.draft["kind"].as_string().is_(None),
                             Document.draft["kind"].as_string() != "COMMERCIAL_OFFER",
@@ -345,7 +346,7 @@ class PresentationService(PresentationMaterials):
         lock = self.local_lock if self.sessions.kw["bind"].dialect.name == "sqlite" else nullcontext()
         async with lock, self.sessions.begin() as db:
             current = await db.scalar(select(Document).where(Document.id == row.id).with_for_update())
-            if current is None or current.version != version:
+            if current is None or current.deleted_at is not None or current.version != version:
                 raise ValueError("STATE_CONFLICT")
             removed = {m["id"] for m in current.draft.get("materials", [])} - {
                 m["id"] for m in draft.get("materials", [])
@@ -366,7 +367,7 @@ class PresentationService(PresentationMaterials):
                                 photo[field] = old_photo[field]
             result = await db.execute(
                 update(Document)
-                .where(Document.id == row.id, Document.version == version)
+                .where(Document.id == row.id, Document.version == version, Document.deleted_at.is_(None))
                 .values(draft=draft, version=version + 1, updated_at=utcnow())
             )
             if result.rowcount != 1:
@@ -489,7 +490,7 @@ class PresentationService(PresentationMaterials):
             if db.bind.dialect.name == "postgresql":
                 await db.execute(text("SELECT pg_advisory_xact_lock(hashtext('presentation-enqueue'))"))
             row = await db.scalar(
-                select(Document).where(Document.id == identifier, Document.user_id == user).with_for_update()
+                select(Document).where(Document.id == identifier, Document.user_id == user, Document.deleted_at.is_(None)).with_for_update()
             )
             old = await db.scalar(
                 select(Revision).where(
@@ -615,7 +616,7 @@ class PresentationService(PresentationMaterials):
             if db.bind.dialect.name == "postgresql":
                 await db.execute(text("SELECT pg_advisory_xact_lock(hashtext('presentation-enqueue'))"))
             row = await db.scalar(
-                select(Document).where(Document.id == identifier, Document.user_id == user).with_for_update()
+                select(Document).where(Document.id == identifier, Document.user_id == user, Document.deleted_at.is_(None)).with_for_update()
             )
             if not row or row.draft.get("kind") != KIND:
                 return None
@@ -827,9 +828,10 @@ class PresentationService(PresentationMaterials):
                 return None
             row = await db.scalar(
                 select(Revision)
-                .where(Revision.status == "QUEUED")
+                .join(Document, Document.id == Revision.document_id)
+                .where(Revision.status == "QUEUED", Document.deleted_at.is_(None))
                 .order_by(Revision.created_at)
-                .with_for_update(skip_locked=True)
+                .with_for_update(skip_locked=True, of=Revision)
                 .limit(1)
             )
             if not row:
@@ -845,7 +847,9 @@ class PresentationService(PresentationMaterials):
     async def publish(self, revision, status, **kwargs):
         async with self.sessions.begin() as db:
             if revision.input.get("kind") == "COMMERCIAL_OFFER":
-                await db.scalar(select(Document).where(Document.id == revision.document_id).with_for_update())
+                document = await db.scalar(select(Document).where(Document.id == revision.document_id).with_for_update())
+                if not document or document.deleted_at is not None:
+                    return
             changed = await db.execute(
                 update(Revision)
                 .where(
@@ -1081,7 +1085,7 @@ class PresentationService(PresentationMaterials):
             document = await db.scalar(
                 select(Document).where(Document.id == revision.document_id).with_for_update()
             )
-            if not document:
+            if not document or document.deleted_at is not None:
                 return
             draft = copy.deepcopy(document.draft)
             for item in draft["items"]:
@@ -1096,6 +1100,8 @@ class PresentationService(PresentationMaterials):
             document = await db.scalar(
                 select(Document).where(Document.id == revision.document_id).with_for_update()
             )
+            if not document or document.deleted_at is not None:
+                return
             if not document:
                 return
             previous = (

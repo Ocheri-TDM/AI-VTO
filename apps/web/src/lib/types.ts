@@ -139,6 +139,7 @@ export interface Project {
   chat_id: string;
   updated_at: string;
   summary: string;
+  has_messages?: boolean;
 }
 export interface Chat {
   id: string;

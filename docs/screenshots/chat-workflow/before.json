@@ -1,0 +1,14 @@
+{
+  "research_messages": [
+    {
+      "role": "user",
+      "content": "Ручки и блокноты"
+    },
+    {
+      "role": "assistant",
+      "content": "Найдено 325 вариантов."
+    }
+  ],
+  "stored_chat_messages": 4,
+  "active_research_message_count": 2
+}

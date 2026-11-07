@@ -1,0 +1,72 @@
+[
+  {
+    "page": "/",
+    "header": {
+      "height": 64,
+      "top": 0,
+      "bottom": 64
+    },
+    "controls": [
+      {
+        "label": "Текущая",
+        "height": 38,
+        "top": 12.5,
+        "bottom": 50.5
+      },
+      {
+        "label": "Проекты",
+        "height": 44,
+        "top": 9.5,
+        "bottom": 53.5
+      },
+      {
+        "label": "Предложения",
+        "height": 44,
+        "top": 9.5,
+        "bottom": 53.5
+      },
+      {
+        "label": "Выйти",
+        "height": 44,
+        "top": 9.5,
+        "bottom": 53.5
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "page": "/offers",
+    "header": {
+      "height": 45,
+      "top": 0,
+      "bottom": 45
+    },
+    "controls": [
+      {
+        "label": "Проекты",
+        "height": 44,
+        "top": 0,
+        "bottom": 44
+      },
+      {
+        "label": "Предложения",
+        "height": 44,
+        "top": 0,
+        "bottom": 44
+      },
+      {
+        "label": "Текущая",
+        "height": 38,
+        "top": 3,
+        "bottom": 41
+      },
+      {
+        "label": "Выйти",
+        "height": 44,
+        "top": 0,
+        "bottom": 44
+      }
+    ],
+    "overflow": false
+  }
+]

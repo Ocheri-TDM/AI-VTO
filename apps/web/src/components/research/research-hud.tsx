@@ -9,19 +9,20 @@ export function hasAdditionalFilters(filters:ResearchFilters,overrides:Effective
     typeof value==='object'&&value!==null?Object.values(value).some(v=>Array.isArray(v)&&v.length>0):typeof value==='number'||value===true));
 }
 
-export function CollectionSummary({count,hidden=0,onOpen}:{count:number;hidden?:number;onOpen:()=>void}){
+export function CollectionSummary({count,hidden=0,onOpen,loading=false}:{count:number;hidden?:number;onOpen:()=>void;loading?:boolean}){
   return <aside className="research-hud-selected" aria-label="Выбранные товары" data-testid="selected-products">
-    <strong>Выбранные товары</strong><span className="research-selected-count">{count}</span>
-    {!!hidden&&<small>Вне текущей выдачи: {hidden}</small>}
-    <button className="studio-button primary" onClick={onOpen}>Открыть подборку</button>
+    <strong>Выбранные товары</strong><span className="research-selected-count" role={loading?'status':undefined}>{loading?'Загрузка…':count}</span>
+    {!loading&&!!hidden&&<small>Вне текущей выдачи: {hidden}</small>}
+    <button className="studio-button primary" disabled={loading} onClick={onOpen}>Открыть подборку</button>
   </aside>;
 }
 
-export function ResearchHud({research,pending,disabled,grouped,onGrouped,onFilters,onEffectiveChange,onReset,onSelected,onMobileFilters,onCategoryAction}:{
+export function ResearchHud({research,pending,disabled,grouped,onGrouped,onFilters,onEffectiveChange,onReset,onSelected,onMobileFilters,onCategoryAction,selectionLoading=false}:{
   research:Research;pending:boolean;disabled:boolean;grouped:boolean;onGrouped:(value:boolean)=>void;
   onFilters:(value:ResearchFilters)=>void;onReset:()=>void;onSelected:()=>void;onMobileFilters:()=>void;
   onCategoryAction?:(action:BranchAction)=>void;
   onEffectiveChange?:(edit:EffectiveEdit)=>void;
+  selectionLoading?:boolean;
 }) {
   return <section className="research-results-hud" aria-label="Управление результатами">
     <div className="research-hud-filters" data-testid="result-filters">
@@ -34,6 +35,6 @@ export function ResearchHud({research,pending,disabled,grouped,onGrouped,onFilte
       <div className="research-hud-status">{hasAdditionalFilters(research.view.filters,research.view.effective_overrides)&&<button className="studio-button" onClick={onReset} disabled={disabled}>Сбросить фильтры</button>}
         {pending&&<small role="status">Обновляю результаты…</small>}</div>
     </div>
-    <CollectionSummary count={research.view.selected_ids.length} hidden={research.hidden_selected_count} onOpen={onSelected}/>
+    <CollectionSummary count={research.view.selected_ids.length} hidden={research.hidden_selected_count} onOpen={onSelected} loading={selectionLoading}/>
   </section>;
 }

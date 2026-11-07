@@ -1,0 +1,61 @@
+{
+  "database": "isolated PostgreSQL :55433",
+  "baseline_commit": "dd18c69",
+  "commercial_fixture": "Melango 4 real variants, remapped only inside isolated DB",
+  "ingest": {
+    "before": {
+      "seconds": [
+        0.03145,
+        0.028364,
+        0.029334,
+        0.027362,
+        0.028363,
+        0.028548,
+        0.030149
+      ],
+      "sql_statements": [
+        44,
+        44,
+        44,
+        44,
+        44,
+        44,
+        44
+      ],
+      "median_seconds": 0.028548
+    },
+    "after": {
+      "seconds": [
+        0.028362,
+        0.027552,
+        0.027582,
+        0.026849,
+        0.027821,
+        0.026441,
+        0.02671
+      ],
+      "sql_statements": [
+        43,
+        43,
+        43,
+        43,
+        43,
+        43,
+        43
+      ],
+      "median_seconds": 0.027552
+    }
+  },
+  "concurrent_late_refresh": "PASS: latest zero preserved",
+  "card_cooldown": {
+    "before": {
+      "source_error": "VTO_NOT_FOUND",
+      "supplier_block_seconds": 899.99
+    },
+    "after": {
+      "source_error": null,
+      "supplier_block_seconds": 0
+    }
+  },
+  "note": "Seven warmed ingest transactions; DB calls measured, not a production throughput multiplier. Cooldown compared as persisted eligibility timestamps, without sleeping 15 minutes."
+}
