@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "Server conversation restored after API restart and F5",
+      "pass": true
+    },
+    {
+      "check": "No archive, offer list or persistent suggestions in search",
+      "pass": true
+    },
+    {
+      "check": "New chat is immediate with one central composer and no naming modal",
+      "pass": true
+    },
+    {
+      "check": "Automatic short title and one right-side composer",
+      "pass": true
+    },
+    {
+      "check": "Selected panel opens explicit primary editor",
+      "pass": true
+    },
+    {
+      "check": "Owner sees numeric inventory and date without warehouse geography",
+      "pass": true
+    },
+    {
+      "check": "Navbar offers lists multiple chats",
+      "pass": true
+    },
+    {
+      "check": "Offers layout current desktop",
+      "pass": true
+    },
+    {
+      "check": "Offers layout current mobile",
+      "pass": true
+    },
+    {
+      "check": "Offers layout pulse desktop",
+      "pass": true
+    },
+    {
+      "check": "Offers layout pulse mobile",
+      "pass": true
+    },
+    {
+      "check": "List returns the same primary offer ID",
+      "pass": true
+    },
+    {
+      "check": "Older page preserves scroll anchor",
+      "pass": true
+    },
+    {
+      "check": "New answer does not move a reader above",
+      "pass": true
+    },
+    {
+      "check": "F5 restores active product grid separately from conversation",
+      "pass": true
+    },
+    {
+      "check": "Mobile mounts one continuation input",
+      "pass": true
+    },
+    {
+      "check": "Mobile chat and navbar fit Pulse",
+      "pass": true
+    },
+    {
+      "check": "Desktop chat and single composer fit Pulse",
+      "pass": true
+    },
+    {
+      "check": "Guest web contains no owner stock controls",
+      "pass": true
+    },
+    {
+      "check": "Public link grants no owner API access",
+      "pass": true
+    }
+  ],
+  "browser": "installed Microsoft Edge",
+  "fixture_history_messages": 140
+}

@@ -23,6 +23,8 @@ class ProductTaxonomyNode(BaseModel):
 
 
 SEEDS = {
+    "cap": ("Кепки", "кепка", "кепк", "кепок", "головной убор с козырьком", "cap"),
+    "baseballcap": ("Бейсболки", "бейсболк", "бейсболок", "baseball cap", "baseballcap"),
     "powerbank": (
         "Внешние аккумуляторы",
         "powerbank",
@@ -135,7 +137,8 @@ def terms(text: str) -> list[str]:
 class UniversalCategoryResolver:
     def __init__(self, nodes: list[ProductTaxonomyNode] | None = None):
         self.nodes = nodes or [
-            ProductTaxonomyNode(id=k, canonical_name=k, display_name_ru=v[0], aliases=list(v[1:]))
+            ProductTaxonomyNode(id=k, canonical_name=k, display_name_ru=v[0], aliases=list(v[1:]),
+                                parent_id="cap" if k == "baseballcap" else None)
             for k, v in SEEDS.items()
         ]
 
@@ -144,9 +147,12 @@ class UniversalCategoryResolver:
         found = [
             n.id
             for n in self.nodes
-            if text == normalize_text(n.id) or any(re.search(r"\b" + re.escape(a), text) for a in n.aliases)
+            if text == normalize_text(n.id) or any(re.search(r"\b" + re.escape(a) +
+                    (r"s?\b" if n.id in ("cap", "baseballcap") and a.isascii() else ""), text) for a in n.aliases)
         ]
         legacy = CategoryResolver().classify(text)
+        if "baseballcap" in found:
+            found = [c for c in found if c != "cap"]
         if "shopperbag" in found or "shopperbag" in legacy:
             found = [c for c in found if c != "bag"]
             legacy = [c for c in legacy if c != "bag"]
@@ -241,6 +247,8 @@ class ProductCategoryMatcher:
         )
 
         def token_match(left: str, right: str) -> bool:
+            if left.isascii() and right.isascii():
+                return left.rstrip("s") == right.rstrip("s")
             return (
                 left.startswith(right)
                 or right.startswith(left)
@@ -326,6 +334,8 @@ class QueryVocabulary:
     }
 
     EQUIVALENTS = {
+        **{key: value[1:] for key, value in SEEDS.items()},
+        "cap": (*SEEDS["cap"][1:], *SEEDS["baseballcap"][1:]),
         "powerbank": SEEDS["powerbank"][1:],
         "flashdrive": SEEDS["flashdrive"][1:],
         "thermomug": SEEDS["thermomug"][1:],

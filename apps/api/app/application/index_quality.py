@@ -11,6 +11,7 @@ from app.database.models import (
     SupplierSyncState,
 )
 from app.domain.models import utcnow
+from app.domain.vto_retry import diagnostics as vto_diagnostics
 
 
 class IndexQualityService:
@@ -72,9 +73,12 @@ class IndexQualityService:
                         declared_parents=discovery.checkpoint.get('reported_total'),
                         processed_parents=len(discovery.checkpoint.get('seen_parent_ids', [])),
                         next_page=discovery.checkpoint.get('page'),
+                        per_page=discovery.checkpoint.get('per_page'),
                         pending_products=len(discovery.checkpoint.get('pending_products', [])),
                         failed_products=len(discovery.checkpoint.get('failed_products', {})),
+                        failed_listing_pages=len(discovery.checkpoint.get('failed_listing_pages', {})),
                         metrics=discovery.metrics,
+                        execution=vto_diagnostics(discovery, state, utcnow()),
                     ) if supplier == 'vto' and discovery else None),
                     capabilities=provider.capabilities.model_dump() if provider and hasattr(provider, 'capabilities') else {},
                     offers_total=len(rows),

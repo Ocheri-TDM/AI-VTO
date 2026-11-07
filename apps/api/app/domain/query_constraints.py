@@ -67,6 +67,8 @@ class AttributeConstraints(BaseModel):
     price_max_exclusive: bool = False
     capacity_ml: int | None = Field(default=None, ge=1, le=1_000_000)
     capacity_mah: int | None = Field(default=None, ge=1, le=10_000_000)
+    storage_gb: int | None = Field(default=None, ge=1, le=1_000_000)
+    connectors: list[str] = Field(default_factory=list)
     sizes: list[str] = Field(default_factory=list)
     subtypes: list[str] = Field(default_factory=list)
     sku: str | None = None
@@ -90,6 +92,16 @@ def parse_constraints(query):
 
     def consume(match):
         spans.append(match.span())
+
+    for match in re.finditer(r"\b(\d+)\s*(?:ГБ|GB)\b", text, re.I):
+        value.storage_gb = int(match[1])
+        consume(match)
+    for match in re.finditer(r"\bUSB\s*[-–—]?\s*C\b", text, re.I):
+        value.connectors.append("USB-C")
+        consume(match)
+    for match in re.finditer(r"\b(?:без\s+козырьк\w*|without\s+visor)\b", text, re.I):
+        value.features.append("WITHOUT_VISOR")
+        consume(match)
 
     for match in re.finditer(
         r"можно\s+близк\w*(?:\s+оттен\w*)?|люб\w*\s+оттен\w*|люб(?:ой|ого)\s+цвет\w*", text, re.I
@@ -199,7 +211,7 @@ def parse_constraints(query):
     hard_text = text
     for n, marker in enumerate(markers):
         end = markers[n + 1].start() if n + 1 < len(markers) else len(text)
-        punctuation = re.search(r"[.;!?]", text[marker.end() : end])
+        punctuation = re.search(r"[,.;!?]" if marker[0].strip().casefold() == "не" else r"[.;!?]", text[marker.end() : end])
         if punctuation:
             end = marker.end() + punctuation.start()
         phrase = text[marker.end() : end]

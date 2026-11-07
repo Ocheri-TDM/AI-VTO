@@ -1,0 +1,7793 @@
+{
+  "version": "understanding-20261107-v1",
+  "total": 250,
+  "passed": 250,
+  "results": [
+    {
+      "id": "L-pen-0",
+      "class": "canonical",
+      "query": "ручки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0792
+    },
+    {
+      "id": "L-pen-1",
+      "class": "global",
+      "query": "красные ручки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-pen-2",
+      "class": "sentences",
+      "query": "ручки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-pen-3",
+      "class": "punctuation",
+      "query": "ручки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.012
+    },
+    {
+      "id": "L-pen-4",
+      "class": "newlines",
+      "query": "ручки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-pen-5",
+      "class": "soft",
+      "query": "найди ручки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-notebook-0",
+      "class": "canonical",
+      "query": "блокноты",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "notebook"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "notebook",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-notebook-1",
+      "class": "global",
+      "query": "красные блокноты от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "notebook"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-notebook-2",
+      "class": "sentences",
+      "query": "блокноты. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "notebook"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0101
+    },
+    {
+      "id": "L-notebook-3",
+      "class": "punctuation",
+      "query": "блокноты, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "notebook"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0115
+    },
+    {
+      "id": "L-notebook-4",
+      "class": "newlines",
+      "query": "блокноты\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "notebook"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-notebook-5",
+      "class": "soft",
+      "query": "найди блокноты; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "notebook"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "notebook",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0101
+    },
+    {
+      "id": "L-thermomug-0",
+      "class": "canonical",
+      "query": "термокружки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "thermomug",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-thermomug-1",
+      "class": "global",
+      "query": "красные термокружки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-thermomug-2",
+      "class": "sentences",
+      "query": "термокружки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0097
+    },
+    {
+      "id": "L-thermomug-3",
+      "class": "punctuation",
+      "query": "термокружки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0118
+    },
+    {
+      "id": "L-thermomug-4",
+      "class": "newlines",
+      "query": "термокружки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-thermomug-5",
+      "class": "soft",
+      "query": "найди термокружки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "thermomug",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-cap-0",
+      "class": "canonical",
+      "query": "кепки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-cap-1",
+      "class": "global",
+      "query": "красные кепки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-cap-2",
+      "class": "sentences",
+      "query": "кепки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0104
+    },
+    {
+      "id": "L-cap-3",
+      "class": "punctuation",
+      "query": "кепки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0108
+    },
+    {
+      "id": "L-cap-4",
+      "class": "newlines",
+      "query": "кепки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0095
+    },
+    {
+      "id": "L-cap-5",
+      "class": "soft",
+      "query": "найди кепки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0102
+    },
+    {
+      "id": "L-baseballcap-0",
+      "class": "canonical",
+      "query": "бейсболки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "baseballcap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.008
+    },
+    {
+      "id": "L-baseballcap-1",
+      "class": "global",
+      "query": "красные бейсболки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "baseballcap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-baseballcap-2",
+      "class": "sentences",
+      "query": "бейсболки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "baseballcap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-baseballcap-3",
+      "class": "punctuation",
+      "query": "бейсболки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "baseballcap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0118
+    },
+    {
+      "id": "L-baseballcap-4",
+      "class": "newlines",
+      "query": "бейсболки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "baseballcap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-baseballcap-5",
+      "class": "soft",
+      "query": "найди бейсболки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "baseballcap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.01
+    },
+    {
+      "id": "L-backpack-0",
+      "class": "canonical",
+      "query": "рюкзаки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "backpack"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "backpack",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.008
+    },
+    {
+      "id": "L-backpack-1",
+      "class": "global",
+      "query": "красные рюкзаки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "backpack"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "backpack",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0078
+    },
+    {
+      "id": "L-backpack-2",
+      "class": "sentences",
+      "query": "рюкзаки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "backpack"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "backpack",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0082
+    },
+    {
+      "id": "L-backpack-3",
+      "class": "punctuation",
+      "query": "рюкзаки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "backpack"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "backpack",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0114
+    },
+    {
+      "id": "L-backpack-4",
+      "class": "newlines",
+      "query": "рюкзаки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "backpack"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "backpack",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-backpack-5",
+      "class": "soft",
+      "query": "найди рюкзаки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "backpack"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "backpack",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0098
+    },
+    {
+      "id": "L-bottle-0",
+      "class": "canonical",
+      "query": "бутылки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "bottle",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-bottle-1",
+      "class": "global",
+      "query": "красные бутылки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bottle",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-bottle-2",
+      "class": "sentences",
+      "query": "бутылки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bottle",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-bottle-3",
+      "class": "punctuation",
+      "query": "бутылки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bottle",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0141
+    },
+    {
+      "id": "L-bottle-4",
+      "class": "newlines",
+      "query": "бутылки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bottle",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0095
+    },
+    {
+      "id": "L-bottle-5",
+      "class": "soft",
+      "query": "найди бутылки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "bottle",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0105
+    },
+    {
+      "id": "L-powerbank-0",
+      "class": "canonical",
+      "query": "повербанки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "powerbank"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "powerbank",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-powerbank-1",
+      "class": "global",
+      "query": "красные повербанки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "powerbank"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "powerbank",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-powerbank-2",
+      "class": "sentences",
+      "query": "повербанки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "powerbank"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "powerbank",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0095
+    },
+    {
+      "id": "L-powerbank-3",
+      "class": "punctuation",
+      "query": "повербанки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "powerbank"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "powerbank",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0114
+    },
+    {
+      "id": "L-powerbank-4",
+      "class": "newlines",
+      "query": "повербанки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "powerbank"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "powerbank",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-powerbank-5",
+      "class": "soft",
+      "query": "найди повербанки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "powerbank"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "powerbank",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-flashdrive-0",
+      "class": "canonical",
+      "query": "флешки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "flashdrive",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-flashdrive-1",
+      "class": "global",
+      "query": "красные флешки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashdrive",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-flashdrive-2",
+      "class": "sentences",
+      "query": "флешки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashdrive",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0097
+    },
+    {
+      "id": "L-flashdrive-3",
+      "class": "punctuation",
+      "query": "флешки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashdrive",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0113
+    },
+    {
+      "id": "L-flashdrive-4",
+      "class": "newlines",
+      "query": "флешки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashdrive",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-flashdrive-5",
+      "class": "soft",
+      "query": "найди флешки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "flashdrive",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0102
+    },
+    {
+      "id": "L-thermocup-0",
+      "class": "canonical",
+      "query": "термостаканы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermocup"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "thermocup",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-thermocup-1",
+      "class": "global",
+      "query": "красные термостаканы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermocup"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermocup",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-thermocup-2",
+      "class": "sentences",
+      "query": "термостаканы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermocup"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermocup",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-thermocup-3",
+      "class": "punctuation",
+      "query": "термостаканы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermocup"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermocup",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.012
+    },
+    {
+      "id": "L-thermocup-4",
+      "class": "newlines",
+      "query": "термостаканы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermocup"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermocup",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-thermocup-5",
+      "class": "soft",
+      "query": "найди термостаканы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermocup"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "thermocup",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0099
+    },
+    {
+      "id": "L-thermos-0",
+      "class": "canonical",
+      "query": "термосы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermos"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "thermos",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-thermos-1",
+      "class": "global",
+      "query": "красные термосы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermos"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermos",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0082
+    },
+    {
+      "id": "L-thermos-2",
+      "class": "sentences",
+      "query": "термосы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermos"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermos",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-thermos-3",
+      "class": "punctuation",
+      "query": "термосы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermos"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermos",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0112
+    },
+    {
+      "id": "L-thermos-4",
+      "class": "newlines",
+      "query": "термосы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermos"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "thermos",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0097
+    },
+    {
+      "id": "L-thermos-5",
+      "class": "soft",
+      "query": "найди термосы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermos"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "thermos",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0103
+    },
+    {
+      "id": "L-pencil-0",
+      "class": "canonical",
+      "query": "карандаши",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pencil"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pencil",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0083
+    },
+    {
+      "id": "L-pencil-1",
+      "class": "global",
+      "query": "красные карандаши от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pencil"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pencil",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-pencil-2",
+      "class": "sentences",
+      "query": "карандаши. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pencil"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pencil",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0082
+    },
+    {
+      "id": "L-pencil-3",
+      "class": "punctuation",
+      "query": "карандаши, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pencil"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pencil",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0109
+    },
+    {
+      "id": "L-pencil-4",
+      "class": "newlines",
+      "query": "карандаши\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pencil"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pencil",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-pencil-5",
+      "class": "soft",
+      "query": "найди карандаши; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pencil"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pencil",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-marker-0",
+      "class": "canonical",
+      "query": "маркеры",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "marker"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "marker",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-marker-1",
+      "class": "global",
+      "query": "красные маркеры от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "marker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "marker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-marker-2",
+      "class": "sentences",
+      "query": "маркеры. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "marker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "marker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0105
+    },
+    {
+      "id": "L-marker-3",
+      "class": "punctuation",
+      "query": "маркеры, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "marker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "marker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0117
+    },
+    {
+      "id": "L-marker-4",
+      "class": "newlines",
+      "query": "маркеры\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "marker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "marker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-marker-5",
+      "class": "soft",
+      "query": "найди маркеры; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "marker"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "marker",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0106
+    },
+    {
+      "id": "L-highlighter-0",
+      "class": "canonical",
+      "query": "текстовыделители",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "highlighter"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "highlighter",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-highlighter-1",
+      "class": "global",
+      "query": "красные текстовыделители от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "highlighter"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "highlighter",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-highlighter-2",
+      "class": "sentences",
+      "query": "текстовыделители. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "highlighter"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "highlighter",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-highlighter-3",
+      "class": "punctuation",
+      "query": "текстовыделители, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "highlighter"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "highlighter",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0123
+    },
+    {
+      "id": "L-highlighter-4",
+      "class": "newlines",
+      "query": "текстовыделители\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "highlighter"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "highlighter",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0096
+    },
+    {
+      "id": "L-highlighter-5",
+      "class": "soft",
+      "query": "найди текстовыделители; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "highlighter"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "highlighter",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.01
+    },
+    {
+      "id": "L-mug-0",
+      "class": "canonical",
+      "query": "кружки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "mug"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "mug",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.008
+    },
+    {
+      "id": "L-mug-1",
+      "class": "global",
+      "query": "красные кружки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "mug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "mug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.008
+    },
+    {
+      "id": "L-mug-2",
+      "class": "sentences",
+      "query": "кружки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "mug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "mug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-mug-3",
+      "class": "punctuation",
+      "query": "кружки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "mug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "mug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-mug-4",
+      "class": "newlines",
+      "query": "кружки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "mug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "mug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-mug-5",
+      "class": "soft",
+      "query": "найди кружки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "mug"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "mug",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0097
+    },
+    {
+      "id": "L-glass-0",
+      "class": "canonical",
+      "query": "стаканы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "glass"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "glass",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0077
+    },
+    {
+      "id": "L-glass-1",
+      "class": "global",
+      "query": "красные стаканы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "glass"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "glass",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-glass-2",
+      "class": "sentences",
+      "query": "стаканы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "glass"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "glass",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-glass-3",
+      "class": "punctuation",
+      "query": "стаканы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "glass"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "glass",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-glass-4",
+      "class": "newlines",
+      "query": "стаканы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "glass"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "glass",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-glass-5",
+      "class": "soft",
+      "query": "найди стаканы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "glass"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "glass",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.01
+    },
+    {
+      "id": "L-plate-0",
+      "class": "canonical",
+      "query": "тарелки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "plate"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "plate",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0082
+    },
+    {
+      "id": "L-plate-1",
+      "class": "global",
+      "query": "красные тарелки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "plate"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "plate",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-plate-2",
+      "class": "sentences",
+      "query": "тарелки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "plate"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "plate",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-plate-3",
+      "class": "punctuation",
+      "query": "тарелки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "plate"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "plate",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0114
+    },
+    {
+      "id": "L-plate-4",
+      "class": "newlines",
+      "query": "тарелки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "plate"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "plate",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-plate-5",
+      "class": "soft",
+      "query": "найди тарелки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "plate"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "plate",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0099
+    },
+    {
+      "id": "L-tshirt-0",
+      "class": "canonical",
+      "query": "футболки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "tshirt"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "tshirt",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0083
+    },
+    {
+      "id": "L-tshirt-1",
+      "class": "global",
+      "query": "красные футболки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "tshirt"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "tshirt",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0081
+    },
+    {
+      "id": "L-tshirt-2",
+      "class": "sentences",
+      "query": "футболки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "tshirt"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "tshirt",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0097
+    },
+    {
+      "id": "L-tshirt-3",
+      "class": "punctuation",
+      "query": "футболки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "tshirt"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "tshirt",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0126
+    },
+    {
+      "id": "L-tshirt-4",
+      "class": "newlines",
+      "query": "футболки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "tshirt"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "tshirt",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-tshirt-5",
+      "class": "soft",
+      "query": "найди футболки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "tshirt"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "tshirt",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-raincoat-0",
+      "class": "canonical",
+      "query": "дождевики",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "raincoat"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "raincoat",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-raincoat-1",
+      "class": "global",
+      "query": "красные дождевики от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "raincoat"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "raincoat",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-raincoat-2",
+      "class": "sentences",
+      "query": "дождевики. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "raincoat"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "raincoat",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-raincoat-3",
+      "class": "punctuation",
+      "query": "дождевики, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "raincoat"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "raincoat",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0112
+    },
+    {
+      "id": "L-raincoat-4",
+      "class": "newlines",
+      "query": "дождевики\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "raincoat"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "raincoat",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-raincoat-5",
+      "class": "soft",
+      "query": "найди дождевики; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "raincoat"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "raincoat",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0121
+    },
+    {
+      "id": "L-socks-0",
+      "class": "canonical",
+      "query": "носки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "socks"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "socks",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-socks-1",
+      "class": "global",
+      "query": "красные носки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "socks"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "socks",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-socks-2",
+      "class": "sentences",
+      "query": "носки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "socks"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "socks",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-socks-3",
+      "class": "punctuation",
+      "query": "носки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "socks"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "socks",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0108
+    },
+    {
+      "id": "L-socks-4",
+      "class": "newlines",
+      "query": "носки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "socks"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "socks",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-socks-5",
+      "class": "soft",
+      "query": "найди носки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "socks"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "socks",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-hoodie-0",
+      "class": "canonical",
+      "query": "худи",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "hoodie"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "hoodie",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-hoodie-1",
+      "class": "global",
+      "query": "красные худи от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "hoodie"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "hoodie",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-hoodie-2",
+      "class": "sentences",
+      "query": "худи. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "hoodie"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "hoodie",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-hoodie-3",
+      "class": "punctuation",
+      "query": "худи, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "hoodie"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "hoodie",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0111
+    },
+    {
+      "id": "L-hoodie-4",
+      "class": "newlines",
+      "query": "худи\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "hoodie"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "hoodie",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-hoodie-5",
+      "class": "soft",
+      "query": "найди худи; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "hoodie"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "hoodie",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.01
+    },
+    {
+      "id": "L-blanket-0",
+      "class": "canonical",
+      "query": "пледы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "blanket"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "blanket",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-blanket-1",
+      "class": "global",
+      "query": "красные пледы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "blanket"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "blanket",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-blanket-2",
+      "class": "sentences",
+      "query": "пледы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "blanket"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "blanket",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-blanket-3",
+      "class": "punctuation",
+      "query": "пледы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "blanket"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "blanket",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0106
+    },
+    {
+      "id": "L-blanket-4",
+      "class": "newlines",
+      "query": "пледы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "blanket"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "blanket",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-blanket-5",
+      "class": "soft",
+      "query": "найди пледы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "blanket"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "blanket",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0095
+    },
+    {
+      "id": "L-clock-0",
+      "class": "canonical",
+      "query": "часы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "clock"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "clock",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-clock-1",
+      "class": "global",
+      "query": "красные часы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "clock"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "clock",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-clock-2",
+      "class": "sentences",
+      "query": "часы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "clock"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "clock",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-clock-3",
+      "class": "punctuation",
+      "query": "часы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "clock"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "clock",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0108
+    },
+    {
+      "id": "L-clock-4",
+      "class": "newlines",
+      "query": "часы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "clock"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "clock",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-clock-5",
+      "class": "soft",
+      "query": "найди часы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "clock"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "clock",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0096
+    },
+    {
+      "id": "L-speaker-0",
+      "class": "canonical",
+      "query": "колонки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "speaker"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "speaker",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0083
+    },
+    {
+      "id": "L-speaker-1",
+      "class": "global",
+      "query": "красные колонки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "speaker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "speaker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0081
+    },
+    {
+      "id": "L-speaker-2",
+      "class": "sentences",
+      "query": "колонки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "speaker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "speaker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-speaker-3",
+      "class": "punctuation",
+      "query": "колонки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "speaker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "speaker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0111
+    },
+    {
+      "id": "L-speaker-4",
+      "class": "newlines",
+      "query": "колонки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "speaker"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "speaker",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-speaker-5",
+      "class": "soft",
+      "query": "найди колонки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "speaker"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "speaker",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0098
+    },
+    {
+      "id": "L-headphones-0",
+      "class": "canonical",
+      "query": "наушники",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "headphones"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "headphones",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0081
+    },
+    {
+      "id": "L-headphones-1",
+      "class": "global",
+      "query": "красные наушники от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "headphones"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "headphones",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-headphones-2",
+      "class": "sentences",
+      "query": "наушники. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "headphones"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "headphones",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-headphones-3",
+      "class": "punctuation",
+      "query": "наушники, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "headphones"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "headphones",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0105
+    },
+    {
+      "id": "L-headphones-4",
+      "class": "newlines",
+      "query": "наушники\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "headphones"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "headphones",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-headphones-5",
+      "class": "soft",
+      "query": "найди наушники; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "headphones"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "headphones",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-flashlight-0",
+      "class": "canonical",
+      "query": "фонарики",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashlight"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "flashlight",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0073
+    },
+    {
+      "id": "L-flashlight-1",
+      "class": "global",
+      "query": "красные фонарики от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashlight"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashlight",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0078
+    },
+    {
+      "id": "L-flashlight-2",
+      "class": "sentences",
+      "query": "фонарики. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashlight"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashlight",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-flashlight-3",
+      "class": "punctuation",
+      "query": "фонарики, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashlight"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashlight",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0101
+    },
+    {
+      "id": "L-flashlight-4",
+      "class": "newlines",
+      "query": "фонарики\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashlight"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashlight",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-flashlight-5",
+      "class": "soft",
+      "query": "найди фонарики; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashlight"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "flashlight",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-suitcase-0",
+      "class": "canonical",
+      "query": "чемоданы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "suitcase"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "suitcase",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0078
+    },
+    {
+      "id": "L-suitcase-1",
+      "class": "global",
+      "query": "красные чемоданы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "suitcase"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "suitcase",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0076
+    },
+    {
+      "id": "L-suitcase-2",
+      "class": "sentences",
+      "query": "чемоданы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "suitcase"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "suitcase",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-suitcase-3",
+      "class": "punctuation",
+      "query": "чемоданы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "suitcase"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "suitcase",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0112
+    },
+    {
+      "id": "L-suitcase-4",
+      "class": "newlines",
+      "query": "чемоданы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "suitcase"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "suitcase",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-suitcase-5",
+      "class": "soft",
+      "query": "найди чемоданы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "suitcase"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "suitcase",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.01
+    },
+    {
+      "id": "L-wallet-0",
+      "class": "canonical",
+      "query": "кошельки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "wallet"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "wallet",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-wallet-1",
+      "class": "global",
+      "query": "красные кошельки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "wallet"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "wallet",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0083
+    },
+    {
+      "id": "L-wallet-2",
+      "class": "sentences",
+      "query": "кошельки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "wallet"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "wallet",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-wallet-3",
+      "class": "punctuation",
+      "query": "кошельки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "wallet"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "wallet",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0108
+    },
+    {
+      "id": "L-wallet-4",
+      "class": "newlines",
+      "query": "кошельки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "wallet"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "wallet",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-wallet-5",
+      "class": "soft",
+      "query": "найди кошельки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "wallet"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "wallet",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0098
+    },
+    {
+      "id": "L-cardholder-0",
+      "class": "canonical",
+      "query": "визитницы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cardholder"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "cardholder",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-cardholder-1",
+      "class": "global",
+      "query": "красные визитницы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cardholder"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cardholder",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0083
+    },
+    {
+      "id": "L-cardholder-2",
+      "class": "sentences",
+      "query": "визитницы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cardholder"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cardholder",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0086
+    },
+    {
+      "id": "L-cardholder-3",
+      "class": "punctuation",
+      "query": "визитницы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cardholder"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cardholder",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0109
+    },
+    {
+      "id": "L-cardholder-4",
+      "class": "newlines",
+      "query": "визитницы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cardholder"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cardholder",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-cardholder-5",
+      "class": "soft",
+      "query": "найди визитницы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cardholder"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "cardholder",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.01
+    },
+    {
+      "id": "L-organizer-0",
+      "class": "canonical",
+      "query": "органайзеры",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "organizer"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "organizer",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-organizer-1",
+      "class": "global",
+      "query": "красные органайзеры от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "organizer"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "organizer",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-organizer-2",
+      "class": "sentences",
+      "query": "органайзеры. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "organizer"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "organizer",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.011
+    },
+    {
+      "id": "L-organizer-3",
+      "class": "punctuation",
+      "query": "органайзеры, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "organizer"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "organizer",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0121
+    },
+    {
+      "id": "L-organizer-4",
+      "class": "newlines",
+      "query": "органайзеры\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "organizer"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "organizer",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-organizer-5",
+      "class": "soft",
+      "query": "найди органайзеры; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "organizer"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "organizer",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0112
+    },
+    {
+      "id": "L-lanyard-0",
+      "class": "canonical",
+      "query": "ланьярды",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lanyard"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "lanyard",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-lanyard-1",
+      "class": "global",
+      "query": "красные ланьярды от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lanyard"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lanyard",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-lanyard-2",
+      "class": "sentences",
+      "query": "ланьярды. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lanyard"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lanyard",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0098
+    },
+    {
+      "id": "L-lanyard-3",
+      "class": "punctuation",
+      "query": "ланьярды, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lanyard"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lanyard",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0113
+    },
+    {
+      "id": "L-lanyard-4",
+      "class": "newlines",
+      "query": "ланьярды\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lanyard"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lanyard",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0097
+    },
+    {
+      "id": "L-lanyard-5",
+      "class": "soft",
+      "query": "найди ланьярды; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lanyard"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "lanyard",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0099
+    },
+    {
+      "id": "L-bag-0",
+      "class": "canonical",
+      "query": "сумки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bag"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "bag",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0082
+    },
+    {
+      "id": "L-bag-1",
+      "class": "global",
+      "query": "красные сумки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-bag-2",
+      "class": "sentences",
+      "query": "сумки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-bag-3",
+      "class": "punctuation",
+      "query": "сумки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0117
+    },
+    {
+      "id": "L-bag-4",
+      "class": "newlines",
+      "query": "сумки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "bag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-bag-5",
+      "class": "soft",
+      "query": "найди сумки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bag"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "bag",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0103
+    },
+    {
+      "id": "L-shopperbag-0",
+      "class": "canonical",
+      "query": "шопперы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "shopperbag"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "shopperbag",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-shopperbag-1",
+      "class": "global",
+      "query": "красные шопперы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "shopperbag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "shopperbag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0087
+    },
+    {
+      "id": "L-shopperbag-2",
+      "class": "sentences",
+      "query": "шопперы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "shopperbag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "shopperbag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0092
+    },
+    {
+      "id": "L-shopperbag-3",
+      "class": "punctuation",
+      "query": "шопперы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "shopperbag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "shopperbag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0121
+    },
+    {
+      "id": "L-shopperbag-4",
+      "class": "newlines",
+      "query": "шопперы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "shopperbag"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "shopperbag",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-shopperbag-5",
+      "class": "soft",
+      "query": "найди шопперы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "shopperbag"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "shopperbag",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0108
+    },
+    {
+      "id": "L-charger-0",
+      "class": "canonical",
+      "query": "зарядные устройства",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "charger"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "charger",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0159
+    },
+    {
+      "id": "L-charger-1",
+      "class": "global",
+      "query": "красные зарядные устройства от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "charger"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "charger",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0154
+    },
+    {
+      "id": "L-charger-2",
+      "class": "sentences",
+      "query": "зарядные устройства. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "charger"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "charger",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.016
+    },
+    {
+      "id": "L-charger-3",
+      "class": "punctuation",
+      "query": "зарядные устройства, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "charger"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "charger",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0211
+    },
+    {
+      "id": "L-charger-4",
+      "class": "newlines",
+      "query": "зарядные устройства\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "charger"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "charger",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0167
+    },
+    {
+      "id": "L-charger-5",
+      "class": "soft",
+      "query": "найди зарядные устройства; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "charger"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "charger",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0169
+    },
+    {
+      "id": "L-cable-0",
+      "class": "canonical",
+      "query": "кабели",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cable"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "cable",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-cable-1",
+      "class": "global",
+      "query": "красные кабели от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cable"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cable",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0082
+    },
+    {
+      "id": "L-cable-2",
+      "class": "sentences",
+      "query": "кабели. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cable"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cable",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0093
+    },
+    {
+      "id": "L-cable-3",
+      "class": "punctuation",
+      "query": "кабели, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cable"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cable",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-cable-4",
+      "class": "newlines",
+      "query": "кабели\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cable"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "cable",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0091
+    },
+    {
+      "id": "L-cable-5",
+      "class": "soft",
+      "query": "найди кабели; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cable"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "cable",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0102
+    },
+    {
+      "id": "L-lunchbox-0",
+      "class": "canonical",
+      "query": "ланчбоксы",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lunchbox"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "lunchbox",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0089
+    },
+    {
+      "id": "L-lunchbox-1",
+      "class": "global",
+      "query": "красные ланчбоксы от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lunchbox"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lunchbox",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-lunchbox-2",
+      "class": "sentences",
+      "query": "ланчбоксы. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lunchbox"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lunchbox",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0094
+    },
+    {
+      "id": "L-lunchbox-3",
+      "class": "punctuation",
+      "query": "ланчбоксы, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lunchbox"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lunchbox",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.012
+    },
+    {
+      "id": "L-lunchbox-4",
+      "class": "newlines",
+      "query": "ланчбоксы\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lunchbox"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "lunchbox",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0099
+    },
+    {
+      "id": "L-lunchbox-5",
+      "class": "soft",
+      "query": "найди ланчбоксы; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "lunchbox"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "lunchbox",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0106
+    },
+    {
+      "id": "L-umbrella-0",
+      "class": "canonical",
+      "query": "зонты",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "umbrella"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "umbrella",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0079
+    },
+    {
+      "id": "L-umbrella-1",
+      "class": "global",
+      "query": "красные зонты от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "umbrella"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "umbrella",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-umbrella-2",
+      "class": "sentences",
+      "query": "зонты. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "umbrella"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "umbrella",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.009
+    },
+    {
+      "id": "L-umbrella-3",
+      "class": "punctuation",
+      "query": "зонты, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "umbrella"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "umbrella",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-umbrella-4",
+      "class": "newlines",
+      "query": "зонты\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "umbrella"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "umbrella",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0088
+    },
+    {
+      "id": "L-umbrella-5",
+      "class": "soft",
+      "query": "найди зонты; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "umbrella"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "umbrella",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0099
+    },
+    {
+      "id": "L-accessory-0",
+      "class": "canonical",
+      "query": "брелоки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "accessory"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "accessory",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0081
+    },
+    {
+      "id": "L-accessory-1",
+      "class": "global",
+      "query": "красные брелоки от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "accessory"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "accessory",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0078
+    },
+    {
+      "id": "L-accessory-2",
+      "class": "sentences",
+      "query": "брелоки. цвет красный. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "accessory"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "accessory",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0084
+    },
+    {
+      "id": "L-accessory-3",
+      "class": "punctuation",
+      "query": "брелоки, цвет, красный, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "accessory"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "accessory",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0112
+    },
+    {
+      "id": "L-accessory-4",
+      "class": "newlines",
+      "query": "брелоки\nцвет красный\nтираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "accessory"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "accessory",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0096
+    },
+    {
+      "id": "L-accessory-5",
+      "class": "soft",
+      "query": "найди брелоки; желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "accessory"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "accessory",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0102
+    },
+    {
+      "id": "L-regression-0",
+      "class": "regression",
+      "query": "красные ручки блокноты термокружки и кепки. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap",
+          "notebook",
+          "pen",
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "cap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0213
+    },
+    {
+      "id": "L-regression-1",
+      "class": "regression",
+      "query": "красные ручки блокноты термокружки и бейсболка. тираж 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap",
+          "notebook",
+          "pen",
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "baseballcap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0208
+    },
+    {
+      "id": "L-regression-2",
+      "class": "regression",
+      "query": "красные. ручки. блокноты. термокружки. и. кепки. тираж. 200.",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap",
+          "notebook",
+          "pen",
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "cap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0219
+    },
+    {
+      "id": "L-regression-3",
+      "class": "regression",
+      "query": "красные, ручки, блокноты, термокружки, и, бейсболки, тираж, 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap",
+          "notebook",
+          "pen",
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "notebook",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "thermomug",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "baseballcap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0312
+    },
+    {
+      "id": "L-regression-4",
+      "class": "regression",
+      "query": "темно. синий. цвет. ручки. кепки. тираж. 200",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap",
+          "pen"
+        ],
+        "models": [],
+        "colors": [
+          "DARK_BLUE"
+        ],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [
+              "DARK_BLUE"
+            ],
+            "quantity": 200
+          },
+          {
+            "category": "cap",
+            "colors": [
+              "DARK_BLUE"
+            ],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0163
+    },
+    {
+      "id": "L-regression-5",
+      "class": "regression",
+      "query": "ручки и бейсболки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap",
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          },
+          {
+            "category": "baseballcap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0142
+    },
+    {
+      "id": "L-regression-6",
+      "class": "regression",
+      "query": "ручки и кепки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap",
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          },
+          {
+            "category": "cap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0144
+    },
+    {
+      "id": "L-regression-7",
+      "class": "regression",
+      "query": "ручки и бутылки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle",
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          },
+          {
+            "category": "bottle",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0374
+    },
+    {
+      "id": "L-regression-8",
+      "class": "regression",
+      "query": "флешки USB-C на 64 ГБ, 200 штук",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "flashdrive",
+            "colors": [],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0124
+    },
+    {
+      "id": "L-regression-9",
+      "class": "regression",
+      "query": "термокружки 0,5 л до 5 000,50 тенге",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "thermomug"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "thermomug",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0107
+    },
+    {
+      "id": "L-regression-10",
+      "class": "regression",
+      "query": "ручки без пластика",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-regression-11",
+      "class": "regression",
+      "query": "ручки желательно металлические",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0078
+    },
+    {
+      "id": "L-regression-12",
+      "class": "regression",
+      "query": "не красные ручки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0073
+    },
+    {
+      "id": "L-regression-13",
+      "class": "regression",
+      "query": "нужны ручки, только не дверные",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.018
+    },
+    {
+      "id": "L-regression-14",
+      "class": "regression",
+      "query": "кепки без козырька",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0085
+    },
+    {
+      "id": "L-regression-15",
+      "class": "regression",
+      "query": "ручки со вкусом радуги",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0162
+    },
+    {
+      "id": "L-regression-16",
+      "class": "regression",
+      "query": "power bank и USB flash drive",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "flashdrive",
+          "powerbank"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "powerbank",
+            "colors": [],
+            "quantity": null
+          },
+          {
+            "category": "flashdrive",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0161
+    },
+    {
+      "id": "L-regression-17",
+      "class": "regression",
+      "query": "сумки-шопперы и карандаши",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pencil",
+          "shopperbag"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "shopperbag",
+            "colors": [],
+            "quantity": null
+          },
+          {
+            "category": "pencil",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.016
+    },
+    {
+      "id": "L-regression-18",
+      "class": "regression",
+      "query": "красные кепки и зонты от 100 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "cap",
+          "umbrella"
+        ],
+        "models": [],
+        "colors": [
+          "RED"
+        ],
+        "quantity": 100,
+        "branches": [
+          {
+            "category": "cap",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 100
+          },
+          {
+            "category": "umbrella",
+            "colors": [
+              "RED"
+            ],
+            "quantity": 100
+          }
+        ]
+      },
+      "seconds": 0.0156
+    },
+    {
+      "id": "L-regression-19",
+      "class": "regression",
+      "query": "бутылки, кружки, кепки",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "bottle",
+          "cap",
+          "mug"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": null,
+        "branches": [
+          {
+            "category": "bottle",
+            "colors": [],
+            "quantity": null
+          },
+          {
+            "category": "mug",
+            "colors": [],
+            "quantity": null
+          },
+          {
+            "category": "cap",
+            "colors": [],
+            "quantity": null
+          }
+        ]
+      },
+      "seconds": 0.0204
+    },
+    {
+      "id": "L-regression-20",
+      "class": "regression",
+      "query": "металлические ручки от 250 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "pen"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": 250,
+        "branches": [
+          {
+            "category": "pen",
+            "colors": [],
+            "quantity": 250
+          }
+        ]
+      },
+      "seconds": 0.0099
+    },
+    {
+      "id": "L-regression-21",
+      "class": "regression",
+      "query": "бейсболка от 200 шт",
+      "checks": {
+        "categories": true,
+        "models": true,
+        "colors": true,
+        "quantity": true
+      },
+      "pass": true,
+      "actual": {
+        "categories": [
+          "baseballcap"
+        ],
+        "models": [],
+        "colors": [],
+        "quantity": 200,
+        "branches": [
+          {
+            "category": "baseballcap",
+            "colors": [],
+            "quantity": 200
+          }
+        ]
+      },
+      "seconds": 0.0077
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import hashlib
 import json
 from datetime import timedelta
 
-from sqlalchemy import and_, delete, func, or_, select, type_coerce, update
+from sqlalchemy import and_, case, delete, func, or_, select, type_coerce, update
 from sqlalchemy.dialects.postgresql import JSONB
 
 from app.application.research_analysis import PREFERENCE_TERMS, ProductGroupingService, facts
@@ -44,7 +44,28 @@ class IndexRepository:
             "observations_deduplicated": 0,
         }
         async with self.sessions() as db, db.begin():
-            for product in products:
+            affected_concepts = set()
+            upserted_concepts = set()
+            for product in sorted(products, key=lambda item: item.id):
+                if db.bind.dialect.name == "postgresql":
+                    # Same offer serializes even if it has not yet been inserted.
+                    # Ordered locks also keep overlapping batches deadlock-free.
+                    lock_id = int.from_bytes(hashlib.sha256(product.id.encode()).digest()[:8], "big", signed=True)
+                    await db.execute(select(func.pg_advisory_xact_lock(lock_id)))
+                previous = await db.get(ProductObservation, product.id)
+                if previous is not None:
+                    if product.metadata.get("vto_enrichment") == "PENDING":
+                        # A partial API fallback cannot erase a complete older
+                        # observation's brand/material/images or last-known stock.
+                        summary["products_unchanged"] += 1
+                        summary["observations_deduplicated"] += 1
+                        continue
+                    observed = previous.observed_at.replace(tzinfo=utcnow().tzinfo) if previous.observed_at.tzinfo is None else previous.observed_at
+                    fetched = product.fetched_at.replace(tzinfo=utcnow().tzinfo) if product.fetched_at.tzinfo is None else product.fetched_at
+                    if observed > fetched:
+                        summary["products_unchanged"] += 1
+                        summary["observations_deduplicated"] += 1
+                        continue
                 if product.category:
                     product.metadata.setdefault("supplier_category", product.category)
                 product.colors = [ColorNormalizer().normalize(c.original_color) for c in product.colors]
@@ -154,12 +175,14 @@ class IndexRepository:
                         last_seen=product.fetched_at,
                     )
                     stmt = self.insert(db, ProductConcept).values(**concept_values)
-                    await db.execute(
-                        stmt.on_conflict_do_update(
-                            index_elements=["id"],
-                            set_={"display_name": display_name, "last_seen": product.fetched_at},
+                    if concept_id not in upserted_concepts:
+                        await db.execute(
+                            stmt.on_conflict_do_update(
+                                index_elements=["id"],
+                                set_={"display_name": display_name, "last_seen": product.fetched_at},
+                            )
                         )
-                    )
+                        upserted_concepts.add(concept_id)
                     concept_ids.append(concept_id)
                 metadata_hash = hashlib.sha256(
                     json.dumps(stable, sort_keys=True, ensure_ascii=False, default=str).encode()
@@ -221,17 +244,7 @@ class IndexRepository:
                         )
                         .on_conflict_do_nothing()
                     )
-                for concept_id in set(concept_ids) | obsolete_concepts:
-                    count = await db.scalar(
-                        select(func.count())
-                        .select_from(ProductConceptOffer)
-                        .where(ProductConceptOffer.concept_id == concept_id)
-                    )
-                    await db.execute(
-                        update(ProductConcept)
-                        .where(ProductConcept.id == concept_id)
-                        .values(products_count=count)
-                    )
+                affected_concepts.update(set(concept_ids) | obsolete_concepts)
                 records = list(product.availability_records)
                 if not records and (
                     product.stock_quantity is not None or product.incoming_quantity is not None
@@ -349,6 +362,11 @@ class IndexRepository:
                         index_elements=["offer_id"], set_={k: v for k, v in values.items() if k != "offer_id"}
                     )
                 )
+            for concept_id in affected_concepts:
+                count = await db.scalar(select(func.count()).select_from(ProductConceptOffer)
+                                        .where(ProductConceptOffer.concept_id == concept_id))
+                await db.execute(update(ProductConcept).where(ProductConcept.id == concept_id)
+                                 .values(products_count=count))
         return summary
 
     def _candidate_statement(self, db, intent, *columns, normalized_colors=None):
@@ -654,7 +672,14 @@ class IndexRepository:
                 current = active.available_at
                 if current.tzinfo is None:
                     current = current.replace(tzinfo=requested.tzinfo)
-                active.available_at = requested if parser_changed else min(current, requested)
+                retry = (active.metrics or {}).get("retry_decision", {}) if supplier == "vto" else {}
+                if retry.get("next_attempt_at") and not parser_changed:
+                    from datetime import datetime
+                    # Scheduler coalescing is not a manual retry. Keep the job's
+                    # own durable wait as well as the shared supplier gate.
+                    active.available_at = max(current, datetime.fromisoformat(retry["next_attempt_at"]))
+                else:
+                    active.available_at = requested if parser_changed else min(current, requested)
                 return active.id
             job = None
             if len(equivalent) > 1:
@@ -750,6 +775,15 @@ class IndexRepository:
     async def claim(self, owner, job_ids=None, kinds=None):
         now = utcnow()
         async with self.sessions() as db, db.begin():
+            from app.database.vto_recovery import repair_legacy_wait
+            await repair_legacy_wait(db, now)
+            # Compatibility repair for previously persisted card-level cooldowns.
+            # Active leases and genuine source-wide HTTP/CAPTCHA backoff survive.
+            await db.execute(update(SupplierSyncState).where(
+                SupplierSyncState.supplier == "vto", SupplierSyncState.lease_until < now,
+                SupplierSyncState.error.in_(("VTO_NOT_FOUND", "VTO_PARSING_ERROR", "VTO_UNPROCESSED_PRODUCTS",
+                                             "VTO_PARTIAL_REFRESH", "VTO_CATALOG_CHANGED_DURING_SCAN")),
+            ).values(retry_after=now, failures=0, error=None))
             # Lease recovery is safe across processes; a second process never steals a live lease.
             expired = select(SupplierSyncState.supplier).where(SupplierSyncState.lease_until < now)
             await db.execute(
@@ -760,7 +794,16 @@ class IndexRepository:
             queued = (
                 select(CatalogSyncJob)
                 .where(CatalogSyncJob.status == "PENDING", CatalogSyncJob.available_at <= now)
-                .order_by(CatalogSyncJob.priority.desc(), CatalogSyncJob.available_at)
+                .order_by(
+                    case(
+                        (CatalogSyncJob.kind == "TARGETED_RESEARCH", 0),
+                        (and_(CatalogSyncJob.supplier == "vto",
+                              CatalogSyncJob.kind.in_(("FULL_CATALOG_RECONCILIATION", "CATALOG_DISCOVERY")),
+                              CatalogSyncJob.updated_at < now - timedelta(seconds=2 * self.settings.research_job_timeout_seconds)), 1),
+                        else_=2,
+                    ),
+                    CatalogSyncJob.priority.desc(), CatalogSyncJob.available_at,
+                )
             )
             if job_ids is not None:
                 queued = queued.where(CatalogSyncJob.id.in_(job_ids))
@@ -768,12 +811,22 @@ class IndexRepository:
                 queued = queued.where(CatalogSyncJob.kind.in_(kinds))
             jobs = (await db.scalars(queued.with_for_update(skip_locked=True))).all()
             for job in jobs:
+                if job.supplier == "vto" and job.kind in {"AVAILABILITY_REFRESH", "OBSERVATION_REFRESH"}:
+                    overdue_initial = await db.scalar(select(CatalogSyncJob.id).where(
+                        CatalogSyncJob.supplier == "vto", CatalogSyncJob.status == "PENDING",
+                        CatalogSyncJob.kind.in_(("FULL_CATALOG_RECONCILIATION", "CATALOG_DISCOVERY")),
+                        CatalogSyncJob.available_at <= now,
+                        CatalogSyncJob.updated_at < now-timedelta(seconds=30),
+                    ).limit(1))
+                    if overdue_initial:
+                        continue
                 changed = await db.execute(
                     update(SupplierSyncState)
                     .where(
                         SupplierSyncState.supplier == job.supplier,
                         SupplierSyncState.lease_until < now,
                         SupplierSyncState.retry_after <= now,
+                        or_(SupplierSyncState.circuit_open_until.is_(None), SupplierSyncState.circuit_open_until <= now),
                     )
                     .values(
                         lease_owner=owner,
@@ -798,6 +851,17 @@ class IndexRepository:
                         )
                     }
                     data["metrics"] = dict(data["metrics"] or {})
+                    if job.supplier == "vto":
+                        from datetime import datetime
+                        old = data["metrics"].get("retry_decision", {})
+                        permitted = datetime.fromisoformat(old["next_attempt_at"]) if old.get("next_attempt_at") else now
+                        data["metrics"]["start_lag_ms"] = round(max(0, (now-permitted).total_seconds()*1000), 2)
+                        finished = data["metrics"].get("last_finished_at")
+                        if finished:
+                            data["metrics"]["waiting_seconds"] = round(data["metrics"].get("waiting_seconds", 0) + max(0, (now-datetime.fromisoformat(finished)).total_seconds()), 3)
+                        data["metrics"].update(last_claim_at=now.isoformat(), retry_after_seconds=0)
+                        # Retain the previous response evidence for one bounded
+                        # smaller-listing probe. New errors replace it in the worker.
                     queued_at = job.available_at
                     if queued_at.tzinfo is None:
                         queued_at = queued_at.replace(tzinfo=now.tzinfo)
@@ -870,7 +934,14 @@ class IndexRepository:
             state = await db.get(SupplierSyncState, job["supplier"])
             if state.lease_owner != owner:
                 return
-            supplier_error = error and error != "TIME_BUDGET"
+            card_errors = {"VTO_NOT_FOUND", "VTO_PARSING_ERROR", "VTO_PARENT_FILTER_ERROR",
+                           "VTO_VARIATION_INCOMPLETE",
+                           "VTO_UNPROCESSED_PRODUCTS", "VTO_PARTIAL_REFRESH", "VTO_CATALOG_CHANGED_DURING_SCAN",
+                           "PERSISTENCE_DATA_ERROR"}
+            supplier_error = error and error != "TIME_BUDGET" and not (
+                job["supplier"] == "vto" and error in card_errors
+            )
+            previous_failures = state.failures
             state.failures = state.failures + 1 if supplier_error else 0
             base = self.settings.supplier_failure_backoff_minutes * 60
             ceiling = self.settings.supplier_failure_backoff_max_hours * 3600
@@ -879,6 +950,16 @@ class IndexRepository:
                 delay = 3600
             if error == "PARSER_ANOMALY":
                 delay = ceiling
+            if supplier_error:
+                delay = max(delay, job.get("metrics", {}).get("retry_after_seconds", 0))
+            decision = None
+            if job["supplier"] == "vto":
+                from app.domain.vto_retry import plan
+                # plan receives the previous count; only source errors advance it.
+                decision = plan(error, previous_failures, job["metrics"], now, self.settings)
+                state.failures = decision["failures"]
+                delay = max(0, (decision["next_attempt_at"] - now).total_seconds())
+                supplier_error = decision["transport"]
             if (
                 error in {"SUPPLIER_HTTP_ERROR", "VTO_HTTP_ERROR"}
                 and state.failures >= self.settings.supplier_circuit_failure_threshold
@@ -887,9 +968,20 @@ class IndexRepository:
                 error = "TEMPORARILY_UNAVAILABLE"
             elif not error:
                 state.circuit_open_until = None
-            state.error, state.lease_owner, state.lease_until = error, None, now
-            state.retry_after = now + timedelta(seconds=delay) if error else now
+            if decision:
+                state.circuit_open_until = decision["circuit_open_until"]
+                job["metrics"]["retry_policy_version"] = 1
+                job["metrics"]["retry_decision"] = {k: v.isoformat() if hasattr(v, "isoformat") else v for k, v in decision.items()}
+                job["metrics"]["last_finished_at"] = now.isoformat()
+            state.error, state.lease_owner, state.lease_until = error if supplier_error else None, None, now
+            state.retry_after = now + timedelta(seconds=delay) if supplier_error else now
             row = await db.get(CatalogSyncJob, job["id"])
+            if decision:
+                counts = (await db.execute(select(func.count(SupplierOffer.id), func.count(func.distinct(SupplierOffer.product_id))).where(SupplierOffer.supplier == job["supplier"]))).one()
+                samples = list(job["metrics"].get("progress_samples", []))
+                samples.append({"at": now.isoformat(), "offers": counts[0], "families": counts[1], "http_requests": job["metrics"].get("http_requests", 0)})
+                job["metrics"]["progress_samples"] = samples[-24:]
+                row.metrics = dict(job["metrics"])
             if row.status != "CANCELLED":
                 row.status, row.error, row.available_at = status, error, now + timedelta(seconds=delay)
             if status == "COMPLETED":
@@ -909,4 +1001,6 @@ class IndexRepository:
                 # scan into an endless full crawl. Manual retry keeps its cursor.
                 state.next_reconciliation_at = now + timedelta(days=self.settings.full_reconciliation_days)
                 state.next_incremental_at = now + timedelta(hours=self.settings.incremental_sync_hours)
+            elif status == "FAILED" and job["supplier"] == "vto" and error == "VTO_PARTIAL_REFRESH":
+                state.next_refresh_at = now + timedelta(minutes=self.settings.observation_refresh_minutes)
             row.updated_at = now

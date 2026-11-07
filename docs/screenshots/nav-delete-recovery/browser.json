@@ -1,0 +1,846 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "Navbar current desktop /",
+      "pass": true
+    },
+    {
+      "check": "Navbar current desktop /offers",
+      "pass": true
+    },
+    {
+      "check": "Navbar current zoom125 /",
+      "pass": true
+    },
+    {
+      "check": "Navbar current zoom125 /offers",
+      "pass": true
+    },
+    {
+      "check": "Navbar current zoom150 /",
+      "pass": true
+    },
+    {
+      "check": "Navbar current zoom150 /offers",
+      "pass": true
+    },
+    {
+      "check": "Navbar current mobile /",
+      "pass": true
+    },
+    {
+      "check": "Navbar current mobile /offers",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse desktop /",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse desktop /offers",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse zoom125 /",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse zoom125 /offers",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse zoom150 /",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse zoom150 /offers",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse mobile /",
+      "pass": true
+    },
+    {
+      "check": "Navbar pulse mobile /offers",
+      "pass": true
+    },
+    {
+      "check": "Projects navigation still opens the chat list",
+      "pass": true
+    },
+    {
+      "check": "Mobile confirmation fits current",
+      "pass": true
+    },
+    {
+      "check": "Mobile confirmation fits pulse",
+      "pass": true
+    },
+    {
+      "check": "Delete dialog names document and explains preservation",
+      "pass": true
+    },
+    {
+      "check": "Cancel preserves row",
+      "pass": true
+    },
+    {
+      "check": "Failed delete retains row and visible retry",
+      "pass": true
+    },
+    {
+      "check": "Submit disabled during deletion",
+      "pass": true
+    },
+    {
+      "check": "Confirmed server delete removes row",
+      "pass": true
+    },
+    {
+      "check": "Old editor URL offers no edit controls or automatic replacement",
+      "pass": true
+    }
+  ],
+  "matrix": [
+    {
+      "theme": "current",
+      "scenario": "desktop",
+      "page": "/",
+      "effective_width": 1440,
+      "dpr": 1,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1060.109375,
+          "right": 1152.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1352.921875,
+          "right": 1416
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "current",
+      "scenario": "desktop",
+      "page": "/offers",
+      "effective_width": 1440,
+      "dpr": 1,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1060.109375,
+          "right": 1152.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1352.921875,
+          "right": 1416
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "current",
+      "scenario": "zoom125",
+      "page": "/",
+      "effective_width": 1152,
+      "dpr": 1.25,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 772.109375,
+          "right": 864.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1064.921875,
+          "right": 1128
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "current",
+      "scenario": "zoom125",
+      "page": "/offers",
+      "effective_width": 1152,
+      "dpr": 1.25,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 772.109375,
+          "right": 864.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1064.921875,
+          "right": 1128
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "current",
+      "scenario": "zoom150",
+      "page": "/",
+      "effective_width": 960,
+      "dpr": 1.5,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 580.109375,
+          "right": 672.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 872.921875,
+          "right": 936
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "current",
+      "scenario": "zoom150",
+      "page": "/offers",
+      "effective_width": 960,
+      "dpr": 1.5,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 580.109375,
+          "right": 672.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 872.921875,
+          "right": 936
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "current",
+      "scenario": "mobile",
+      "page": "/",
+      "effective_width": 390,
+      "dpr": 1,
+      "height": 111,
+      "top": 0,
+      "bottom": 111,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 192.671875,
+          "right": 265.953125
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 273.953125,
+          "right": 378
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 55.609375,
+          "right": 123.421875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 318.921875,
+          "right": 378
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "current",
+      "scenario": "mobile",
+      "page": "/offers",
+      "effective_width": 390,
+      "dpr": 1,
+      "height": 111,
+      "top": 0,
+      "bottom": 111,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 192.671875,
+          "right": 265.953125
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 273.953125,
+          "right": 378
+        },
+        {
+          "label": "Текущая",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 55.609375,
+          "right": 123.421875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 318.921875,
+          "right": 378
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "desktop",
+      "page": "/",
+      "effective_width": 1440,
+      "dpr": 1,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1078.796875,
+          "right": 1152.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1352.921875,
+          "right": 1416
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "desktop",
+      "page": "/offers",
+      "effective_width": 1440,
+      "dpr": 1,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1078.796875,
+          "right": 1152.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1352.921875,
+          "right": 1416
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "zoom125",
+      "page": "/",
+      "effective_width": 1152,
+      "dpr": 1.25,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 790.796875,
+          "right": 864.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1064.921875,
+          "right": 1128
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "zoom125",
+      "page": "/offers",
+      "effective_width": 1152,
+      "dpr": 1.25,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 790.796875,
+          "right": 864.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 1064.921875,
+          "right": 1128
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "zoom150",
+      "page": "/",
+      "effective_width": 960,
+      "dpr": 1.5,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 598.796875,
+          "right": 672.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 872.921875,
+          "right": 936
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "zoom150",
+      "page": "/offers",
+      "effective_width": 960,
+      "dpr": 1.5,
+      "height": 64,
+      "top": 0,
+      "bottom": 64,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 150.734375,
+          "right": 228.015625
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 236.015625,
+          "right": 344.0625
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 598.796875,
+          "right": 672.921875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 11.5,
+          "bottom": 51.5,
+          "left": 872.921875,
+          "right": 936
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "mobile",
+      "page": "/",
+      "effective_width": 390,
+      "dpr": 1,
+      "height": 111,
+      "top": 0,
+      "bottom": 111,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 192.671875,
+          "right": 265.953125
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 273.953125,
+          "right": 378
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 74.296875,
+          "right": 123.421875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 318.921875,
+          "right": 378
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    },
+    {
+      "theme": "pulse",
+      "scenario": "mobile",
+      "page": "/offers",
+      "effective_width": 390,
+      "dpr": 1,
+      "height": 111,
+      "top": 0,
+      "bottom": 111,
+      "controls": [
+        {
+          "label": "Проекты",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 192.671875,
+          "right": 265.953125
+        },
+        {
+          "label": "Предложения",
+          "height": 40,
+          "top": 10,
+          "bottom": 50,
+          "left": 273.953125,
+          "right": 378
+        },
+        {
+          "label": "Pulse",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 74.296875,
+          "right": 123.421875
+        },
+        {
+          "label": "Выйти",
+          "height": 40,
+          "top": 60,
+          "bottom": 100,
+          "left": 318.921875,
+          "right": 378
+        }
+      ],
+      "overflow": false,
+      "valid": true
+    }
+  ],
+  "browser": "installed Microsoft Edge",
+  "zoom_method": "125/150% effective CSS viewport and DPR emulation; not a native browser-menu zoom test",
+  "long_name": "UI-only text fixture; account unchanged"
+}

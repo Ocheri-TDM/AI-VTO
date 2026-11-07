@@ -12,6 +12,8 @@ def branch_label(branch):
         return "Все категории"
     if branch.resolved is False:
         return "Категория не распознана"
+    if branch.category == "notebook" and branch.constraints.subtypes == ["NOTEPAD"]:
+        return "Блокноты"
     return DISPLAY_NAMES.get(branch.category, branch.label)
 
 
@@ -45,8 +47,8 @@ def branch_commands(message, intent):
     return [{"action": action, "branch_id": b.id} for b in branches]
 
 
-def source_segments(query, categories, registry, *, include_overrides=False):
-    """Attach provenance/order to already resolved concepts, never discover new ones."""
+def category_mentions(query, categories, registry):
+    """Nonoverlapping category spans, with brands protected before reuse."""
     protected = [(a, b) for a, b, _ in registry.spans(query)]
 
     def blocked(a, b):
@@ -70,10 +72,17 @@ def source_segments(query, categories, registry, *, include_overrides=False):
     for item in sorted(mentions, key=lambda m: (m[0], -(m[1] - m[0]))):
         if not any(item[0] < b and item[1] > a for a, b, _ in accepted):
             accepted.append(item)
+    return accepted
+
+
+def source_segments(query, categories, registry, *, include_overrides=False):
+    """Attach provenance/order to already resolved concepts, never discover new ones."""
+    protected = [(a, b) for a, b, _ in registry.spans(query)]
+    accepted = category_mentions(query, categories, registry)
     separators = [
         m
         for m in re.finditer(r"[,;!?]|(?<!\d)\.(?!\d)|\s+(?:и|или)\s+", query, re.I)
-        if not blocked(m.start(), m.end())
+        if not any(m.start() < b and m.end() > a for a, b in protected)
     ]
     regions = zip([0] + [m.end() for m in separators], [m.start() for m in separators] + [len(query)])
     parts = []

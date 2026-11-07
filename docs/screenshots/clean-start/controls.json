@@ -1,0 +1,112 @@
+[
+  {
+    "check": "empty composer cannot submit or open a conversation",
+    "status": "PASS"
+  },
+  {
+    "check": "pre-submit length validation does not open empty chat",
+    "status": "PASS"
+  },
+  {
+    "check": "panel toggles do not trigger extra GET/POST or EventSource operations",
+    "status": "PASS",
+    "before": {
+      "gets": 10,
+      "posts": 0,
+      "sources": {
+        "created": 0,
+        "live": 0
+      }
+    },
+    "after": {
+      "gets": 10,
+      "posts": 0,
+      "sources": {
+        "created": 0,
+        "live": 0
+      }
+    }
+  },
+  {
+    "check": "Текущая native dropdown scrollbar has the shared tokens",
+    "status": "PASS",
+    "metrics": {
+      "width": "10px",
+      "thumb": "rgb(115, 127, 118)",
+      "overflow": "auto",
+      "height": 80,
+      "scroll": 80
+    }
+  },
+  {
+    "check": "Текущая Escape on dropdown preserves the open conversation",
+    "status": "PASS"
+  },
+  {
+    "check": "Текущая selected products use one real themed scroller",
+    "status": "PASS",
+    "metrics": {
+      "width": "10px",
+      "thumb": "rgb(115, 127, 118)",
+      "overflow": "auto",
+      "height": 834,
+      "scroll": 932
+    }
+  },
+  {
+    "check": "Текущая modal Escape preserves conversation and selection",
+    "status": "PASS"
+  },
+  {
+    "check": "Текущая model variants use their native themed scroller",
+    "status": "PASS",
+    "metrics": {
+      "width": "10px",
+      "thumb": "rgb(115, 127, 118)",
+      "overflow": "auto",
+      "height": 917,
+      "scroll": 1346
+    }
+  },
+  {
+    "check": "Pulse native dropdown scrollbar has the shared tokens",
+    "status": "PASS",
+    "metrics": {
+      "width": "10px",
+      "thumb": "rgb(124, 139, 128)",
+      "overflow": "auto",
+      "height": 80,
+      "scroll": 80
+    }
+  },
+  {
+    "check": "Pulse Escape on dropdown preserves the open conversation",
+    "status": "PASS"
+  },
+  {
+    "check": "Pulse selected products use one real themed scroller",
+    "status": "PASS",
+    "metrics": {
+      "width": "10px",
+      "thumb": "rgb(124, 139, 128)",
+      "overflow": "auto",
+      "height": 834,
+      "scroll": 932
+    }
+  },
+  {
+    "check": "Pulse modal Escape preserves conversation and selection",
+    "status": "PASS"
+  },
+  {
+    "check": "Pulse model variants use their native themed scroller",
+    "status": "PASS",
+    "metrics": {
+      "width": "10px",
+      "thumb": "rgb(124, 139, 128)",
+      "overflow": "auto",
+      "height": 917,
+      "scroll": 1346
+    }
+  }
+]

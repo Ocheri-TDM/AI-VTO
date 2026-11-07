@@ -37,6 +37,7 @@ class PresentationDocument(Base):
     draft: Mapped[dict] = mapped_column(JsonType, default=dict)
     is_primary_offer: Mapped[bool] = mapped_column(default=False, server_default=false())
     primary_reason: Mapped[str | None] = mapped_column(String(64))
+    deleted_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
@@ -291,6 +292,9 @@ class Project(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     user_id: Mapped[str | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     name: Mapped[str] = mapped_column(String(300))
+    name_source: Mapped[str] = mapped_column(String(20), default="manual", server_default="manual")
+    name_version: Mapped[int] = mapped_column(Integer, default=1, server_default="1")
+    offer_generation: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
     client_name: Mapped[str | None] = mapped_column(String(300))
     active_query_id: Mapped[str | None] = mapped_column(String(36), index=True)
     request_epoch: Mapped[int] = mapped_column(Integer, default=0, server_default="0")
@@ -398,9 +402,11 @@ class HardRequestCandidate(Base):
 
 class Chat(Base):
     __tablename__ = "chats"
+    __table_args__ = (Index("uq_chat_create_request", "user_id", "creation_key", unique=True),)
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     project_id: Mapped[str | None] = mapped_column(ForeignKey("projects.id", ondelete="SET NULL"))
     user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    creation_key: Mapped[str | None] = mapped_column(String(36))
     active_search_session_id: Mapped[str | None] = mapped_column(
         ForeignKey("search_sessions.id", ondelete="SET NULL")
     )
@@ -413,6 +419,7 @@ class Message(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
     chat_id: Mapped[str] = mapped_column(ForeignKey("chats.id", ondelete="CASCADE"), index=True)
     role: Mapped[str] = mapped_column(String(20))
+    operation_id: Mapped[str | None] = mapped_column(String(36), index=True)
     content: Mapped[str] = mapped_column(Text)
     search_session_id: Mapped[str | None] = mapped_column(
         ForeignKey("search_sessions.id", ondelete="SET NULL")
@@ -422,6 +429,24 @@ class Message(Base):
     structured_operation: Mapped[dict | None] = mapped_column(JsonType)
     result_revision: Mapped[int | None] = mapped_column(Integer)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ConversationTurn(Base):
+    __tablename__ = "conversation_turns"
+    __table_args__ = (Index("uq_conversation_request", "chat_id", "request_key", unique=True),)
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    chat_id: Mapped[str] = mapped_column(ForeignKey("chats.id", ondelete="CASCADE"), index=True)
+    request_key: Mapped[str] = mapped_column(String(36))
+    request_epoch: Mapped[int] = mapped_column(Integer)
+    user_message_id: Mapped[str] = mapped_column(ForeignKey("messages.id", ondelete="CASCADE"))
+    assistant_message_id: Mapped[str | None] = mapped_column(ForeignKey("messages.id", ondelete="SET NULL"))
+    research_id: Mapped[str | None] = mapped_column(ForeignKey("research_sessions.id", ondelete="SET NULL"))
+    status: Mapped[str] = mapped_column(String(24), default="ACCEPTED")
+    action: Mapped[str | None] = mapped_column(String(32))
+    error_code: Mapped[str | None] = mapped_column(String(64))
+    title_candidate: Mapped[str | None] = mapped_column(String(300))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class SearchSession(Base):

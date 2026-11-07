@@ -1,8 +1,9 @@
 """Conversation metadata persists; product observations and view history expire."""
 
+import asyncio
 from uuid import uuid4
 
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, text
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from app.database.models import (
@@ -22,18 +23,45 @@ from app.domain.search_state import SearchState
 class ConversationRepository:
     def __init__(self, sessions: async_sessionmaker):
         self.sessions = sessions
+        self.create_lock = asyncio.Lock()
 
-    async def create(self, name: str = "Новый проект", user_id: str | None = None) -> str:
-        async with self.sessions.begin() as db:
+    async def create(self, name: str = "Новый чат", user_id: str | None = None, request_id=None) -> str:
+        async with self.create_lock, self.sessions.begin() as db:
             if user_id is None:
                 user_id = "00000000-0000-0000-0000-000000000001"
                 if await db.get(User, user_id) is None:
-                    db.add(User(id=user_id, display_name="legacy", normalized_name="__legacy_test__", password_hash="!", created_at=utcnow(), updated_at=utcnow()))
+                    db.add(
+                        User(
+                            id=user_id,
+                            display_name="legacy",
+                            normalized_name="__legacy_test__",
+                            password_hash="!",
+                            created_at=utcnow(),
+                            updated_at=utcnow(),
+                        )
+                    )
                     await db.flush()
-            project = Project(id=str(uuid4()), name=name, user_id=user_id)
+            key = str(request_id) if request_id else None
+            if key:
+                if db.bind.dialect.name == "postgresql":
+                    await db.execute(
+                        text("SELECT pg_advisory_xact_lock(hashtext(:key))"),
+                        {"key": "chat-create:" + user_id + ":" + key},
+                    )
+                existing = await db.scalar(
+                    select(Chat).where(Chat.user_id == user_id, Chat.creation_key == key)
+                )
+                if existing:
+                    return existing.id
+            project = Project(
+                id=str(uuid4()),
+                name=name,
+                user_id=user_id,
+                name_source="default" if name == "Новый чат" else "manual",
+            )
             db.add(project)
             await db.flush()
-            chat = Chat(id=str(uuid4()), project_id=project.id, user_id=user_id)
+            chat = Chat(id=str(uuid4()), project_id=project.id, user_id=user_id, creation_key=key)
             db.add(chat)
         return chat.id
 
@@ -105,7 +133,9 @@ class ConversationRepository:
                     select(Project, Chat, func.max(Message.created_at))
                     .join(Chat, Chat.project_id == Project.id)
                     .outerjoin(Message, Message.chat_id == Chat.id)
-                    .where(Project.user_id == user_id if user_id is not None else Project.user_id.is_not(None))
+                    .where(
+                        Project.user_id == user_id if user_id is not None else Project.user_id.is_not(None)
+                    )
                     .group_by(Project.id, Chat.id)
                 )
             ).all()
@@ -113,9 +143,12 @@ class ConversationRepository:
                 {
                     "id": p.id,
                     "name": p.name,
+                    "name_source": p.name_source,
+                    "name_version": p.name_version,
                     "client_name": p.client_name,
                     "chat_id": c.id,
                     "updated_at": (activity or p.created_at).isoformat(),
+                    "has_messages": activity is not None,
                     "summary": (c.last_intent or {}).get("raw_query", "")[:160],
                 }
                 for p, c, activity in rows
@@ -124,11 +157,14 @@ class ConversationRepository:
 
     async def update_project(self, project_id: str, values: dict, user_id: str | None = None) -> bool:
         async with self.sessions.begin() as db:
-            project = await db.get(Project, project_id)
+            project = await db.get(Project, project_id, with_for_update=True)
             if project is None or user_id is not None and project.user_id != user_id:
                 return False
             for key, value in values.items():
                 setattr(project, key, value)
+            if "name" in values:
+                project.name_source = "manual"
+                project.name_version += 1
             return True
 
     async def delete_project(self, project_id: str, user_id: str | None = None) -> bool:

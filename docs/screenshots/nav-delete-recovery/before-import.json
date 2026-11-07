@@ -1,0 +1,103 @@
+{
+  "offers": 9820,
+  "families": 3110,
+  "at": "2026-11-07 09:13:38.941871+00:00",
+  "jobs": [
+    {
+      "kind": "AVAILABILITY_REFRESH",
+      "status": "PENDING",
+      "error": "VTO_PARTIAL_REFRESH",
+      "available_at": "2026-11-07 08:22:31.456182+00:00",
+      "updated_at": "2026-11-07 08:22:30.436902+00:00",
+      "seen_parents": 0,
+      "page": null,
+      "pending": 0,
+      "failed": 14,
+      "reported_total": null,
+      "stages": null,
+      "metrics": {
+        "errors": 17,
+        "anomalies": [],
+        "duration_ms": 540081.3,
+        "products_seen": 165,
+        "products_changed": 97,
+        "products_updated": 165,
+        "products_unchanged": 1367,
+        "useful_change_rate": 0.0663,
+        "products_per_minute": 18.33,
+        "requests_per_minute": 7.0,
+        "retry_after_seconds": 0,
+        "observations_created": 97,
+        "product_pages_opened": 63,
+        "requests_per_product": 0.382,
+        "requests_per_supplier": 63,
+        "targeted_job_queue_ms": 5687830.4,
+        "product_pages_opened_ms": 317815.79,
+        "observations_deduplicated": 1367
+      }
+    },
+    {
+      "kind": "FULL_CATALOG_RECONCILIATION",
+      "status": "PENDING",
+      "error": "VTO_HTTP_ERROR",
+      "available_at": "2026-11-07 08:47:13.455630+00:00",
+      "updated_at": "2026-11-07 08:47:12.898724+00:00",
+      "seen_parents": 3139,
+      "page": 40,
+      "pending": 0,
+      "failed": 9,
+      "reported_total": 17781,
+      "stages": {
+        "discovered_parents": 3139,
+        "stock_known_offers": 6411,
+        "stock_unknown_offers": 3385,
+        "core_committed_parents": 3139,
+        "detail_enriched_parents": 3139
+      },
+      "metrics": {
+        "db_ms": 50225.0,
+        "offers": 9796,
+        "http_ms": 3003117.0,
+        "parents": 3139,
+        "parse_ms": 16486.0,
+        "variants": 9169,
+        "pacing_ms": 98641.0,
+        "last_error": "Server error '502 Bad Gateway' for url 'https://vto.kz/wp-json/wc/store/products?page=40&per_page=100&orderby=date&order=desc'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/502",
+        "duration_ms": 9173591,
+        "http_errors": 38,
+        "http_requests": 5087,
+        "retry_wait_ms": 21000.0,
+        "zero_quantity": 209,
+        "known_quantity": 6411,
+        "failed_attempts": 48,
+        "simple_products": 627,
+        "collection_pages": 41,
+        "core_live_offers": 1984,
+        "products_changed": 7835,
+        "requests_by_kind": {
+          "COLLECTION": 14,
+          "PARENT_API": 0,
+          "DETAIL_HTML": 560,
+          "VARIATION_API": 227,
+          "VARIATION_STOCK": 132
+        },
+        "unknown_quantity": 3385,
+        "variable_parents": 2512,
+        "products_unchanged": 1961,
+        "retry_after_seconds": 0,
+        "non_sellable_parents": 34,
+        "observations_created": 7835,
+        "targeted_job_queue_ms": 4.0,
+        "observations_deduplicated": 1961
+      }
+    }
+  ],
+  "state": {
+    "retry_after": "2026-11-07 09:17:12.898724+00:00",
+    "lease_until": "2026-11-07 08:47:12.898724+00:00",
+    "circuit_open_until": "2026-11-05 13:26:16.264523+00:00",
+    "error": "VTO_HTTP_ERROR",
+    "failures": 2,
+    "active_lease": false
+  }
+}

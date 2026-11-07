@@ -1,0 +1,118 @@
+[
+  {
+    "check": "current restored by real theme bootstrap",
+    "status": "PASS"
+  },
+  {
+    "check": "current applies distinct colors to every native scroll container",
+    "status": "PASS",
+    "metrics": [
+      {
+        "class": "research-main native-scroll",
+        "width": "10px",
+        "thumb": "rgb(115, 127, 118)",
+        "track": "rgb(24, 30, 26)",
+        "standard": "auto"
+      },
+      {
+        "class": "research-messages native-scroll",
+        "width": "10px",
+        "thumb": "rgb(115, 127, 118)",
+        "track": "rgb(24, 30, 26)",
+        "standard": "auto"
+      },
+      {
+        "class": "sheet-body native-scroll",
+        "width": "10px",
+        "thumb": "rgb(115, 127, 118)",
+        "track": "rgb(24, 30, 26)",
+        "standard": "auto"
+      },
+      {
+        "class": "ui-select-options native-scroll",
+        "width": "10px",
+        "thumb": "rgb(115, 127, 118)",
+        "track": "rgb(24, 30, 26)",
+        "standard": "auto"
+      }
+    ]
+  },
+  {
+    "check": "current normal thumb is painted with its theme color",
+    "status": "PASS"
+  },
+  {
+    "check": "current native hover uses its theme accent",
+    "status": "PASS"
+  },
+  {
+    "check": "current active thumb uses its theme accent",
+    "status": "PASS"
+  },
+  {
+    "check": "current native scrollbar drag scrolls content",
+    "status": "PASS"
+  },
+  {
+    "check": "current high contrast keeps system scrollbar",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse restored by real theme bootstrap",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse applies distinct colors to every native scroll container",
+    "status": "PASS",
+    "metrics": [
+      {
+        "class": "research-main native-scroll",
+        "width": "10px",
+        "thumb": "rgb(123, 131, 139)",
+        "track": "rgb(243, 245, 242)",
+        "standard": "auto"
+      },
+      {
+        "class": "research-messages native-scroll",
+        "width": "10px",
+        "thumb": "rgb(123, 131, 139)",
+        "track": "rgb(243, 245, 242)",
+        "standard": "auto"
+      },
+      {
+        "class": "sheet-body native-scroll",
+        "width": "10px",
+        "thumb": "rgb(123, 131, 139)",
+        "track": "rgb(243, 245, 242)",
+        "standard": "auto"
+      },
+      {
+        "class": "ui-select-options native-scroll",
+        "width": "10px",
+        "thumb": "rgb(123, 131, 139)",
+        "track": "rgb(243, 245, 242)",
+        "standard": "auto"
+      }
+    ]
+  },
+  {
+    "check": "pulse normal thumb is painted with its theme color",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse native hover uses its theme accent",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse active thumb uses its theme accent",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse native scrollbar drag scrolls content",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse high contrast keeps system scrollbar",
+    "status": "PASS"
+  }
+]

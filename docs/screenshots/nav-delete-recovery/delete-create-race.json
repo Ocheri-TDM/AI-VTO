@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "http_statuses": [
+    200,
+    409
+  ],
+  "no_automatic_replacement": true,
+  "stale_create_cannot_return_new_document": true,
+  "repeated_old_delete_preserves_new_primary": true
+}

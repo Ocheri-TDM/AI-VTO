@@ -1,0 +1,10 @@
+{
+  "generated": 5000,
+  "unique": 5000,
+  "passed": 5000,
+  "failures": [],
+  "hostile_inputs_rejected": 5,
+  "watchdog_seconds": 120,
+  "seconds": 2.169,
+  "scope": "normalization, attribute and category invariants; no network/SQL or claim of 5000 independent language tasks"
+}

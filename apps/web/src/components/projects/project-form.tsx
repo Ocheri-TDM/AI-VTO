@@ -19,7 +19,7 @@ export function ProjectForm({
   const [confirm, setConfirm] = useState(false);
   return (
     <Sheet
-      title={project ? "Настройки проекта" : "Новый проект"}
+      title={project ? "Настройки чата" : "Новый чат"}
       onClose={() => {
         if (!busy) onClose();
       }}
@@ -36,7 +36,7 @@ export function ProjectForm({
         }}
       >
         <label>
-          Название проекта
+          Название чата
           <input
             autoFocus
             required
@@ -62,7 +62,7 @@ export function ProjectForm({
           className="studio-button primary"
           disabled={busy || !name.trim()}
         >
-          {busy ? "Сохраняю…" : project ? "Сохранить" : "Создать проект"}
+          {busy ? "Сохраняю…" : project ? "Сохранить" : "Создать чат"}
         </button>
         {onDelete && !confirm && (
           <button

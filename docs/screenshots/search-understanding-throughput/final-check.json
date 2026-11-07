@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "protected_fingerprints_after_cleanup": true,
+  "health": {
+    "http://127.0.0.1:8000/api/health": 200,
+    "http://127.0.0.1:3000/": 200,
+    "http://127.0.0.1:3000/api/health": 200
+  },
+  "temporary_ports_closed": {
+    "55433": true,
+    "9226": true
+  },
+  "offers_at_final_check": 7183,
+  "background_enabled_in_config": true
+}

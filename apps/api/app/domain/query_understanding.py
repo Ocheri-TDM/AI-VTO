@@ -85,7 +85,7 @@ class QueryUnderstanding(BaseModel):
     llm_latency_ms: float | None = None
     llm_validation_result: str = "NOT_USED"
     latency_ms: float = 0
-    version: str = "query-understanding-v2"
+    version: str = "query-understanding-v3"
 
 
 @dataclass(frozen=True)
@@ -329,7 +329,6 @@ class QueryUnderstandingService:
             rows = (
                 await db.execute(
                     select(ProductConcept.canonical_name, ProductConcept.display_name, ProductConcept.aliases)
-                    .where(ProductConcept.products_count > 0)
                     .order_by(ProductConcept.products_count.desc())
                     .limit(2000)
                 )
@@ -442,6 +441,10 @@ class QueryUnderstandingService:
     def _decide(self, token, index, tokens):
         low = token.casefold()
         role = _input_role(token, index, tokens)
+        if UniversalCategoryResolver().resolve(token):
+            return CorrectionDecision(original_token=token, action=DecisionAction.PRESERVE,
+                                      confidence=1, token_role=TokenRole.CATEGORY,
+                                      rejection_reason="KNOWN_TAXONOMY")
         # A known compound product noun is stronger evidence than morphology
         # learned from a supplier's broad merchandising category label.
         if "-" in token and UniversalCategoryResolver().resolve(token):
@@ -638,6 +641,8 @@ class QueryUnderstandingService:
             for item in self._exact.get(token.casefold(), ()):
                 if not item.concept.startswith("_"):
                     concepts.append(item.concept)
+            if decision.rejection_reason == "KNOWN_TAXONOMY":
+                concepts.extend(UniversalCategoryResolver().resolve(token))
             return token
 
         normalized = re.sub(r"\s+", " ", _TOKEN.sub(replace, source)).strip()

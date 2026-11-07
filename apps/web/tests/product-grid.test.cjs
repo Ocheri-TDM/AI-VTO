@@ -65,6 +65,24 @@ test('failed collection save rolls back its optimistic item and blocks a silentl
   await assert.rejects(writer.flush(),/offline/);
   assert.deepEqual(published.at(-1).selected_ids,['saved']);assert.equal(errors.length,1);
 });
+
+test('focus and interval collection reloads share one in-flight read',async()=>{
+  const {CollectionWriter}=load('src/lib/project-collection.ts');
+  let count=0,resolve;const state={project_id:'A',version:1,selected_ids:[],products:[],unavailable_ids:[]};
+  const writer=new CollectionWriter({get:()=>{count++;return new Promise(r=>resolve=r);},mutate:async()=>state},()=>{},()=>{});
+  writer.reset('A');const a=writer.reload(),b=writer.reload();assert.equal(a,b);assert.equal(count,1);resolve(state);await a;
+});
+
+test('idempotent collection save respects Retry-After once and preserves subsequent remove',async()=>{
+  const {CollectionWriter}=load('src/lib/project-collection.ts');
+  const state={project_id:'A',version:1,selected_ids:[],products:[],unavailable_ids:[]};let attempts=0;const ops=[];
+  const writer=new CollectionWriter({get:async()=>state,mutate:async(project,op)=>{
+    attempts++;ops.push(op.type);if(attempts===1)throw {status:429,retryAfter:.001};
+    return {...state,version:attempts,selected_ids:op.type==='add'?['x']:[]};
+  }},()=>{},e=>{throw e;});
+  writer.reset('A');writer.adopt(state);writer.enqueue({type:'add',offer:'x'},{id:'x'});writer.enqueue({type:'remove',offer:'x'});
+  const saved=await writer.flush();assert.deepEqual(ops,['add','add','remove']);assert.deepEqual(saved.selected_ids,[]);
+});
 const research={intent:{raw_query:'ручки',brands:[],branches:[{label:'ручки',category:'pen',colors:['BLACK'],materials:[],quantity:300,min_price:null,max_price:null}]},
   id:'test-research',products:[],selected_products:[],groups:[],view:{version:2,selected_ids:[],filters:{brands:['molti'],colors:[],materials:[],sizes:[],min_price:null,max_price:5000,minimum_quantity:null,excluded_materials:[],required_terms:[],origins:{brands:'chat'}}},
   facets:{brand:[{value:'molti',label:'Molti',count:12},{value:'other',label:'Other',count:4}]}};

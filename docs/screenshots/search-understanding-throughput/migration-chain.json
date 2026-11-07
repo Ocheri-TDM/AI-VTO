@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "database": "new disposable database on isolated :55433",
+  "head": "0025_offer_lifecycle",
+  "main_database_migrated": false,
+  "note": "Existing main database and its version remain untouched."
+}

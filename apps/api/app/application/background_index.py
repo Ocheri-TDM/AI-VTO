@@ -150,7 +150,7 @@ class BackgroundIndex:
             raise JobCancelled()
         for attempt in range(self.settings.provider_retries + 1):
             await asyncio.sleep(
-                self.settings.research_provider_delays.get(
+                0 if job["supplier"] == "vto" else self.settings.research_provider_delays.get(
                     job["supplier"], self.settings.research_request_delay_seconds
                 )
                 * (2**attempt)
@@ -165,6 +165,11 @@ class BackgroundIndex:
                 )
                 return result
             except SupplierError as exc:
+                if job["supplier"] == "vto":
+                    # VTO already owns bounded transport retries and pacing.
+                    from app.domain.vto_retry import record_error
+                    record_error(job["metrics"], exc)
+                    raise
                 if "403" in str(exc) or exc.code == "SUPPLIER_HTTP_ERROR":
                     job["metrics"]["http_403"] = job["metrics"].get("http_403", 0) + 1
                 if "429" in str(exc):
@@ -191,6 +196,9 @@ class BackgroundIndex:
                 provider = self.providers[job["supplier"]]
                 if job["kind"] in ("OBSERVATION_REFRESH", "AVAILABILITY_REFRESH", "TARGETED_REFRESH"):
                     await self.refresh(job, provider)
+                    if job["supplier"] == "vto" and job["checkpoint"].get("failed_products"):
+                        retries = any(row["attempts"] < 3 for row in job["checkpoint"]["failed_products"].values())
+                        status, error = "PENDING" if retries else "FAILED", "VTO_PARTIAL_REFRESH"
                 elif job["kind"] == "TARGETED_RESEARCH":
                     await self.targeted(job, provider)
                 else:
@@ -297,12 +305,41 @@ class BackgroundIndex:
             checkpoint["pending"] = [url for _, url, _, _ in due]
             checkpoint["refresh_tiers"] = counts
         checkpoint['pending'] = list(dict.fromkeys(provider.observation_group_key(url) for url in checkpoint['pending']))
+        if job["supplier"] == "vto":
+            from sqlalchemy import select
+
+            from app.database.models import SupplierOffer
+            async with self.repository.sessions() as db:
+                rows = (await db.execute(select(SupplierOffer.source_url, SupplierOffer.payload)
+                    .where(SupplierOffer.supplier == "vto", SupplierOffer.source_url.in_(checkpoint["pending"])))).all()
+            checkpoint["parent_ids"] = {url: payload["metadata"]["vto_product_id"] for url, payload in rows
+                                        if (payload.get("metadata") or {}).get("vto_product_id")}
+            checkpoint.setdefault("failed_products", {})
+            if not checkpoint["pending"]:
+                checkpoint["pending"] = [url for url, failure in checkpoint["failed_products"].items() if failure["attempts"] < 3]
         processed = 0
         while checkpoint["pending"]:
-            products = await self.request(
-                job, lambda: provider.research_products(checkpoint["pending"][0]), "product_pages_opened"
-            )
+            url = checkpoint["pending"][0]
+            async def fetch():
+                if job["supplier"] == "vto" and checkpoint["parent_ids"].get(url):
+                    return await provider.research_products(url, parent_id=checkpoint["parent_ids"][url])
+                return await provider.research_products(url)
+            try:
+                products = await self.request(job, fetch, "product_pages_opened")
+            except SupplierError as exc:
+                if job["supplier"] != "vto" or exc.code not in {
+                    "VTO_NOT_FOUND", "VTO_PARSING_ERROR", "VTO_PARENT_FILTER_ERROR", "VTO_VARIATION_INCOMPLETE"
+                }:
+                    raise
+                failures = checkpoint["failed_products"]
+                failures[url] = {"attempts": failures.get(url, {}).get("attempts", 0) + 1,
+                                 "error": exc.code, "stage": "DETAIL_ENRICHMENT",
+                                 "parser_version": provider.parser_version}
+                checkpoint["pending"].pop(0)
+                await self.repository.checkpoint(job["id"], checkpoint, job["metrics"])
+                continue
             await self.store(job, products)
+            checkpoint.get("failed_products", {}).pop(url, None)
             checkpoint["pending"].pop(0)
             await self.repository.checkpoint(job["id"], checkpoint, job["metrics"])
             processed += 1

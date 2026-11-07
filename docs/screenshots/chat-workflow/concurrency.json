@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "http_statuses": [
+    202,
+    202,
+    202
+  ],
+  "later_request_statuses": [
+    409,
+    202
+  ],
+  "requests_overlapped": true,
+  "same_key_same_user_one_turn": true,
+  "same_key_different_users_independent": true,
+  "foreign_history_404": true,
+  "latest_grid_is_newer_request": true,
+  "all_six_messages_preserved": true,
+  "elapsed_seconds": 4.665,
+  "scope": "bounded local smoke; forced late-A completion covered separately by permanent regression"
+}

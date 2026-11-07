@@ -1,5 +1,8 @@
 # Unified product grid — 2026-10-30
 
+Дополнение от 7 ноября 2026:
+[исправления понимания поиска, сохранения выбора и throughput VTO](search-understanding-throughput.md).
+
 Последнее дополнение, 6 ноября 2026:
 [постоянное commercial offer, семидневные ссылки и подготовка Vercel без входа](offer-lifecycle-vercel.md).
 Backend проверен через существующий Vercel proxy; новая frontend-сборка проверена
@@ -2036,3 +2039,79 @@ disposable ресурсы удалены по точным ID.
 Внешний HTTPS по выбору пользователя не тестировался. Недоступные PDF/XLSX
 референсы — NOT VERIFIED; native Excel — NOT TESTED. Детальный контракт,
 измерения, результаты и ограничения: [commercial-offers.md](commercial-offers.md).
+
+## Чаты и навигация предложений — 7 ноября 2026
+
+PASS: переписка читается из Chat/Message независимо от активного Research.
+Добавлены durable request ID/turn, ограниченная история, создание «Новый чат»
+без формы, однократное автоимя с защитой ручного названия, отдельный owner-only
+раздел предложений и численные owner-stock данные вне клиентского snapshot.
+Новые ссылки действуют 14 дней от первого READY; две доказанные действующие
+ссылки продлены от прежней активации, неизвестная дата не реконструируется.
+
+Полный backend: **630 passed**, 1 opt-in deselected, 305.39 s; финальные профильные
+регрессии — 20 passed. Frontend — **70 passed**. Основной HTTP — 24 проверки,
+дополнительная PostgreSQL concurrency-проверка, Edge — 20 desktop/mobile checks
+в двух темах. Ruff, ESLint, TypeScript, production build и diff --check прошли.
+Исходные 60 сообщений, 17 позиций коллекций, 16 документов и 20 ревизий сохранили
+fingerprints. Два disposable аккаунта, 20 проектов и 10 документов очищены по ID;
+основные сервисы работают. Vercel deployment этой версии — NOT TESTED.
+Подробности и скриншоты: [chat-workflow.md](chat-workflow.md).
+
+## Navbar, ручное удаление и импорт VTO — 7 ноября 2026
+
+**PASS:** общий AppNavbar (64 px desktop, controls 40 px); подтверждаемое logical
+delete с owner/CAS/epoch guards, закрытием ссылок/файлов и generation fence для
+устаревшего get-or-create. Чат и подборка сохраняются; 14 дней относятся к ссылке.
+
+**PASS в контролируемых проверках:** один durable retry owner, первые интервалы
+60–90 / 90–120 s, сохранение Retry-After/circuit/lease, отсутствие reset срока от
+scheduler, долговечные failed listing ranges и защита от повторения меньшей пробы.
+**PARTIAL live:** VTO вернул 502 и на обычные listing requests, и на разрешённую
+пробу меньшего ответа. В окне наблюдения новых товаров 0; ускорение наполнения
+не заявляется. Источник продолжает обрабатываться единственным существующим job.
+
+Финальный backend: **651 passed**, 1 opt-in deselected, 312.54 s; профильные —
+77 passed; PostgreSQL provider — 34, два процесса/один lease и три document races.
+Frontend — 72; Edge — 25 проверок. Ruff/ESLint/TypeScript/build/diff checks прошли.
+Сохранность исходных данных, 259 файлов и encryption key подтверждена. Exact-ID
+cleanup удалил 2 тестовых аккаунта, 1 проект и 9 документов; основные сервисы работают.
+Vercel и нативное browser-menu zoom — NOT TESTED. Детали:
+[navbar-offer-deletion-vto-recovery.md](navbar-offer-deletion-vto-recovery.md).
+
+## Чистый старт и сворачиваемый чат — 7 ноября 2026
+
+**PASS:** пустой экран без правой колонки и нулевой подборки; немедленное
+открытие после submit; закрытие/повторное открытие с сохранением переписки,
+черновика и выбора. Позднее создание первого чата сохраняет ручное сворачивание.
+Название чата удалено из navbar DOM. Добавлено общее нативное оформление
+scrollbars в тёмной теме/Pulse и исправлена лишняя прокрутка короткого списка чатов.
+
+Финальный frontend suite — **79 passed**, Edge — **51 проверка**. ESLint,
+TypeScript, production build, Ruff acceptance scripts и diff check прошли.
+Сохранность исходных записей, 10 760 offer identities, 259 файлов и encryption key
+подтверждена; hashes 152 backend/миграционных файлов неизменны. Удалены только
+3 disposable аккаунта / 5 проектов и отдельный профиль Edge. Основные сервисы
+работают. Другие браузеры, physical touchpad/screen reader и нативное меню zoom —
+**NOT TESTED**. [Отчёт и screenshots](clean-start-collapsible-chat.md).
+
+Уточнение Pulse: светлая дорожка, нейтральный серый ползунок, фирменный оранжевый
+hover и более тёмный active; прежние цвета тёмной темы сохранены. 14 дополнительных
+Edge-проверок подтверждают реальные пиксели normal/hover/active, drag, F5 и
+forced-colors; 79 frontend-тестов и build/lint/typecheck прошли повторно.
+Anonymous UI fixture без изменений БД; frontend перезапущен, сервисы отвечают 200.
+
+## Управление чатом справа — 7 ноября 2026
+
+**PASS:** кнопка с контурной иконкой и подписью «Чат» находится справа под navbar,
+вне прокрутки выдачи. Сворачивание — в той же зоне и на той же высоте. Старая
+левая и дублирующая mobile-кнопка удалены; «История» не сдвигается при открытии.
+На мобильном используется прежний drawer без автоматического фокуса textarea.
+
+Frontend — **83 passed**, Edge — **67 проверок** в двух темах, включая real API,
+несколько экранов товаров, modal, F5/проекты, Network и первый submit без проекта.
+ESLint, TypeScript, build, Ruff и diff check прошли. Исходные записи, 11 177 offer
+identities, 259 файлов и backend hashes сохранены. По точным ID удалены только
+3 тестовых аккаунта и 5 проектов; сервисы работают. Другие браузеры, screen reader,
+OS keyboard и нативное меню zoom — **NOT TESTED**.
+[Отчёт и парные screenshots](right-side-chat-toggle.md).

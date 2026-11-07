@@ -1,0 +1,218 @@
+[
+  {
+    "check": "current empty workspace has no panel, zero summary or leftover column",
+    "status": "PASS",
+    "geometry": {
+      "width": 1440,
+      "overflow": false,
+      "bodyOverflow": false,
+      "mainRight": 1440,
+      "columns": "230px 1210px 0px",
+      "titleNodes": 0,
+      "forms": 1,
+      "expanded": "false",
+      "navbar": 64
+    }
+  },
+  {
+    "check": "current short sidebar has no unnecessary vertical scrollbar",
+    "status": "PASS"
+  },
+  {
+    "check": "current typing does not open chat",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse empty workspace has no panel, zero summary or leftover column",
+    "status": "PASS",
+    "geometry": {
+      "width": 1440,
+      "overflow": false,
+      "bodyOverflow": false,
+      "mainRight": 1440,
+      "columns": "230px 1210px 0px",
+      "titleNodes": 0,
+      "forms": 1,
+      "expanded": "false",
+      "navbar": 64
+    }
+  },
+  {
+    "check": "pulse short sidebar has no unnecessary vertical scrollbar",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse typing does not open chat",
+    "status": "PASS"
+  },
+  {
+    "check": "first submit displays local message before HTTP acknowledgement",
+    "status": "PASS",
+    "seconds": 0.008
+  },
+  {
+    "check": "collapse frees the full width and restores focus",
+    "status": "PASS"
+  },
+  {
+    "check": "late server response does not reopen a manually closed chat",
+    "status": "PASS"
+  },
+  {
+    "check": "three toggles keep one composer, history and draft without POST or new subscriptions",
+    "status": "PASS",
+    "before": {
+      "posts": 2,
+      "sources": {
+        "created": 0,
+        "live": 0
+      }
+    },
+    "after": {
+      "posts": 2,
+      "sources": {
+        "created": 0,
+        "live": 0
+      }
+    }
+  },
+  {
+    "check": "F5 restores search, selected product, history and the controlled draft",
+    "status": "PASS"
+  },
+  {
+    "check": "new chat after an old one does not display old messages, products or selection",
+    "status": "PASS"
+  },
+  {
+    "check": "slow history/research/collection hydration never impersonates an empty chat",
+    "status": "PASS"
+  },
+  {
+    "check": "current long native history uses 10px themed scrollbar without body scrolling",
+    "status": "PASS",
+    "metrics": {
+      "height": 661,
+      "scrollHeight": 23213,
+      "width": "10px",
+      "thumb": "rgb(115, 127, 118)",
+      "track": "rgb(24, 30, 26)",
+      "standard": "auto",
+      "bodyOverflow": false
+    }
+  },
+  {
+    "check": "pulse long native history uses 10px themed scrollbar without body scrolling",
+    "status": "PASS",
+    "metrics": {
+      "height": 661,
+      "scrollHeight": 23213,
+      "width": "10px",
+      "thumb": "rgb(123, 131, 139)",
+      "track": "rgb(243, 245, 242)",
+      "standard": "auto",
+      "bodyOverflow": false
+    }
+  },
+  {
+    "check": "keyboard scroll remains native",
+    "status": "PASS"
+  },
+  {
+    "check": "wheel coordinates hit the visible history",
+    "status": "PASS",
+    "point": {
+      "x": 1171,
+      "y": 220
+    }
+  },
+  {
+    "check": "native wheel scroll works",
+    "status": "PASS"
+  },
+  {
+    "check": "reduced motion disables the panel transition",
+    "status": "PASS"
+  },
+  {
+    "check": "forced colors restores system scrollbar styling",
+    "status": "PASS",
+    "metrics": {
+      "standard": "auto",
+      "width": "auto"
+    }
+  },
+  {
+    "check": "effective zoom/viewport 1152x800 DPR 1.25 has no horizontal overflow",
+    "status": "PASS",
+    "geometry": {
+      "width": 1152,
+      "overflow": false,
+      "bodyOverflow": false,
+      "mainRight": 852,
+      "columns": "190px 662px 300px",
+      "titleNodes": 0,
+      "forms": 1,
+      "expanded": "true",
+      "navbar": 64
+    }
+  },
+  {
+    "check": "effective zoom/viewport 960x667 DPR 1.5 has no horizontal overflow",
+    "status": "PASS",
+    "geometry": {
+      "width": 960,
+      "overflow": false,
+      "bodyOverflow": false,
+      "mainRight": 960,
+      "columns": "190px 770px",
+      "titleNodes": 0,
+      "forms": 1,
+      "expanded": "false",
+      "navbar": 64
+    }
+  },
+  {
+    "check": "effective zoom/viewport 390x844 DPR 1 has no horizontal overflow",
+    "status": "PASS",
+    "geometry": {
+      "width": 390,
+      "overflow": false,
+      "bodyOverflow": false,
+      "mainRight": 390,
+      "columns": "390px",
+      "titleNodes": 0,
+      "forms": 1,
+      "expanded": "false",
+      "navbar": 111
+    }
+  },
+  {
+    "check": "mobile drawer closes without losing the search",
+    "status": "PASS"
+  },
+  {
+    "check": "saved collection is available without an active research",
+    "status": "PASS"
+  },
+  {
+    "check": "real zero-result search retains conversation and saved collection",
+    "status": "PASS"
+  },
+  {
+    "check": "network failure preserves draft and an explicitly unconfirmed local message",
+    "status": "PASS"
+  },
+  {
+    "check": "navbar has no chat-title DOM on /offers",
+    "status": "PASS"
+  },
+  {
+    "check": "navbar has no chat-title DOM on /offers/archive",
+    "status": "PASS"
+  },
+  {
+    "check": "navbar has no chat-title DOM on /",
+    "status": "PASS"
+  }
+]

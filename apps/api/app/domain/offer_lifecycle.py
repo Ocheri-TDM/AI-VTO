@@ -1,8 +1,9 @@
-"""Seven actual UTC days; no read or content update extends a capability."""
+"""Fourteen actual UTC days; reads and content updates never extend a link."""
 
 from datetime import UTC, timedelta
 
-LINK_LIFETIME = timedelta(days=7)
+LINK_LIFETIME_DAYS = 14
+LINK_LIFETIME = timedelta(days=LINK_LIFETIME_DAYS)
 
 
 def aware(value):

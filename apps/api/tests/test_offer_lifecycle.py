@@ -64,7 +64,7 @@ async def test_queue_time_expiry_update_late_worker_and_renewal_receipt(clients)
     now += timedelta(days=2)  # Waiting must not consume the inaccessible link's lifetime.
     first = await execute(app)
     doc = (await owner.get(path)).json()
-    deadline = now + timedelta(days=7)
+    deadline = now + timedelta(days=14)
     assert datetime.fromisoformat(doc["share"]["activated_at"]) == now
     assert datetime.fromisoformat(doc["share"]["expires_at"]) == deadline
     token = doc["share"]["local_preview_path"].split("/")[-1]
@@ -125,10 +125,10 @@ async def test_queue_time_expiry_update_late_worker_and_renewal_receipt(clients)
     doc = response.json()
     assert doc["share"]["active"] and doc["share"]["epoch"] == 1
     assert datetime.fromisoformat(doc["share"]["activated_at"]) == now
-    assert datetime.fromisoformat(doc["share"]["expires_at"]) == now + timedelta(days=7)
+    assert datetime.fromisoformat(doc["share"]["expires_at"]) == now + timedelta(days=14)
     assert doc["share"]["local_preview_path"].split("/")[-1] != token
     assert (await guest.get(public)).status_code == 404
-    second_deadline = now + timedelta(days=7)
+    second_deadline = now + timedelta(days=14)
     now = second_deadline
     assert (await owner.post(path + "/publish", json=renewed)).status_code == 202
     repeated = (await owner.get(path)).json()

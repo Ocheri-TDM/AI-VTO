@@ -243,6 +243,8 @@ async def audit():
 
 
 async def prepare(state):
+    ledger = Path(state.get("ledger", LEDGER))
+    public = Path(state.get("public", PUBLIC))
     state["audit"] = await audit()
     directory = ROOT / ".local" / ("search-safety-" + state["run"])
     assert (
@@ -259,7 +261,7 @@ async def prepare(state):
         projects=[],
         caps=CAPS,
     )
-    save(LEDGER, state)
+    save(ledger, state)
     env = dict(os.environ)
     init = await asyncio.to_thread(
         subprocess.run,
@@ -305,7 +307,7 @@ async def prepare(state):
     state["database_url"] = (
         "postgresql+asyncpg://quality_owner@127.0.0.1:55433/postgres"
     )
-    save(LEDGER, state)
+    save(ledger, state)
     for _ in range(40):
         try:
             e, _s = create_database(state["database_url"])
@@ -353,11 +355,9 @@ async def prepare(state):
         "products": products(),
         "cases": cases(),
     }
-    save(ROOT / "apps/api/tests/quality/dataset.json", corpus)
-    save(
-        ROOT / "apps/api/tests/quality/holdout.json",
-        {"seed": 927651, "cases": holdout()},
-    )
+    if not state.get("regression_extension"):
+        save(ROOT / "apps/api/tests/quality/dataset.json", corpus)
+        save(ROOT / "apps/api/tests/quality/holdout.json", {"seed": 927651, "cases": holdout()})
     sanitized = {
         key: value for key, value in state["audit"].items() if key != "commercial"
     }
@@ -368,8 +368,8 @@ async def prepare(state):
         fixture_offers=len(products()),
         isolated_pg_port=55433,
     )
-    save(PUBLIC / "environment.json", sanitized)
-    save(LEDGER, state)
+    save(public / "environment.json", sanitized)
+    save(ledger, state)
     print(
         "Prepared isolated PostgreSQL :55433, migrated schema, fixture offers:",
         len(products()),
@@ -504,7 +504,7 @@ async def serve(state):
             creationflags=subprocess.CREATE_NO_WINDOW,
         )
     state["api_pid"] = process.pid
-    save(LEDGER, state)
+    save(Path(state.get("ledger", LEDGER)), state)
     async with httpx.AsyncClient() as c:
         for _ in range(60):
             try:
@@ -1293,9 +1293,16 @@ async def main():
             "cleanup",
             "resources",
             "fixtures",
+            "regression",
         ],
     )
-    phase = parser.parse_args().phase
+    parser.add_argument("--stage", default="before")
+    arguments = parser.parse_args()
+    phase = arguments.phase
+    if phase == "regression":
+        from quality.regression_acceptance import run
+        await run(arguments.stage)
+        return
     state = (
         json.loads(LEDGER.read_text("utf-8"))
         if LEDGER.exists()

@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "iterations": 3,
+  "terminal_revision_states": [
+    "CANCELLED",
+    "READY",
+    "READY"
+  ],
+  "network_calls": 0,
+  "scope": "isolated PostgreSQL, real claim and concurrent delete/final publication"
+}

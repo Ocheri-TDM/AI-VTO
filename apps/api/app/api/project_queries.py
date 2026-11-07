@@ -12,6 +12,7 @@ router = APIRouter(tags=["project queries"])
 class QueryCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
     query: str = Field(min_length=1, max_length=2000)
+    request_id: UUID | None = None
 
     _query = field_validator("query")(validate_query)
 
@@ -32,10 +33,14 @@ async def history(project_id: UUID, request: Request):
 @router.post("/api/projects/{project_id}/queries", status_code=201)
 async def submit(project_id: UUID, body: QueryCreate, request: Request):
     try:
-        result = await request.app.state.project_queries.request(str(project_id), body.query, owner(request))
+        result = await request.app.state.project_queries.request(
+            str(project_id), body.query, owner(request), body.request_id
+        )
     except ValueError as exc:
         if str(exc) == "STATE_CONFLICT":
             raise HTTPException(409, "Подборка изменилась. Повторите уточнение.") from exc
+        if str(exc) == "IDEMPOTENCY_CONFLICT":
+            raise HTTPException(409, "Этот ID отправки уже использован для другого сообщения") from exc
         if str(exc) == "UNKNOWN_BRANCH":
             raise HTTPException(422, "В текущем запросе нет такой категории.") from exc
         raise HTTPException(
@@ -47,7 +52,9 @@ async def submit(project_id: UUID, body: QueryCreate, request: Request):
         "mode": "GRID",
         "route": {"action": result["action"]},
         "query": result.get("query"),
-        "research": await render(request, result["research"]),
+        "research": await render(request, result["research"]) if result["research"] else None,
+        "turn": result.get("turn"),
+        "active": result.get("active", True),
     }
 
 

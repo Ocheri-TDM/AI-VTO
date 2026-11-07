@@ -15,7 +15,7 @@ test('project opener and settings stay separate buttons with a full-title toolti
   const html=renderToStaticMarkup(React.createElement(ProjectList,{projects,active:'0',disabled:false,onOpen(){},onNew(){},onEdit(){}}));
   assert.equal((html.match(/class="project-open"/g)||[]).length,3);
   assert.equal((html.match(/class="icon-button project-settings"/g)||[]).length,3);
-  assert.match(html,/aria-current="page"/); assert.match(html,/Есть подборка/); assert.match(html,/Новый проект/);
+  assert.match(html,/aria-current="page"/); assert.match(html,/Есть переписка/); assert.match(html,/Пустой чат/); assert.match(html,/Новый чат/);
   for(const name of names) {assert.ok(html.includes(`title="${name}"`));assert.ok(html.includes(`Настройки проекта ${name}`));}
   assert.doesNotMatch(html,/<button[^>]*>(?:(?!<\/button>)[\s\S])*<button/);
 });

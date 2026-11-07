@@ -7,12 +7,16 @@ export function Sheet({
   onClose,
   className = "",
   variant = "default",
+  id,
+  closeControl,
 }: {
   title: string;
   children: ReactNode;
   onClose: () => void;
   className?: string;
   variant?: "default" | "modelVariants";
+  id?: string;
+  closeControl?: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -30,22 +34,23 @@ export function Sheet({
   return (
     <dialog
       ref={ref}
+      id={id}
       className={`sheet ${variant === "modelVariants" ? "model-variants-sheet" : ""} ${className}`}
       aria-label={title}
-      onCancel={onClose}
+      onCancel={(event)=>{event.preventDefault();onClose();}}
       onClick={(e) => {
         if (e.target === ref.current) onClose();
       }}
     >
       <header>
         <h2>{title}</h2>
-        <button
+        {closeControl??<button
           className="icon-button"
           aria-label="Закрыть панель"
           onClick={onClose}
         >
           <X size={20} />
-        </button>
+        </button>}
       </header>
       <div className="sheet-body">{children}</div>
     </dialog>

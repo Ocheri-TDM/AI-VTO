@@ -205,6 +205,7 @@ def normalize(parent, detail):
         size = next((value for key, value in values.items() if "size" in key.casefold() or "размер" in key.casefold()), None)
         product = Product(
             id=f"vto:{vid if vid else parent_id}", supplier="vto", source_url=url,
+            fetched_at=(variant or {}).get("_observed_at") or detail.get("_observed_at") or datetime.now(UTC),
             name=plain(parent["name"]) + (" — " + ", ".join(values.values()) if values else ""),
             description=plain(parent.get("description")), category=type_categories[0] if type_categories else None,
             original_price=price, original_currency=currency,
@@ -270,39 +271,59 @@ class VTOProvider(SupplierProvider):
         self.last_request = 0.0
         self.requests = 0
         self.errors = 0
+        self.timings = dict(http_ms=0.0, pacing_ms=0.0, retry_wait_ms=0.0, parse_ms=0.0)
+        self.request_kinds = {}
         self.cache = {}  # At most one collection page; not a second catalog.
 
     async def request(self, url, data=None):
         parsed = urlsplit(url)
         if parsed.scheme != "https" or parsed.hostname != "vto.kz" or parsed.username or parsed.password:
             raise SupplierError("INVALID_SOURCE", "VTO URL required")
+        kind = ("stock" if "wc-ajax=" in parsed.query else "variant" if "type=variation" in parsed.query
+                else "parent" if "/product/" in parsed.path or re.search(r"/products/\d+$", parsed.path) else "listing")
         async with self.slots:
-            for attempt in range(3):
-                async with self.pace:
-                    await asyncio.sleep(max(0, self.settings.vto_request_delay_seconds - (time.monotonic() - self.last_request)))
-                    self.last_request = time.monotonic()
-                try:
-                    self.requests += 1
-                    response = (await self.client.get(url) if data is None
-                                else await self.client.post(url, data=data))
-                    if response.status_code in (429, 500, 502, 503, 504):
-                        retry = response.headers.get("Retry-After", "")
-                        try:
-                            delay = float(retry) if retry.isdigit() else (
-                                max(0, (parsedate_to_datetime(retry) - datetime.now(UTC)).total_seconds())
-                                if retry else 2 ** attempt)
-                        except (ValueError, TypeError):
-                            delay = 2 ** attempt
-                        if delay > 60:
-                            raise SupplierError("VTO_HTTP_ERROR", f"VTO Retry-After: {int(delay)} seconds", retryable=True)
-                        await asyncio.sleep(delay)
-                        response.raise_for_status()
-                    response.raise_for_status()
-                    return response
-                except (httpx.TimeoutException, httpx.HTTPStatusError, httpx.NetworkError) as exc:
-                    self.errors += 1
-                    if attempt == 2 or (isinstance(exc, httpx.HTTPStatusError) and exc.response.status_code not in (429, 500, 502, 503, 504)):
-                        raise SupplierError("VTO_HTTP_ERROR", str(exc), retryable=True) from exc
+            blocked = getattr(self, "blocked_error", None)
+            if blocked and datetime.now(UTC).timestamp() < self.blocked_until:
+                raise blocked
+            async with self.pace:
+                paced = time.monotonic()
+                await asyncio.sleep(max(0, self.settings.vto_request_delay_seconds - (time.monotonic() - self.last_request)))
+                self.timings["pacing_ms"] += (time.monotonic() - paced) * 1000
+                self.last_request = time.monotonic()
+            started = time.monotonic()
+            self.requests += 1
+            metric_kind = {"stock": "VARIATION_STOCK", "variant": "VARIATION_API", "parent": "DETAIL_HTML", "listing": "COLLECTION"}[kind]
+            self.request_kinds[metric_kind] = self.request_kinds.get(metric_kind, 0) + 1
+            evidence = {"stage": kind, "resource": parsed.path + ("?" + parsed.query if parsed.query else ""), "attempt": 1}
+            try:
+                response = await self.client.get(url) if data is None else await self.client.post(url, data=data)
+            except httpx.TransportError as exc:
+                self.errors += 1
+                evidence.update({"class": type(exc).__name__, "http_status": None, "elapsed_ms": round((time.monotonic() - started) * 1000, 2), "retry_after": None})
+                raise SupplierError("VTO_HTTP_ERROR", "VTO transport failure: " + type(exc).__name__, retryable=True, evidence=evidence) from exc
+            finally:
+                self.timings["http_ms"] += (time.monotonic() - started) * 1000
+            if response.is_error:
+                self.errors += 1
+                now = datetime.now(UTC)
+                header = response.headers.get("Retry-After", "")
+                until = None
+                if header:
+                    try:
+                        from datetime import timedelta
+                        until = now + timedelta(seconds=float(header)) if header.strip().isdigit() else parsedate_to_datetime(header)
+                        if until.tzinfo is None:
+                            until = until.replace(tzinfo=UTC)
+                    except (ValueError, TypeError, OverflowError):
+                        until = None
+                status = response.status_code
+                code = "VTO_NOT_FOUND" if status == 404 and kind != "listing" else "VTO_ACCESS_DENIED" if status in (401, 403) else "VTO_RATE_LIMITED" if status == 429 else "VTO_HTTP_ERROR"
+                evidence.update({"class": code, "http_status": status, "elapsed_ms": round((time.monotonic() - started) * 1000, 2), "retry_after": header[:100] or None, "retry_after_until": until.isoformat() if until else None})
+                error = SupplierError(code, f"VTO HTTP {status} at {kind}", retryable=code != "VTO_NOT_FOUND", retry_after_seconds=max(0, (until-now).total_seconds()) if until else 0, evidence=evidence)
+                if until and until > now:
+                    self.blocked_error, self.blocked_until = error, until.timestamp()
+                raise error
+            return response
 
     async def collection(self, page=1, per_page=20, search=None):
         params = {"page": page, "per_page": per_page, "orderby": "date", "order": "desc"}
@@ -319,29 +340,60 @@ class VTOProvider(SupplierProvider):
             raise SupplierError("VTO_INCOMPLETE_RESPONSE", "Collection page length differs from declared total")
         return data, total, pages
 
-    async def products(self, parent):
-        response = await self.request(parent["permalink"].split("?", 1)[0])
+    async def resume_products(self, parent, progress, on_progress, on_core=None):
+        return await self.products(parent, progress, on_progress, on_core)
+
+    async def products(self, parent, progress=None, on_progress=None, on_core=None):
+        progress = progress if progress is not None else {}
+        async def saved():
+            if on_progress:
+                await on_progress()
         try:
-            detail = await asyncio.to_thread(page_data, response.text)
+            if "detail" not in progress:
+                response = await self.request(parent["permalink"].split("?", 1)[0])
+                started = time.monotonic()
+                detail = await asyncio.to_thread(page_data, response.text)
+                detail["_observed_at"] = datetime.now(UTC).isoformat()
+                progress["detail"] = json.loads(json.dumps(detail, default=str))
+                progress["variation_mechanism"] = "add-to-cart-variation" in response.text
+                self.timings["parse_ms"] += (time.monotonic() - started) * 1000
+                await saved()
+            detail = json.loads(json.dumps(progress["detail"]))
             advertised = {int(row["id"]) for row in parent.get("variations", [])}
             published = {int(row["variation_id"]) for row in detail["variants"] or []}
             if parent.get("type") == "variable" and (not published or advertised - published):
-                children = await self.variation_collection(parent["id"])
+                children = await self.variation_collection(parent["id"], progress.setdefault("children", {}), saved)
                 confirmed = {int(row["variation_id"]): row for row in detail["variants"] or []}
                 for child in children:
-                    confirmed.setdefault(int(child["id"]), api_variant(child))
+                    adapted = api_variant(child)
+                    adapted["_observed_at"] = child.get("_observed_at")
+                    confirmed.setdefault(int(child["id"]), adapted)
                 detail["variants"] = list(confirmed.values())
+                if on_core and not progress.get("core_committed"):
+                    core = await asyncio.to_thread(normalize, parent, detail)
+                    for product in core:
+                        product.metadata["vto_enrichment"] = "PENDING"
+                    await on_core(core)
+                    progress["core_committed"] = True
+                    await saved()
             if (parent.get("type") == "variable" and not published and parent.get("variations")
-                    and "add-to-cart-variation" in response.text and detail["options"]):
+                    and progress["variation_mechanism"] and detail["options"]):
                 # VTO loads large variation sets via its published WooCommerce
                 # add-to-cart-variation.js get_variation call. Only combinations
                 # explicitly listed by Store API are requested; never a cart action.
-                if "add-to-cart-variation" not in response.text:
-                    raise ValueError("No published variation request mechanism")
                 fields = {attribute["name"]: "attribute_" + attribute["taxonomy"]
                           for attribute in parent.get("attributes", []) if attribute.get("taxonomy")}
                 confirmed = {int(row["variation_id"]): row for row in detail["variants"] or []}
+                ajax = progress.setdefault("ajax", {})
                 for row in parent["variations"]:
+                    existing = confirmed.get(int(row["id"]), {})
+                    if (existing.get("stock_quantity") is not None and existing.get("display_price") is not None
+                            and existing.get("image") and all(existing.get("attributes", {}).values())):
+                        continue
+                    if str(row["id"]) in ajax:
+                        if ajax[str(row["id"])]:
+                            confirmed[int(row["id"])] = ajax[str(row["id"])]
+                        continue
                     attributes = {fields[a["name"]]: a["value"] for a in row["attributes"] if a["name"] in fields}
                     if not attributes or not set(attributes) <= set(detail["options"]):
                         continue
@@ -352,14 +404,25 @@ class VTOProvider(SupplierProvider):
                                                 {"product_id": parent["id"], **attributes})
                     variant = result.json(parse_float=Decimal)
                     if isinstance(variant, dict) and int(variant.get("variation_id", 0)) == int(row["id"]):
-                        confirmed[int(row["id"])] = variant
+                        variant["_observed_at"] = datetime.now(UTC).isoformat()
+                        confirmed[int(row["id"])] = json.loads(json.dumps(variant, default=str))
+                        ajax[str(row["id"])] = confirmed[int(row["id"])]
+                    else:
+                        ajax[str(row["id"])] = None
+                    await saved()
                 detail["variants"] = list(confirmed.values())
-            return await asyncio.to_thread(normalize, parent, detail)
+            started = time.monotonic()
+            products = await asyncio.to_thread(normalize, parent, detail)
+            self.timings["parse_ms"] += (time.monotonic() - started) * 1000
+            return products
         except (ValueError, KeyError, TypeError) as exc:
             raise SupplierError("VTO_PARSING_ERROR", str(exc)) from exc
 
-    async def variation_collection(self, parent_id):
-        children, page = [], 1
+    async def variation_collection(self, parent_id, progress=None, on_progress=None):
+        progress = progress if progress is not None else {}
+        children, page = list(progress.get("rows", [])), progress.get("page", 1)
+        if progress.get("complete"):
+            return children
         while True:
             response = await self.request(API + "?" + urlencode({"type": "variation", "parent": parent_id,
                                                                   "per_page": 20, "page": page}))
@@ -368,15 +431,47 @@ class VTOProvider(SupplierProvider):
             if not isinstance(data, list) or any(int(row.get("parent", 0)) != int(parent_id) for row in data):
                 raise SupplierError("VTO_PARENT_FILTER_ERROR", "Variation response does not belong to this parent")
             if not data and total:
-                raise SupplierError("VTO_INCOMPLETE_RESPONSE", "Missing variation page")
-            children.extend(data)
+                raise SupplierError("VTO_VARIATION_INCOMPLETE", "Missing variation page")
+            stamp = datetime.now(UTC).isoformat()
+            fields = {"id", "parent", "permalink", "sku", "prices", "variation", "attributes", "images", "stock_quantity",
+                      "low_stock_remaining", "availability_html", "is_in_stock", "is_on_backorder"}
+            children.extend({**{k:v for k,v in row.items() if k in fields}, "_observed_at": stamp} for row in data)
+            progress.update(rows=children, page=page+1)
             if page >= pages:
                 if len({int(row["id"]) for row in children}) != total:
-                    raise SupplierError("VTO_INCOMPLETE_RESPONSE", "Variation coverage differs from declared count")
+                    raise SupplierError("VTO_VARIATION_INCOMPLETE", "Variation coverage differs from declared count")
+                progress["complete"] = True
+                if on_progress:
+                    await on_progress()
                 return children
+            if on_progress:
+                await on_progress()
             page += 1
 
-    async def research_products(self, url):
+    async def core_products(self, parent):
+        """Fallback only for a failed detail, not an extra request on every card.
+
+        API children must confirm real identities and their own commercial fields.
+        Detail enrichment remains failed/checkpointed; no coverage claim follows.
+        """
+        detail = {"parent_id": parent["id"], "attributes": {}, "options": {}, "variants": None}
+        if parent.get("type") == "variable":
+            children = await self.variation_collection(parent["id"])
+            detail["variants"] = [api_variant(row) for row in children]
+        products = await asyncio.to_thread(normalize, parent, detail)
+        for product in products:
+            product.metadata["vto_enrichment"] = "PENDING"
+        return products
+
+    async def research_products(self, url, parent_id=None):
+        if parent_id is not None:
+            # Refresh a known family by its persisted real ID. A renamed slug
+            # must not turn a successful import into an endless failed lookup.
+            response = await self.request(API + "/" + str(int(parent_id)))
+            row = response.json()
+            if not isinstance(row, dict) or int(row.get("id", 0)) != int(parent_id):
+                raise SupplierError("VTO_PARENT_FILTER_ERROR", "Parent ID response mismatch")
+            return await self.products(row)
         slug = urlsplit(url).path.rstrip("/").split("/")[-1]
         cached = self.cache.get(slug)
         if cached is None:

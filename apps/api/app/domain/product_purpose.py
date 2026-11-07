@@ -36,7 +36,7 @@ ROLES = (
     (
         "ACCESSORY",
         "lid",
-        r"\b(?:крыш\w*|пробк\w*|lids?|caps?|stoppers?)\b",
+        r"\b(?:крыш\w*|пробк\w*|lids?|(?:bottle|jar)\s+caps?|stoppers?)\b",
         ("крыш", "пробк", "lid", "cap", "stopper"),
     ),
     (
@@ -256,9 +256,14 @@ def query_relation(query):
 
 
 def purpose_match(identity, branch):
+    primary = set(identity.primary)
+    if "baseballcap" in primary:
+        primary.add("cap")
     present = set(identity.primary) | set(
         identity.contents if identity.role in ("SET", "PRODUCT", "HYBRID") else identity.mentioned
     )
+    if "baseballcap" in present:
+        present.add("cap")
     required = set(branch.required_concepts)
     accepted = False
     reason = "PRIMARY_CONCEPT_MISMATCH"
@@ -295,7 +300,7 @@ def purpose_match(identity, branch):
             any(a.startswith(b) or b.startswith(a) for a in evidence) for b in requested
         )
         reason = "MAIN_OBJECT_OR_SOURCE_TYPE" if accepted else reason
-    elif branch.category in identity.primary:
+    elif branch.category in primary:
         accepted = True
         reason = "PRIMARY_FUNCTION_CONFIRMED"
     return {

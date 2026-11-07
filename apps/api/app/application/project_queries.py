@@ -19,6 +19,7 @@ from app.domain.services import ColorNormalizer
 from app.domain.taxonomy import UniversalCategoryResolver
 
 _request_epoch = ContextVar("project_request_epoch", default=None)
+_turn_result = ContextVar("conversation_turn_result", default=None)
 
 
 class ProjectQueryService:
@@ -102,15 +103,23 @@ class ProjectQueryService:
             return None
         r = await self.research.grid_start(project[1].id, query, persist=False)
         await self.research.grid_prepare_response(r)
+        context = _turn_result.get()
+        if context is not None:
+            context["research"] = r
         now = utcnow()
         async with self.lock(project_id) as db:
-            await self.check_epoch(db, project_id)
-            await self.research.repository.save(r, db=db)
-            await db.execute(
-                update(ProjectQuery)
-                .where(ProjectQuery.project_id == project_id, ProjectQuery.status == "ACTIVE")
-                .values(status="ARCHIVED", updated_at=now)
+            stale = (
+                _request_epoch.get() is not None
+                and (await db.get(Project, project_id)).request_epoch != _request_epoch.get()
             )
+            await self.research.repository.save(r, db=db)
+            await db.flush()  # The archived query also references this newly inserted research.
+            if not stale:
+                await db.execute(
+                    update(ProjectQuery)
+                    .where(ProjectQuery.project_id == project_id, ProjectQuery.status == "ACTIVE")
+                    .values(status="ARCHIVED", updated_at=now)
+                )
             row = ProjectQuery(
                 id=str(uuid4()),
                 project_id=project_id,
@@ -119,20 +128,19 @@ class ProjectQueryService:
                 query_text=query,
                 normalized_query=r.intent.normalized_query,
                 query_understanding=r.intent.query_understanding,
-                status="ACTIVE",
+                status="ARCHIVED" if stale else "ACTIVE",
             )
             db.add(row)
             p = await db.get(Project, project_id)
-            p.active_query_id = row.id
-            for message in r.messages:
-                db.add(
-                    Message(
-                        id=str(uuid4()), chat_id=r.chat_id, role=message["role"], content=message["content"]
-                    )
-                )
+            if not stale:
+                p.active_query_id = row.id
+            if context is not None:
+                context["query_id"] = row.id
             await db.flush()
             result = self.view(row, row.id)
         r._prepared_response["revision"] = r.revision
+        if stale:
+            raise ValueError("STATE_CONFLICT")
         return {"query": result, "research": r, "action": "NEW_SEARCH"}
 
     async def activate(self, project_id, query_id, owner):
@@ -180,34 +188,17 @@ class ProjectQueryService:
             result = self.view(active, query_id)
         return {"query": result, "research": research, "action": "COMMAND"}
 
-    async def request(self, project_id, message, owner):
-        # Reserve ordering in a short transaction. Slow older planning cannot
-        # publish over a later accepted request or history activation.
-        if not await self.project(project_id, owner):
-            return None
-        async with self.lock(project_id) as db:
-            epoch = await db.scalar(
-                update(Project)
-                .where(Project.id == project_id)
-                .values(request_epoch=Project.request_epoch + 1)
-                .returning(Project.request_epoch)
-            )
-        token = _request_epoch.set(epoch)
-        try:
-            return await self._request(project_id, message, owner)
-        finally:
-            _request_epoch.reset(token)
+    async def request(self, project_id, message, owner, request_id=None):
+        from app.application.conversation_turns import run_request
+
+        return await run_request(self, project_id, message, owner, request_id)
 
     async def change(self, project_id, *args, **kwargs):
         async with self.lock(project_id) as db:
             await self.check_epoch(db, project_id)
             r = await self.research.grid_change(*args, **kwargs, save_db=db)
-            for message in r.messages[-2:]:
-                db.add(
-                    Message(
-                        id=str(uuid4()), chat_id=r.chat_id, role=message["role"], content=message["content"]
-                    )
-                )
+            if _turn_result.get() is not None:
+                _turn_result.get()["research"] = r
             return r
 
     async def _request(self, project_id, message, owner):

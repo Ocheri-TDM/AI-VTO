@@ -75,7 +75,8 @@ test('each product section owns one separate VTO footer, including with a custom
 });
 
 test('expiry uses the explicit interface timezone and readonly absence never creates an offer',async()=>{
-  assert.match(offerExpiry('2026-11-13T12:43:44Z'),/13\.11\.2026.*17:43.*UTC\+5/);
+  assert.match(offerExpiry('2026-11-13T12:43:44Z'),/13\.11\.2026.*17:43.*Алматы/);
+  assert.doesNotMatch(offerExpiry('2026-11-13T12:43:44Z'),/Екатеринбург/);
   const calls=[],previous=global.fetch;
   global.fetch=async(url,options)=>{calls.push({url,options});return {ok:true,json:async()=>null};};
   try{assert.equal(await offerApi.primary('project'),null);assert.equal(calls.length,1);assert.equal(calls[0].options.method,'GET');assert.equal(calls[0].url,'/api/projects/project/offer');}finally{global.fetch=previous;}

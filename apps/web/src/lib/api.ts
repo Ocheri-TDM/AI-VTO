@@ -13,6 +13,7 @@ export class ApiError extends Error {
   constructor(
     public status: number,
     message: string,
+    public retryAfter: number = 0,
   ) {
     super(message);
   }
@@ -50,11 +51,13 @@ export async function request<T>(path: string, options: RequestInit = {}, readab
     );
   }
   if (!response.ok) {
+    const retryHeader=response.headers?.get('Retry-After');
+    const retryAfter=retryHeader ? Math.max(0,Number.isFinite(Number(retryHeader))?Number(retryHeader):Math.ceil((Date.parse(retryHeader)-Date.now())/1000)):0;
     if(readableErrors&&[409,413,422,429].includes(response.status)){
       const body=await response.json().catch(()=>null);
-      if(typeof body?.detail==='string')throw new ApiError(response.status,body.detail.slice(0,300));
+      if(typeof body?.detail==='string')throw new ApiError(response.status,body.detail.slice(0,300),Number.isFinite(retryAfter)?retryAfter:0);
     }
-    throw failure(response.status);
+    const error=failure(response.status);error.retryAfter=Number.isFinite(retryAfter)?retryAfter:0;throw error;
   }
   if (response.status === 204) return undefined as T;
   return response.json() as Promise<T>;
@@ -71,10 +74,10 @@ export const api = {
       method: "POST", body: JSON.stringify({ name, password }),
     }),
   logout: () => request<void>("/auth/logout", { method: "POST" }),
-  createChat: (name = "Новый проект") =>
+  createChat: (name = "Новый чат", request_id?:string) =>
     request<{ id: string }>("/chats", {
       method: "POST",
-      body: JSON.stringify({ project_name: name }),
+      body: JSON.stringify({ project_name: name,request_id }),
     }),
   projects: () => request<Project[]>("/projects"),
   updateProject: (id: string, name: string, client_name: string) =>

@@ -1,0 +1,34 @@
+[
+  {
+    "check": "current first submit opens before project creation returns",
+    "status": "PASS"
+  },
+  {
+    "check": "current manual collapse survives automatic project creation",
+    "status": "PASS"
+  },
+  {
+    "check": "current final search response keeps the panel collapsed",
+    "status": "PASS"
+  },
+  {
+    "check": "current reopening restores confirmed history",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse first submit opens before project creation returns",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse manual collapse survives automatic project creation",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse final search response keeps the panel collapsed",
+    "status": "PASS"
+  },
+  {
+    "check": "pulse reopening restores confirmed history",
+    "status": "PASS"
+  }
+]

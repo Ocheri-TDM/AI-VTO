@@ -96,9 +96,11 @@ class IdentityQuery:
     issues: list[str] = field(default_factory=list)
     explicit: bool = False
     unresolved: bool = False
+    unresolved_products: list[str] = field(default_factory=list)
+    unresolved_attributes: list[str] = field(default_factory=list)
 
 
-_BRAND_CUE = r"\b(?:бренд\w*|марк[аиу]?|brand)\s*[:—-]?\s*"
+_BRAND_CUE = r"\b(?:бренд\w*|марк[аиу]?|brand)\b\s*[:—-]?\s*"
 _MODEL_CUE = r"\b(?:модел[ьиь]?|model)\b\s*[:—-]?\s*(?!\s*(?:с|со|из|без|для|в|на)\b)"
 _LIMIT = r"\s+(?:до|от|тираж|цвет|quantity|бюджет|желательно|предпочтительно|покажи|без|кроме|для)\b|[.;]"
 _GENERIC = re.compile(
@@ -182,6 +184,10 @@ def resolve_identity(query, registry, family_rows=()):
             )
             for _, _, role_pattern, _ in ROLES:
                 model_text = re.sub(role_pattern, " ", model_text, flags=re.I)
+            from app.domain.query_branches import category_mentions
+            protected_categories = category_mentions(model_text, resolver.resolve(model_text), registry)
+            for start, end, _ in reversed(protected_categories):
+                model_text = model_text[:start] + " " * (end-start) + model_text[end:]
             # Protect complete taxonomy phrases before looking for a model.
             for category in resolver.resolve(model_text):
                 for alias in sorted(QueryVocabulary.equivalents(category), key=len, reverse=True):
@@ -198,10 +204,10 @@ def resolve_identity(query, registry, family_rows=()):
             )
             model_text = re.sub(r"\b(?:для|for|за\s+штуку)\b", " ", model_text, flags=re.I)
             head = re.split(
-                _LIMIT + r"|\s+(?:сначала|только|не\s+бел\w*)\b", model_text, maxsplit=1, flags=re.I
+                _LIMIT + r"|\s+(?:с|со|with|сначала|только|не\s+бел\w*)\b", model_text, maxsplit=1, flags=re.I
             )[0]
             meaningful = []
-            has_category = bool(resolver.resolve(head))
+            has_category = bool(resolver.resolve(clean))
             for token in re.findall(r"[^\W_]+(?:[-+][^\W_]+)*", head):
                 if (
                     token.isdecimal()
@@ -228,10 +234,24 @@ def resolve_identity(query, registry, family_rows=()):
                     continue
                 meaningful.append(token)
             model = " ".join(meaningful)
+            descriptor = re.search(r"\b(?:с|со|with)\s+(.+)", model_text, re.I)
+            if descriptor and resolver.resolve(clean) and descriptor[1].strip():
+                out.unresolved_attributes.append(descriptor[0].strip())
             known = bool(model) and any(
                 phrase_in(model, primary_title(parent or name)) for parent, name, _ in family_rows
             )
-            models = [model] if model and (has_category or known) else []
+            from app.domain.query_branches import category_mentions
+            noun_spans = category_mentions(clean, resolver.resolve(clean), registry)
+            last_noun = max((end for _, end, _ in noun_spans), default=len(clean))
+            named_model = has_category and any(
+                t[0].isupper() and len(t) > 2 and clean.find(t) >= last_noun for t in meaningful
+            )
+            models = [model] if model and (known or named_model) and (has_category or not requested_categories) else []
+            # An unknown item in an enumeration is not a model of its neighbours.
+            # Explicit "model X" above remains a hard literal even without rows.
+            if model and not known and not resolver.resolve(clean) and requested_categories:
+                if not re.search(r"\b(?:для|без|кроме|исключ|не|цвет|тираж|бюджет|желательно|сначала)\b", clause, re.I):
+                    out.unresolved_products.append(model)
             if models:
                 for word in meaningful:
                     clean = re.sub(r"(?<!\w)" + re.escape(word) + r"(?!\w)", " ", clean, flags=re.I)

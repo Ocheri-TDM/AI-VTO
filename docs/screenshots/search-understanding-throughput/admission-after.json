@@ -1,0 +1,128 @@
+[
+  {
+    "method": "GET",
+    "route": "/api/researches/{research}/products",
+    "status": 200,
+    "request_id": "2486da19dd2946d39ceffd2676cb8c9c",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/queries",
+    "status": 200,
+    "request_id": "ec0cee593c1f4f428354042055697eca",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/collection",
+    "status": 200,
+    "request_id": "222fbeea0ba444f9ba0f575a39070d16",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/offer",
+    "status": 200,
+    "request_id": "93848f2280d943eb81b584a2b9bc4550",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/offers",
+    "status": 200,
+    "request_id": "f5cd4540ab0d49ac8410012b0329a22b",
+    "problem": null
+  },
+  {
+    "method": "POST",
+    "route": "/api/projects/{owned_project}/collection/items",
+    "status": 200,
+    "request_id": "79f55fa9f1c345108eaac273bd80eba3",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/researches/{research}/products",
+    "status": 200,
+    "request_id": "ccfdedaed9aa47548347e16a5440971f",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/queries",
+    "status": 200,
+    "request_id": "3dd92fee6ead486d8b997dfb92a539ec",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/collection",
+    "status": 200,
+    "request_id": "c1affb83225544f5afa1226ffea4cc59",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/offer",
+    "status": 200,
+    "request_id": "53e1a8251e2943cd8925a08d86217a41",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/offers",
+    "status": 200,
+    "request_id": "8383b5ae594b4cdd91661878a6495fa5",
+    "problem": null
+  },
+  {
+    "method": "POST",
+    "route": "/api/projects/{owned_project}/collection/items",
+    "status": 200,
+    "request_id": "d9507866d626434aadce99a69aae0f53",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/researches/{research}/products",
+    "status": 200,
+    "request_id": "cd4d3174a93f4e6a8404a8627efb3b7c",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/queries",
+    "status": 200,
+    "request_id": "7ff3325486f84c17a4d613a5b941e59b",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/collection",
+    "status": 200,
+    "request_id": "1838bb1ede60452e8d15fb2665a6c19a",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/offer",
+    "status": 200,
+    "request_id": "3d9ba6df536a4f9bab42576d69117314",
+    "problem": null
+  },
+  {
+    "method": "GET",
+    "route": "/api/projects/{owned_project}/offers",
+    "status": 200,
+    "request_id": "3af80d9c101b4b039c72448a6e5b8187",
+    "problem": null
+  },
+  {
+    "method": "POST",
+    "route": "/api/projects/{owned_project}/collection/items",
+    "status": 200,
+    "request_id": "bcd4be51256540769aed3c7cc9e4db7d",
+    "problem": null
+  }
+]
