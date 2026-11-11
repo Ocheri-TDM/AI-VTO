@@ -17,7 +17,8 @@ async function response<T>(r:Response):Promise<T>{
   if(!r.ok){const body=await r.json().catch(()=>null);const d=body?.detail;throw new OfferError(r.status,typeof d==='object'&&!Array.isArray(d)?d?.code??'':'',typeof d==='string'?d:typeof d?.message==='string'?d.message:r.status===404?'Предложение недоступно. Ссылка неверна или отозвана.':r.status===401?'Необходимо войти в аккаунт.':'Проверьте заполненные поля или повторите действие позже.');}
   return r.json();
 }
-async function request<T>(path:string,method='GET',body?:unknown):Promise<T>{return response<T>(await fetch(path,{method,body:body===undefined?undefined:JSON.stringify(body),headers:{'Content-Type':'application/json'},cache:'no-store',credentials:'include',referrerPolicy:'no-referrer'}));}
+async function request<T>(path:string,method='GET',body?:unknown,headers:Record<string,string>={}):Promise<T>{return response<T>(await fetch(path,{method,body:body===undefined?undefined:JSON.stringify(body),headers:{'Content-Type':'application/json',...headers},cache:'no-store',credentials:'include',referrerPolicy:'no-referrer'}));}
+export {request as offerRequest};
 export interface OfferSummary {id:string;version:number;title:string;project_id:string;project_name:string;chat_id:string;item_count:number;updated_at:string;is_primary:boolean;draft_state:string;publication_state:string;expires_at:string|null;can_copy:boolean;pdf_url:string|null;xlsx_url:string|null}
 export const offerApi={
   delete:(id:string,version:number)=>request<{id:string;deleted:boolean;generation:number}>(`/api/offers/${id}`,'DELETE',{version,confirmed:true}),

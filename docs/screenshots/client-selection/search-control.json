@@ -1,0 +1,22 @@
+{
+  "factory": "git HEAD main.py; original unchanged search modules; no notification services/subscriptions in control",
+  "lifespan": "off",
+  "same_populated_database": true,
+  "two_concurrent_model_searches": [
+    {
+      "status": 503,
+      "seconds": 25.119852600008016,
+      "error": {
+        "detail": "База данных временно недоступна.",
+        "code": "DATABASE_UNAVAILABLE",
+        "stage": "database",
+        "trace_id": "781b895af5dd439bb2054c2f472ad216"
+      }
+    },
+    {
+      "status": 202,
+      "seconds": 25.638804100002744,
+      "error": null
+    }
+  ]
+}

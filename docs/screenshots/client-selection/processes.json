@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "check": "real HTTP transaction rollback returns failure",
+      "status": "PASS"
+    },
+    {
+      "check": "rollback leaves state and owner cursor unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "lower uncommitted cursor cannot be passed by another write",
+      "status": "PASS"
+    },
+    {
+      "check": "waiting HTTP mutation commits after cursor lock releases",
+      "status": "PASS"
+    },
+    {
+      "check": "late transactions have contiguous committed event order",
+      "status": "PASS"
+    },
+    {
+      "check": "write on API A reaches SSE on independent API B",
+      "status": "PASS"
+    },
+    {
+      "check": "actual API process crashed after commit before response",
+      "status": "PASS"
+    },
+    {
+      "check": "committed event survives crashed process",
+      "status": "PASS"
+    },
+    {
+      "check": "retry after restart returns receipt without double event",
+      "status": "PASS"
+    },
+    {
+      "check": "new process hydrates all three committed positions",
+      "status": "PASS"
+    },
+    {
+      "check": "failed transaction persisted no receipt",
+      "status": "PASS"
+    },
+    {
+      "check": "crashed transaction persisted one receipt",
+      "status": "PASS"
+    },
+    {
+      "check": "rolled-back allocation never advances durable cursor",
+      "status": "PASS"
+    }
+  ],
+  "main_worker_count_unchanged": true,
+  "secondary_lifespan": "off; no crawler or render worker started"
+}

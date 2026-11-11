@@ -127,6 +127,8 @@ class CommercialOfferService:
                 share.updated_at = utcnow()
             from app.domain.presentation import ACTIVE
             await db.execute(update(Revision).where(Revision.document_id == identifier, Revision.status.in_(ACTIVE)).values(status="CANCELLED", claim=None, lease_until=None, updated_at=utcnow()))
+            from app.application.client_selections import next_owner_event
+            await next_owner_event(db,user,identifier,"offer.unavailable")
             return {"id": identifier, "deleted": True, "generation": project.offer_generation}
 
     async def snapshot_items(self, state):
@@ -693,6 +695,9 @@ class CommercialOfferService:
                 activate(share, self.documents.offer_now())
                 share.active = True
             share.updated_at = utcnow()
+            from app.application.client_selections import next_owner_event
+
+            await next_owner_event(db, user, identifier, "offer.link_changed")
         return await self.get(identifier, user)
 
     async def public(self, token, revision=None):

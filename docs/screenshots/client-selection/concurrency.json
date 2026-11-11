@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "visitors": 4,
+  "writes": 20,
+  "manager_streams": [
+    200,
+    200,
+    200
+  ],
+  "search_results": [
+    {
+      "status": 202,
+      "seconds": 7.601665700000012,
+      "query_kind": "explicit product category"
+    },
+    {
+      "status": 202,
+      "seconds": 7.439890900001046,
+      "query_kind": "explicit product category"
+    }
+  ],
+  "http_errors": [],
+  "write_seconds": {
+    "p50": 0.5577671000064583,
+    "p95": 2.1250897999998415,
+    "max": 2.1250897999998415
+  },
+  "runtime_before": "NOT AVAILABLE",
+  "runtime_after": "NOT AVAILABLE"
+}

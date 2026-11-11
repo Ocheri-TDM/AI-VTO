@@ -1,0 +1,25 @@
+{
+  "path": "https://souvenir-studio-three.vercel.app",
+  "concurrent_rounds": [
+    {
+      "status": "PASS",
+      "old_ack_did_not_read_new_change": true
+    },
+    {
+      "status": "PASS",
+      "old_ack_did_not_read_new_change": true
+    },
+    {
+      "status": "PASS",
+      "old_ack_did_not_read_new_change": true
+    },
+    {
+      "status": "PASS",
+      "old_ack_did_not_read_new_change": true
+    },
+    {
+      "status": "PASS",
+      "old_ack_did_not_read_new_change": true
+    }
+  ]
+}

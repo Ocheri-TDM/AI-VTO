@@ -2115,3 +2115,33 @@ identities, 259 файлов и backend hashes сохранены. По точн
 3 тестовых аккаунта и 5 проектов; сервисы работают. Другие браузеры, screen reader,
 OS keyboard и нативное меню zoom — **NOT TESTED**.
 [Отчёт и парные screenshots](right-side-chat-toggle.md).
+
+## Выбор клиента и постоянные уведомления — 11 ноября 2026
+
+**PASS локально и для внешнего API:** отдельные cookie-сессии посетителей,
+идемпотентная запись по UUID строки/ревизии, группируемые непрочитанные уведомления,
+app-level SSE с долговечным PostgreSQL-журналом, безопасным cursor и fallback.
+Исправлены измеренное gzip-buffering потока и реальный FK-deadlock read/choice.
+Цена, тираж, ProjectCollection и готовые PDF/XLSX от отметок не меняются.
+
+Финальный backend — **673 passed**, 2 opt-in deselected; PostgreSQL opt-in —
+**1 passed / 5 конкурентных HTTPS раундов**; frontend — **91 passed**.
+Vercel HTTP — 25 проверок, lifecycle — 14, два процесса/rollback/crash — 13,
+Edge — 38 в двух темах. Ruff, ESLint, TypeScript, build и diff check прошли.
+DOM latency n=9: click p50/p95/max **565/1775/1775 ms**, после commit —
+**451/1661/1661 ms**. Это ограниченная smoke-выборка.
+
+**PARTIAL:** новый frontend ещё не размещён на Vercel; внешний API/SSE и
+incognito-просмотр прежней сборки проверены, внешние новые галочки не заявляются.
+Два concurrent model-only поиска Melango воспроизводят SQL timeout и в исходной
+factory без уведомлений. Отдельный category-load с четырьмя посетителями,
+20 записями и тремя потоками прошёл без HTTP-ошибок/429. Pool wait/event-loop
+lag основного процесса не измерялись при выключенном debug endpoint.
+
+Fingerprints исходных 3 пользователей, 4 проектов, 66 сообщений, 17 элементов
+подборок, 16 документов, 20 ревизий и 3 shares совпали; сохранены 259 файлов,
+ключ шифрования и 19 192 исходные offer identities. Импорт продолжал штатно
+пополнять каталог. По точным ID удалены только 2 disposable пользователя,
+3 проекта, 3 документа и связанные данные. Временные API/Edge закрыты;
+PostgreSQL, Ollama, API и frontend работают.
+[Полный отчёт и доказательства](client-offer-selection.md).

@@ -86,6 +86,11 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     from app.application.commercial_offers import CommercialOfferService
 
     offers = CommercialOfferService(presentations)
+    from app.application.client_notifications import ClientNotificationService
+    from app.application.client_selections import ClientSelectionService
+
+    client_selections = ClientSelectionService(offers, settings)
+    client_notifications = ClientNotificationService(client_selections)
 
     async def publish_index_update(job):
         await research.on_index_update(job)
@@ -157,6 +162,8 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     app.state.project_queries = project_queries
     app.state.presentations = presentations
     app.state.offers = offers
+    app.state.client_selections = client_selections
+    app.state.client_notifications = client_notifications
     app.state.collections = collections
     app.state.conversation_router = conversation_router
     app.state.index, app.state.background_index = index, background
@@ -171,6 +178,11 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     app.state.admission = admission
     app.state.stream_admission = Admission(
         settings.model_copy(update={"search_concurrency": 16, "search_queue_limit": 0})
+    )
+    app.state.notification_stream_admission = Admission(
+        settings.model_copy(
+            update={"search_concurrency": 16, "search_queue_limit": 0, "search_requests_per_minute": 120}
+        )
     )
     app.include_router(router)
     app.include_router(auth_router)
@@ -198,6 +210,23 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
 
     app.include_router(offers_router)
     app.include_router(public_router)
+    from app.api.client_selections import public_router as client_public_router
+    from app.api.client_selections import router as client_router
+
+    app.include_router(client_router)
+    app.include_router(client_public_router)
+
+    from app.domain.client_selection import SelectionProblem
+
+    @app.exception_handler(SelectionProblem)
+    async def selection_error(_request: Request, exc: SelectionProblem):
+        from app.api.commercial_offers import PUBLIC_HEADERS
+
+        return JSONResponse(
+            {"detail": {"code": exc.code, "message": exc.message}},
+            status_code=exc.status,
+            headers=PUBLIC_HEADERS | ({"Retry-After": str(exc.retry_after)} if exc.retry_after else {}),
+        )
 
     @app.middleware("http")
     async def authenticated_user(request: Request, call_next):
@@ -210,6 +239,7 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
                 "/api/hard-requests",
                 "/api/presentations",
                 "/api/offers",
+                "/api/notifications",
             )
         )
         if protected and settings.auth_required:
@@ -242,10 +272,14 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
             except RequestProblem as exc:
                 return problem_response(exc, getattr(request.state, "trace_id", ""))
         response = await call_next(request)
-        if request.url.path.startswith(("/api/public/offers", "/api/offers")):
+        if request.url.path.startswith(("/api/public/offers", "/api/offers", "/api/notifications")):
             from app.api.commercial_offers import PUBLIC_HEADERS
 
             response.headers.update(PUBLIC_HEADERS)
+            if request.url.path == "/api/notifications/events":
+                # Next's gzip middleware otherwise buffers these small events
+                # until its compression buffer fills or the finite stream ends.
+                response.headers["Cache-Control"] += ", no-transform"
         return response
 
     app.add_middleware(RequestBoundary, settings=settings)
@@ -254,7 +288,10 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
     @app.exception_handler(SQLAlchemyError)
     async def database_error(_request: Request, exc: Exception):
         log_event(
-            "database_error", error_type=type(exc).__name__, trace_id=getattr(_request.state, "trace_id", "")
+            "database_error",
+            error_type=type(exc).__name__,
+            trace_id=getattr(_request.state, "trace_id", ""),
+            sqlstate=getattr(getattr(exc, "orig", None), "sqlstate", None),
         )
         return problem_response(
             RequestProblem("DATABASE_UNAVAILABLE", "База данных временно недоступна.", 503, "database"),
