@@ -1,8 +1,9 @@
 "use client";
 
-import { createContext, FormEvent, useContext, useEffect, useState } from "react";
+import { createContext, FormEvent, useCallback, useContext, useEffect, useState } from "react";
 import { api, ApiError } from "@/lib/api";
 import { ThemeSwitch } from "./theme-switch";
+import {NotificationProvider} from './notifications/notification-provider';
 
 type AuthSession = {
   user: { id: string; name: string };
@@ -22,6 +23,7 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
   const [register, setRegister] = useState(false);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const sessionExpired=useCallback(()=>setUser(null),[]);
   useEffect(() => {
     api.me().then(setUser).catch((cause: unknown) => {
       setUser(null);
@@ -58,6 +60,6 @@ export function AuthGate({ children }: { children: React.ReactNode }) {
   </form></main>;
   return <AuthSessionContext.Provider value={{
     user,
-    logout: async () => { await api.logout(); setUser(null); },
-  }}>{children}</AuthSessionContext.Provider>;
+    logout: async () => { try{await api.logout();}finally{setUser(null);} },
+  }}><NotificationProvider key={user.id} userId={user.id} onSessionExpired={sessionExpired}>{children}</NotificationProvider></AuthSessionContext.Provider>;
 }

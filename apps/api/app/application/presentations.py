@@ -716,6 +716,9 @@ class PresentationService(PresentationMaterials):
                     share.pending_epoch = None
                     activate(share, self.offer_now())
                     share.updated_at = self.offer_now()
+                    from app.application.client_selections import next_owner_event
+
+                    await next_owner_event(db, user, identifier, "offer.published")
                 remember(ready)
                 return ready.id
             active = await db.scalar(
@@ -875,6 +878,9 @@ class PresentationService(PresentationMaterials):
                         share.published_revision_id = revision.id
                         activate(share, self.offer_now())
                     share.updated_at = self.offer_now()
+                    from app.application.client_selections import next_owner_event
+
+                    await next_owner_event(db, document.user_id, document.id, "offer.published")
 
     async def loop(self):
         while True:

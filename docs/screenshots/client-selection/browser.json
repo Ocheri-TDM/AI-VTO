@@ -1,0 +1,242 @@
+{
+  "origin": "http://127.0.0.1:3000",
+  "checks": [
+    {
+      "check": "fresh incognito guest has three readonly positions and no selected marks",
+      "status": "PASS"
+    },
+    {
+      "check": "manager preview has no client choice controls",
+      "status": "PASS"
+    },
+    {
+      "check": "manager stream is one app subscription",
+      "status": "PASS",
+      "visibility": "visible"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "public counter counts three positions",
+      "status": "PASS"
+    },
+    {
+      "check": "another manager sees no foreign change",
+      "status": "PASS"
+    },
+    {
+      "check": "real HttpOnly Secure visitor cookie survives F5",
+      "status": "PASS"
+    },
+    {
+      "check": "browser cookie is Secure HttpOnly and path scoped",
+      "status": "PASS"
+    },
+    {
+      "check": "manager F5 restores separate visitor lists and unread badge",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "independent incognito visitor cannot clear first visitor",
+      "status": "PASS"
+    },
+    {
+      "check": "same-browser tabs share one visitor and synchronize BroadcastChannel",
+      "status": "PASS"
+    },
+    {
+      "check": "two tabs changing different lines retain both desired removals",
+      "status": "PASS"
+    },
+    {
+      "check": "manager sees that the latest visitor removed all marks",
+      "status": "PASS"
+    },
+    {
+      "check": "rapid choose/remove/choose ends selected in both tabs",
+      "status": "PASS"
+    },
+    {
+      "check": "failed optimistic action is visibly unconfirmed",
+      "status": "PASS"
+    },
+    {
+      "check": "explicit retry persists original pending intent",
+      "status": "PASS"
+    },
+    {
+      "check": "confirmed choice reaches manager DOM",
+      "status": "PASS"
+    },
+    {
+      "check": "SSE does not overwrite unsaved manager price",
+      "status": "PASS"
+    },
+    {
+      "check": "notification navigation respects unsaved draft and Cancel",
+      "status": "PASS"
+    },
+    {
+      "check": "disconnected notification center does not claim live",
+      "status": "PASS"
+    },
+    {
+      "check": "reconnect recovers offline choice without read acknowledgement",
+      "status": "PASS"
+    },
+    {
+      "check": "explicit read updates the viewed notification group",
+      "status": "PASS"
+    },
+    {
+      "check": "current 1440px navbar, Geist and interest indicator",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "bellWidth": 44,
+        "bellHeight": 44,
+        "font": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "removedTitle": 0
+      }
+    },
+    {
+      "check": "current 390px navbar, Geist and interest indicator",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "bellWidth": 44,
+        "bellHeight": 44,
+        "font": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "removedTitle": 0
+      }
+    },
+    {
+      "check": "pulse 1440px navbar, Geist and interest indicator",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "bellWidth": 44,
+        "bellHeight": 44,
+        "font": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "removedTitle": 0
+      }
+    },
+    {
+      "check": "pulse 390px navbar, Geist and interest indicator",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "bellWidth": 44,
+        "bellHeight": 44,
+        "font": "Geist, \"Segoe UI\", Arial, sans-serif",
+        "removedTitle": 0
+      }
+    },
+    {
+      "check": "guest mobile counter and readonly document fit 390px",
+      "status": "PASS"
+    },
+    {
+      "check": "printed document omits checkbox and client interest controls",
+      "status": "PASS"
+    },
+    {
+      "check": "real external incognito can read the published offer",
+      "status": "PASS"
+    },
+    {
+      "check": "external frontend deployment gap measured, not called UI PASS",
+      "status": "PASS",
+      "deployed_controls": 0,
+      "result": "new UI NOT DEPLOYED; local UI verified separately"
+    },
+    {
+      "check": "logout closes account stream and clears notification projection",
+      "status": "PASS"
+    }
+  ],
+  "latency": {
+    "click_to_manager_dom_ms": {
+      "n": 9,
+      "p50": 565,
+      "p95": 1775,
+      "max": 1775
+    },
+    "commit_observed_to_dom_ms": {
+      "n": 9,
+      "p50": 451,
+      "p95": 1661,
+      "max": 1661
+    }
+  },
+  "latency_samples": [
+    {
+      "click_to_manager_dom_ms": 504,
+      "commit_observed_to_dom_ms": 157
+    },
+    {
+      "click_to_manager_dom_ms": 453,
+      "commit_observed_to_dom_ms": 388
+    },
+    {
+      "click_to_manager_dom_ms": 408,
+      "commit_observed_to_dom_ms": 364
+    },
+    {
+      "click_to_manager_dom_ms": 609,
+      "commit_observed_to_dom_ms": 484
+    },
+    {
+      "click_to_manager_dom_ms": 565,
+      "commit_observed_to_dom_ms": 432
+    },
+    {
+      "click_to_manager_dom_ms": 636,
+      "commit_observed_to_dom_ms": 509
+    },
+    {
+      "click_to_manager_dom_ms": 1775,
+      "commit_observed_to_dom_ms": 1661
+    },
+    {
+      "click_to_manager_dom_ms": 566,
+      "commit_observed_to_dom_ms": 549
+    },
+    {
+      "click_to_manager_dom_ms": 474,
+      "commit_observed_to_dom_ms": 451
+    }
+  ],
+  "clock": "browser Date.now and server commit-observed timestamp on same local Windows host",
+  "external_new_ui": "NOT DEPLOYED"
+}

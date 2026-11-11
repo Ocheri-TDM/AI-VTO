@@ -1,0 +1,99 @@
+{
+  "protected_source_files": 148,
+  "explicit_feature_changes": [
+    "apps\\api\\app\\main.py",
+    "apps\\api\\app\\application\\commercial_offers.py",
+    "apps\\api\\app\\application\\presentations.py",
+    "apps\\api\\app\\database\\models.py",
+    "apps\\api\\alembic\\versions\\0028_client_selections.py"
+  ],
+  "status": "PASS",
+  "original_records": {
+    "users": {
+      "before": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "unchanged": true
+    },
+    "projects": {
+      "before": {
+        "count": 4,
+        "fingerprint": "e08f206373c6415b916be7393c11b601"
+      },
+      "after": {
+        "count": 4,
+        "fingerprint": "e08f206373c6415b916be7393c11b601"
+      },
+      "unchanged": true
+    },
+    "messages": {
+      "before": {
+        "count": 66,
+        "fingerprint": "381a4dd473f6eb80120b50be5747d381"
+      },
+      "after": {
+        "count": 66,
+        "fingerprint": "381a4dd473f6eb80120b50be5747d381"
+      },
+      "unchanged": true
+    },
+    "project_collection_items": {
+      "before": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "after": {
+        "count": 17,
+        "fingerprint": "9d51384b629102cda9f6f63ba42148e3"
+      },
+      "unchanged": true
+    },
+    "presentation_documents": {
+      "before": {
+        "count": 16,
+        "fingerprint": "11a725f242882c70beaded873452c1f6"
+      },
+      "after": {
+        "count": 16,
+        "fingerprint": "11a725f242882c70beaded873452c1f6"
+      },
+      "unchanged": true
+    },
+    "presentation_revisions": {
+      "before": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "after": {
+        "count": 20,
+        "fingerprint": "9541f2b320666118d2963bb44b81e4b1"
+      },
+      "unchanged": true
+    },
+    "commercial_offer_shares": {
+      "before": {
+        "count": 3,
+        "fingerprint": "570e61f145dd3478c599ccc2a56d8b2d"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "570e61f145dd3478c599ccc2a56d8b2d"
+      },
+      "unchanged": true
+    }
+  },
+  "original_offer_identities": 19192,
+  "offers_now": 19836,
+  "original_document_files": 259,
+  "cleanup": false,
+  "health": {
+    "api": 200,
+    "web": 200,
+    "external": 200
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "written_at": "2026-11-11T10:26:41.607292+00:00",
+  "backend": {
+    "passed": 673,
+    "deselected": 2,
+    "seconds": 452.64
+  },
+  "postgres_opt_in": {
+    "passed": 1,
+    "concurrent_rounds": 5,
+    "seconds": 9.36
+  },
+  "frontend": {
+    "passed": 91,
+    "failed": 0
+  },
+  "ruff": "PASS",
+  "eslint": "PASS",
+  "typescript": "PASS",
+  "production_build": "PASS",
+  "diff_check": "PASS",
+  "browser_checks": 38,
+  "http_checks": 25,
+  "lifecycle_checks": 14,
+  "cross_process_checks": 13,
+  "external_new_ui": "NOT DEPLOYED",
+  "concurrent_model_search": "PARTIAL; baseline SQL timeout reproduced",
+  "disposable_ledger_removed": true,
+  "task_edge_profiles_remaining": 0,
+  "health": {
+    "api": 200,
+    "frontend": 200,
+    "local_proxy": 200,
+    "external_api": 200,
+    "ollama": 200
+  }
+}

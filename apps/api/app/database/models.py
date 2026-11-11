@@ -2,7 +2,20 @@ from datetime import datetime
 from typing import Any
 from uuid import uuid4
 
-from sqlalchemy import JSON, DateTime, ForeignKey, Index, Integer, Numeric, String, Text, false, text
+from sqlalchemy import (
+    JSON,
+    BigInteger,
+    DateTime,
+    ForeignKey,
+    Index,
+    Integer,
+    Numeric,
+    String,
+    Text,
+    UniqueConstraint,
+    false,
+    text,
+)
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -91,6 +104,105 @@ class CommercialOfferRequest(Base):
     revision_id: Mapped[str] = mapped_column(ForeignKey("presentation_revisions.id", ondelete="CASCADE"))
     publication: Mapped[bool] = mapped_column()
     epoch: Mapped[int | None] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ManagerEventCursor(Base):
+    __tablename__ = "manager_event_cursors"
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    sequence: Mapped[int] = mapped_column(BigInteger, default=0)
+
+
+class OfferVisitorBudget(Base):
+    __tablename__ = "offer_visitor_budgets"
+    document_id: Mapped[str] = mapped_column(
+        ForeignKey("presentation_documents.id", ondelete="CASCADE"), primary_key=True
+    )
+    generation: Mapped[str] = mapped_column(String(64), primary_key=True)
+    total_sessions: Mapped[int] = mapped_column(Integer, default=0)
+    total_mutations: Mapped[int] = mapped_column(Integer, default=0)
+    window_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    window_sessions: Mapped[int] = mapped_column(Integer, default=0)
+    window_mutations: Mapped[int] = mapped_column(Integer, default=0)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class OfferVisitor(Base):
+    __tablename__ = "offer_visitors"
+    __table_args__ = (
+        UniqueConstraint("document_id", "generation", "ordinal", name="uq_offer_visitor_number"),
+    )
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    document_id: Mapped[str] = mapped_column(
+        ForeignKey("presentation_documents.id", ondelete="CASCADE"), index=True
+    )
+    generation: Mapped[str] = mapped_column(String(64))
+    secret_hash: Mapped[str] = mapped_column(String(64), unique=True)
+    ordinal: Mapped[int] = mapped_column(Integer)
+    version: Mapped[int] = mapped_column(BigInteger, default=0)
+    last_sequence: Mapped[int] = mapped_column(BigInteger, default=0)
+    total_requests: Mapped[int] = mapped_column(Integer, default=0)
+    window_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    window_requests: Mapped[int] = mapped_column(Integer, default=0)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class OfferClientSelection(Base):
+    __tablename__ = "offer_client_selections"
+    visitor_id: Mapped[str] = mapped_column(
+        ForeignKey("offer_visitors.id", ondelete="CASCADE"), primary_key=True
+    )
+    item_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    selected: Mapped[bool] = mapped_column(default=False)
+    published_revision_id: Mapped[str] = mapped_column(
+        ForeignKey("presentation_revisions.id", ondelete="CASCADE")
+    )
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class OfferClientMutation(Base):
+    __tablename__ = "offer_client_mutations"
+    visitor_id: Mapped[str] = mapped_column(
+        ForeignKey("offer_visitors.id", ondelete="CASCADE"), primary_key=True
+    )
+    mutation_id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    fingerprint: Mapped[str] = mapped_column(String(64))
+    result_version: Mapped[int] = mapped_column(BigInteger)
+    event_sequence: Mapped[int | None] = mapped_column(BigInteger)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ManagerNotification(Base):
+    __tablename__ = "manager_notifications"
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    document_id: Mapped[str] = mapped_column(
+        ForeignKey("presentation_documents.id", ondelete="CASCADE"), index=True
+    )
+    visitor_id: Mapped[str] = mapped_column(ForeignKey("offer_visitors.id", ondelete="CASCADE"), unique=True)
+    title: Mapped[str] = mapped_column(String(200))
+    selected_count: Mapped[int] = mapped_column(Integer, default=0)
+    last_sequence: Mapped[int] = mapped_column(BigInteger)
+    read_sequence: Mapped[int] = mapped_column(BigInteger, default=0)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
+
+
+class ManagerEvent(Base):
+    """Durable outbox. Sequence is assigned under the owner's transaction lock."""
+
+    __tablename__ = "manager_events"
+    __table_args__ = (Index("ix_manager_event_document", "document_id", "sequence"),)
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    sequence: Mapped[int] = mapped_column(BigInteger, primary_key=True)
+    document_id: Mapped[str | None] = mapped_column(
+        ForeignKey("presentation_documents.id", ondelete="CASCADE")
+    )
+    visitor_id: Mapped[str | None] = mapped_column(ForeignKey("offer_visitors.id", ondelete="CASCADE"))
+    event_type: Mapped[str] = mapped_column(String(40))
+    payload: Mapped[dict] = mapped_column(JsonType, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utcnow)
 
 

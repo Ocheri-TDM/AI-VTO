@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "path": "https://souvenir-studio-three.vercel.app",
+  "unchanged_digests": {
+    "notifications": "27c44ccc2c4e412d7b470b950db46b6dc47d41d94dc5005ea7e8f89e00e94cef",
+    "visitor_state": "d3dcbd20cae1afd811bb7c5cd5a6dd4831b7e52b129cde491f0f03b36f3584c3",
+    "published_snapshot": "7e26a60c55c9bb7d9f2af49796831a782e28c79067d9f0165196248cf3af5c86"
+  },
+  "persisted_visitor_and_unread_groups": true
+}

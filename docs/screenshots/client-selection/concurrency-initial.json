@@ -1,0 +1,34 @@
+{
+  "status": "FAIL",
+  "visitors": 4,
+  "writes": 20,
+  "manager_streams": [
+    200,
+    200,
+    200
+  ],
+  "search_results": [
+    {
+      "status": 503,
+      "seconds": 26.298021800001152,
+      "error": {
+        "detail": "База данных временно недоступна.",
+        "code": "DATABASE_UNAVAILABLE",
+        "stage": "database",
+        "trace_id": "7a33932ba107443390a7c7988a26fd50"
+      }
+    },
+    {
+      "status": 202,
+      "seconds": 27.269063300002017
+    }
+  ],
+  "http_errors": [],
+  "write_seconds": {
+    "p50": 0.04427579999901354,
+    "p95": 0.2991660999978194,
+    "max": 0.2991660999978194
+  },
+  "runtime_before": "NOT AVAILABLE",
+  "runtime_after": "NOT AVAILABLE"
+}

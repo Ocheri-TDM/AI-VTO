@@ -1,0 +1,110 @@
+{
+  "path": "https://souvenir-studio-three.vercel.app",
+  "checks": [
+    {
+      "check": "real HTTPS proxy health",
+      "status": "PASS"
+    },
+    {
+      "check": "opening and preview create no visitor/notification",
+      "status": "PASS"
+    },
+    {
+      "check": "published pdf download",
+      "status": "PASS"
+    },
+    {
+      "check": "published xlsx download",
+      "status": "PASS"
+    },
+    {
+      "check": "HTTPS cookie HttpOnly/Secure/scoped",
+      "status": "PASS"
+    },
+    {
+      "check": "guest desired-state write",
+      "status": "PASS"
+    },
+    {
+      "check": "mutation receipt replays once",
+      "status": "PASS"
+    },
+    {
+      "check": "independent visitor reads only own marks",
+      "status": "PASS"
+    },
+    {
+      "check": "add desired position",
+      "status": "PASS"
+    },
+    {
+      "check": "add desired position",
+      "status": "PASS"
+    },
+    {
+      "check": "three choices, one unread group",
+      "status": "PASS"
+    },
+    {
+      "check": "foreign owner cannot read visitor lists",
+      "status": "PASS"
+    },
+    {
+      "check": "guest cannot edit price/document",
+      "status": "PASS"
+    },
+    {
+      "check": "unpublished item rejected",
+      "status": "PASS"
+    },
+    {
+      "check": "foreign Origin rejected",
+      "status": "PASS"
+    },
+    {
+      "check": "two visitors produce two groups",
+      "status": "PASS"
+    },
+    {
+      "check": "visitor/position/mark counts separated",
+      "status": "PASS"
+    },
+    {
+      "check": "old read ack leaves racing newer mark unread",
+      "status": "PASS"
+    },
+    {
+      "check": "last unselect clears group count",
+      "status": "PASS"
+    },
+    {
+      "check": "real Vercel SSE content-type",
+      "status": "PASS"
+    },
+    {
+      "check": "SSE delivery does not mark read",
+      "status": "PASS"
+    },
+    {
+      "check": "guest marks leave document version unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "guest marks leave link expiry unchanged",
+      "status": "PASS"
+    },
+    {
+      "check": "guest choices do not render/change pdf",
+      "status": "PASS"
+    },
+    {
+      "check": "guest choices do not render/change xlsx",
+      "status": "PASS"
+    }
+  ],
+  "transport": {
+    "ready_seconds": 0.24,
+    "later_event_seconds": 0.847,
+    "write_to_sse_seconds": 0.45
+  }
+}

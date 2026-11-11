@@ -15,7 +15,7 @@ function Gallery({item}:{item:ClientOfferItem}){
   </div>;
 }
 
-export function OfferView({value,editSlot}:{value:ClientOffer;editSlot?:OfferEditSlot}){
+export function OfferView({value,editSlot,selectionSlot}:{value:ClientOffer;editSlot?:OfferEditSlot;selectionSlot?:OfferEditSlot}){
   return <main className="offer-document" data-testid="offer-document">
     <header className="offer-cover">
       <div className={`offer-banner${value.banner_url?' has-image':''}`}>{value.banner_url&&<img src={value.banner_url} alt="Баннер предложения" referrerPolicy="no-referrer"/>}<span className="offer-banner-mark" aria-hidden="true"/></div>
@@ -26,6 +26,7 @@ export function OfferView({value,editSlot}:{value:ClientOffer;editSlot?:OfferEdi
       <div className="offer-product-layout"><Gallery item={item}/><div className="offer-product-copy">
         <h2>{item.title}</h2><p className="offer-sku">Артикул: <strong>{item.sku||'Не указан'}</strong></p>
         {editSlot?.(item,index)}
+        {selectionSlot?.(item,index)}
         <div className="offer-calculation"><div><span>Цена за единицу</span><strong>{offerMoney(item.unit_price)}</strong></div><span aria-hidden="true">×</span><div><span>Тираж</span><strong>{item.quantity.toLocaleString('ru-RU')} шт.</strong></div></div>
         <div className="offer-line-amount"><span>Стоимость позиции</span><strong>{offerMoney(item.line_amount)}</strong></div>
         <p className="offer-availability">{item.availability}</p>

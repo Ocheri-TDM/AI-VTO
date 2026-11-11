@@ -5,20 +5,22 @@ const Module = require('node:module');
 const ts = require('typescript');
 
 const root = path.join(__dirname, '../..');
-function load(relative) {
+function load(relative, cache = new Map()) {
   const filename = path.join(root, relative);
+  if (cache.has(filename)) return cache.get(filename).exports;
   const code = ts.transpileModule(fs.readFileSync(filename, 'utf8'), {
     fileName: filename,
     compilerOptions: {module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX},
   }).outputText;
   const mod = new Module(filename, module);
   mod.filename = filename;
+  cache.set(filename, mod);
   mod.paths = module.paths;
   const original = mod.require.bind(mod);
   mod.require = id => {
     const local = id.startsWith('@/') ? path.join(root, 'src', id.slice(2)) : id.startsWith('.') ? path.resolve(path.dirname(filename), id) : null;
     if (local) for (const suffix of ['.ts', '.tsx', '']) {
-      if (fs.existsSync(local + suffix)) return load(path.relative(root, local + suffix));
+      if (fs.existsSync(local + suffix)) return load(path.relative(root, local + suffix), cache);
     }
     return original(id);
   };

@@ -1,0 +1,61 @@
+{
+  "path": "https://souvenir-studio-three.vercel.app",
+  "checks": [
+    {
+      "check": "actual republish rejects stale guest revision",
+      "status": "PASS"
+    },
+    {
+      "check": "reordering keeps the same stable row and original selected revision",
+      "status": "PASS"
+    },
+    {
+      "check": "manager sees original commercial terms and changed-conditions warning",
+      "status": "PASS"
+    },
+    {
+      "check": "removed position never moves to its new array index",
+      "status": "PASS"
+    },
+    {
+      "check": "removed position survives in manager history",
+      "status": "PASS"
+    },
+    {
+      "check": "expired real share refuses new guest reads",
+      "status": "PASS"
+    },
+    {
+      "check": "expired real share refuses new writes",
+      "status": "PASS"
+    },
+    {
+      "check": "expiry retains authorized manager history",
+      "status": "PASS"
+    },
+    {
+      "check": "old capability is invalid after rotation",
+      "status": "PASS"
+    },
+    {
+      "check": "new generation never inherits prior browser session",
+      "status": "PASS"
+    },
+    {
+      "check": "prior csrf cannot write to new generation",
+      "status": "PASS"
+    },
+    {
+      "check": "deleted share blocks a previously open visitor session",
+      "status": "PASS"
+    },
+    {
+      "check": "deleted document disappears from owner notifications",
+      "status": "PASS"
+    },
+    {
+      "check": "late events never recreate owner offer access",
+      "status": "PASS"
+    }
+  ]
+}

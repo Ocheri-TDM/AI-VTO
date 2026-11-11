@@ -78,6 +78,14 @@ class Settings(BaseSettings):
     presentation_storage: Path = ROOT / ".local" / "presentations"
     presentation_worker_enabled: bool = True
     public_frontend_origin: str | None = None
+    offer_visitor_max_sessions: int = Field(default=1000, ge=2, le=10000)
+    offer_visitor_sessions_per_minute: int = Field(default=30, ge=2, le=300)
+    offer_selection_per_minute: int = Field(default=300, ge=10, le=3000)
+    offer_visitor_requests_per_minute: int = Field(default=90, ge=10, le=600)
+    offer_visitor_max_mutations: int = Field(default=2000, ge=10, le=10000)
+    offer_selection_max_mutations: int = Field(default=100000, ge=100, le=1000000)
+    notification_stream_seconds: float = Field(default=25, ge=5, le=55)
+    notification_poll_seconds: float = Field(default=0.6, ge=0.2, le=2)
     presentation_timeout_seconds: int = Field(default=300, ge=30, le=1800)
     presentation_queue_limit: int = Field(default=12, ge=1, le=50)
     presentation_design_timeout_seconds: int = Field(default=25, ge=1, le=60)
