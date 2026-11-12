@@ -4,7 +4,7 @@ import Link from 'next/link';
 import {useAuthSession} from '../auth-gate';
 import {AppNavbar} from '../app-navbar';
 import {Sheet} from '../common/sheet';
-import {offerApi,offerExpiry,OfferError,type OfferSummary} from '@/lib/commercial-offers';
+import {copyOfferLink,offerApi,offerExpiry,OfferError,type OfferSummary} from '@/lib/commercial-offers';
 import {notificationApi,type ClientInterest} from '@/lib/client-notifications';
 import {useClientNotifications} from '../notifications/notification-provider';
 import {OfferClientInterest} from './client-feedback';
@@ -20,7 +20,7 @@ export function OfferDocuments({archive=false}:{archive?:boolean}){
   useEffect(()=>{if(archive||!interestIds)return;let live=true;notificationApi.interest(interestIds.split(',')).then(value=>{if(live){setInterest(value.offers);if(value.unavailable_ids.length)setItems(old=>old.filter(i=>!value.unavailable_ids.includes(i.id)));}}).catch(async e=>{if(!live)return;if(e instanceof OfferError&&e.status===404){try{const page=await offerApi.all();if(live){setItems(page.items);setCursor(page.next_cursor);}}catch(failure){if(live)setError((failure as Error).message);}}else setError((e as Error).message);});return()=>{live=false;};},[interestIds,archive,signal]);
   useEffect(()=>{let live=true;offerApi.all(undefined,archive).then(page=>{if(live){setItems(page.items);setCursor(page.next_cursor);}}).catch(e=>{if(live)setError(e.message);}).finally(()=>{if(live)setBusy(false);});return()=>{live=false;};},[archive]);
   async function more(){if(!cursor||busy)return;setBusy(true);try{const page=await offerApi.all(cursor,archive);setItems(old=>[...old,...page.items.filter(i=>!old.some(p=>p.id===i.id))]);setCursor(page.next_cursor);setError('');}catch(e){setError((e as Error).message);}finally{setBusy(false);}}
-  async function copy(id:string){try{const link=await offerApi.link(id);if(!link.active||!link.public_url)throw new Error('Действующая публичная ссылка недоступна');await navigator.clipboard.writeText(link.public_url);setNotice('Ссылка скопирована');}catch(e){setError((e as Error).message);}}
+  async function copy(id:string){setNotice('');setError('');try{await copyOfferLink(await offerApi.link(id));setNotice('Ссылка скопирована');}catch(e){setError((e as Error).message);}}
   async function remove(){if(!removing||deleting)return;setDeleting(true);setDeleteError('');try{await offerApi.delete(removing.id,removing.version);setItems(old=>old.filter(i=>i.id!==removing.id));setRemoving(null);setNotice('Предложение удалено. Чат и выбранные товары сохранены.');}catch(e){setDeleteError(e instanceof OfferError?e.message:'Не удалось удалить предложение. Проверьте соединение и повторите.');}finally{setDeleting(false);}}
   return <div className="offer-library"><AppNavbar name={user.name} logout={logout} active="offers"/>
     <main className="offer-library-main"><div className="offer-library-heading"><h1>{archive?'Архив дизайнерских документов':'Предложения'}</h1><Link href={archive?'/offers':'/offers/archive'}>{archive?'К коммерческим предложениям':'Архив дизайнерских документов'}</Link></div>

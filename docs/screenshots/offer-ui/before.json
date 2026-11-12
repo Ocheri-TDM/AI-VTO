@@ -1,0 +1,9 @@
+{
+  "checks": [
+    {
+      "check": "original UI captured with URL field redacted and two separate visitors",
+      "status": "PASS"
+    }
+  ],
+  "new_vercel_ui": "NOT DEPLOYED"
+}

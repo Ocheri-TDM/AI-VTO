@@ -3,7 +3,7 @@
 import {useCallback,useEffect,useRef,useState} from 'react';
 import Link from 'next/link';
 import {Select} from '@/components/common/select';
-import {downloadOffer,offerApi,offerForm,offerMoney,offerExpiry,OfferError,type OfferDocument,type OfferForm} from '@/lib/commercial-offers';
+import {copyOfferLink,downloadOffer,offerApi,offerForm,offerMoney,offerExpiry,OfferError,type OfferDocument,type OfferForm} from '@/lib/commercial-offers';
 import {OfferView} from './offer-view';
 import {OwnerStockNotice} from './owner-stock';
 import {ClientFeedbackPanel} from './client-feedback';
@@ -15,6 +15,8 @@ const active=['QUEUED','PREPARING_ASSETS','RENDERING','VALIDATING'];
 export function OfferEditor({id}:{id:string}){
   const notifications=useClientNotifications();
   const [unavailable,setUnavailable]=useState(false);
+  const [copying,setCopying]=useState(false),[copyError,setCopyError]=useState('');
+  const copyPending=useRef(false);
   const [doc,setDoc]=useState<OfferDocument|null>(null),[form,setForm]=useState<OfferForm|null>(null),[dirty,setDirty]=useState(false),[saving,setSaving]=useState(false),[busy,setBusy]=useState(false),[error,setError]=useState(''),[preview,setPreview]=useState(false),[conflict,setConflict]=useState(false),[notice,setNotice]=useState('');
   const current=useRef<OfferDocument|null>(null),draft=useRef<OfferForm|null>(null),stamp=useRef(0),generation=useRef(0),reads=useRef(0),savePromise=useRef<Promise<boolean>|null>(null),operation=useRef(false),dirtyRef=useRef(false);
   const invalidate=useCallback(()=>{generation.current++;},[]);
@@ -48,9 +50,10 @@ export function OfferEditor({id}:{id:string}){
     await downloadOffer(kind==='pdf'?revision.pdf_url!:revision.xlsx_url!,`commercial-offer-v${revision.source_version}.${kind}`);
   });}
   async function upload(kind:'logo'|'banner',file:File){if(file.size>12*1024*1024){setError('Максимальный размер изображения — 12 МБ');return;}await run(async()=>accept(await offerApi.upload(id,kind,current.current!.version,file)));}
-  async function copy(){setNotice('');setError('');
-    try{const fresh=await offerApi.get(id);setDoc(previous=>previous?{...previous,share:fresh.share}:previous);if(current.current)current.current={...current.current,share:fresh.share};const link=fresh.share.public_url;if(!fresh.share.active||!link)throw new Error(fresh.share.expired?`Срок действия ссылки истёк. Создайте ссылку на ${fresh.share.lifetime_days} дней.`:'Публичный HTTPS-адрес не настроен или публикация ещё не готова.');await navigator.clipboard.writeText(link);setNotice('Ссылка скопирована');}
-    catch(e){setError((e as Error).message+' Скопируйте действующий адрес из поля вручную.');}
+  async function copy(){if(copyPending.current)return;copyPending.current=true;setCopying(true);setNotice('');setCopyError('');const epoch=generation.current;
+    try{const fresh=await offerApi.get(id);if(epoch!==generation.current)return;setDoc(previous=>previous?{...previous,share:fresh.share}:previous);if(current.current)current.current={...current.current,share:fresh.share};if(fresh.share.expired)throw new Error(`Срок действия ссылки истёк. Создайте ссылку на ${fresh.share.lifetime_days} дней.`);await copyOfferLink(fresh.share);if(epoch===generation.current)setNotice('Ссылка скопирована');}
+    catch(e){if(epoch===generation.current){if(e instanceof OfferError&&e.status===404)readError(e);else setCopyError((e as Error).message);}}
+    finally{copyPending.current=false;if(epoch===generation.current)setCopying(false);}
   }
   async function composition(){await run(async()=>{const delta=await offerApi.composition(id);if(!delta.added.length&&!delta.removed.length){setNotice('Состав уже соответствует подборке. Исключённые позиции сохранены.');return;}const describe=(rows:{title:string}[])=>rows.map(i=>i.title).join('\n');if(!window.confirm(`Обновить состав?\nДобавить: ${delta.added.length}\n${describe(delta.added)}\nУбрать: ${delta.removed.length}\n${describe(delta.removed)}\nРучные правки ${delta.retained} оставшихся позиций и исключённые товары сохранятся.`))return;accept(await offerApi.updateComposition(id,delta.version,delta.collection_version));setNotice('Состав черновика обновлён. Опубликованная версия сохранена.');});}
   const archived=doc?.is_primary===false;
@@ -66,9 +69,10 @@ export function OfferEditor({id}:{id:string}){
       <section className="offer-manager-panel"><div><strong>{saving?'Сохраняю…':dirty?'Есть несохранённые изменения':'Черновик сохранён'}</strong><p>{doc.share.active?'Клиент видит опубликованный снимок. Правки черновика не меняют его.':'Приватный документ. Доступ по ссылке появится после явной публикации.'}</p>{notice&&<p role="status">{notice}</p>}{processing&&<p role="status">Подготавливаю файлы…</p>}{doc.materials_preparing&&<p role="status">Подготавливаю изображение…</p>}</div>
         {archived?<div className="offer-archive-note"><strong>Предыдущее предложение · только просмотр</strong>{doc.primary_offer_id&&<Link href={`/offers/${doc.primary_offer_id}/edit`}>Открыть основное предложение проекта</Link>}</div>:<div className="offer-publish-actions">
           <p className="offer-publication-state">Публикация: {processing?'подготавливаются файлы':doc.share.active?'готова':doc.revisions[0]?.status==='FAILED'?'ошибка подготовки':'не опубликована'}.</p>
-          <button className="offer-primary" disabled={locked||processing||conflict||doc.issues.length>0} onClick={()=>void publish()}>{doc.share.active?'Обновить опубликованную версию':`Создать ссылку на ${doc.share.lifetime_days} дней`}</button>
+          <button className="offer-primary" aria-busy={busy||processing} disabled={locked||processing||conflict||doc.issues.length>0} onClick={()=>void publish()}>{doc.share.active?'Обновить опубликованную версию':`Создать ссылку на ${doc.share.lifetime_days} дней`}</button>
           {doc.share.expires_at&&<p className="offer-link-expiry">{doc.share.expired?'Срок действия ссылки истёк':'Ссылка действует до'} {offerExpiry(doc.share.expires_at)}</p>}
-          {doc.share.active&&doc.share.public_url&&<><a href={doc.share.public_url} target="_blank" rel="noreferrer">Открыть клиентскую версию</a><button onClick={()=>void copy()}>Копировать ссылку</button><label className="offer-share-field">Клиентская ссылка<input aria-label="Клиентская ссылка" readOnly value={doc.share.public_url} onFocus={e=>e.target.select()}/></label></>}
+          {doc.share.active&&doc.share.public_url&&<><a href={doc.share.public_url} target="_blank" rel="noreferrer">Открыть клиентскую версию</a><button disabled={copying||busy} aria-busy={copying} onClick={()=>void copy()}>Копировать ссылку</button></>}
+          {copyError&&<p className="offer-copy-error" role="alert">{copyError}</p>}
           {doc.share.active&&!doc.share.public_url&&<p role="alert">Публичный HTTPS-адрес не настроен. Настройте PUBLIC_FRONTEND_ORIGIN на backend.</p>}
         </div>}
         {!!doc.issues.length&&<ul className="offer-validation">{doc.issues.map((issue,n)=><li key={n}>{doc.draft.items.find(i=>i.id===issue.item_id)?.title}: {issue.message}</li>)}</ul>}

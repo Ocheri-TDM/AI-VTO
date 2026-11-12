@@ -28,7 +28,6 @@ export function ClientFeedbackPanel({identifier,publication}:{identifier:string;
   return <section id="client-selection" className="client-feedback-panel" data-client-selection-version={value?.cursor??''}>
     <header><h2>Выбор клиента</h2>{value&&<p>Посетителей с выбором: {value.summary.visitor_count} · Уникальных позиций: {value.summary.item_count} · Отметок: {value.summary.mark_count}</p>}</header>
     {error?<p role="alert">{error}</p>:!value?<p role="status">Загружаю выбор клиента…</p>:<>
-      <p className="client-feedback-identity">{value.identity_notice}</p>
       {!value.visitors.length&&<p>Клиент пока не отмечал товары.</p>}
       {value.visitors.map(visitor=><section className="client-feedback-visitor" key={visitor.id} data-visitor={visitor.id}>
         <h3>{visitor.label} {!visitor.current_round&&<small>Предыдущее поколение ссылки</small>}</h3>
@@ -44,7 +43,6 @@ export function ClientFeedbackPanel({identifier,publication}:{identifier:string;
         </article>)}</div>
       </section>)}
       {value.next_before&&<button disabled={loading} onClick={()=>void more()}>{loading?'Загружаю…':'Другие посетители'}</button>}
-      {!!value.events.length&&<details><summary>История изменений выбора</summary><ol>{value.events.map(event=><li key={event.sequence}><time dateTime={event.created_at}>{new Date(event.created_at).toLocaleString('ru-RU')}</time> · {event.visitor_label}: {event.selected?'выбрал':'снял отметку'} — {event.title}</li>)}</ol></details>}
     </>}
   </section>;
 }

@@ -1,0 +1,23 @@
+{
+  "frontend_tests": {
+    "status": "PASS",
+    "passed": 94
+  },
+  "backend_selection_tests": {
+    "status": "PASS",
+    "passed": 21,
+    "seconds": 39.42
+  },
+  "edge": {
+    "status": "PASS",
+    "checks": 95
+  },
+  "eslint": "PASS",
+  "typescript": "PASS",
+  "production_build": "PASS",
+  "ruff_acceptance_scripts": "PASS",
+  "git_diff_check": "PASS",
+  "new_vercel_frontend": "NOT DEPLOYED",
+  "full_backend_suite": "NOT TESTED",
+  "load_test": "NOT TESTED"
+}

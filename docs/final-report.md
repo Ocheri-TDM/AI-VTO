@@ -2145,3 +2145,29 @@ Fingerprints исходных 3 пользователей, 4 проектов, 
 3 проекта, 3 документа и связанные данные. Временные API/Edge закрыты;
 PostgreSQL, Ollama, API и frontend работают.
 [Полный отчёт и доказательства](client-offer-selection.md).
+
+## Clean Offer UI — 12 ноября 2026
+
+**PASS:** из интерфейса удалены история выбора, пояснение о браузерных сессиях
+и поле клиентского URL. Текущие посетители/товары/версии, события, SSE и уведомления
+сохранены. Копирование проверено через native Clipboard и ошибки/pending Promise;
+оно не меняет document, share, expiry или revisions. Pulse primary использует
+белый Geist 600 / 15 px на #D62402, hover #C92302, pressed #BA2002:
+измеренный контраст 5.106 / 5.638 / 6.373:1. Current сохраняет зелёные кнопки.
+
+Реальный Logout сначала возвращал 400 INVALID_JSON: frontend объявлял JSON,
+но отправлял пустое тело. Запрос теперь передаёт `{}` без изменения auth guard.
+Финальный Edge-прогон подтвердил 401 приватных GET, закрытие SSE и вход другого
+аккаунта без чужих уведомлений. Новый чат и первый запрос также проверены.
+
+Quality gates: **94 frontend tests, 21 backend selection regressions,
+95 Edge checks**, ESLint, TypeScript, production build, Ruff и diff check.
+Настоящий Edge zoom 125%/150%, Current/Pulse и mobile 390 px проверены.
+**NOT DEPLOYED:** новый frontend на Vercel; native Clipboard существующей HTTPS
+сборки проверен отдельно. Полный backend suite и нагрузка **NOT TESTED** здесь.
+
+Сохранены исходные 3 users, 4 projects, 66 messages, 26 collection items,
+17 documents, 22 revisions, 4 shares, 309 files, key и 24 101 offer identities.
+Backend/migrations не менялись; фоновый импорт продолжал работу. Exact-ID cleanup
+удалил только два тестовых аккаунта, шесть проектов, три документа и их ресурсы.
+Основные сервисы работают. [Отчёт и screenshots](offer-ui-cleanup.md).
