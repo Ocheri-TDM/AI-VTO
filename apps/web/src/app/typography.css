@@ -7,6 +7,26 @@ input,textarea,select {font-weight:400}
 :where(button,label,[role="tab"]) {font-weight:500}
 .studio-button {font-weight:500}
 .studio-button.primary,strong,b {font-weight:600}
+.studio-button.primary,.primary-button,.commercial-public .offer-primary {
+  min-height:44px;
+  height:auto;
+  padding:10px 16px;
+  font-family:var(--font-ui);
+  font-size:15px;
+  font-weight:600;
+  font-synthesis:none;
+  letter-spacing:normal;
+  line-height:1.4;
+  white-space:normal;
+  text-align:center;
+  transition:border-color .16s,transform .16s;
+}
+:is(.studio-button.primary,.primary-button,.offer-primary) svg {color:inherit;flex-shrink:0}
+:is(.studio-button.primary,.primary-button,.commercial-public .offer-primary):hover:not(:disabled) {filter:none}
+.studio-button.primary:disabled[aria-busy=true] {opacity:1;cursor:progress}
+.button-stable-label {display:grid}
+.button-stable-label>span {grid-area:1/1}
+.button-stable-label::after {content:"Отправляю…";visibility:hidden;grid-area:1/1}
 .ui-select .ui-select-trigger,.ui-select>.ui-select-label {font-weight:500}
 .product-name,.selected-product-name,.product-meta strong {font-weight:600}
 .project-item small,.research-message,.research-message small {font-weight:400}

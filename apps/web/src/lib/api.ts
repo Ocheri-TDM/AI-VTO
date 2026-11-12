@@ -73,7 +73,7 @@ export const api = {
     request<{ id: string; name: string }>("/auth/login", {
       method: "POST", body: JSON.stringify({ name, password }),
     }),
-  logout: () => request<void>("/auth/logout", { method: "POST" }),
+  logout: () => request<void>("/auth/logout", { method: "POST", body: JSON.stringify({}) }),
   createChat: (name = "Новый чат", request_id?:string) =>
     request<{ id: string }>("/chats", {
       method: "POST",

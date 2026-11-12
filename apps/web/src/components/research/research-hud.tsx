@@ -13,7 +13,7 @@ export function CollectionSummary({count,hidden=0,onOpen,loading=false}:{count:n
   return <aside className="research-hud-selected" aria-label="Выбранные товары" data-testid="selected-products">
     <strong>Выбранные товары</strong><span className="research-selected-count" role={loading?'status':undefined}>{loading?'Загрузка…':count}</span>
     {!loading&&!!hidden&&<small>Вне текущей выдачи: {hidden}</small>}
-    <button className="studio-button primary" disabled={loading} onClick={onOpen}>Открыть подборку</button>
+    <button className="studio-button primary" disabled={loading} aria-busy={loading} onClick={onOpen}>Открыть подборку</button>
   </aside>;
 }
 

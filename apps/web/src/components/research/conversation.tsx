@@ -9,7 +9,7 @@ export function ConversationComposer({value,onChange,onSubmit,busy,started,disab
     <textarea id={started?'research-message':'research-query'} value={value} onChange={e=>onChange(e.target.value)} maxLength={2000} autoFocus={started&&focusOnMount}
       placeholder={started?'Уточните условия или начните новый поиск':'Синие бутылки, 300 шт.'} rows={3}
       onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();onSubmit();}}}/>
-    <button className="studio-button primary" disabled={busy||disabled||!value.trim()}>{busy?'Отправляю…':'Отправить'}</button>
+    <button className="studio-button primary" aria-busy={busy} disabled={busy||disabled||!value.trim()}><span className="button-stable-label"><span>{busy?'Отправляю…':'Отправить'}</span></span></button>
   </form>;
 }
 

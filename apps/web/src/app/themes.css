@@ -16,11 +16,15 @@
   --shadow-panel: 0 18px 60px #263c291f;
 
   --ui-brand: #f42902;
-  --ui-accent-bg: #f42902;
-  --ui-on-accent: #190b07;
-  --ui-accent-hover: #ff4522;
-  --ui-accent-active: #cf2608;
-  --ui-on-accent-active: #FDFDFF;
+  --ui-primary-bg: #D62402;
+  --ui-primary-fg: #FFFFFF;
+  --ui-primary-hover: #C92302;
+  --ui-primary-pressed: #BA2002;
+  --ui-accent-bg: var(--ui-primary-bg);
+  --ui-on-accent: var(--ui-primary-fg);
+  --ui-accent-hover: var(--ui-primary-hover);
+  --ui-accent-active: var(--ui-primary-pressed);
+  --ui-on-accent-active: var(--ui-primary-fg);
   --ui-success: #83FD80;
   --ui-success-text: #21512b;
   --ui-highlight-soft: #edfbe9;
@@ -74,20 +78,31 @@
 .auth-theme { position: absolute; right: 24px; top: 24px; }
 
 /* Theme-specific interaction treatment. Structural layout rules remain shared. */
-:root[data-site-theme="pulse"] .studio-button.primary {
+:root[data-site-theme="pulse"] :is(.studio-button.primary, .primary-button),
+.commercial-public .offer-primary {
   background: var(--ui-accent-bg);
   border-color: var(--ui-accent-bg);
   color: var(--ui-on-accent);
   box-shadow: 0 3px 10px #f4290214;
+  filter: none;
+  opacity: 1;
 }
-:root[data-site-theme="pulse"] .studio-button.primary:hover:not(:disabled) {
+:root[data-site-theme="pulse"] :is(.studio-button.primary, .primary-button):hover:not(:disabled),
+.commercial-public .offer-primary:hover:not(:disabled) {
   background: var(--ui-accent-hover);
   border-color: var(--ui-accent-hover);
 }
-:root[data-site-theme="pulse"] .studio-button.primary:active:not(:disabled) {
+:root[data-site-theme="pulse"] :is(.studio-button.primary, .primary-button):active:not(:disabled),
+.commercial-public .offer-primary:active:not(:disabled) {
   background: var(--ui-accent-active);
   border-color: var(--ui-accent-active);
   color: var(--ui-on-accent-active);
+}
+:root[data-site-theme="pulse"] :is(.studio-button.primary, .primary-button):disabled[aria-busy="true"],
+.commercial-public .offer-primary:disabled[aria-busy="true"] {
+  background: var(--ui-accent-bg);
+  border-color: var(--ui-accent-bg);
+  color: var(--ui-on-accent);
 }
 :root[data-site-theme="pulse"] .studio-button:not(.primary):hover:not(:disabled) {
   background: var(--ui-surface-card);

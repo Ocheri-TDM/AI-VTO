@@ -1,0 +1,99 @@
+{
+  "protected_source_files": 157,
+  "explicit_feature_changes": [],
+  "status": "PASS",
+  "original_records": {
+    "users": {
+      "before": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "after": {
+        "count": 3,
+        "fingerprint": "ec6b44997a39c0bb73a53f78e72a1a5a"
+      },
+      "unchanged": true
+    },
+    "projects": {
+      "before": {
+        "count": 4,
+        "fingerprint": "e08f206373c6415b916be7393c11b601"
+      },
+      "after": {
+        "count": 4,
+        "fingerprint": "e08f206373c6415b916be7393c11b601"
+      },
+      "unchanged": true
+    },
+    "messages": {
+      "before": {
+        "count": 66,
+        "fingerprint": "381a4dd473f6eb80120b50be5747d381"
+      },
+      "after": {
+        "count": 66,
+        "fingerprint": "381a4dd473f6eb80120b50be5747d381"
+      },
+      "unchanged": true
+    },
+    "project_collection_items": {
+      "before": {
+        "count": 26,
+        "fingerprint": "2afce2921ad5310f56d585c768125b6f"
+      },
+      "after": {
+        "count": 26,
+        "fingerprint": "2afce2921ad5310f56d585c768125b6f"
+      },
+      "unchanged": true
+    },
+    "presentation_documents": {
+      "before": {
+        "count": 17,
+        "fingerprint": "a5c89f9283c3a587dc4fa00778b37999"
+      },
+      "after": {
+        "count": 17,
+        "fingerprint": "a5c89f9283c3a587dc4fa00778b37999"
+      },
+      "unchanged": true
+    },
+    "presentation_revisions": {
+      "before": {
+        "count": 22,
+        "fingerprint": "db9990db447e250ab85adbb84b908d50"
+      },
+      "after": {
+        "count": 22,
+        "fingerprint": "db9990db447e250ab85adbb84b908d50"
+      },
+      "unchanged": true
+    },
+    "commercial_offer_shares": {
+      "before": {
+        "count": 4,
+        "fingerprint": "f496ec7541f77f3768c11113d884a5f5"
+      },
+      "after": {
+        "count": 4,
+        "fingerprint": "f496ec7541f77f3768c11113d884a5f5"
+      },
+      "unchanged": true
+    }
+  },
+  "original_offer_identities": 24101,
+  "offers_now": 24608,
+  "original_document_files": 309,
+  "cleanup": true,
+  "remaining_owned_visitors_notifications_events": 0,
+  "removed": {
+    "users": 2,
+    "projects": 6,
+    "documents": 3
+  },
+  "health": {
+    "api": 200,
+    "web": 200,
+    "external": 200
+  }
+}

@@ -1,0 +1,644 @@
+{
+  "checks": [
+    {
+      "check": "no history, session explanation, URL field or empty replacement",
+      "status": "PASS"
+    },
+    {
+      "check": "separate visitor lists retain images, SKU, revision and counts",
+      "status": "PASS"
+    },
+    {
+      "check": "native local secure-context Clipboard copies current HTTPS capability",
+      "status": "PASS"
+    },
+    {
+      "check": "Clipboard refusal has no false success, URL field, prompt or alert",
+      "status": "PASS"
+    },
+    {
+      "check": "pending Clipboard Promise blocks repeat and reports no success",
+      "status": "PASS"
+    },
+    {
+      "check": "native copy retry succeeds",
+      "status": "PASS"
+    },
+    {
+      "check": "copy retains token, expiry, document, revision and draft",
+      "status": "PASS"
+    },
+    {
+      "check": "guest selection updates manager and bell without F5",
+      "status": "PASS"
+    },
+    {
+      "check": "unselect updates count and keeps second visitor independent",
+      "status": "PASS"
+    },
+    {
+      "check": "F5 persists choices; reconnect restores current state without history UI",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse update publication normal computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "update publication white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse update publication hover computed contrast",
+      "status": "PASS",
+      "contrast": 5.638,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(201, 35, 2)"
+      ]
+    },
+    {
+      "check": "update publication white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse update publication pressed computed contrast",
+      "status": "PASS",
+      "contrast": 6.373,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(186, 32, 2)"
+      ]
+    },
+    {
+      "check": "update publication white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse update publication focus computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "pulse update publication visible focus",
+      "status": "PASS",
+      "focus": "rgb(181, 35, 8)",
+      "adjacent": "rgb(244, 247, 243)",
+      "ratio": 6.060185452813406
+    },
+    {
+      "check": "update publication white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "loading publication stays readable and disabled",
+      "status": "PASS"
+    },
+    {
+      "check": "editor 1440px / 1 scale long label fits",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "clipped": false,
+        "height": 44
+      }
+    },
+    {
+      "check": "editor 390px / 1 scale long label fits",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "clipped": false,
+        "height": 44
+      }
+    },
+    {
+      "check": "editor 1152px / 1.25 scale long label fits",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "clipped": false,
+        "height": 44
+      }
+    },
+    {
+      "check": "editor 960px / 1.5 scale long label fits",
+      "status": "PASS",
+      "geometry": {
+        "overflow": false,
+        "clipped": false,
+        "height": 44
+      }
+    },
+    {
+      "check": "pulse open offer normal computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "open offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse open offer hover computed contrast",
+      "status": "PASS",
+      "contrast": 5.638,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(201, 35, 2)"
+      ]
+    },
+    {
+      "check": "open offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse open offer pressed computed contrast",
+      "status": "PASS",
+      "contrast": 6.373,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(186, 32, 2)"
+      ]
+    },
+    {
+      "check": "open offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse open offer focus computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "pulse open offer visible focus",
+      "status": "PASS",
+      "focus": "rgb(181, 35, 8)",
+      "adjacent": "rgb(237, 241, 236)",
+      "ratio": 5.732670216746836
+    },
+    {
+      "check": "open offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse new chat normal computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "new chat white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse new chat hover computed contrast",
+      "status": "PASS",
+      "contrast": 5.638,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(201, 35, 2)"
+      ]
+    },
+    {
+      "check": "new chat white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse new chat pressed computed contrast",
+      "status": "PASS",
+      "contrast": 6.373,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(186, 32, 2)"
+      ]
+    },
+    {
+      "check": "new chat white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse new chat focus computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "pulse new chat visible focus",
+      "status": "PASS",
+      "focus": "rgb(181, 35, 8)",
+      "adjacent": "rgb(253, 253, 255)",
+      "ratio": 6.442120354969631
+    },
+    {
+      "check": "new chat white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "current open offer normal computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current open offer hover computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current open offer pressed computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current open offer focus computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current open offer visible focus",
+      "status": "PASS",
+      "focus": "rgb(204, 237, 145)",
+      "adjacent": "rgb(34, 39, 35)",
+      "ratio": 11.638400505381352
+    },
+    {
+      "check": "current new chat normal computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current new chat hover computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current new chat pressed computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current new chat focus computed contrast",
+      "status": "PASS",
+      "contrast": 14.197,
+      "colors": [
+        "rgb(17, 20, 19)",
+        "rgb(204, 237, 145)"
+      ]
+    },
+    {
+      "check": "current new chat visible focus",
+      "status": "PASS",
+      "focus": "rgb(204, 237, 145)",
+      "adjacent": "rgb(24, 28, 26)",
+      "ratio": 13.19009578022005
+    },
+    {
+      "check": "pulse send normal computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "send white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse send hover computed contrast",
+      "status": "PASS",
+      "contrast": 5.638,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(201, 35, 2)"
+      ]
+    },
+    {
+      "check": "send white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse send pressed computed contrast",
+      "status": "PASS",
+      "contrast": 6.373,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(186, 32, 2)"
+      ]
+    },
+    {
+      "check": "send white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse send focus computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "pulse send visible focus",
+      "status": "PASS",
+      "focus": "rgb(181, 35, 8)",
+      "adjacent": "rgb(243, 245, 242)",
+      "ratio": 5.969469813862973
+    },
+    {
+      "check": "send white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "new chat and first request reach persisted conversation and results",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse open collection normal computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "open collection white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse open collection hover computed contrast",
+      "status": "PASS",
+      "contrast": 5.638,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(201, 35, 2)"
+      ]
+    },
+    {
+      "check": "open collection white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse open collection pressed computed contrast",
+      "status": "PASS",
+      "contrast": 6.373,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(186, 32, 2)"
+      ]
+    },
+    {
+      "check": "open collection white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse open collection focus computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "pulse open collection visible focus",
+      "status": "PASS",
+      "focus": "rgb(181, 35, 8)",
+      "adjacent": "rgb(237, 251, 233)",
+      "ratio": 6.101098829441747
+    },
+    {
+      "check": "open collection white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "empty collection create is disabled",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse create offer normal computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "create offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse create offer hover computed contrast",
+      "status": "PASS",
+      "contrast": 5.638,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(201, 35, 2)"
+      ]
+    },
+    {
+      "check": "create offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse create offer pressed computed contrast",
+      "status": "PASS",
+      "contrast": 6.373,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(186, 32, 2)"
+      ]
+    },
+    {
+      "check": "create offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "pulse create offer focus computed contrast",
+      "status": "PASS",
+      "contrast": 5.106,
+      "colors": [
+        "rgb(255, 255, 255)",
+        "rgb(214, 36, 2)"
+      ]
+    },
+    {
+      "check": "pulse create offer visible focus",
+      "status": "PASS",
+      "focus": "rgb(181, 35, 8)",
+      "adjacent": "rgb(253, 253, 255)",
+      "ratio": 6.442120354969631
+    },
+    {
+      "check": "create offer white text and matching icon",
+      "status": "PASS"
+    },
+    {
+      "check": "send layout has a reserved busy label width",
+      "status": "PASS"
+    },
+    {
+      "check": "native Edge zoom 1.25 pulse editor",
+      "status": "PASS",
+      "geometry": {
+        "width": 1152,
+        "dpr": 1.25,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "native Edge zoom 1.25 pulse workspace",
+      "status": "PASS",
+      "geometry": {
+        "width": 1152,
+        "dpr": 1.25,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "native Edge zoom 1.25 current editor",
+      "status": "PASS",
+      "geometry": {
+        "width": 1152,
+        "dpr": 1.25,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "native Edge zoom 1.25 current workspace",
+      "status": "PASS",
+      "geometry": {
+        "width": 1152,
+        "dpr": 1.25,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "native Edge zoom 1.5 pulse editor",
+      "status": "PASS",
+      "geometry": {
+        "width": 960,
+        "dpr": 1.5,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "native Edge zoom 1.5 pulse workspace",
+      "status": "PASS",
+      "geometry": {
+        "width": 960,
+        "dpr": 1.5,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "native Edge zoom 1.5 current editor",
+      "status": "PASS",
+      "geometry": {
+        "width": 960,
+        "dpr": 1.5,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "native Edge zoom 1.5 current workspace",
+      "status": "PASS",
+      "geometry": {
+        "width": 960,
+        "dpr": 1.5,
+        "overflow": false,
+        "clipped": false
+      }
+    },
+    {
+      "check": "real HTTPS native Clipboard copies the same existing client URL",
+      "status": "PASS"
+    },
+    {
+      "check": "external new UI deployment status measured",
+      "status": "PASS",
+      "old_url_field": true,
+      "result": "new frontend NOT DEPLOYED by this task"
+    },
+    {
+      "check": "logout closes stream, removes private UI and server session",
+      "status": "PASS",
+      "private_statuses": [
+        401,
+        401,
+        401
+      ]
+    },
+    {
+      "check": "logout does not reconnect account stream",
+      "status": "PASS"
+    },
+    {
+      "check": "different account has only own offer and notifications",
+      "status": "PASS"
+    }
+  ],
+  "new_vercel_ui": "NOT DEPLOYED"
+}

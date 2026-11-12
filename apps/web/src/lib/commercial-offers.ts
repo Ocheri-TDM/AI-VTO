@@ -42,6 +42,17 @@ export function offerForm(doc:OfferDocument):OfferForm{return {version:doc.versi
 export function offerMoney(value:string|null):string{if(value===null)return 'Цена не указана';const [whole,fraction='00']=value.split('.');return whole.replace(/\B(?=(\d{3})+(?!\d))/g,' ')+','+fraction.padEnd(2,'0')+' ₸';}
 export function offerExpiry(value:string):string{return new Intl.DateTimeFormat('ru-RU',{timeZone:'Asia/Almaty',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(new Date(value))+' (Алматы)';}
 
+/** Copy only a freshly read, active client capability. This never mutates a share. */
+export async function copyOfferLink(share:{active:boolean;public_url:string|null}){
+  let url:URL;
+  try{url=new URL(share.public_url??'');}catch{throw new Error('Действующая публичная ссылка недоступна. Обновите состояние предложения.');}
+  if(!share.active||url.protocol!=='https:'||url.username||url.password||url.search||url.hash||
+    /^(localhost|127(?:\.\d+){3}|\[::1\]|0\.0\.0\.0)$|\.(localhost|local)$/i.test(url.hostname)||
+    !/^\/offers\/[^/]+\/?$/.test(url.pathname))throw new Error('Действующая публичная HTTPS-ссылка недоступна. Обновите состояние предложения.');
+  try{await navigator.clipboard.writeText(share.public_url!);}
+  catch{throw new Error('Не удалось скопировать ссылку. Повторите попытку.');}
+}
+
 export async function downloadOffer(url:string,filename:string,guest=false){
   const r=await fetch(url,{cache:'no-store',credentials:guest?'omit':'include',referrerPolicy:'no-referrer'});
   if(!r.ok){await response(r);return;}

@@ -23,6 +23,7 @@ export function ProjectList({
         className="studio-button primary"
         onClick={onNew}
         disabled={disabled||creating}
+        aria-busy={creating}
       >
         <Plus size={17} />
         Новый чат
