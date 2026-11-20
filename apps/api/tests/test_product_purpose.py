@@ -60,6 +60,42 @@ def test_model_only_title_uses_unopposed_source_type_and_structured_evidence():
     assert "attributes.product_type" in identity.provenance
 
 
+@pytest.mark.parametrize(
+    "name",
+    [
+        "Жилет флисовый «New Bellagio», унисекс — M, бутылочный зелёный",
+        "Куртка софтшелл «Nebraska» мужская — XL, бутылочный зеленый",
+        "Жилет бутылочного цвета",
+        "Несессер PARDELA — зеленый бутылочный",
+    ],
+)
+def test_colour_adjective_is_not_a_product_noun(name):
+    identity = identity_inputs(name, supplier_category="Жилеты")
+    assert not purpose_match(identity, ProductBranch(category="bottle", label="Бутылки"))["accepted"]
+
+
+@pytest.mark.parametrize(
+    "noun",
+    [
+        "Бутылка",
+        "бутылки",
+        "бутылок",
+        "бутылками",
+        "бутылочка",
+        "бутылочек",
+        "бутыль",
+        "бутыли",
+        "bottle",
+        "bottles",
+        "Термобутылка",
+        "термобутылки",
+        "термо-бутылка",
+    ],
+)
+def test_bottle_noun_inflections_remain_supported(noun):
+    assert purpose_match(identity_inputs(noun), ProductBranch(category="bottle", label="Бутылки"))["accepted"]
+
+
 def test_open_concept_category_is_not_proof_for_an_explicit_related_object():
     branch = ProductBranch(category="dynamic:flask", label="фляжки")
     assert purpose_match(identity_inputs("Steel model", supplier_category="фляжки"), branch)["accepted"]

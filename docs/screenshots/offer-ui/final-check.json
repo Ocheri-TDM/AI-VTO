@@ -1,8 +1,0 @@
-{
-  "api": 200,
-  "web": 200,
-  "proxy": 200,
-  "ollama": 200,
-  "secret_ledger_removed": true,
-  "debug_listener_closed": true
-}

@@ -12,6 +12,13 @@ export function filterOptions(options: DropdownOption[], query: string) {
   return options.filter(option => option.label.toLocaleLowerCase().includes(term));
 }
 
+/** Render a bounded page while keeping active choices removable; no hidden top-N. */
+export function dropdownPage(options:DropdownOption[], selected:string[], limit=60){
+  const items=options.slice(0,limit),included=new Set(items.map(v=>v.value));
+  for(const option of options)if(selected.includes(option.value)&&!included.has(option.value)){items.push(option);included.add(option.value);}
+  return {items,remaining:options.length-items.length};
+}
+
 export function dropdownGeometry(
   anchor: {left: number; top: number; bottom: number; width: number},
   viewport: {width: number; height: number; left?: number; top?: number},

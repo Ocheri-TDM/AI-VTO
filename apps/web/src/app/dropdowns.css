@@ -93,3 +93,4 @@
   .ui-select-option[aria-selected="true"],.ui-select-option:has(input:checked) {border-color:Highlight}
   .ui-select-popup .ui-select-option[data-active="true"],.ui-checkbox-option:focus-within {outline:2px solid Highlight;outline-offset:-2px}
 }
+.ui-select-more{display:block;width:calc(100% - 16px);min-height:40px;margin:8px;border:1px solid var(--ui-popover-border,var(--border));border-radius:var(--radius-sm);background:var(--ui-popover-bg,var(--panel));color:var(--ui-popover-fg,var(--text));font:inherit;cursor:pointer}

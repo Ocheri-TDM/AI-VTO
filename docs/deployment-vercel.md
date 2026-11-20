@@ -3,10 +3,6 @@
 Only the Next.js frontend is deployed. FastAPI, PostgreSQL, Ollama, the VTO
 adapter, the scheduler, document workers and persistent storage remain outside Vercel.
 
-The 6 November offer changes are **prepared, not newly deployed** at the user's
-request. The existing production proxy was tested against the updated backend.
-See [measured acceptance and exact remaining deployment steps](offer-lifecycle-vercel.md).
-
 ## Import and project settings
 
 1. Push the existing repository to GitHub without committing `.env` or `.env.local`.

@@ -1,13 +1,13 @@
-# Public VTO visual control
+# Reusable presentation fixtures
 
-`melango-three-colors.pdf` is a real HTTP-generated, visually inspected PDF
-from the populated PostgreSQL on 2026-10-30. It contains three selected real
-Melango variants (blue, grey, black), each exactly once on the product pages.
-The cover reuses two images decoratively. `melango-cover.png` was rasterized
-from that same PDF by PDFium. The JSON manifest contains only public catalog
-fields and the final PDF hash, without account IDs, cookies or private logos.
+- `melango-three-colors.pdf` and its JSON retain the original VTO variant control.
+- `v2/` retains the three historical styles and their replay manifest.
+- `premium-dark-v3/` retains the PDF, source manifest and two page images used
+  by installed-Edge font and theme acceptance.
+- `custom-materials/sources/` supplies reusable input images for upload checks.
+- `palette-explorer/library-v1.json` is the backend/frontend palette fixture.
 
-Prices are a historical observation. This fixture demonstrates composition
-and variant identity; do not make changing source stock or dates permanent
-expected values. Current automated rendering tests generate their own PDFs
-and inspect layout, extracted text and full selected-ID coverage.
+Repeated page renders, UI screenshots and generated export examples are output
+artifacts. Acceptance scripts regenerate them; they are ignored by Git.
+Runtime rendering tests create their own files in temporary directories.
+Historical source prices and quantities are not current stock expectations.

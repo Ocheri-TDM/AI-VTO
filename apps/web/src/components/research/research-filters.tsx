@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import type { EffectiveEdit, EffectiveField, EffectiveValue, Research, ResearchFilters } from '@/lib/research';
+import type { CategoryFacet, EffectiveEdit, EffectiveField, EffectiveValue, Research, ResearchFilters } from '@/lib/research';
 import { categoryLabel, colorLabel } from '@/lib/format';
 import {MultiSelect, Select, SearchableSelect} from '@/components/common/select';
 
@@ -64,7 +64,9 @@ const allFields=Object.keys(fieldLabels) as EffectiveField[];
 const emptyValue:EffectiveValue={mode:'none',values:[],number:null,exclusive:false};
 
 function EffectiveControl({research,field,state,onEdit,disabled,branch}:{research:Research;field:EffectiveField;state:EffectiveValue;onEdit:(edit:EffectiveEdit)=>void;disabled:boolean;branch?:{id:string;label:string}}){
-  const label=fieldLabels[field]+(branch?` · ${branch.label}`:'');
+  const sizeTypes=new Set((research.category_facets??[]).flatMap(g=>g.attributes.map(a=>a.id)).filter(id=>['apparel_size','paper_format'].includes(id)));
+  const sizeLabel=sizeTypes.size===1?(sizeTypes.has('paper_format')?'Формат (сохранённое условие)':'Размер одежды (сохранённое условие)'):'Сохранённое условие размера';
+  const label=(field==='sizes'?sizeLabel:fieldLabels[field])+(branch?` · ${branch.label}`:'');
   const edit=(action:EffectiveEdit['action'],value?:string[]|number)=>onEdit({field,action,...(branch?{branch_id:branch.id}:{}),...(Array.isArray(value)?{values:value}:typeof value==='number'?{number:value}:{})});
   const changed=(research.view.effective_overrides??[]).some(e=>e.field===field&&(!e.branch_id||e.branch_id===branch?.id))||(!branch&&(research.view.filters[field] instanceof Array?(research.view.filters[field] as string[]).length>0:research.view.filters[field]!==null));
   const mixed=state.mode==='mixed',complex=state.mode==='complex';
@@ -94,18 +96,42 @@ function EffectiveControl({research,field,state,onEdit,disabled,branch}:{researc
   </div>;
 }
 
-export function ResearchFilterPanel({research,onChange,onEffectiveChange,disabled,inline=false}:{research:Research;onChange:(filters:ResearchFilters)=>void;onEffectiveChange?:(edit:EffectiveEdit)=>void;disabled:boolean;inline?:boolean}){
+export function ResearchFilterPanel({research,onChange,onEffectiveChange,disabled,inline=false,loading=false}:{research:Research;onChange:(filters:ResearchFilters)=>void;onEffectiveChange?:(edit:EffectiveEdit)=>void;disabled:boolean;inline?:boolean;loading?:boolean}){
+  if(loading)return <p role="status">Загружаю фильтры…</p>;
   const state=research.effective_filters;
   if(!state)return <LegacyResearchFilterPanel research={research} onChange={onChange} disabled={disabled} inline={inline}/>;
   const localFields=allFields.filter(field=>['mixed','complex','conflict'].includes(state.fields[field].mode));
   return <div className={inline?'research-inline-filters':'research-filters'}>
-    {allFields.map(field=><EffectiveControl key={`${research.id}:${field}`} research={research} field={field} state={state.fields[field]??emptyValue} disabled={disabled} onEdit={edit=>onEffectiveChange?.(edit)}/>)}
+    {allFields.filter(field=>field!=='sizes'||(state.fields.sizes&&state.fields.sizes.mode!=='none')).map(field=><EffectiveControl key={`${research.id}:${field}`} research={research} field={field} state={state.fields[field]??emptyValue} disabled={disabled} onEdit={edit=>onEffectiveChange?.(edit)}/>)}
     {!!localFields.length&&<details className="effective-branch-filters"><summary>Условия по категориям</summary>
       {state.branches.map(branch=><div className="effective-branch-row" key={branch.id} data-filter-branch={branch.id}>
         <strong>{branch.label}</strong><div className="effective-branch-fields">{localFields.map(field=><EffectiveControl key={`${research.id}:${field}`} research={research} field={field} state={branch.fields[field]} branch={branch} disabled={disabled} onEdit={edit=>onEffectiveChange?.(edit)}/>)}</div>
       </div>)}
     </details>}
+    <CategoryCharacteristics key={research.id} research={research} onChange={onChange} disabled={disabled}/>
+    {Object.entries(research.view.filters.attributes??{}).filter(([key])=>!['brand','material','size'].includes(key)).map(([key,values])=><div className="legacy-attribute-filter" key={key}><span>Сохранённое условие «{key}»: {values.join(', ')}. Проверка этого условия не поддерживается.</span><button className="text-button" disabled={disabled} onClick={()=>onChange({...research.view.filters,attributes:Object.fromEntries(Object.entries(research.view.filters.attributes).filter(([name])=>name!==key))})}>Снять условие</button></div>)}
   </div>;
+}
+
+export function CategoryCharacteristics({research,onChange,disabled}:{research:Research;onChange:(filters:ResearchFilters)=>void;disabled:boolean}){
+  const groups=research.category_facets??[];
+  if(!groups.length)return null;
+  function set(branch:string,attribute:string,values:string[]){
+    const filters=research.view.filters,current=filters.branch_attributes??{};
+    onChange({...filters,branch_attributes:{...current,[branch]:{...current[branch],[attribute]:values}}});
+  }
+  const control=(branch:string,attribute:CategoryFacet)=><div className="category-characteristic" key={attribute.id} data-attribute-id={attribute.id}>
+    <SearchableSelect label={attribute.label} searchLabel={`Поиск: ${attribute.label.toLocaleLowerCase()}`} disabled={disabled}
+      value={attribute.selected_values[0]??''}
+      options={[{value:'',label:attribute.source_value!==null?`Из запроса: ${attribute.source_value} ${attribute.unit??''}`:'Все'},...attribute.values.map(v=>({value:v.value,label:v.label,count:v.count,disabled:v.disabled}))]}
+      onChange={v=>set(branch,attribute.id,v?[v]:[])}/>
+    {attribute.source_value!==null&&<small>Из исходного запроса. Дополнительный фильтр его не отменяет.</small>}
+    {attribute.selected_values.length>0&&<button type="button" className="effective-filter-action" disabled={disabled} onClick={()=>set(branch,attribute.id,[])}>Снять дополнительное условие</button>}
+  </div>;
+  if(groups.length===1&&(research.query_categories?.filter(b=>!b.hidden).length??1)<=1)return <div className="category-characteristics is-single" data-facet-context={research.facet_context?.version} data-filter-branch={groups[0].branch_id}>{groups[0].attributes.map(a=>control(groups[0].branch_id,a))}</div>;
+  return <section className="category-characteristics" data-facet-context={research.facet_context?.version} aria-label="Характеристики категорий"><h3>Характеристики категорий</h3>
+    {groups.map(group=><div className="category-characteristics-group" key={group.branch_id} data-filter-branch={group.branch_id}><strong>{group.label}</strong><div>{group.attributes.map(a=>control(group.branch_id,a))}</div></div>)}
+  </section>;
 }
 
 export function ResearchConditions({research}:{research:Research}) {

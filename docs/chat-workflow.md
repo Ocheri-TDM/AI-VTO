@@ -1,5 +1,7 @@
 # Чаты, постоянная переписка и навигация предложений
 
+> Материалы прежних приёмок перенесены в архив при очистке проекта.
+
 Локальная приёмка: 7 ноября 2026 года. Основная заполненная PostgreSQL,
 существующий HTTP API, production frontend и установленный Microsoft Edge.
 Chromium и новые браузерные зависимости не устанавливались.
@@ -10,7 +12,7 @@ Chromium и новые браузерные зависимости не уста
 SQL содержал четыре Message, а активный Research возвращал две записи в
 `research.messages`. Правая панель читала именно этот массив. Замена активного
 поиска меняла видимый разговор, хотя прежние SQL-записи оставались.
-[Измерение до исправления](screenshots/chat-workflow/before.json).
+Измерение до исправления.
 
 Теперь источники разделены:
 
@@ -142,10 +144,10 @@ owner-подписи и поля в них отсутствуют. Цена и �
 | Внешний Vercel / HTTPS / другая сеть | Не выполнялись; вход/deploy не использовались | NOT TESTED |
 | Native Excel, длительный load/p95, все браузеры/screen reader | Не выполнялись в этой итерации | NOT TESTED |
 
-[HTTP](screenshots/chat-workflow/http.json) ·
-[Concurrency](screenshots/chat-workflow/concurrency.json) ·
-[Edge](screenshots/chat-workflow/browser.json) ·
-[Restart и fingerprints](screenshots/chat-workflow/restart-preservation.json).
+HTTP ·
+Concurrency ·
+Edge ·
+Restart и fingerprints.
 
 Пять последовательных локальных чтений перед очисткой: медиана истории **8.33 ms**,
 списка предложений **10.61 ms**. Параллельный HTTP smoke занял **4.665 s**.
@@ -162,17 +164,12 @@ ResearchRecord перед архивным FK при позднем ответе
 
 ## Скриншоты
 
-![Current: переписка отдельно от актуальной выдачи](screenshots/chat-workflow/chat-current-desktop.png)
 
-![Pulse: предложения на мобильном экране](screenshots/chat-workflow/offers-pulse-mobile.png)
-
-![Owner: численный остаток и дата](screenshots/chat-workflow/owner-stock.png)
-
-Остальные состояния: [Current mobile](screenshots/chat-workflow/chat-current-mobile.png),
-[Pulse desktop](screenshots/chat-workflow/chat-pulse-desktop.png),
-[предложения Current](screenshots/chat-workflow/offers-current-desktop.png),
-[якорь истории](screenshots/chat-workflow/history-anchor.png),
-[гостевой экран](screenshots/chat-workflow/guest.png).
+Остальные состояния: Current mobile,
+Pulse desktop,
+предложения Current,
+якорь истории,
+гостевой экран.
 
 ## Сохранность и воспроизведение
 
@@ -198,7 +195,7 @@ Frontend перед `web` нужно собрать. Ledger в `.local` соде
 браузерного сценария входили в этот ledger. После удаления fingerprints прежних
 данных снова совпали. Временный профиль Edge и listener 9226 закрыты, ledger с
 cookies/ключами удалён. Постоянные регрессии и скриншоты сохранены.
-[Финальная проверка](screenshots/chat-workflow/cleanup.json).
+Финальная проверка.
 
 API, frontend и его API proxy после очистки возвращают HTTP 200. PostgreSQL,
 Ollama, API и frontend оставлены работающими. Внешний deployment этой версии

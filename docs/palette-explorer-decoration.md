@@ -1,14 +1,16 @@
 # Palette Explorer и автоматическое оформление
 
+> Материалы прежних приёмок перенесены в архив при очистке проекта.
+
 31 октября 2026. Реализовано в существующем редакторе и общем пути
 `Collection → Snapshot → DesignPlan → ReportLab → PDFium`. Новых миграций,
 очередей, внешних сервисов изображений и браузерных зависимостей нет.
 
-Контроли: [красный Premium Dark](../apps/api/tests/fixtures/presentations/palette-explorer/red.pdf),
-[смешанная подборка](../apps/api/tests/fixtures/presentations/palette-explorer/mixed.pdf),
-[Editorial](../apps/api/tests/fixtures/presentations/palette-explorer/editorial.pdf),
-[собственный HEX, скачанный в Edge](../apps/api/tests/fixtures/presentations/palette-explorer/custom-hex.pdf).
-[Публичный manifest](../apps/api/tests/fixtures/presentations/palette-explorer/manifest.json)
+Контроли: красный Premium Dark,
+смешанная подборка,
+Editorial,
+собственный HEX, скачанный в Edge.
+Публичный manifest
 содержит планы, роли, измерения, hashes страниц и фактические товарные данные;
 cookies и приватных загрузок в нём нет.
 
@@ -73,9 +75,6 @@ HEX без зависимости от перестановки. Близост�
 F5 восстанавливает настройки и выбранную существующую ревизию; выбор ревизии
 хранится для конкретного документа и проверяется по ответу сервера.
 
-![Desktop](../apps/api/tests/fixtures/presentations/palette-explorer/explorer-desktop.png)
-
-![Mobile](../apps/api/tests/fixtures/presentations/palette-explorer/explorer-mobile.png)
 
 ## Декор и читаемость
 
@@ -108,7 +107,6 @@ dots. Детерминированный seed выбирает семейств�
 На новом пути ролей/автодекора также исключены прежние renderer-овалы за
 поддерживающими предметами светлых стилей. Старые версии сохраняют свою геометрию.
 
-![Выключено / включено, товарная страница](../apps/api/tests/fixtures/presentations/palette-explorer/off-on-page-2.png)
 
 ## Версии и неизменность
 

@@ -32,7 +32,9 @@ class CategoryResolver(CategoryMatcher):
         **CategoryMatcher.patterns,
         "thermomug": CategoryMatcher.patterns["thermomug"] + r"|термос\w*|кружк\w* с крышк\w*",
         "notebook": CategoryMatcher.patterns["notebook"] + r"|записн\w* книжк\w*",
-        "bottle": r"бутыл\w*|\bbottle\w*",
+        # Match noun inflections, not derived adjectives such as the published
+        # apparel colour "бутылочный зелёный".
+        "bottle": r"\b(?:термо[ -]?)?(?:бутыл(?:к|очк)(?:а|и|е|у|ой|ою|ам|ами|ах)?|бутыл(?:ок|очек|ь|и|ей|ью|ям|ями|ях))\b|\bbottles?\b",
         "powerbank": r"пауэрбанк\w*|power\s?bank\w*|внешн\w* аккумулятор\w*",
         "flashdrive": r"флеш(?:к|[- ]?накопител|\s+памят)\w*|usb[- ]?накопител\w*|(?:usb\s+)?flash\s+drive|usb\s+memory\s+stick",
         "thermocup": r"термо[ -]?стакан\w*|(?:thermal|insulated)\s+tumbler\w*",

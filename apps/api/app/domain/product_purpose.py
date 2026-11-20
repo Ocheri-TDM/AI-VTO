@@ -12,7 +12,7 @@ from functools import lru_cache
 from app.domain.services import normalize_text
 from app.domain.taxonomy import UniversalCategoryResolver, terms
 
-PURPOSE_VERSION = "primary-product-v2"
+PURPOSE_VERSION = "primary-product-v4"
 ROLES = (
     (
         "SET",

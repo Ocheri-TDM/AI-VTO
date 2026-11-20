@@ -16,6 +16,7 @@ export interface QueryCategory {id:string;concept:string|null;label:string;sourc
   constraints:{colors?:string[];brands?:string[];excluded_brands?:string[];models?:string[];materials?:string[];quantity?:number|null;min_price?:number|null;max_price?:number|null;
     constraints?:{quantity_min_exclusive?:boolean;quantity_max?:number|null;quantity_max_exclusive?:boolean;price_min_exclusive?:boolean;price_max_exclusive?:boolean;capacity_ml?:number|null;capacity_mah?:number|null;sizes?:string[];sku?:string|null;allow_near_colors?:boolean;availability_only?:boolean;features?:string[];excluded_colors?:string[]}}}
 export interface ResearchFilters {
+  branch_attributes?:Record<string,Record<string,string[]>>;
   brands: string[]; materials: string[]; sizes: string[]; minimum_quantity: number|null;
   excluded_brands?:string[];models?:string[];branch_brands?:Record<string,string[]>;branch_models?:Record<string,string[]>;
   excluded_materials: string[]; origins: Record<string,string>;
@@ -23,6 +24,8 @@ export interface ResearchFilters {
   attributes: Record<string, string[]>; excluded_terms: string[]; required_terms: string[]; selected_only: boolean;
 }
 export interface Research {
+  category_facets?:{branch_id:string;label:string;category:string;attributes:CategoryFacet[]}[];
+  facet_context?:{version:string;projection_version:string;scope:string;manual_self_filter:string;count_unit:string};
   effective_filters?:EffectiveFilters;
   color_state?:{mode:'none'|'uniform'|'mixed'|'conflict';values:string[];source_mode:'none'|'uniform'|'mixed';source_values:string[];additional_values:string[];conflicting_branch_ids:string[]};
   source_mode?: 'index' | 'live';
@@ -42,6 +45,7 @@ export interface Research {
   groups: {id: string; offer_ids: string[]}[];
   messages: {role: string; content: string}[]; can_undo: boolean; revision: number;
 }
+export interface CategoryFacet {id:string;label:string;type:'number'|'enum';unit:string|null;source_value:number|string|null;selected_values:string[];total_values:number;has_more:boolean;values:{value:string;label:string;count:number;selected:boolean;disabled:boolean;number:number|null}[]}
 export const researchApi = {
   latest: (chat: string) => request<Research | null>(`/researches/chat/${chat}`),
   get: (id: string) => request<Research>(`/researches/${id}`),

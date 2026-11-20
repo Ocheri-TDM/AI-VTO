@@ -11,7 +11,7 @@ import re
 import time
 from collections import Counter
 
-from sqlalchemy import String, and_, any_, bindparam, case, cast, func, not_, or_, select, type_coerce
+from sqlalchemy import String, and_, any_, bindparam, case, cast, func, not_, or_, select, text, type_coerce
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 
 from app.application.catalog_identity import brand_predicate, brand_registry, identity_catalog
@@ -131,20 +131,20 @@ class ProductGridMixin:
             await self.repository.save(r)
             return r
 
-    def grid_view_conditions(self, db, r, registry):
+    def grid_view_conditions(self, db, r, registry, omit=None):
         o, p, f = SupplierOffer, ProductObservation, r.view.filters
         material = func.coalesce(o.payload["material"].as_string(), "")
         size = o.payload["metadata"]["size"].as_string()
         conditions = []
-        if f.brands:
+        if f.brands and omit != "brand":
             conditions.append(brand_predicate(registry, f.brands))
         if f.excluded_brands:
             conditions.append(not_(brand_predicate(registry, f.excluded_brands)))
-        if f.materials:
+        if f.materials and omit != "material":
             conditions.append(material.in_(f.materials))
-        if f.sizes:
+        if f.sizes and omit != "size":
             conditions.append(size.in_(f.sizes))
-        if f.colors:
+        if f.colors and omit != "color":
             colors = (
                 type_coerce(o.normalized_colors, JSONB)
                 if db.bind.dialect.name == "postgresql"
@@ -417,7 +417,6 @@ class ProductGridMixin:
             global_attributes = parse_constraints(
                 resolve_identity("".join(remainder), registry).attribute_query
             )[0]
-        from app.domain.models import ColorGroup
 
         # Product agreement: an initial common color qualifies the entire list
         # if no branch introduces another hard color. Other local colors retain
@@ -620,25 +619,9 @@ class ProductGridMixin:
         for field in ("capacity_ml", "capacity_mah", "storage_gb"):
             value = getattr(constraints, field)
             if value is not None:
-                # Exact published technical evidence, never another number in
-                # a model, price or requested stock count.
-                metadata = o.payload["metadata"][field].as_string()
-                capacity = o.payload["capacity"].as_string()
-                evidence = [
-                    metadata == str(value),
-                    capacity == str(value),
-                    capacity.in_([f"{value} мл", f"{value} мАч"]),
-                ]
-                if db.bind.dialect.name == "postgresql":
-                    units = {"capacity_mah": "(?:м[Аа]ч|mAh)", "capacity_ml": "(?:мл|ml)", "storage_gb": "(?:ГБ|GB)"}[field]
-                    pattern = rf"(^|[^0-9]){value}[[:space:]]*{units}([^[:alpha:]]|$)"
-                    published = [title, cast(o.payload["metadata"]["attributes"], String)]
-                    evidence.extend(column.op("~*")(pattern) for column in published)
-                    if field == "capacity_ml":
-                        litres = format(value / 1000, "g").replace(".", "[.,]")
-                        pattern = rf"(^|[^0-9]){litres}[[:space:]]*(?:л|l)([^[:alpha:]]|$)"
-                        evidence.extend(column.op("~*")(pattern) for column in published)
-                conditions.append(or_(*evidence))
+                from app.database.models import OfferAttributeValue
+
+                conditions.append(select(OfferAttributeValue.offer_id).where(OfferAttributeValue.offer_id == o.id, OfferAttributeValue.attribute_id == field, OfferAttributeValue.value_key == str(value)).correlate(o).exists())
         for connector in constraints.connectors:
             if connector == "USB-C":
                 conditions.append(or_(document.ilike("%usb-c%"), document.ilike("%usb c%"),
@@ -685,7 +668,7 @@ class ProductGridMixin:
                 conditions.append(not_(brand_predicate(registry, values)))
         return conditions
 
-    async def grid_pool(self, research):
+    async def grid_pool(self, research, *, _facet_context=False):
         if research.intent.identity_version != IDENTITY_VERSION:
             self.grid_apply_identity(research.intent, await self.grid_identity(research.intent.raw_query))
         registry = await brand_registry(self.index.sessions)
@@ -782,6 +765,15 @@ class ProductGridMixin:
         research.pool_offer_ids = list(research.indexed_offer_ids)
         research.purpose_version = PURPOSE_VERSION
         research.timings["identity_funnel"] = funnel
+        if not _facet_context:
+            from app.application.contextual_facets import facet_research
+
+            context = facet_research(research)
+            if context.view.effective_overrides != research.view.effective_overrides:
+                await self.grid_pool(context, _facet_context=True)
+                research.facet_branch_offer_ids = context.branch_offer_ids
+            else:
+                research.facet_branch_offer_ids = [list(ids) for ids in pools]
 
     async def grid_empty_diagnostic(self, db, intent, branch, registry):
         """One aggregate SQL pass, only for empty branches. No DTO hydration."""
@@ -985,6 +977,17 @@ class ProductGridMixin:
                     )
                 if changes.get("filters") is not None:
                     f = changes["filters"].model_copy(deep=True)
+                    from app.domain.product_attributes import applicable_attributes
+
+                    branches = {b.id: b for b in r.intent.branches}
+                    for branch_id, attributes in f.branch_attributes.items():
+                        branch = branches.get(branch_id)
+                        if branch is None:
+                            if attributes != r.view.filters.branch_attributes.get(branch_id, {}):
+                                raise ValueError("UNKNOWN_BRANCH")
+                            continue
+                        if set(attributes) - set(applicable_attributes(branch.category)):
+                            raise ValueError("UNSUPPORTED_ATTRIBUTE")
                     for field in f.model_fields_set - {"origins"}:
                         if getattr(f, field) != getattr(r.view.filters, field):
                             f.origins[field] = changes.get("origin", "manual")
@@ -1057,9 +1060,14 @@ class ProductGridMixin:
             if state is not None:
                 r.view.selected_ids = state["selected_ids"]
         from app.api.research import product_view
+        from app.application.contextual_facets import ContextualFacets, attribute_predicate
         from app.application.research_analysis import ProductGroupingService
 
-        r = r.model_copy(update={"intent": effective_intent(r)})
+        source = r
+        if len(source.facet_branch_offer_ids) != len(source.intent.branches):
+            source = source.model_copy(deep=True)
+            await self.grid_pool(source)
+        r = source.model_copy(update={"intent": effective_intent(source)})
 
         started = time.perf_counter()
         registry = await brand_registry(self.index.sessions)
@@ -1067,20 +1075,13 @@ class ProductGridMixin:
         # Scalar projection with bounded purpose excerpts across the snapshot.
         # No Product/availability DTOs are hydrated for totals or facets.
         async with self.index.sessions() as db:
-            # Replacement controls must be able to choose values outside the
-            # current constrained pool. Only distinct public scalar attributes
-            # cross this query; their counts remain the current pool's facets.
-            choices = (
-                await db.execute(
-                    select(o.payload["material"].as_string(), o.payload["metadata"]["size"].as_string())
-                    .where(o.lifecycle != "REMOVED")
-                    .distinct()
-                )
-            ).all()
+            if db.bind.dialect.name == "postgresql":
+                await db.execute(text("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ READ ONLY"))
             branch_conditions = [
                 and_(grid_ids(db, ids), *self.grid_conditions(db, r.intent, branch, registry))
                 for branch, ids in zip(r.intent.branches, r.branch_offer_ids, strict=True)
             ]
+            active_conditions = [and_(condition, *attribute_predicate(branch.id, r.view.filters)) for branch, condition in zip(r.intent.branches, branch_conditions, strict=True)]
             stmt = (
                 select(
                     o.id,
@@ -1101,6 +1102,7 @@ class ProductGridMixin:
                     func.coalesce(
                         o.payload["metadata"]["model"].as_string(), o.payload["model_name"].as_string(), ""
                     ).label("identity_model"),
+                    *(case((condition, 1), else_=0).label("active_" + str(i)) for i, condition in enumerate(active_conditions)),
                 )
                 .join(p, p.offer_id == o.id)
                 .join(IndexedProduct, IndexedProduct.id == o.product_id)
@@ -1108,6 +1110,7 @@ class ProductGridMixin:
             )
             rows = (await db.execute(stmt)).all()
             filtered_rows = (await db.execute(stmt.where(*self.grid_view_conditions(db, r, registry)))).all()
+            facets, category_facets, facet_context = await ContextualFacets().build(self, source, registry, db)
         purpose_by_id = {}
 
         def verify(row):
@@ -1140,6 +1143,7 @@ class ProductGridMixin:
                 i
                 for i, b in enumerate(r.intent.branches)
                 if i in purpose_by_id.get(row[0], {})
+                and getattr(row, "active_" + str(i))
                 and (not visible or b.id not in r.view.hidden_branch_ids)
                 and (
                     not f.branch_brands.get(b.category)
@@ -1186,26 +1190,6 @@ class ProductGridMixin:
                 )
             )
 
-        facets = {}
-        for field, pos in [("brand", 1), ("material", 2), ("size", 3), ("color", 4)]:
-            counts = Counter()
-            display = {}
-            for row in rows:
-                if eligible(row, field):
-                    for value in row[pos] or [] if field == "color" else [row[pos] or ""]:
-                        key = brand_identity(value) if field == "brand" else value
-                        counts[key] += 1
-                        display.setdefault(
-                            key,
-                            (registry.display(value) if key else "Бренд не указан")
-                            if field == "brand"
-                            else value,
-                        )
-            facets[field] = [
-                {"value": key, "label": display[key], "count": count}
-                for key, count in sorted(counts.items())
-                if key or field == "brand"
-            ]
         branch_by_id = {}
         matches = {}
         eligible_rows = [row for row in filtered_rows if eligible(row)]
@@ -1398,10 +1382,10 @@ class ProductGridMixin:
             "effective_filters": {
                 **effective_filter_state(r, r.intent),
                 "options": {
-                    "colors": [str(c) for c in ColorGroup if c != ColorGroup.UNKNOWN],
-                    "brands": list(registry.labels),
-                    "materials": sorted({material for material, _ in choices if material}),
-                    "sizes": sorted({size.upper() for _, size in choices if size}),
+                    "colors": [v["value"] for v in facets["color"]],
+                    "brands": [v["value"] for v in facets["brand"]],
+                    "materials": [v["value"] for v in facets["material"]],
+                    "sizes": [v["value"] for v in facets["size"]],
                 },
             },
             "query_categories": [
@@ -1438,6 +1422,8 @@ class ProductGridMixin:
             "new_matches_count": 0,
             "view": r.view.model_dump(mode="json"),
             "facets": facets,
+            "category_facets": category_facets,
+            "facet_context": facet_context,
             "groups": ProductGroupingService().groups([by_id[id] for id in page_ids if id in by_id]),
             "coverage": [],
             "completed_sources": 1,
@@ -1463,6 +1449,6 @@ class ProductGridMixin:
             | {
                 "view_ms": round((time.perf_counter() - started) * 1000, 2),
                 "hydrated_objects": len(products),
-                "sql_queries": 4 if hydrate_ids else 2,
+                "facet_sql_queries": facet_context["sql_queries"],
             },
         }
