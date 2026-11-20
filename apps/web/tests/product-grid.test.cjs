@@ -123,7 +123,8 @@ test('replacement options remain selectable outside the current constrained face
   const html=renderToStaticMarkup(React.createElement(ResearchFilterPanel,{research:value,disabled:false,onChange(){},onEffectiveChange(){}}));
   assert.match(html,/aria-selected="false" aria-disabled="false"[^>]*><span class="ui-select-option-text">Красный/);
   assert.match(html,/class="ui-select-option-text">Красный<\/span><span class="ui-select-check"/);
-  for(const label of ['alpha','beta','сталь','дерево','A5','A6'])assert.ok(html.includes(label));
+  for(const label of ['alpha','beta','сталь','дерево'])assert.ok(html.includes(label));
+  assert.doesNotMatch(html,/ui-select-option-text">A[56]</);
   assert.match(html,/aria-selected="true"[^>]*><span class="ui-select-option-text">Тёмно-синий/);
 });
 

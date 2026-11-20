@@ -256,6 +256,26 @@ class SupplierOffer(Base):
     last_commercial_change_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
+class OfferAttributeProjection(Base):
+    __tablename__ = "offer_attribute_projections"
+    offer_id: Mapped[str] = mapped_column(ForeignKey("supplier_offers.id", ondelete="CASCADE"), primary_key=True)
+    version: Mapped[str] = mapped_column(String(60))
+    source_hash: Mapped[str] = mapped_column(String(64))
+    diagnostics: Mapped[list] = mapped_column(JsonType, default=list)
+    derived_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+
+
+class OfferAttributeValue(Base):
+    __tablename__ = "offer_attribute_values"
+    __table_args__ = (Index("ix_offer_attributes_lookup", "attribute_id", "value_key", "offer_id"),)
+    offer_id: Mapped[str] = mapped_column(ForeignKey("supplier_offers.id", ondelete="CASCADE"), primary_key=True)
+    attribute_id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    value_key: Mapped[str] = mapped_column(String(150), primary_key=True)
+    label: Mapped[str] = mapped_column(String(200))
+    numeric_value: Mapped[Any | None] = mapped_column(Numeric(18, 6))
+    evidence: Mapped[list] = mapped_column(JsonType, default=list)
+
+
 class CatalogRun(Base):
     __tablename__ = "catalog_runs"
     id: Mapped[str] = mapped_column(String(36), primary_key=True, default=new_id)

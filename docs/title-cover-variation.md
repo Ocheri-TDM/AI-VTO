@@ -1,17 +1,19 @@
 # Dropdown палитры, титульный лист и варианты оформления
 
+> Материалы прежних приёмок перенесены в архив при очистке проекта.
+
 31 октября 2026. Изменён существующий редактор Souvenir Studio и общий путь
 `Collection → Snapshot → DesignPlan → ReportLab → PDFium`. Библиотека из 328
 палитр, поиск, коллекции, VTO и подготовка товарных масок сохранены.
 
-Эталоны: [вариант 1](../apps/api/tests/fixtures/presentations/title-cover-v1/variant-0.pdf),
-[2](../apps/api/tests/fixtures/presentations/title-cover-v1/variant-1.pdf),
-[3](../apps/api/tests/fixtures/presentations/title-cover-v1/variant-2.pdf),
-[4](../apps/api/tests/fixtures/presentations/title-cover-v1/variant-3.pdf),
-[5](../apps/api/tests/fixtures/presentations/title-cover-v1/variant-4.pdf),
-[клиентский логотип](../apps/api/tests/fixtures/presentations/title-cover-v1/custom-active.pdf),
-[свои фоновые материалы](../apps/api/tests/fixtures/presentations/title-cover-v1/custom-art.pdf).
-В [manifest](../apps/api/tests/fixtures/presentations/title-cover-v1/manifest.json)
+Эталоны: вариант 1,
+2,
+3,
+4,
+5,
+клиентский логотип,
+свои фоновые материалы.
+В manifest
 сохранены реальные планы, подписи геометрии, hashes, метрики и товарные факты.
 Приватных cookies или корпоративных загрузок в эталонах нет.
 
@@ -41,10 +43,10 @@ disabled-пункты и пустой список; в текущих трёх �
 
 В установленном Edge проверены **все три раскрытых списка**, normal/selected/
 active/hover, прокрутка, клавиатура, отмена/применение, F5. Минимальный измеренный
-контраст текста доступных пунктов — **9,492:1**. Снимки: [направление](../apps/api/tests/fixtures/presentations/title-cover-v1/dropdown-0.png),
-[характер](../apps/api/tests/fixtures/presentations/title-cover-v1/dropdown-1.png),
-[применение](../apps/api/tests/fixtures/presentations/title-cover-v1/dropdown-2.png),
-[mobile viewport](../apps/api/tests/fixtures/presentations/title-cover-v1/dropdown-mobile.png).
+контраст текста доступных пунктов — **9,492:1**. Снимки: направление,
+характер,
+применение,
+mobile viewport.
 Это проверка читаемости, а не сертификация доступности приложения.
 
 ## Обязательный титул новых генераций
@@ -99,7 +101,7 @@ asset_id, внутренний key, hash, размеры и preparation_version=
 Повреждённый активный клиентский файл даёт **HTTP 422 и видимую ошибку в редакторе**.
 На VTO он не подменяется. Предыдущий корректный логотип/PDF остаётся в storage.
 В приёмке временно повреждался только upload собственного тестового документа,
-после проверки файл восстановлен. [Фактическая ошибка UI](../apps/api/tests/fixtures/presentations/title-cover-v1/broken-logo-visible.png).
+после проверки файл восстановлен. Фактическая ошибка UI.
 
 ## Композиции, идемпотентность и повтор
 
@@ -144,9 +146,6 @@ Seeds продолжают историю изолированного доку�
 примерам. Измерения относятся к кэшированным фото и worker tree, не к отдельному
 Ollama или холодному matting. Это smoke measurements, не нагрузочный p95.
 
-![Пять титулов](../apps/api/tests/fixtures/presentations/title-cover-v1/comparison-1.png)
-
-![Соответствующие товарные страницы](../apps/api/tests/fixtures/presentations/title-cover-v1/comparison-2.png)
 
 ## Реальная приёмка и совместимость
 

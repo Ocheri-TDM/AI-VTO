@@ -147,6 +147,7 @@ class ResearchFilters(BaseModel):
     models: list[str] = Field(default_factory=list)
     branch_brands: dict[str, list[str]] = Field(default_factory=dict)
     branch_models: dict[str, list[str]] = Field(default_factory=dict)
+    branch_attributes: dict[str, dict[str, list[str]]] = Field(default_factory=dict)
     materials: list[str] = Field(default_factory=list)
     sizes: list[str] = Field(default_factory=list)
     minimum_quantity: int | None = Field(default=None, ge=1, le=10_000_000, strict=True)
@@ -155,6 +156,28 @@ class ResearchFilters(BaseModel):
 
     @model_validator(mode="after")
     def bounded_filters(self):
+        from uuid import UUID
+
+        from app.domain.product_attributes import ATTRIBUTES, normalize_value, number_key
+
+        for branch, attributes in self.branch_attributes.items():
+            UUID(branch)
+            if len(attributes) > len(ATTRIBUTES):
+                raise ValueError("Слишком много характеристик категории.")
+            for key, values in attributes.items():
+                if key not in ATTRIBUTES or not isinstance(values, list) or len(values) > 100:
+                    raise ValueError("Неизвестная характеристика или слишком много значений.")
+                for value in values:
+                    if not value or len(value) > 150:
+                        raise ValueError("Некорректное значение характеристики.")
+                    if ATTRIBUTES[key].kind == "number":
+                        if number_key(value) != value:
+                            raise ValueError("Используйте нормализованное значение характеристики.")
+                    elif key == "umbrella_mechanism":
+                        if value not in {"MANUAL", "AUTOMATIC", "FULL_AUTOMATIC", "SEMI_AUTOMATIC"}:
+                            raise ValueError("Неизвестный механизм зонта.")
+                    elif normalize_value(key, value) != value:
+                        raise ValueError("Неподтверждённый формат характеристики.")
         if self.min_price is not None and self.max_price is not None and self.min_price > self.max_price:
             raise ValueError("Нижняя граница цены превышает верхнюю.")
         for key, value in self.model_dump().items():
@@ -233,6 +256,7 @@ class ResearchSession(BaseModel):
     unified: bool = False
     purpose_version: str | None = None
     branch_offer_ids: list[list[str]] = Field(default_factory=list)
+    facet_branch_offer_ids: list[list[str]] = Field(default_factory=list)
 
     @model_validator(mode="before")
     @classmethod

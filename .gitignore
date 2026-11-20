@@ -21,3 +21,19 @@ test-results/
 dist/
 build/
 docs/_build/
+
+# Generated acceptance reports, screenshots and repeated export previews.
+docs/screenshots/
+docs/source-link-*.png
+docs/search-eval-real.json
+apps/api/tests/quality/results/
+apps/api/tests/fixtures/commercial-offers/
+apps/api/tests/fixtures/offer-lifecycle/
+apps/api/tests/fixtures/presentations/melango-cover.png
+apps/api/tests/fixtures/presentations/title-cover-v1/
+apps/api/tests/fixtures/presentations/custom-materials/*
+!apps/api/tests/fixtures/presentations/custom-materials/sources/
+apps/api/tests/fixtures/presentations/palette-explorer/*
+!apps/api/tests/fixtures/presentations/palette-explorer/library-v1.json
+apps/api/tests/fixtures/presentations/premium-dark-v3/comparison-*.png
+apps/api/tests/fixtures/presentations/premium-dark-v3/source-vs-mask.png

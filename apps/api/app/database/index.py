@@ -226,6 +226,9 @@ class IndexRepository:
                         index_elements=["id"], set_={k: v for k, v in values.items() if k != "id"}
                     )
                 )
+                from app.database.product_attributes import project_attributes
+
+                await project_attributes(db, product.id, stable, self.insert)
                 previous_concepts = set(await db.scalars(
                     select(ProductConceptOffer.concept_id).where(ProductConceptOffer.offer_id == product.id)
                 ))

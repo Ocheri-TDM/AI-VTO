@@ -2,7 +2,7 @@
 
 import {useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode} from 'react';
 import {Check, ChevronDown, Search} from 'lucide-react';
-import {dropdownGeometry, filterOptions, type DropdownOption} from '@/lib/dropdown';
+import {dropdownGeometry, dropdownPage, filterOptions, type DropdownOption} from '@/lib/dropdown';
 
 const OPEN_EVENT = 'souvenir:dropdown-open';
 type CommonProps = {
@@ -97,14 +97,17 @@ function SelectControl({searchable = false, searchLabel, label, value, options, 
   const {id, wrapper, trigger, popup, open, show: openPopup, close, blur} = useDropdown(disabled, compact ? 160 : 280);
   const input = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState(''), [active, setActive] = useState<string | null>(null);
+  const [displayLimit,setDisplayLimit]=useState(60);
   const typeahead = useRef({text: '', time: 0});
-  const visible = searchable ? filterOptions(options, query) : options;
+  const page = dropdownPage(searchable ? filterOptions(options, query) : options, [value], searchable?displayLimit:options.length);
+  const visible = page.items;
   const enabled = visible.filter(o => !o.disabled);
   const current = enabled.find(o => o.value === active) ?? enabled.find(o => o.value === value) ?? enabled[0];
   const selected = options.find(o => o.value === value);
   const optionId = (option: DropdownOption) => `${id}-option-${options.indexOf(option)}`;
   function show(last = false) {
     setQuery('');
+    setDisplayLimit(60);
     setActive((last ? options.filter(o => !o.disabled).at(-1) : options.find(o => o.value === value && !o.disabled) ?? options.find(o => !o.disabled))?.value ?? null);
     openPopup();
   }
@@ -141,7 +144,7 @@ function SelectControl({searchable = false, searchLabel, label, value, options, 
     }
     if (!searchable && event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
       event.preventDefault();
-      const now = Date.now();
+      const now = event.timeStamp;
       let term = now - typeahead.current.time < 700 ? typeahead.current.text + event.key : event.key;
       if (new Set(term.toLocaleLowerCase()).size === 1) term = event.key;
       typeahead.current = {text: term, time: now};
@@ -158,13 +161,14 @@ function SelectControl({searchable = false, searchLabel, label, value, options, 
     {name && <input type="hidden" name={name} value={value}/>}
     <div ref={popup} className="ui-select-popup" popover="manual" hidden={!open} onKeyDown={searchable ? key : undefined}>
       <div className="ui-select-content">
-        {searchable && <div className="ui-select-search"><Search size={15} aria-hidden="true"/><input ref={input} role="combobox" aria-label={searchLabel ?? `Поиск: ${label}`} aria-autocomplete="list" aria-expanded={open} aria-controls={`${id}-list`} aria-activedescendant={open && current ? optionId(current) : undefined} value={query} placeholder="Найти…" onChange={e => {setQuery(e.target.value); setActive(null);}}/></div>}
+        {searchable && <div className="ui-select-search"><Search size={15} aria-hidden="true"/><input ref={input} role="combobox" aria-label={searchLabel ?? `Поиск: ${label}`} aria-autocomplete="list" aria-expanded={open} aria-controls={`${id}-list`} aria-activedescendant={open && current ? optionId(current) : undefined} value={query} placeholder="Найти…" onChange={e => {setQuery(e.target.value); setActive(null);setDisplayLimit(60);}}/></div>}
         <div id={`${id}-list`} className="ui-select-options" role="listbox" aria-labelledby={`${id}-label`}>
           {visible.map(option => <div key={option.value} id={optionId(option)} role="option" aria-selected={option.value === value} aria-disabled={!!option.disabled} data-active={current?.value === option.value} className="ui-select-option" onPointerDown={e => e.preventDefault()} onPointerMove={() => {if (!option.disabled) setActive(option.value);}} onClick={() => choose(option)}>
             <span className="ui-select-option-text">{option.label}</span>{option.count !== undefined && <span className="ui-select-count">{option.count}</span>}<span className="ui-select-check" aria-hidden="true">{option.value === value && <Check size={16}/>}</span>
           </div>)}
           {!visible.length && <p className="ui-select-empty" role="status">Ничего не найдено</p>}
         </div>
+        {page.remaining>0&&<button className="ui-select-more" type="button" onClick={()=>setDisplayLimit(n=>n+60)}>Показать ещё · {page.remaining}</button>}
       </div>
     </div>
   </div>;
@@ -178,17 +182,18 @@ export function MultiSelect({label, value, options, onChange, disabled = false, 
   const {id, wrapper, trigger, popup, open, show: openPopup, close, blur} = useDropdown(disabled, 340);
   const input = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState('');
-  const visible = filterOptions(options, query);
+  const [displayLimit,setDisplayLimit]=useState(60);
+  const page=dropdownPage(filterOptions(options,query),value,displayLimit),visible=page.items;
   useEffect(() => {if (open) input.current?.focus({preventScroll: true});}, [open]);
   return <div className={`ui-select ui-multiselect ${className}`} ref={wrapper} onBlur={e => blur(e.relatedTarget)}>
     <label id={`${id}-label`} htmlFor={`${id}-trigger`} className={hideLabel ? 'sr-only' : 'ui-select-label'}>{label}</label>
-    <button id={`${id}-trigger`} ref={trigger} type="button" className="ui-select-trigger" aria-labelledby={`${id}-label ${id}-value`} aria-haspopup="dialog" aria-expanded={open} aria-controls={`${id}-popup`} disabled={disabled} onClick={() => {if (open) close(); else {setQuery(''); openPopup();}}} onKeyDown={e => {if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {e.preventDefault(); setQuery(''); openPopup();}}}>
+    <button id={`${id}-trigger`} ref={trigger} type="button" className="ui-select-trigger" aria-labelledby={`${id}-label ${id}-value`} aria-haspopup="dialog" aria-expanded={open} aria-controls={`${id}-popup`} disabled={disabled} onClick={() => {if (open) close(); else {setQuery('');setDisplayLimit(60); openPopup();}}} onKeyDown={e => {if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {e.preventDefault(); setQuery('');setDisplayLimit(60); openPopup();}}}>
       <span id={`${id}-value`} className="ui-select-value">{summary ?? (value.length ? `Выбрано ${value.length}` : 'Все бренды')}</span><ChevronDown size={15} aria-hidden="true"/>
     </button>
     {name && value.map(v => <input key={v} type="hidden" name={name} value={v}/>)}
     <div ref={popup} id={`${id}-popup`} className="ui-select-popup" role="dialog" aria-labelledby={`${id}-label`} popover="manual" hidden={!open}>
       <div className="ui-select-content">
-        <div className="ui-select-search"><Search size={15} aria-hidden="true"/><input ref={input} aria-label={searchLabel} placeholder="Найти бренд" value={query} onChange={e => setQuery(e.target.value)}/></div>
+        <div className="ui-select-search"><Search size={15} aria-hidden="true"/><input ref={input} aria-label={searchLabel} placeholder="Найти бренд" value={query} onChange={e => {setQuery(e.target.value);setDisplayLimit(60);}}/></div>
         <div className="ui-select-options ui-checkbox-options" role="group" aria-label={label}>
           {visible.map(option => <label className="ui-select-option ui-checkbox-option" key={option.value} onPointerDown={e => {
             // Keep focus until the label's click activates its associated input.
@@ -199,6 +204,7 @@ export function MultiSelect({label, value, options, onChange, disabled = false, 
           </label>)}
           {!visible.length && <p className="ui-select-empty" role="status">Ничего не найдено</p>}
         </div>
+        {page.remaining>0&&<button className="ui-select-more" type="button" onClick={()=>setDisplayLimit(n=>n+60)}>Показать ещё · {page.remaining}</button>}
         {help && <div className="ui-select-help">{help}</div>}
       </div>
     </div>

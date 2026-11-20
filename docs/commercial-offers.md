@@ -1,7 +1,9 @@
 # Коммерческие предложения — локальная приёмка 6 ноября 2026
 
-Актуальное дополнение: [один редактор проекта, ссылки на 7 дней, VTO-footer и
-подготовка Vercel без входа](offer-lifecycle-vercel.md). Публичный origin backend
+> Материалы прежних приёмок перенесены в архив при очистке проекта.
+
+Актуальное дополнение: один редактор проекта, ссылки на 7 дней, VTO-footer и
+подготовка Vercel без входа. Публичный origin backend
 уже настроен; сведения о пустом origin ниже относятся к первоначальной приёмке.
 
 Основной путь: «Открыть подборку» → «Создать предложение» → редактор →
@@ -134,21 +136,21 @@ GET и кнопка обычного повторного скачивания �
 FLOW имел известный нулевой остаток: «Нет в наличии», а не фиктивную доступность.
 Каталог и коллекция от ручных правок не изменились.
 
-- [HTTP evidence](screenshots/commercial-offers/http.json): 35 проверок, включая
+- HTTP evidence: 35 проверок, включая
   owner/foreign/anonymous, приватный экспорт, snapshot/CAS, публикацию, старый pin,
   отзыв/ротацию и реальный render/download через архивный дизайнер.
-- [Edge evidence](screenshots/commercial-offers/browser.json): основной create,
+- Edge evidence: основной create,
   250/100/1, autosave/F5, порядок, client preview, upload logo/banner, чистый
   incognito без cookie, desktop/mobile 390 px, обе темы, отсутствие overflow,
   печатные CSS, настоящие PDF/Excel downloads и совпадение hashes, видимый 409,
   отзыв и новый ключ. Это DOM и реальные HTTP, не только SSR.
-- [Перезапуск/сохранность](screenshots/commercial-offers/restart-preservation.json):
+- Перезапуск/сохранность:
   тот же owner-link после restart, анонимный доступ и прежние fingerprints.
-- [Контрольный PDF](../apps/api/tests/fixtures/commercial-offers/offer.pdf),
-  [XLSX](../apps/api/tests/fixtures/commercial-offers/offer.xlsx),
-  [manifest](../apps/api/tests/fixtures/commercial-offers/manifest.json).
+- Контрольный PDF,
+  XLSX,
+  manifest.
   Все четыре финальные PDFium-страницы просмотрены визуально.
-- [Длинное описание](../apps/api/tests/fixtures/commercial-offers/long-description.pdf):
+- Длинное описание:
   отдельный offline layout fixture на реальном фото/SKU и 4548 символах повторённого
   исходного текста. Каталог не изменялся. Просмотрены все три страницы, продолжение
   читаемо, стоимость показана один раз; XLSX сохраняет полный текст по continuation rows.
@@ -224,14 +226,14 @@ AvailabilityObservation имеют исходные row fingerprints. Прежн
 сохранили hashes. Четыре прежних пути коду намеренно стали archive adapters.
 Пользовательские файлы и документы не удалялись; jobs/checkpoints не сбрасывались.
 
-[Основная очистка](screenshots/commercial-offers/cleanup-primary.json) удалила
+Основная очистка удалила
 по точным ID два disposable аккаунта, один проект и 11 созданных документов с их
 render directories. Затем выполнены свежий prepare/cleanup и повторная полная
 HTTP/browser/SQL цепочка самостоятельных scripts с собственным baseline:
-[повторная очистка](screenshots/commercial-offers/cleanup.json). Ledger/cookies,
+повторная очистка. Ledger/cookies,
 temporary Edge profiles, probes и font-build directory удалены. Постоянные tests,
 контрольные файлы, общие assets и encryption key сохранены. После очистки API,
 frontend и его health proxy возвращают 200; PostgreSQL, Ollama, API и frontend
 работают, listener browser debugging закрыт.
 Итоговая SQL/health/cleanup/hash-проверка:
-[final-check.json](screenshots/commercial-offers/final-check.json).
+final-check.json.

@@ -310,6 +310,7 @@ async def change(identifier: UUID, body: ChangeResearch, request: Request):
             if str(exc) == "STATE_CONFLICT"
             else {
                 "UNKNOWN_BRANCH": "Категория больше не входит в запрос. Обновите состояние.",
+                "UNSUPPORTED_ATTRIBUTE": "Характеристика неприменима к выбранной категории.",
                 "STALE_REMOVAL": "Это действие восстановления больше недоступно. Откройте историю запроса.",
                 "GLOBAL_ADDITIONAL_FILTER": "Общий дополнительный фильтр действует на все категории. Сбросьте его перед изменением одной категории.",
             }.get(str(exc), "Товар отсутствует в исследовании."),

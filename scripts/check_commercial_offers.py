@@ -39,6 +39,24 @@ def save(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2), "utf-8")
 
 
+def protected_files():
+    """Snapshot reusable inputs at prepare; generated reports are not fixtures."""
+    paths = [
+        p
+        for folder in (
+            ROOT / "apps/api/app/assets",
+            ROOT / "apps/api/tests/fixtures/presentations",
+        )
+        for p in folder.rglob("*")
+        if p.is_file()
+    ]
+    paths += [ROOT / "apps/web" / name for name in ("package.json", "package-lock.json")]
+    return {
+        p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in paths
+    }
+
+
 def edit_body(d):
     return {
         "version": d["version"],
@@ -158,6 +176,7 @@ async def main():
                 assert not LEDGER.exists()
                 state["catalog_before"] = await fingerprint(sessions)
                 state["data_before"] = await immutable_data(sessions)
+                state["files_before"] = protected_files()
                 for index in range(2):
                     c.cookies.clear()
                     user = await call(
@@ -326,23 +345,7 @@ async def main():
                     ).status_code
                     == 200,
                 )
-                protected = json.loads(
-                    (
-                        ROOT
-                        / "docs/screenshots/geist-ui/pdf-and-dependencies-before.json"
-                    ).read_text("utf-8")
-                )
-                archive_stubs = {
-                    "apps/api/app/application/presentation_render.py",
-                    "apps/api/app/application/presentation_layouts.py",
-                    "apps/api/app/application/presentation_design.py",
-                    "apps/api/app/domain/presentation_design.py",
-                }
-                protected = {
-                    p: digest
-                    for p, digest in protected.items()
-                    if p not in archive_stubs
-                }
+                protected = state["files_before"]
                 check(
                     "historical assets, PDFs and dependencies preserved",
                     all(
@@ -390,7 +393,7 @@ async def main():
                         "checks": evidence["checks"],
                         "old_data": stored,
                         "protected_files": len(protected),
-                        "intentional_archive_stubs": sorted(archive_stubs),
+                        "protected_files_source": "current prepare snapshot",
                     },
                 )
                 print("Restart, historical files and PostgreSQL preservation verified")

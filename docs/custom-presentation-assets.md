@@ -1,14 +1,16 @@
 # Свои материалы — Premium Dark 3
 
+> Материалы прежних приёмок перенесены в архив при очистке проекта.
+
 30 октября 2026. Реализовано в существующем редакторе, API, очереди подготовки
 и общем PDF renderer. Проверено на заполненной PostgreSQL, через основной HTTP
 API и установленный Microsoft Edge. Новых зависимостей и миграций нет.
 
-[Контрольный PDF](../apps/api/tests/fixtures/presentations/custom-materials/premium-dark-custom.pdf)
-· [Обложка](../apps/api/tests/fixtures/presentations/custom-materials/cover.png)
-· [Товарная страница](../apps/api/tests/fixtures/presentations/custom-materials/variants.png)
-· [Manifest](../apps/api/tests/fixtures/presentations/custom-materials/manifest.json)
-· [Все 30 просмотренных страниц](../apps/api/tests/fixtures/presentations/custom-materials/pages/)
+Контрольный PDF
+· Обложка
+· Товарная страница
+· Manifest
+· Все 30 просмотренных страниц
 
 ## Редактор
 
@@ -37,10 +39,9 @@ DOCUMENT, выразительность и предпочтение разме�
 восстанавливают файлы и настройки. Статус применения относится к выбранной ревизии,
 а не к одному факту успешной загрузки.
 
-![Редактор desktop](../apps/api/tests/fixtures/presentations/custom-materials/editor-desktop.png)
 
-[Mobile](../apps/api/tests/fixtures/presentations/custom-materials/editor-mobile.png)
-· [Декор на mobile](../apps/api/tests/fixtures/presentations/custom-materials/editor-mobile-decoration.png)
+Mobile
+· Декор на mobile
 
 ## Размещение
 
@@ -62,11 +63,8 @@ DOCUMENT, выразительность и предпочтение разме�
 редактор показывает причину. В контроле требование LEFT для орнамента не
 совместилось со свободными зонами — пересечение с товарами не допущено.
 
-![Обложка до/после](../apps/api/tests/fixtures/presentations/custom-materials/comparison-cover.png)
 
-![Товарная страница до/после](../apps/api/tests/fixtures/presentations/custom-materials/comparison-products.png)
-
-[Контролируемый отказ в редакторе](../apps/api/tests/fixtures/presentations/custom-materials/required-review.png).
+Контролируемый отказ в редакторе.
 
 ## Подготовка и безопасность
 

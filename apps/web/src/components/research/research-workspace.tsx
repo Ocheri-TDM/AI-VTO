@@ -144,7 +144,7 @@ export function ResearchWorkspace(){
 {research.source_mode!=='index'&&<span>Покрытие <strong>{research.completed_sources}/{research.source_count}</strong></span>}</div>
         {research.new_matches_count>0&&<p className="research-notice" role="status">Найдено {research.new_matches_count} новых вариантов. <button className="studio-button" disabled={busy} onClick={()=>state.perform(()=>researchApi.acceptMatches(research.id))}>Показать</button></p>}
         <ResearchHud research={{...research,selected_count:collection.value?.selected_ids.length??0,view:{...research.view,selected_ids:collection.value?.selected_ids??[]}}} pending={busy||requestBusy} disabled={requestBusy} grouped={grouped} onGrouped={setGrouped}
-          selectionLoading={!collection.value}
+          selectionLoading={!collection.value} loading={localBusy}
           onFilters={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})} onReset={()=>state.change({restore:'reset'})}
           onCategoryAction={action=>{setLimit(100);state.change({branch_actions:[action]});}}
           onSelected={()=>setDrawer('selected')} onMobileFilters={()=>setDrawer('filters')}/>
@@ -161,7 +161,7 @@ export function ResearchWorkspace(){
     {(error||collection.error)&&<div className="research-error" role="alert">{error||collection.error}{collection.error&&<button onClick={collection.retry}>Повторить сохранение</button>}<button onClick={()=>{state.setError('');collection.setError('');}} aria-label="Закрыть уведомление">×</button></div>}
     {mobile&&chatPanel.expanded&&<Sheet id="workspace-chat" className="workspace-chat-sheet" title="Чат" onClose={chatPanel.hide} closeControl={<ChatPanelToggle expanded onClick={chatPanel.hide}/>}>{chatPane}</Sheet>}
     {drawer&&<Sheet className={drawer==='selected'?'selected-products-sheet':''} title={{projects:'Чаты',filters:'Фильтры',selected:'Выбранные товары'}[drawer]} onClose={()=>setDrawer(null)}>
-      {drawer==='projects'?projectList:drawer==='filters'&&research?<ResearchFilterPanel research={research} disabled={requestBusy} onChange={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})}/>:
+      {drawer==='projects'?projectList:drawer==='filters'&&research?<ResearchFilterPanel research={research} loading={localBusy} disabled={requestBusy} onChange={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})}/>:
         drawer==='selected'?(collection.value?<SelectedProducts products={collection.value.products} count={collection.value.selected_ids.length} busy={collection.busy||creatingPresentation}
           error={collection.error||error} onRetry={collection.error?collection.retry:undefined}
           hasOffer={!!existingOffer} offerLoading={!offerKnown} offerReadError={offerReadError} onRemove={collection.remove} onDetails={setDetails} onClear={()=>void collection.clear()} onCreate={()=>void createPresentation()}/>:<p role="status">Загружаю подборку…</p>):null}</Sheet>}

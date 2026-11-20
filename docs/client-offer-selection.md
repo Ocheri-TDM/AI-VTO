@@ -1,5 +1,7 @@
 # Выбор клиента и уведомления — 11 ноября 2026
 
+> Материалы прежних приёмок перенесены в архив при очистке проекта.
+
 **PARTIAL для внешнего выпуска.** Реализованы и проверены сохранение клиентских
 отметок, менеджерский раздел и постоянные уведомления. Основной API и локальный
 production frontend обновлены. На `https://souvenir-studio-three.vercel.app`
@@ -196,20 +198,20 @@ event-loop lag основного процесса **NOT MEASURED**: debug endpo
 
 ## Доказательства и сохранность
 
-- [Vercel HTTP](screenshots/client-selection/http.json),
-  [публикации и срок](screenshots/client-selection/lifecycle.json),
-  [межпроцессные проверки](screenshots/client-selection/processes.json).
-- [Edge и 9 измерений](screenshots/client-selection/browser.json),
-  [пять read-races](screenshots/client-selection/read-race.json),
-  [restart](screenshots/client-selection/restart.json).
-- [Ограниченная конкуренция](screenshots/client-selection/concurrency.json),
-  [неудачный model-only прогон](screenshots/client-selection/concurrency-initial.json),
-  [контроль исходного поиска](screenshots/client-selection/search-control.json).
-- [Mobile выбор](screenshots/client-selection/guest-choice-mobile.png),
-  [Pulse mobile](screenshots/client-selection/offers-pulse-390.png),
-  [центр уведомлений](screenshots/client-selection/manager-notifications.png).
-- [Сохранность и очистка](screenshots/client-selection/cleanup.json).
-- [Финальные quality gates и health](screenshots/client-selection/quality-gates.json).
+- Vercel HTTP,
+  публикации и срок,
+  межпроцессные проверки.
+- Edge и 9 измерений,
+  пять read-races,
+  restart.
+- Ограниченная конкуренция,
+  неудачный model-only прогон,
+  контроль исходного поиска.
+- Mobile выбор,
+  Pulse mobile,
+  центр уведомлений.
+- Сохранность и очистка.
+- Финальные quality gates и health.
 
 Совпали fingerprints исходных **3 пользователей, 4 проектов, 66 сообщений,
 17 позиций коллекций, 16 документов, 20 ревизий и 3 shares**, а также hashes
