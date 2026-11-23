@@ -128,11 +128,10 @@
   background: var(--panel);
   box-shadow: 0 2px 16px #263c2908;
 }
-:root[data-site-theme="pulse"] .research-hud-selected {
+:root[data-site-theme="pulse"] .workspace-collection-count {
   background: var(--ui-highlight-soft);
-  border-color: var(--ui-highlight-border);
+  color: var(--ui-success-text);
 }
-:root[data-site-theme="pulse"] .research-selected-count { color: var(--ui-success-text); }
 :root[data-site-theme="pulse"] .intent-tags > span {
   background: var(--ui-highlight-soft);
   color: var(--ui-success-text);

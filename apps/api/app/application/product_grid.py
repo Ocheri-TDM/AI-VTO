@@ -421,8 +421,9 @@ class ProductGridMixin:
         # Product agreement: an initial common color qualifies the entire list
         # if no branch introduces another hard color. Other local colors retain
         # their own source scope; negative/preference colors never enter here.
-        from app.domain.query_branches import category_mentions
+        from app.domain.query_branches import category_mentions, shared_list_suffix
         mentions = category_mentions(query, intent.categories, registry)
+        shared_colours = False
         if len(intent.branches) > 1 and mentions:
             first = min(start for start, _, _ in mentions)
             prefix = parse_constraints(query[:first])[0]
@@ -431,8 +432,26 @@ class ProductGridMixin:
             amounts = list(re.finditer(r"\b(?:тираж(?:ом)?|количество|минимум|не\s+менее|от)\s+(\d+)\s*(?:шт|штук)?", query, re.I))
             if len(amounts) == 1 and attributes.quantity_min is not None:
                 amount = amounts[0]
-                if amount.end() <= first or amount.start() >= max(end for _, end, _ in mentions):
+                if amount.end() <= first:
                     global_attributes.quantity_min = attributes.quantity_min
+
+            # Postpositive qualifiers of a bare list belong to the list, not
+            # just its final source segment. Keep explicit local/model/type
+            # constraints and preferences separate from shared hard attributes.
+            suffix = shared_list_suffix(query, mentions) if not identity.local else ""
+            if suffix:
+                suffix_attributes = parse_constraints(resolve_identity(suffix, registry).attribute_query)[0]
+                specific = ("capacity_ml", "capacity_mah", "storage_gb", "connectors", "sizes", "subtypes", "sku", "features")
+                if not any(getattr(suffix_attributes, field) for field in specific):
+                    if suffix_attributes.colors and set(attributes.colors) == set(suffix_attributes.colors):
+                        global_attributes.colors = suffix_attributes.colors
+                        shared_colours = True
+                    if suffix_attributes.quantity_min is not None:
+                        global_attributes.quantity_min = suffix_attributes.quantity_min
+                        global_attributes.quantity_min_exclusive = suffix_attributes.quantity_min_exclusive
+                    if suffix_attributes.quantity_max is not None:
+                        global_attributes.quantity_max = suffix_attributes.quantity_max
+                        global_attributes.quantity_max_exclusive = suffix_attributes.quantity_max_exclusive
 
         intent.colors = [ColorGroup(c) for c in global_attributes.colors]
         intent.quantity = global_attributes.quantity_min
@@ -470,7 +489,7 @@ class ProductGridMixin:
             branch.colors = branch.constraints.colors
             if branch.colors and "colors" not in branch.origins:
                 branch.origins["colors"] = (
-                    "local: " + branch.source_text if local.colors else "global: " + query
+                    "local: " + branch.source_text if local.colors and not shared_colours else "global: " + query
                 )
             if branch.constraints.allow_near_colors:
                 from app.application.research_planner import BLUE_FAMILY
@@ -491,7 +510,7 @@ class ProductGridMixin:
             }
             for span in color_spans(identity.attribute_query)
         ]
-        intent.query_understanding["color_scope_version"] = "color-scope-v1"
+        intent.query_understanding["color_scope_version"] = "color-scope-v2"
         for fragment in identity.unresolved_products:
             intent.branches.append(ProductBranch(category=resolver.dynamic_id(fragment), label=fragment, resolved=False,
                                                   source_text=fragment, order=len(intent.branches)))

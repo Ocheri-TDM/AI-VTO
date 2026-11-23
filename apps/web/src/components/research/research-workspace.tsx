@@ -26,6 +26,7 @@ import {AppNavbar} from '../app-navbar';
 import {useChatPanel} from '@/hooks/use-chat-panel';
 import {visibleConversation,workspacePanels,type LocalSubmission} from '@/lib/workspace-panels';
 import {ChatPanelToggle} from './chat-panel-toggle';
+import {CollectionPanelToggle} from './collection-panel-toggle';
 
 export function ResearchWorkspace(){
   const router=useRouter();
@@ -34,7 +35,9 @@ export function ResearchWorkspace(){
   const [projectsReady,setProjectsReady]=useState(false);
   const [chat,setChat]=useState<string|null>(null);
   const [form,setForm]=useState<Project|null>(null);
-  const [drawer,setDrawer]=useState<'projects'|'filters'|'selected'|null>(null);
+  const [drawer,setDrawer]=useState<'projects'|'filters'|null>(null);
+  const [collectionPanel,setCollectionPanel]=useState<string|null>(null);
+  const collectionOpener=useRef<HTMLButtonElement>(null);
   const [query,setQuery]=useState('');
   const [mobile,setMobile]=useState(false);
   const [creatingChat,setCreatingChat]=useState(false);
@@ -78,7 +81,7 @@ export function ResearchWorkspace(){
   }).catch(e=>setError(e.message));},[setError,user.id]);
   function storedDraft(id:string){try{return JSON.parse(sessionStorage.getItem('chat-draft:'+user.id+':'+id)??'null') as {text:string;id?:string}|null;}catch{return null;}}
   function editQuery(text:string){setQuery(text);const key=chat??'initial';const old=drafts.current.get(key);const draft={text,id:old?.text===text?old.id:undefined};drafts.current.set(key,draft);if(chat)sessionStorage.setItem('chat-draft:'+user.id+':'+chat,JSON.stringify(draft));}
-  function open(id:string){requestGeneration.current+=1;closePresentation();setChat(id);localStorage.setItem('forma-chat-id',id);const draft=drafts.current.get(id)??storedDraft(id);if(draft)drafts.current.set(id,draft);setQuery(draft?.text??'');setDrawer(null);setLimit(100);state.setError('');}
+  function open(id:string){requestGeneration.current+=1;closePresentation();setChat(id);localStorage.setItem('forma-chat-id',id);const draft=drafts.current.get(id)??storedDraft(id);if(draft)drafts.current.set(id,draft);setQuery(draft?.text??'');setDrawer(null);setCollectionPanel(null);setLimit(100);state.setError('');}
   async function newChat(){if(createBusy.current)return;createBusy.current=true;setCreatingChat(true);creationKey.current??=crypto.randomUUID();const generation=++requestGeneration.current;
     try{const created=await api.createChat('Новый чат',creationKey.current);const values=await api.projects();if(!values.some(p=>p.chat_id===created.id))throw new Error('Не удалось открыть сохранённый чат');setProjects(values);setProjectsReady(true);creationKey.current=null;if(generation===requestGeneration.current)open(created.id);}
     catch(e){state.setError((e as Error).message);}finally{createBusy.current=false;setCreatingChat(false);}}
@@ -88,7 +91,7 @@ export function ResearchWorkspace(){
     const value=query;sending.current=true;setRequestBusy(true);state.setError('');
     const draftKey=chat??'initial';const old=drafts.current.get(draftKey);const requestId=old?.text===value&&old.id?old.id:crypto.randomUUID();
     setSubmission({chat,id:requestId,text:value,created_at:new Date().toISOString(),phase:'SENDING'});
-    if(!panels.started)chatPanel.show();
+    if(!panels.started){setCollectionPanel(null);chatPanel.show();}
     drafts.current.set(draftKey,{text:value,id:requestId});if(chat)sessionStorage.setItem('chat-draft:'+user.id+':'+chat,JSON.stringify({text:value,id:requestId}));
     let target=project;
     let generation=requestGeneration.current;
@@ -115,10 +118,18 @@ export function ResearchWorkspace(){
   const projectList=<ProjectList projects={projects} active={project?.id} disabled={busy} onOpen={open}
     onNew={()=>void newChat()} onEdit={setForm} creating={creatingChat}/>;
   const localBusy=requestBusy&&submission?.chat===chat;
-  const panels=workspacePanels({projectsReady,chat,historyReady:conversation.ready,researchReady:state.ready,collectionReady:!!collection.value,hasResearch:!!research,hasMessages:conversation.messages.length>0,knownMessages:!!project?.has_messages,submission,selectedCount:collection.value?.selected_ids.length??null});
+  const panels=workspacePanels({projectsReady,chat,historyReady:conversation.ready,researchReady:state.ready,collectionReady:!!collection.value,hasResearch:!!research,hasMessages:conversation.messages.length>0,knownMessages:!!project?.has_messages,submission});
   const chatPanel=useChatPanel(user.id,chat,panels.started);
+  const collectionExpanded=!!project&&collectionPanel===project.id;
+  const chatExpanded=chatPanel.expanded&&!collectionExpanded;
+  function showCollection(){if(!project)return;chatPanel.hide();setDrawer(null);setCollectionPanel(project.id);requestAnimationFrame(()=>document.querySelector<HTMLElement>('#workspace-collection [data-collection-collapse]')?.focus({preventScroll:true}));}
+  function hideCollection(){setCollectionPanel(null);requestAnimationFrame(()=>collectionOpener.current?.focus({preventScroll:true}));}
+  function showChat(){setCollectionPanel(null);setDrawer(null);chatPanel.show();}
   const composer=<ConversationComposer value={query} onChange={editQuery} onSubmit={()=>void submit()} busy={busy||localBusy} disabled={requestBusy&&!localBusy} started={panels.started} focusOnMount={!mobile}/>;
   const chatPane=<Conversation key={chat} messages={visibleConversation(conversation.messages,submission,chat)} hasOlder={conversation.hasOlder} loading={conversation.loading} error={conversation.error} onOlder={conversation.older} onRetry={()=>void conversation.refresh()} busy={localBusy} restoring={!!chat&&!conversation.ready&&submission?.chat!==chat} showHeading={!mobile} onCollapse={chatPanel.hide} composer={panels.started?composer:null}/>;
+  const collectionPane=collection.value?<SelectedProducts products={collection.value.products} count={collection.value.selected_ids.length} busy={collection.busy||creatingPresentation}
+    error={collection.error||error} onRetry={collection.error?collection.retry:undefined}
+    hasOffer={!!existingOffer} offerLoading={!offerKnown} offerReadError={offerReadError} onRemove={collection.remove} onDetails={setDetails} onClear={()=>void collection.clear()} onCreate={()=>void createPresentation()}/>:<div className="selected-products-panel"><p className="selected-products-error" role={collection.error?'alert':'status'}>{collection.error||'Загружаю подборку…'} {collection.error&&<button className="studio-button" onClick={()=>{collection.setError('');void collection.reload().catch(e=>collection.setError(e.message));}}>Повторить загрузку</button>}</p></div>;
   function cards(products:ResearchProduct[],context:'default'|'modelVariants'='default'){return <div className={`research-grid${context==='modelVariants'?' model-variants-grid':''}`}>{products.map((p,index)=><div key={p.id}>
     <div className="research-match"><span>#{research?research.products.findIndex(value=>value.id===p.id)+1:index+1}</span><span>{matchCaption(p)}</span></div>
     <ProductCard product={p} context={context} selected={collection.value?.selected_ids.includes(p.id)??false} onSelect={()=>select(p)} onDetails={()=>setDetails(p)}/>
@@ -127,16 +138,18 @@ export function ResearchWorkspace(){
       const group=research.groups.find(value=>value.offer_ids.includes(p.id));setFamily(research.products.filter(value=>group?.offer_ids.includes(value.id)));}}>Варианты модели · {research.groups.find(group=>group.offer_ids.includes(p.id))?.offer_ids.length}</button>}
   </div>)}</div>;}
   if(presentation)return <PresentationWorkspace key={presentation} id={presentation} onBack={closePresentation} onProject={syncDocumentProject}/>;
-  return <div className="research-shell" data-chat-expanded={!mobile&&chatPanel.expanded?'true':'false'} data-chat-animate={chatPanel.animate?'true':'false'}>
+  return <div className="research-shell" data-chat-expanded={!mobile&&chatExpanded?'true':'false'} data-collection-expanded={!mobile&&collectionExpanded?'true':'false'} data-chat-animate={chatPanel.animate?'true':'false'}>
     <AppNavbar name={user.name} logout={logout} onProjects={()=>setDrawer('projects')}/>
     <aside className="research-projects"><h2>Чаты</h2>{projectList}</aside>
     <div className="research-content">
       {(project||panels.started)&&<div className="research-workspace-actions">
         {project&&<WorkspaceQueries projectId={project.id} onResearch={value=>{requestGeneration.current++;state.setResearch(value);}} onError={state.setError}/>}
-        {panels.started&&!chatPanel.expanded&&<ChatPanelToggle buttonRef={node=>chatPanel.bindOpener(node)} expanded={false} mobile={mobile} onClick={chatPanel.show}/>}
+        <div className="workspace-panel-actions">
+          {project&&<CollectionPanelToggle buttonRef={collectionOpener} expanded={collectionExpanded} mobile={mobile} count={collection.value?.selected_ids.length??null} onClick={collectionExpanded?hideCollection:showCollection}/>}
+          {panels.started&&!chatExpanded&&<ChatPanelToggle buttonRef={node=>chatPanel.bindOpener(node)} expanded={false} mobile={mobile} onClick={showChat}/>}
+        </div>
       </div>}
     <main className="research-main">
-      {panels.showCollectionShortcut&&<button className="studio-button research-collection-shortcut" onClick={()=>setDrawer('selected')}>Выбранные товары · {collection.value!.selected_ids.length}</button>}
       {(localBusy&&!research?<div className="research-empty" role="status"><h2>Исследую каталог…</h2></div>:!research&&!panels.restored?<div className="research-empty" role="status"><p>Восстанавливаю рабочее пространство…</p>{(error||collection.error||conversation.error)&&<button className="studio-button" onClick={()=>window.location.reload()}>Повторить загрузку</button>}</div>:!research?<div className="research-intro"><small>VTO · Реальные данные</small><h1>Исследуйте варианты.<br/>Найдите своё.</h1>
         <p>Опишите задачу. AI найдёт варианты и поможет уточнить подборку.</p>{panels.showInitialComposer&&composer}</div>:
       <><div className="research-heading"><small>{running?'Исследование продолжается':'Результаты исследования'}</small><h1>{research.effective_title??research.intent.raw_query}</h1>
@@ -144,10 +157,10 @@ export function ResearchWorkspace(){
 {research.source_mode!=='index'&&<span>Покрытие <strong>{research.completed_sources}/{research.source_count}</strong></span>}</div>
         {research.new_matches_count>0&&<p className="research-notice" role="status">Найдено {research.new_matches_count} новых вариантов. <button className="studio-button" disabled={busy} onClick={()=>state.perform(()=>researchApi.acceptMatches(research.id))}>Показать</button></p>}
         <ResearchHud research={{...research,selected_count:collection.value?.selected_ids.length??0,view:{...research.view,selected_ids:collection.value?.selected_ids??[]}}} pending={busy||requestBusy} disabled={requestBusy} grouped={grouped} onGrouped={setGrouped}
-          selectionLoading={!collection.value} loading={localBusy}
+          loading={localBusy}
           onFilters={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})} onReset={()=>state.change({restore:'reset'})}
           onCategoryAction={action=>{setLimit(100);state.change({branch_actions:[action]});}}
-          onSelected={()=>setDrawer('selected')} onMobileFilters={()=>setDrawer('filters')}/>
+          onMobileFilters={()=>setDrawer('filters')}/>
         {research.empty_branches?.length?<p className="research-notice">Нет результатов: {research.empty_branches.join(', ')}</p>:null}
         {research.identity_notices?.map((notice,n)=><p className="research-notice" role="status" key={n}>{notice}</p>)}
       </div>
@@ -156,15 +169,17 @@ export function ResearchWorkspace(){
         {hasAdditionalFilters(research.view.filters,research.view.effective_overrides)&&<button className="studio-button" onClick={()=>state.change({restore:'reset'})}>Сбросить уточнения</button>}</div>}
       {(research.next_cursor||displayProducts.length>limit)&&<button className="studio-button" disabled={busy} onClick={()=>{setLimit(n=>n+100);if(research.next_cursor)state.loadMore();}}>Показать ещё 100 · всего {research.matching_count}</button>}</>)}
     </main></div>
-    {!mobile&&chatPanel.mounted&&<aside id="workspace-chat" className="research-chat" inert={!chatPanel.expanded} aria-hidden={!chatPanel.expanded}><div className="research-chat-inner">{chatPane}</div></aside>}
-    <nav className="research-mobile-nav"><button onClick={()=>setDrawer(null)}>Подборка</button><button onClick={()=>setDrawer('selected')}>Выбранные</button><button onClick={()=>setDrawer('projects')}>Проект</button></nav>
+    {!mobile&&!collectionExpanded&&chatPanel.mounted&&<aside id="workspace-chat" className="research-chat" inert={!chatPanel.expanded} aria-hidden={!chatPanel.expanded}><div className="research-chat-inner">{chatPane}</div></aside>}
+    {!mobile&&collectionExpanded&&<aside id="workspace-collection" className="research-collection" aria-label="Подборка" onKeyDown={event=>{if(event.key==='Escape'&&!event.defaultPrevented&&!document.querySelector('dialog[open]')){event.preventDefault();hideCollection();}}}><div className="research-collection-inner">
+      <header className="conversation-heading"><h2>Подборка</h2><CollectionPanelToggle expanded collapse onClick={hideCollection}/></header>
+      {collectionPane}
+    </div></aside>}
+    <nav className="research-mobile-nav"><button onClick={()=>{setDrawer(null);if(collectionExpanded)hideCollection();}}>Товары</button><button onClick={showCollection} aria-expanded={collectionExpanded} aria-controls="workspace-collection">Подборка</button><button onClick={()=>setDrawer('projects')}>Проект</button></nav>
     {(error||collection.error)&&<div className="research-error" role="alert">{error||collection.error}{collection.error&&<button onClick={collection.retry}>Повторить сохранение</button>}<button onClick={()=>{state.setError('');collection.setError('');}} aria-label="Закрыть уведомление">×</button></div>}
-    {mobile&&chatPanel.expanded&&<Sheet id="workspace-chat" className="workspace-chat-sheet" title="Чат" onClose={chatPanel.hide} closeControl={<ChatPanelToggle expanded onClick={chatPanel.hide}/>}>{chatPane}</Sheet>}
-    {drawer&&<Sheet className={drawer==='selected'?'selected-products-sheet':''} title={{projects:'Чаты',filters:'Фильтры',selected:'Выбранные товары'}[drawer]} onClose={()=>setDrawer(null)}>
-      {drawer==='projects'?projectList:drawer==='filters'&&research?<ResearchFilterPanel research={research} loading={localBusy} disabled={requestBusy} onChange={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})}/>:
-        drawer==='selected'?(collection.value?<SelectedProducts products={collection.value.products} count={collection.value.selected_ids.length} busy={collection.busy||creatingPresentation}
-          error={collection.error||error} onRetry={collection.error?collection.retry:undefined}
-          hasOffer={!!existingOffer} offerLoading={!offerKnown} offerReadError={offerReadError} onRemove={collection.remove} onDetails={setDetails} onClear={()=>void collection.clear()} onCreate={()=>void createPresentation()}/>:<p role="status">Загружаю подборку…</p>):null}</Sheet>}
+    {mobile&&chatExpanded&&<Sheet id="workspace-chat" className="workspace-chat-sheet" title="Чат" onClose={chatPanel.hide} closeControl={<ChatPanelToggle expanded onClick={chatPanel.hide}/>}>{chatPane}</Sheet>}
+    {mobile&&collectionExpanded&&<Sheet id="workspace-collection" className="selected-products-sheet workspace-collection-sheet" title="Подборка" onClose={hideCollection} closeControl={<CollectionPanelToggle expanded collapse onClick={hideCollection}/>}>{collectionPane}</Sheet>}
+    {drawer&&<Sheet title={{projects:'Чаты',filters:'Фильтры'}[drawer]} onClose={()=>setDrawer(null)}>
+      {drawer==='projects'?projectList:research?<ResearchFilterPanel research={research} loading={localBusy} disabled={requestBusy} onChange={filters=>state.change({filters})} onEffectiveChange={edit=>state.change({effective_changes:[edit]})}/>:null}</Sheet>}
     {form&&<ProjectForm project={form} onClose={()=>setForm(null)} onSave={async(name,client)=>{
       try{await api.updateProject(form.id,name,client);
         setProjects(await api.projects());return true;}catch(e){state.setError((e as Error).message);return false;}}}

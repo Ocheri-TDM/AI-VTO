@@ -101,6 +101,21 @@ def is_local_override(source):
     return bool(re.match(r"\s*(?:но|однако)\s+", source, re.I))
 
 
+def shared_list_suffix(query, mentions):
+    """A bare coordinated list can share a qualifier after its final noun.
+
+    A colour, amount, model or other modifier between nouns makes that
+    association explicit; repeated categories also retain their own scopes.
+    """
+    if len(mentions) < 2 or len({category for _, _, category in mentions}) != len(mentions):
+        return ""
+    for previous, following in zip(mentions, mentions[1:]):
+        gap = query[previous[1] : following[0]]
+        if not re.fullmatch(r"[\s,;/&+]*(?:(?:и|или|and|or)[\s,;/&+]*)*", gap, re.I):
+            return ""
+    return query[mentions[-1][1] :]
+
+
 def effective_color_state(intent, filters):
     """Read-only projection; source requirements remain in the saved branches."""
     sources = [set(b.colors) for b in intent.branches]
