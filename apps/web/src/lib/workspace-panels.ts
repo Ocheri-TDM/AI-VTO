@@ -2,11 +2,11 @@ import type {ConversationMessage} from './conversation';
 
 export interface LocalSubmission {chat:string|null;id:string;text:string;created_at:string;phase:'SENDING'|'ACKNOWLEDGED'|'ERROR'}
 
-export function workspacePanels({projectsReady,chat,historyReady,researchReady,collectionReady,hasResearch,hasMessages,knownMessages,submission,selectedCount}:{projectsReady:boolean;chat:string|null;historyReady:boolean;researchReady:boolean;collectionReady:boolean;hasResearch:boolean;hasMessages:boolean;knownMessages:boolean;submission:LocalSubmission|null;selectedCount:number|null}){
+export function workspacePanels({projectsReady,chat,historyReady,researchReady,collectionReady,hasResearch,hasMessages,knownMessages,submission}:{projectsReady:boolean;chat:string|null;historyReady:boolean;researchReady:boolean;collectionReady:boolean;hasResearch:boolean;hasMessages:boolean;knownMessages:boolean;submission:LocalSubmission|null}){
   const local=submission?.chat===chat?submission:null;
   const started=hasResearch||hasMessages||knownMessages||!!local;
   const restored=projectsReady&&(!chat||(historyReady&&researchReady&&collectionReady));
-  return {started,restored,showInitialComposer:restored&&!started,showCollectionShortcut:!hasResearch&&(selectedCount??0)>0};
+  return {started,restored,showInitialComposer:restored&&!started};
 }
 
 export function visibleConversation(messages:ConversationMessage[],submission:LocalSubmission|null,chat:string|null):ConversationMessage[]{

@@ -10,20 +10,11 @@ export function hasAdditionalFilters(filters:ResearchFilters,overrides:Effective
     active(value)));
 }
 
-export function CollectionSummary({count,hidden=0,onOpen,loading=false}:{count:number;hidden?:number;onOpen:()=>void;loading?:boolean}){
-  return <aside className="research-hud-selected" aria-label="Выбранные товары" data-testid="selected-products">
-    <strong>Выбранные товары</strong><span className="research-selected-count" role={loading?'status':undefined}>{loading?'Загрузка…':count}</span>
-    {!loading&&!!hidden&&<small>Вне текущей выдачи: {hidden}</small>}
-    <button className="studio-button primary" disabled={loading} aria-busy={loading} onClick={onOpen}>Открыть подборку</button>
-  </aside>;
-}
-
-export function ResearchHud({research,pending,disabled,grouped,onGrouped,onFilters,onEffectiveChange,onReset,onSelected,onMobileFilters,onCategoryAction,selectionLoading=false,loading=false}:{
+export function ResearchHud({research,pending,disabled,grouped,onGrouped,onFilters,onEffectiveChange,onReset,onMobileFilters,onCategoryAction,loading=false}:{
   research:Research;pending:boolean;disabled:boolean;grouped:boolean;onGrouped:(value:boolean)=>void;
-  onFilters:(value:ResearchFilters)=>void;onReset:()=>void;onSelected:()=>void;onMobileFilters:()=>void;
+  onFilters:(value:ResearchFilters)=>void;onReset:()=>void;onMobileFilters:()=>void;
   onCategoryAction?:(action:BranchAction)=>void;
   onEffectiveChange?:(edit:EffectiveEdit)=>void;
-  selectionLoading?:boolean;
   loading?:boolean;
 }) {
   return <section className="research-results-hud" aria-label="Управление результатами">
@@ -37,6 +28,5 @@ export function ResearchHud({research,pending,disabled,grouped,onGrouped,onFilte
       <div className="research-hud-status">{hasAdditionalFilters(research.view.filters,research.view.effective_overrides)&&<button className="studio-button" onClick={onReset} disabled={disabled}>Сбросить фильтры</button>}
         {pending&&<small role="status">Обновляю результаты…</small>}</div>
     </div>
-    <CollectionSummary count={research.view.selected_ids.length} hidden={research.hidden_selected_count} onOpen={onSelected} loading={selectionLoading}/>
   </section>;
 }

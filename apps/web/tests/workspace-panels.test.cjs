@@ -5,14 +5,14 @@ const React=require('react');
 const {renderToStaticMarkup}=require('react-dom/server');
 const {load}=require('./helpers/load.cjs');
 const {workspacePanels,visibleConversation,panelPreferenceKey,transferPanelChoice}=load('src/lib/workspace-panels.ts');
-const restored={projectsReady:true,chat:'new',historyReady:true,researchReady:true,collectionReady:true,hasResearch:false,hasMessages:false,knownMessages:false,submission:null,selectedCount:0};
+const restored={projectsReady:true,chat:'new',historyReady:true,researchReady:true,collectionReady:true,hasResearch:false,hasMessages:false,knownMessages:false,submission:null};
 const submission={chat:'new',id:'request',text:'  Нужны ручки\nсиние  ',created_at:'2026-11-07T10:00:00Z',phase:'SENDING'};
 
 test('empty and typed drafts use the central composer without chat or zero collection',()=>{
-  assert.deepEqual(workspacePanels(restored),{started:false,restored:true,showInitialComposer:true,showCollectionShortcut:false});
+  assert.deepEqual(workspacePanels(restored),{started:false,restored:true,showInitialComposer:true});
   for(const missing of ['projectsReady','historyReady','researchReady','collectionReady']){
-    const value=workspacePanels({...restored,[missing]:false,selectedCount:null});
-    assert.equal(value.restored,false);assert.equal(value.showInitialComposer,false);assert.equal(value.showCollectionShortcut,false);
+    const value=workspacePanels({...restored,[missing]:false});
+    assert.equal(value.restored,false);assert.equal(value.showInitialComposer,false);
   }
 });
 
@@ -25,12 +25,10 @@ test('submission, zero-result research and history each keep the conversation av
   assert.equal(workspacePanels({...restored,chat:'another',submission}).started,false);
 });
 
-test('persisted selection without research gets compact access; unknown is never a confirmed zero',()=>{
-  assert.equal(workspacePanels({...restored,selectedCount:3}).showCollectionShortcut,true);
-  assert.equal(workspacePanels({...restored,selectedCount:3,hasResearch:true}).showCollectionShortcut,false);
-  const {CollectionSummary}=load('src/components/research/research-hud.tsx');
-  const html=renderToStaticMarkup(React.createElement(CollectionSummary,{count:0,loading:true,onOpen(){}}));
-  assert.match(html,/Загрузка…/);assert.match(html,/disabled/);assert.doesNotMatch(html,/>0</);
+test('collection opener reports a loading state instead of a confirmed zero',()=>{
+  const {CollectionPanelToggle}=load('src/components/research/collection-panel-toggle.tsx');
+  const html=renderToStaticMarkup(React.createElement(CollectionPanelToggle,{expanded:false,count:null,onClick(){}}));
+  assert.match(html,/Подборка загружается/);assert.match(html,/…/);assert.doesNotMatch(html,/>0</);
 });
 
 test('local pending message retains exact text and only the matching server request replaces it',()=>{

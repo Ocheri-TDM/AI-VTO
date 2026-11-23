@@ -22,7 +22,7 @@ export function SelectedProducts({products,count,busy,onRemove,onDetails,onClear
   hasOffer?:boolean;offerLoading?:boolean;offerReadError?:string;
 }){
   return <div className="selected-products-panel">
-    {offerReadError&&<p role="alert">Не удалось прочитать предложение: {offerReadError}. Закройте и заново откройте проект для повтора.</p>}
+    {offerReadError&&<p className="selected-products-error" role="alert">Не удалось прочитать предложение: {offerReadError}. Закройте и заново откройте проект для повтора.</p>}
     {error&&<p className="selected-products-error" role="alert">{error} {onRetry&&<button className="studio-button" onClick={onRetry}>Повторить сохранение</button>}</p>}
     <div className="selected-products-scroll"><div className="selected-products-grid">
       {products.map(product=><article className="selected-product" key={product.id}>

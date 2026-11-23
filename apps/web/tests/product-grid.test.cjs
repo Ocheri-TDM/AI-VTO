@@ -214,13 +214,12 @@ test('source brand and model stay visible while scoped filters remain additional
   assert.equal(hasAdditionalFilters({...research.view.filters,brands:[],max_price:null,branch_models:{pen:['Tippo']}}),true);
 });
 
-test('HUD has inline controls and a distinct selection region without removed actions',()=>{
+test('HUD keeps full-width inline controls without the relocated collection card',()=>{
   const {ResearchHud,hasAdditionalFilters}=load('src/components/research/research-hud.tsx');
   const html=renderToStaticMarkup(React.createElement(ResearchHud,{research,grouped:false,pending:false,disabled:false,
-    onGrouped(){},onFilters(){},onReset(){},onSelected(){},onMobileFilters(){}}));
-  assert.match(html,/research-inline-filters/);assert.match(html,/data-testid="selected-products"/);
-  assert.ok(html.indexOf('data-testid="result-filters"')<html.indexOf('data-testid="selected-products"'));
-  assert.match(html,/Открыть подборку/);
+    onGrouped(){},onFilters(){},onReset(){},onMobileFilters(){}}));
+  assert.match(html,/research-inline-filters/);assert.match(html,/data-testid="result-filters"/);
+  assert.doesNotMatch(html,/research-hud-selected|data-testid="selected-products"|Открыть подборку/);
   assert.doesNotMatch(html,/По соответствию|Отменить|Продолжить исследование|Источников|Выбрано 0/);
   assert.equal(hasAdditionalFilters(research.view.filters),true);
   assert.equal(hasAdditionalFilters({...research.view.filters,brands:[],max_price:null,origins:{}}),false);
