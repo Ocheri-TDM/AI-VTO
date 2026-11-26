@@ -18,7 +18,10 @@ function Gallery({item}:{item:ClientOfferItem}){
 export function OfferView({value,editSlot,selectionSlot}:{value:ClientOffer;editSlot?:OfferEditSlot;selectionSlot?:OfferEditSlot}){
   return <main className="offer-document" data-testid="offer-document">
     <header className="offer-cover">
-      <div className={`offer-banner${value.banner_url?' has-image':''}`}>{value.banner_url&&<img src={value.banner_url} alt="Баннер предложения" referrerPolicy="no-referrer"/>}<span className="offer-banner-mark" aria-hidden="true"/></div>
+      <div className={`offer-banner${value.banner_url?' has-image':''}`}>
+        <img className="offer-banner-photo" src={value.banner_url||'/offer/mainthing.jpeg'} alt={value.banner_url?'Баннер предложения':''} referrerPolicy="no-referrer"/>
+        <span className="offer-banner-logo"><img src="/offer/251.png" alt="Логотип VTO" width={251} height={30}/></span>
+      </div>
       <div className="offer-cover-copy"><img className="offer-logo" style={{background:value.logo_background??'#151918',padding:10,borderRadius:6}} src={value.logo_url} alt="Логотип" referrerPolicy="no-referrer"/><p className="offer-eyebrow">Коммерческое предложение</p><h1>{value.title}</h1>{value.company&&!value.title.includes(value.company)&&<p className="offer-company">{value.company}</p>}<p className="offer-intro">Выберите то, что подходит вашей задаче. Каждая позиция — самостоятельный вариант.</p></div>
     </header>
     <div className="offer-products">{value.items.map((item,index)=><section className="offer-product" key={`${item.id}:${item.main_image}`} data-offer-item={item.id}>
