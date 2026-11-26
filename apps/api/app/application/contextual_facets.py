@@ -279,7 +279,7 @@ class ContextualFacets:
                 selected = source.view.filters.branch_attributes.get(branch.id, {}).get(attribute, [])
                 values = by_scope[branch.id, attribute]
                 source_value = getattr(branch.constraints, attribute, None)
-                if attribute in ("apparel_size", "paper_format") and branch.constraints.sizes:
+                if source_value is None and attribute in ("apparel_size", "paper_format") and branch.constraints.sizes:
                     source_value = (
                         branch.constraints.sizes[0]
                         if len(branch.constraints.sizes) == 1
@@ -292,7 +292,7 @@ class ContextualFacets:
                         {
                             "value": source_key,
                             "label": value_label(attribute, source_key),
-                            "number": source_value,
+                            "number": source_value if ATTRIBUTES[attribute].kind == "number" else None,
                             "count": 0,
                         },
                     )

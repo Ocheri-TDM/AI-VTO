@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {useRouter} from 'next/navigation';
-import { api } from '@/lib/api';
+import { api, ApiError } from '@/lib/api';
 import { researchApi, type ResearchProduct } from '@/lib/research';
 import type { Project } from '@/lib/types';
 import { useResearch } from '@/hooks/use-research';
@@ -24,13 +24,13 @@ import { PresentationWorkspace } from '../presentations/presentation-workspace';
 import {useProjectCollection} from '@/hooks/use-project-collection';
 import {AppNavbar} from '../app-navbar';
 import {useChatPanel} from '@/hooks/use-chat-panel';
-import {visibleConversation,workspacePanels,type LocalSubmission} from '@/lib/workspace-panels';
+import {readDraft,restoredSubmission,saveDraft,visibleConversation,workspacePanels,type ChatDraft,type LocalSubmission} from '@/lib/workspace-panels';
 import {ChatPanelToggle} from './chat-panel-toggle';
 import {CollectionPanelToggle} from './collection-panel-toggle';
 
 export function ResearchWorkspace(){
   const router=useRouter();
-  const {user,logout}=useAuthSession();
+  const {user,logout,expire}=useAuthSession();
   const [projects,setProjects]=useState<Project[]>([]);
   const [projectsReady,setProjectsReady]=useState(false);
   const [chat,setChat]=useState<string|null>(null);
@@ -42,7 +42,7 @@ export function ResearchWorkspace(){
   const [mobile,setMobile]=useState(false);
   const [creatingChat,setCreatingChat]=useState(false);
   const createBusy=useRef(false),creationKey=useRef<string|null>(null),sending=useRef(false);
-  const drafts=useRef(new Map<string,{text:string;id?:string}>());
+  const drafts=useRef(new Map<string,ChatDraft>());
   useEffect(()=>{const media=matchMedia('(max-width: 1100px)');const update=()=>setMobile(media.matches);update();media.addEventListener('change',update);return()=>media.removeEventListener('change',update);},[]);
   const [limit,setLimit]=useState(100);
   const [details,setDetails]=useState<ResearchProduct|null>(null);
@@ -67,21 +67,63 @@ export function ResearchWorkspace(){
   const collection=useProjectCollection(project?.id??null);
   const {research,busy,running,error}=state;
   const {setError,setResearch}=state;
+  const forgetDraft=useCallback((key:string,id:string)=>{
+    const draft=readDraft(user.id,key)??drafts.current.get(key);
+    if(draft?.id!==id)return false;
+    drafts.current.delete(key);saveDraft(user.id,key,null);return true;
+  },[user.id]);
+  const refreshProjects=useCallback(async(generation:number)=>{
+    try{const values=await api.projects();if(generation===requestGeneration.current){setProjects(values);setProjectsReady(true);}}catch{}
+  },[]);
+  const refreshHistory=conversation.refresh;
+  const acknowledge=useCallback((key:string,id:string,generation:number)=>{
+    const cleared=forgetDraft(key,id);
+    if(generation!==requestGeneration.current)return;
+    if(cleared)setQuery('');
+    setSubmission(previous=>previous?.id===id?{...previous,phase:'ACKNOWLEDGED'}:previous);
+  },[forgetDraft]);
+  const reconcile=useCallback(async(target:{id:string;chat_id:string},id:string,generation:number)=>{
+    try{
+      const receipt=await workspaceApi.receipt(target.id,id);
+      acknowledge(target.chat_id,id,generation);
+      if(generation!==requestGeneration.current)return true;
+      if(receipt.error_code!=='PRICE_RANGE_CONFLICT')setError('');
+      if(receipt.status!=='ACCEPTED'){
+        try{const value=await researchApi.latest(target.chat_id);if(generation===requestGeneration.current)setResearch(value);}catch{}
+      }
+      void refreshProjects(generation);void refreshHistory();return true;
+    }catch(e){if(generation===requestGeneration.current&&e instanceof ApiError&&e.status===401)expire();return false;}
+  },[acknowledge,setError,setResearch,expire,refreshProjects,refreshHistory]);
+  // A lost response is not proof that the POST failed. Read its owner-scoped
+  // receipt on reconnect; never submit it automatically a second time.
+  const projectId=project?.id,projectChat=project?.chat_id;
+  const pendingId=submission?.phase==='ERROR'&&submission.chat===chat?submission.id:null;
+  useEffect(()=>{
+    if(!pendingId||!projectId||!projectChat||requestBusy||busy)return;
+    const generation=requestGeneration.current;let inFlight=false,live=true;
+    const check=async()=>{if(!live||inFlight||generation!==requestGeneration.current||sending.current)return;inFlight=true;try{await reconcile({id:projectId,chat_id:projectChat},pendingId,generation);}finally{inFlight=false;}};
+    void check();const timer=setInterval(()=>void check(),10000);
+    window.addEventListener('online',check);window.addEventListener('focus',check);
+    return()=>{live=false;clearInterval(timer);window.removeEventListener('online',check);window.removeEventListener('focus',check);};
+  },[pendingId,projectId,projectChat,requestBusy,busy,reconcile]);
   const completion=conversation.messages.filter(m=>m.role==='assistant').at(-1);
   const completionResearch=useRef(research);useEffect(()=>{completionResearch.current=research;},[research]);
   useEffect(()=>{if(!chat||completion?.status!=='COMPLETED'||!completion.research_id)return;const previous=completionResearch.current;
     if(previous?.id===completion.research_id&&previous.revision>=(completion.result_revision??0))return;
-    const generation=requestGeneration.current;let live=true;researchApi.latest(chat).then(value=>{if(live&&generation===requestGeneration.current&&value){setResearch(value);api.projects().then(setProjects).catch(()=>{});}}).catch(()=>{});return()=>{live=false;};
-  },[chat,completion?.id,completion?.research_id,completion?.result_revision,completion?.status,setResearch]);
+    const generation=requestGeneration.current;let live=true;researchApi.latest(chat).then(value=>{if(live&&generation===requestGeneration.current&&value){setResearch(value);void refreshProjects(generation);}}).catch(()=>{});return()=>{live=false;};
+  },[chat,completion?.id,completion?.research_id,completion?.result_revision,completion?.status,setResearch,refreshProjects]);
   useEffect(()=>{const generation=requestGeneration.current;api.projects().then(values=>{
     if(generation!==requestGeneration.current)return;
     setProjects(values);setProjectsReady(true);const saved=localStorage.getItem('forma-chat-id');
-    if(generation!==requestGeneration.current)return;const id=values.some(p=>p.chat_id===saved)?saved:values[0]?.chat_id??null;setChat(id);
-    if(id){try{const draft=JSON.parse(sessionStorage.getItem('chat-draft:'+user.id+':'+id)??'null');if(draft){drafts.current.set(id,draft);setQuery(draft.text);}}catch{}}
+    if(generation!==requestGeneration.current)return;
+    const initial=readDraft(user.id,'initial');
+    const id=initial?.id?null:values.some(p=>p.chat_id===saved)?saved:values[0]?.chat_id??null;setChat(id);
+    const key=id??'initial',draft=readDraft(user.id,key);
+    if(draft){drafts.current.set(key,draft);setQuery(draft.text);setSubmission(restoredSubmission(id,draft));}
   }).catch(e=>setError(e.message));},[setError,user.id]);
-  function storedDraft(id:string){try{return JSON.parse(sessionStorage.getItem('chat-draft:'+user.id+':'+id)??'null') as {text:string;id?:string}|null;}catch{return null;}}
-  function editQuery(text:string){setQuery(text);const key=chat??'initial';const old=drafts.current.get(key);const draft={text,id:old?.text===text?old.id:undefined};drafts.current.set(key,draft);if(chat)sessionStorage.setItem('chat-draft:'+user.id+':'+chat,JSON.stringify(draft));}
-  function open(id:string){requestGeneration.current+=1;closePresentation();setChat(id);localStorage.setItem('forma-chat-id',id);const draft=drafts.current.get(id)??storedDraft(id);if(draft)drafts.current.set(id,draft);setQuery(draft?.text??'');setDrawer(null);setCollectionPanel(null);setLimit(100);state.setError('');}
+  function storeDraft(key:string,draft:ChatDraft){drafts.current.set(key,draft);saveDraft(user.id,key,draft);}
+  function editQuery(text:string){setQuery(text);const key=chat??'initial';const old=drafts.current.get(key);storeDraft(key,{...old,text,id:old?.text===text?old.id:undefined});}
+  function open(id:string){requestGeneration.current+=1;closePresentation();setChat(id);localStorage.setItem('forma-chat-id',id);const draft=drafts.current.get(id)??readDraft(user.id,id);if(draft)drafts.current.set(id,draft);setQuery(draft?.text??'');setSubmission(restoredSubmission(id,draft));setDrawer(null);setCollectionPanel(null);setLimit(100);state.setError('');}
   async function newChat(){if(createBusy.current)return;createBusy.current=true;setCreatingChat(true);creationKey.current??=crypto.randomUUID();const generation=++requestGeneration.current;
     try{const created=await api.createChat('Новый чат',creationKey.current);const values=await api.projects();if(!values.some(p=>p.chat_id===created.id))throw new Error('Не удалось открыть сохранённый чат');setProjects(values);setProjectsReady(true);creationKey.current=null;if(generation===requestGeneration.current)open(created.id);}
     catch(e){state.setError((e as Error).message);}finally{createBusy.current=false;setCreatingChat(false);}}
@@ -89,20 +131,55 @@ export function ResearchWorkspace(){
     if(!query.trim()||busy||sending.current)return;
     if(query.length>2000){state.setError('Сообщение должно содержать не более 2000 символов.');return;}
     const value=query;sending.current=true;setRequestBusy(true);state.setError('');
-    const draftKey=chat??'initial';const old=drafts.current.get(draftKey);const requestId=old?.text===value&&old.id?old.id:crypto.randomUUID();
-    setSubmission({chat,id:requestId,text:value,created_at:new Date().toISOString(),phase:'SENDING'});
+    const draftKey=chat??'initial';const old=drafts.current.get(draftKey)??readDraft(user.id,draftKey);const requestId=old?.text===value&&old.id?old.id:crypto.randomUUID();
+    const draft:ChatDraft={text:value,id:requestId,created_at:old?.id===requestId?old.created_at??new Date().toISOString():new Date().toISOString(),creation_id:chat?undefined:old?.creation_id??crypto.randomUUID()};
+    storeDraft(draftKey,draft);
+    setSubmission({chat,id:requestId,text:value,created_at:draft.created_at!,phase:'SENDING'});
     if(!panels.started){setCollectionPanel(null);chatPanel.show();}
-    drafts.current.set(draftKey,{text:value,id:requestId});if(chat)sessionStorage.setItem('chat-draft:'+user.id+':'+chat,JSON.stringify({text:value,id:requestId}));
     let target=project;
-    let generation=requestGeneration.current;
+    let key=draftKey;
+    const generation=++requestGeneration.current;
     try {
-      if(!target){creationKey.current??=crypto.randomUUID();const created=await api.createChat('Новый чат',creationKey.current);const values=await api.projects();target=values.find(p=>p.chat_id===created.id);drafts.current.set(created.id,{text:value,id:requestId});setSubmission(previous=>previous?.id===requestId?{...previous,chat:created.id}:previous);chatPanel.transfer(created.id);open(created.id);setProjects(values);setProjectsReady(true);creationKey.current=null;}
-      if(!target)throw new Error('Project not found');
-      generation=++requestGeneration.current;
+      if(!target){
+        let targetChat=chat;
+        if(!targetChat){
+          const created=await api.createChat('Новый чат',draft.creation_id);targetChat=created.id;key=targetChat;
+          // Save the new location before the next network read: chat creation
+          // may have succeeded even when loading projects subsequently fails.
+          storeDraft(key,{...draft,creation_id:undefined});forgetDraft(draftKey,requestId);
+          if(generation===requestGeneration.current){setSubmission(previous=>previous?.id===requestId?{...previous,chat:targetChat}:previous);chatPanel.transfer(targetChat);setChat(targetChat);localStorage.setItem('forma-chat-id',targetChat);}
+        }
+        const values=await api.projects();target=values.find(p=>p.chat_id===targetChat);
+        if(generation===requestGeneration.current){setProjects(values);setProjectsReady(true);}
+      }
+      if(!target)throw new Error('Не удалось открыть сохранённый чат. Повторите подключение.');
       const result=await workspaceApi.universal(target.id,value,requestId);
-      setSubmission(previous=>previous?.id===requestId?{...previous,phase:'ACKNOWLEDGED'}:previous);
-      if(generation===requestGeneration.current){if(result.research&&result.active!==false)state.setResearch(result.research);setProjects(await api.projects());setLimit(100);if(drafts.current.get(target.chat_id)?.id===requestId){setQuery('');drafts.current.delete(target.chat_id);sessionStorage.removeItem('chat-draft:'+user.id+':'+target.chat_id);}await conversation.refresh();}
-    }catch(e){setSubmission(previous=>previous?.id===requestId?{...previous,phase:'ERROR'}:previous);if(generation===requestGeneration.current){state.setError((e as Error).message);if(drafts.current.get(target?.chat_id??draftKey)?.id===requestId)setQuery(value);await conversation.refresh();}}finally{sending.current=false;setRequestBusy(false);}
+      acknowledge(key,requestId,generation);
+      if(generation===requestGeneration.current){
+        setLimit(100);
+        // The POST response may have waited in a proxy while a newer request
+        // (e.g. from another tab) became active. Check the persisted receipt
+        // before displaying that response, not just its historical active flag.
+        try{
+          const receipt=await workspaceApi.receipt(target.id,requestId);
+          if(generation===requestGeneration.current){
+            if(receipt.active&&result.active!==false&&result.research)setResearch(result.research);
+            else if(receipt.status!=='ACCEPTED'){
+              const value=await researchApi.latest(target.chat_id);if(generation===requestGeneration.current)setResearch(value);
+            }
+          }
+        }catch(e){if(generation===requestGeneration.current){if(e instanceof ApiError&&e.status===401)expire();else setError('Сообщение сохранено. Не удалось загрузить актуальную выдачу.');}}
+        if(generation===requestGeneration.current){void refreshProjects(generation);void refreshHistory();}
+      }
+    }catch(e){
+      if(generation===requestGeneration.current){
+        setError((e as Error).message);
+        setSubmission(previous=>previous?.id===requestId?{...previous,phase:'ERROR'}:previous);
+      }
+      if(e instanceof ApiError&&e.status===401){if(generation===requestGeneration.current)expire();}
+      else if(target)await reconcile(target,requestId,generation);
+      if(generation===requestGeneration.current)void refreshHistory();
+    }finally{sending.current=false;setRequestBusy(false);}
   }
   function select(p:ResearchProduct){collection.toggle(p,research?.id);}
   const syncDocumentProject=useCallback((projectId:string)=>{const target=projects.find(p=>p.id===projectId);if(target&&target.chat_id!==chat){requestGeneration.current++;setChat(target.chat_id);localStorage.setItem('forma-chat-id',target.chat_id);}},[projects,chat]);
@@ -153,6 +230,7 @@ export function ResearchWorkspace(){
       {(localBusy&&!research?<div className="research-empty" role="status"><h2>Исследую каталог…</h2></div>:!research&&!panels.restored?<div className="research-empty" role="status"><p>Восстанавливаю рабочее пространство…</p>{(error||collection.error||conversation.error)&&<button className="studio-button" onClick={()=>window.location.reload()}>Повторить загрузку</button>}</div>:!research?<div className="research-intro"><small>VTO · Реальные данные</small><h1>Исследуйте варианты.<br/>Найдите своё.</h1>
         <p>Опишите задачу. AI найдёт варианты и поможет уточнить подборку.</p>{panels.showInitialComposer&&composer}</div>:
       <><div className="research-heading"><small>{running?'Исследование продолжается':'Результаты исследования'}</small><h1>{research.effective_title??research.intent.raw_query}</h1>
+        {completion?.status==='FAILED'&&completion.error_code==='PRICE_RANGE_CONFLICT'&&<p className="research-notice" role="status">Предыдущая выдача — уточните диапазон цены.</p>}
         <div className="research-stats"><span>Найдено <strong>{research.matching_count}</strong></span><span>Показано <strong>{displayProducts.slice(0,limit).length}</strong></span>
 {research.source_mode!=='index'&&<span>Покрытие <strong>{research.completed_sources}/{research.source_count}</strong></span>}</div>
         {research.new_matches_count>0&&<p className="research-notice" role="status">Найдено {research.new_matches_count} новых вариантов. <button className="studio-button" disabled={busy} onClick={()=>state.perform(()=>researchApi.acceptMatches(research.id))}>Показать</button></p>}

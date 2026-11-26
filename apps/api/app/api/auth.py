@@ -50,6 +50,7 @@ async def create_session(request: Request, response: Response, user: User):
         COOKIE, token, httponly=True, secure=request.app.state.settings.auth_cookie_secure,
         samesite="lax", max_age=int((expires - now).total_seconds()), path="/",
     )
+    request.state.user = user
     return {"id": user.id, "name": user.display_name}
 
 
@@ -63,6 +64,7 @@ async def current_user(request: Request) -> User | None:
                 AuthSession.id == token_id(token), AuthSession.expires_at > utcnow()
             )
         )
+        request.state.user = row
         return row
 
 
@@ -106,6 +108,8 @@ async def login(body: Credentials, request: Request, response: Response):
 
 @router.post("/logout", status_code=204)
 async def logout(request: Request, response: Response):
+    if request.app.state.settings.request_activity_logging:
+        await current_user(request)
     if token := request.cookies.get(COOKIE):
         async with request.app.state.sessions.begin() as db:
             await db.execute(delete(AuthSession).where(AuthSession.id == token_id(token)))

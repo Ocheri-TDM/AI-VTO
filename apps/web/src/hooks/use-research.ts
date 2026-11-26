@@ -30,8 +30,16 @@ export function useResearch(chatId:string|null) {
   useEffect(()=>{
     const current=++generation.current;writer.reset(null);
     queueMicrotask(()=>{if(current===generation.current){commit(null);setHydratedChat(null);}});
-    if(chatId)researchApi.latest(chatId).then(value=>{if(current===generation.current){writer.reset(value);commit(value);setHydratedChat(chatId);}})
-      .catch(e=>{if(current===generation.current)setError(e.message);});
+    let hydrated=false,pending=false;
+    const load=async()=>{
+      if(!chatId||hydrated||pending||current!==generation.current)return;
+      pending=true;
+      try{const value=await researchApi.latest(chatId);if(current===generation.current){writer.reset(value);commit(value);setHydratedChat(chatId);setError('');hydrated=true;}}
+      catch(e){if(current===generation.current)setError((e as Error).message);}
+      finally{pending=false;}
+    };
+    void load();window.addEventListener('online',load);window.addEventListener('focus',load);
+    return()=>{generation.current++;window.removeEventListener('online',load);window.removeEventListener('focus',load);};
   },[chatId,writer,commit]);
   const running=!!research&&['QUEUED','RUNNING'].includes(research.status);
   const id=research?.id;
@@ -47,7 +55,7 @@ export function useResearch(chatId:string|null) {
   useEffect(()=>{if(!id||running)return;const sync=()=>{const current=generation.current;if(!chatId)return;
     researchApi.latest(chatId).then(value=>{if(current!==generation.current||writer.saving||!value)return;
       const previous=latest.current;if(previous?.id===value.id&&value.revision<previous.revision)return;external(value);}).catch(()=>{});};
-    const timer=setInterval(()=>refresh(id),60000);window.addEventListener('focus',sync);return()=>{clearInterval(timer);window.removeEventListener('focus',sync);};},[id,running,chatId,writer,external,refresh]);
+    const timer=setInterval(()=>refresh(id),60000);window.addEventListener('focus',sync);window.addEventListener('online',sync);return()=>{clearInterval(timer);window.removeEventListener('focus',sync);window.removeEventListener('online',sync);};},[id,running,chatId,writer,external,refresh]);
   useEffect(()=>{
     if(!id||!running)return;
     const events=new EventSource(apiPath(`/researches/${id}/events`),{withCredentials:true});

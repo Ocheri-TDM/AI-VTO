@@ -28,6 +28,9 @@ from app.providers.base import SupplierProvider
 
 def create_app(settings: Settings | None = None, providers: list[SupplierProvider] | None = None) -> FastAPI:
     settings = settings or Settings()
+    from app.api.request_activity import ActivityJournal, RequestActivity
+
+    activity = ActivityJournal(settings.request_activity_log) if settings.request_activity_logging else None
     engine, sessions = create_database(settings.database_url)
     repository = SearchRepository(sessions)
     if providers is None:
@@ -145,6 +148,8 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
                 if hasattr(provider, "close"):
                     await provider.close()
             await engine.dispose()
+            if activity:
+                activity.close()
 
     app = FastAPI(
         title="Souvenir Search API",
@@ -283,6 +288,8 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
         return response
 
     app.add_middleware(RequestBoundary, settings=settings)
+    if activity:
+        app.add_middleware(RequestActivity, journal=activity)
 
     @app.exception_handler(ConnectionError)
     @app.exception_handler(SQLAlchemyError)
@@ -316,6 +323,7 @@ def create_app(settings: Settings | None = None, providers: list[SupplierProvide
             "llm_backend": settings.llm_backend,
             "rub_kzt_rate_configured": settings.rub_kzt_rate is not None,
             "suppliers": [p.supplier for p in providers],
+            "request_activity_logging": settings.request_activity_logging,
         }
 
     return app

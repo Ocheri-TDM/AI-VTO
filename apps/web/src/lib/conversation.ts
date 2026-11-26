@@ -1,6 +1,6 @@
 import {request} from './api';
 
-export interface ConversationMessage {id:string;role:string;content:string;created_at:string;operation_id:string|null;request_id:string|null;status:string;research_id:string|null;result_revision?:number|null;origin:string}
+export interface ConversationMessage {id:string;role:string;content:string;created_at:string;operation_id:string|null;request_id:string|null;status:string;research_id:string|null;result_revision?:number|null;error_code?:string|null;origin:string}
 export interface ConversationPage {chat_id:string;messages:ConversationMessage[];next_before:string|null;next_after:string|null;has_more_after:boolean}
 export const conversationApi={page:(chat:string,options:{before?:string;after?:string}={})=>request<ConversationPage>(`/chats/${chat}/history?${new URLSearchParams(options)}`)};
 export function mergeMessages(previous:ConversationMessage[],incoming:ConversationMessage[]){

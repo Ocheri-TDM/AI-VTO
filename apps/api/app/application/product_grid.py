@@ -11,7 +11,21 @@ import re
 import time
 from collections import Counter
 
-from sqlalchemy import String, and_, any_, bindparam, case, cast, func, not_, or_, select, text, type_coerce
+from sqlalchemy import (
+    String,
+    and_,
+    any_,
+    bindparam,
+    case,
+    cast,
+    column,
+    func,
+    not_,
+    or_,
+    select,
+    text,
+    type_coerce,
+)
 from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 
 from app.application.catalog_identity import brand_predicate, brand_registry, identity_catalog
@@ -37,7 +51,14 @@ from app.domain.product_purpose import (
     scope_words,
 )
 from app.domain.query_branches import branch_label, effective_color_state, is_local_override, source_segments
-from app.domain.query_constraints import MATERIAL_ALIASES, color_spans, parse_constraints
+from app.domain.query_constraints import (
+    MATERIAL_ALIASES,
+    SHADE_MARKERS,
+    color_spans,
+    parse_constraints,
+    price_sorting,
+    validate_bounds,
+)
 from app.domain.research import ProductBranch, ResearchSession, ResearchView
 from app.domain.taxonomy import QueryVocabulary, UniversalCategoryResolver, terms
 
@@ -208,7 +229,7 @@ class ProductGridMixin:
         query = normalization.text
         registry = await brand_registry(self.index.sessions)
         identity = await self.grid_identity(query, registry)
-        attributes, _ = parse_constraints(identity.attribute_query)
+        attributes, _ = parse_constraints(identity.attribute_query, check_bounds=False)
         semantic_query = (
             identity.cleaned
             if identity.brands
@@ -218,7 +239,7 @@ class ProductGridMixin:
             or identity.issues
             else query
         )
-        semantic_query = parse_constraints(semantic_query)[1]
+        semantic_query = parse_constraints(semantic_query, check_bounds=False)[1]
         relation = query_relation(semantic_query)
         understanding = (
             await self.query_understanding.understand(semantic_query)
@@ -403,6 +424,7 @@ class ProductGridMixin:
             raise ValueError("Слишком много товарных веток. Разделите запрос.")
         if len(intent.branches) <= 1:
             global_attributes = attributes
+            validate_bounds(global_attributes)
         else:
             remainder = list(query)
             for _, source, offset in source_segments(
@@ -441,7 +463,7 @@ class ProductGridMixin:
             suffix = shared_list_suffix(query, mentions) if not identity.local else ""
             if suffix:
                 suffix_attributes = parse_constraints(resolve_identity(suffix, registry).attribute_query)[0]
-                specific = ("capacity_ml", "capacity_mah", "storage_gb", "connectors", "sizes", "subtypes", "sku", "features")
+                specific = ("capacity_ml", "capacity_mah", "storage_gb", "connectors", "sizes", "paper_format", "subtypes", "sku", "features")
                 if not any(getattr(suffix_attributes, field) for field in specific):
                     if suffix_attributes.colors and set(attributes.colors) == set(suffix_attributes.colors):
                         global_attributes.colors = suffix_attributes.colors
@@ -485,7 +507,11 @@ class ProductGridMixin:
             merged.update(
                 {k: v for k, v in local.model_dump().items() if v is not None and v != [] and v is not False}
             )
+            for field in ("price_min", "price_max", "quantity_min", "quantity_max"):
+                if getattr(local, field) is not None:
+                    merged[field + "_exclusive"] = getattr(local, field + "_exclusive")
             branch.constraints = type(attributes).model_validate(merged)
+            validate_bounds(branch.constraints)
             branch.colors = branch.constraints.colors
             if branch.colors and "colors" not in branch.origins:
                 branch.origins["colors"] = (
@@ -511,6 +537,8 @@ class ProductGridMixin:
             for span in color_spans(identity.attribute_query)
         ]
         intent.query_understanding["color_scope_version"] = "color-scope-v2"
+        if sorting := price_sorting(identity.attribute_query):
+            intent.sorting = sorting
         for fragment in identity.unresolved_products:
             intent.branches.append(ProductBranch(category=resolver.dynamic_id(fragment), label=fragment, resolved=False,
                                                   source_text=fragment, order=len(intent.branches)))
@@ -609,6 +637,21 @@ class ProductGridMixin:
         for value in intent.excluded_materials:
             conditions.append(not_(material_match(value)))
         constraints = branch.constraints
+        # Burgundy and maroon are represented by the historical base RED
+        # category. Exclude only positively identified raw variant shades.
+        if constraints.excluded_color_shades:
+            raw_colors = o.payload["colors"]
+            if db.bind.dialect.name == "postgresql":
+                elements = func.jsonb_array_elements(type_coerce(raw_colors, JSONB)).table_valued(column("value", JSONB))
+                raw = elements.c.value["original_color"].astext
+            else:
+                elements = func.json_each(raw_colors).table_valued("value")
+                raw = func.json_extract(elements.c.value, "$.original_color")
+            markers = [marker for shade in constraints.excluded_color_shades for marker in SHADE_MARKERS.get(shade, ())]
+            if markers:
+                conditions.append(not_(select(1).select_from(elements).where(or_(
+                    *(or_(raw.ilike("%"+marker+"%"), raw.contains(marker.capitalize()), raw.contains(marker.upper())) for marker in markers)
+                )).correlate(o).exists()))
         if branch.min_price is not None:
             conditions.append(
                 p.price_kzt > branch.min_price
@@ -635,12 +678,14 @@ class ProductGridMixin:
                 if constraints.quantity_max_exclusive
                 else p.stock <= constraints.quantity_max
             )
-        for field in ("capacity_ml", "capacity_mah", "storage_gb"):
+        for field in ("capacity_ml", "capacity_mah", "storage_gb", "paper_format"):
             value = getattr(constraints, field)
             if value is not None:
                 from app.database.models import OfferAttributeValue
+                from app.domain.product_attributes import applicable_attributes
 
-                conditions.append(select(OfferAttributeValue.offer_id).where(OfferAttributeValue.offer_id == o.id, OfferAttributeValue.attribute_id == field, OfferAttributeValue.value_key == str(value)).correlate(o).exists())
+                if field != "paper_format" or field in applicable_attributes(branch.category):
+                    conditions.append(select(OfferAttributeValue.offer_id).where(OfferAttributeValue.offer_id == o.id, OfferAttributeValue.attribute_id == field, OfferAttributeValue.value_key == str(value)).correlate(o).exists())
         for connector in constraints.connectors:
             if connector == "USB-C":
                 conditions.append(or_(document.ilike("%usb-c%"), document.ilike("%usb c%"),
@@ -928,6 +973,8 @@ class ProductGridMixin:
         research = ResearchSession(
             chat_id=chat_id, intent=intent, unified=True, source_mode="index", job_status="COMPLETED"
         )
+        if intent.sorting in ("price_asc", "price_desc"):
+            research.view.sorting = intent.sorting
         if budget:
             research.budget = budget
         await self.grid_pool(research)
@@ -1030,7 +1077,7 @@ class ProductGridMixin:
                             ("materials", "materials"),
                             ("colors", "colors"),
                         ]:
-                            if getattr(branch, outer) != getattr(old, outer):
+                            if getattr(branch, outer) != getattr(old, outer) and getattr(branch.constraints, inner) != getattr(branch, outer):
                                 setattr(branch.constraints, inner, getattr(branch, outer))
                                 if outer in ("quantity", "min_price", "max_price"):
                                     setattr(branch.constraints, inner + "_exclusive", False)
@@ -1221,6 +1268,10 @@ class ProductGridMixin:
 
         def order(row):
             price = row[5]
+            if r.view.sorting in ("price_asc", "price_desc"):
+                # Sort the entire eligible ID pool, before pagination. Missing
+                # prices last in either direction; ties by stable offer ID.
+                return (price is None, 0 if price is None else -price if r.view.sorting == "price_desc" else price, row[0])
             return (
                 branch_by_id.get(row[0], 0),
                 int(next(iter(purpose_by_id[row[0]].values()))["category_match"] != "EXACT")
@@ -1341,6 +1392,10 @@ class ProductGridMixin:
         if qualifiers:
             effective_title += " · " + ", ".join(qualifiers)
         notices = list(r.intent.identity_issues)
+        if any("BURGUNDY" in b.constraints.excluded_color_shades for b in r.intent.branches):
+            notices.append("Бордовые оттенки исключены по опубликованному цвету варианта. Если указан только красный цвет без оттенка, точность исключения ограничена.")
+        if not ids and any(ColorGroup.NAVY in b.colors for b in r.intent.branches):
+            notices.append("Navy — отдельный тёмно-синий оттенок. Для поиска других синих оттенков явно разрешите близкие цвета.")
         notices.extend(f"Не удалось распознать товарную позицию «{word}». Уточните её название; остальные категории сохранены."
                        for word in r.intent.query_understanding.get("unresolved_products", []))
         notices.extend(f"Условие «{word}» не удалось проверить. Уточните характеристику товара."

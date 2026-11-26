@@ -286,6 +286,11 @@ test('closed-panel HUD retains source and additional constraints',()=>{
   assert.match(html,/300 шт/);assert.match(html,/5000/);assert.match(html,/molti/);
   assert.match(html,/Уточнение в чате/);assert.match(html,/Требование запроса/);
 });
+test('exact SKU remains visible even without any category chips',()=>{
+  const value={...research,query_categories:[],categories_unrestricted:true,intent:{...research.intent,branches:[{category:'*',label:'Все категории',colors:[],materials:[],quantity:1527,min_price:null,max_price:null,constraints:{sku:'GF-12449.30'}}]}};
+  const html=renderToStaticMarkup(React.createElement(ResearchConditions,{research:value}));
+  assert.match(html,/Артикул: GF-12449\.30/);
+});
 
 test('selected panel preserves two selected color variants with compact cards and document action',()=>{
   const {SelectedProducts}=load('src/components/research/selected-products.tsx');

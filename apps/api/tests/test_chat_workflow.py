@@ -103,6 +103,26 @@ async def test_raw_history_five_messages_replay_and_history_activation_do_not_er
     )
 
 
+async def test_request_receipt_reconnect_replay_and_ownership(clients):
+    _, owner, other, _ = clients
+    p = await new_chat(owner)
+    key = str(uuid4())
+    path = f"/api/projects/{p['id']}/requests/{key}"
+    assert (await owner.get(path)).status_code == 404
+    accepted = await send(owner, p, "Ручки", key)
+    assert accepted.status_code == 202
+    receipt = (await owner.get(path)).json()
+    assert receipt["request_id"] == key and receipt["id"] == accepted.json()["turn"]["id"]
+    assert receipt["active"] and receipt["status"] == "COMPLETED"
+    assert (await other.get(path)).status_code == 404
+    assert (await send(owner, p, "Ручки", key)).json()["turn"]["id"] == receipt["id"]
+    latest = await send(owner, p, "Рюкзаки")
+    assert latest.status_code == 202 and not (await owner.get(path)).json()["active"]
+    history = (await owner.get(f"/api/chats/{p['chat_id']}/history")).json()["messages"]
+    assert len([m for m in history if m["request_id"] == key and m["role"] == "user"]) == 1
+    assert (await owner.get(f"/api/researches/chat/{p['chat_id']}")).json()["id"] == latest.json()["research"]["id"]
+
+
 async def test_late_search_answer_stays_in_history_without_overwriting_manual_title_or_grid(clients):
     app, owner, _, _ = clients
     p = await new_chat(owner)

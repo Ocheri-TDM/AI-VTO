@@ -10,8 +10,10 @@ export function DELETE() { return unavailable(); }
 function unavailable() {
   return NextResponse.json(
     {
-      detail:
-        "Backend API is not configured. Set API_BASE_URL to the public HTTPS FastAPI origin and redeploy.",
+      detail: {
+        code: "BACKEND_NOT_CONFIGURED",
+        message: "Backend API is not configured. Set API_BASE_URL to the public HTTPS FastAPI origin and redeploy.",
+      },
     },
     { status: 503, headers: { "Cache-Control": "no-store" } },
   );

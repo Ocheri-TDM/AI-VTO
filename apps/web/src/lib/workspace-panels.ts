@@ -1,6 +1,17 @@
 import type {ConversationMessage} from './conversation';
 
 export interface LocalSubmission {chat:string|null;id:string;text:string;created_at:string;phase:'SENDING'|'ACKNOWLEDGED'|'ERROR'}
+export interface ChatDraft {text:string;id?:string;created_at?:string;creation_id?:string}
+export function draftKey(user:string,chat:string){return 'chat-draft:'+user+':'+chat;}
+export function readDraft(user:string,chat:string):ChatDraft|null{
+  try{const value=JSON.parse(sessionStorage.getItem(draftKey(user,chat))??'null');return value&&typeof value.text==='string'?value:null;}catch{return null;}
+}
+export function saveDraft(user:string,chat:string,draft:ChatDraft|null){
+  try{if(draft)sessionStorage.setItem(draftKey(user,chat),JSON.stringify(draft));else sessionStorage.removeItem(draftKey(user,chat));}catch{}
+}
+export function restoredSubmission(chat:string|null,draft:ChatDraft|null):LocalSubmission|null{
+  return draft?.id?{chat,id:draft.id,text:draft.text,created_at:draft.created_at??new Date().toISOString(),phase:'ERROR'}:null;
+}
 
 export function workspacePanels({projectsReady,chat,historyReady,researchReady,collectionReady,hasResearch,hasMessages,knownMessages,submission}:{projectsReady:boolean;chat:string|null;historyReady:boolean;researchReady:boolean;collectionReady:boolean;hasResearch:boolean;hasMessages:boolean;knownMessages:boolean;submission:LocalSubmission|null}){
   const local=submission?.chat===chat?submission:null;

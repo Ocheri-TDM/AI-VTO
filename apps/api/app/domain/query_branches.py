@@ -21,6 +21,27 @@ def branch_commands(message, intent):
     text = message.casefold().replace("ё", "е")
     if re.search(r"покажи\s+все\s+категории", text):
         return [{"action": "show_all"}]
+    keep = re.match(r"\s*остав(?:ь|ьте|ить)\s+(?:только\s+)?", text) or (
+        re.match(r"\s*(?:покажи|выведи)\s+(?:мне\s+)?(?:только\s+)?", text)
+        if re.search(r"\bиз\s+(?:текущ\w*|этой)\s+выдач\w*\b", text)
+        else None
+    )
+    if keep:
+        categories = UniversalCategoryResolver().resolve(text)
+        if categories:
+            from app.domain.catalog_identity import BrandRegistry
+            residual = list(text[keep.end():])
+            for start, end, _ in category_mentions("".join(residual), categories, BrandRegistry([])):
+                residual[start:end] = " " * (end-start)
+            remaining = re.sub(r"\bиз\s+(?:текущ\w*|этой)\s+выдач\w*\b|\b(?:и|или)\b", " ", "".join(residual))
+            if not remaining.strip(" \t,.;!?"):
+                if not set(categories) <= {b.category for b in intent.branches}:
+                    raise ValueError("UNKNOWN_BRANCH")
+                # Intersect the visible branches with the requested categories.
+                # Do not create a broader search or resurrect hidden branches.
+                actions = [{"action": "hide", "branch_id": b.id} for b in intent.branches
+                           if b.category not in categories and b.category != "*"]
+                return actions
     action = (
         "hide"
         if re.search(r"\bскро[йю]|\bскрыть", text)
@@ -81,7 +102,7 @@ def source_segments(query, categories, registry, *, include_overrides=False):
     accepted = category_mentions(query, categories, registry)
     separators = [
         m
-        for m in re.finditer(r"[,;!?]|(?<!\d)\.(?!\d)|\s+(?:и|или)\s+", query, re.I)
+        for m in re.finditer(r"(?<!\d),|,(?!\d)|[;!?]|(?<!\d)\.(?!\d)|\s+(?:и|или)\s+", query, re.I)
         if not any(m.start() < b and m.end() > a for a, b in protected)
     ]
     regions = zip([0] + [m.end() for m in separators], [m.start() for m in separators] + [len(query)])
