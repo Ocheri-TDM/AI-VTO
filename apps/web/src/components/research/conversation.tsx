@@ -6,7 +6,7 @@ import {ChatPanelToggle} from './chat-panel-toggle';
 export function ConversationComposer({value,onChange,onSubmit,busy,started,disabled=false,focusOnMount=true}:{value:string;onChange:(value:string)=>void;onSubmit:()=>void;busy:boolean;started:boolean;disabled?:boolean;focusOnMount?:boolean}){
   return <form className="research-composer" onSubmit={e=>{e.preventDefault();onSubmit();}}>
     <label htmlFor={started?'research-message':'research-query'}>{started?'Сообщение':'Что нужно подобрать?'}</label>
-    <textarea id={started?'research-message':'research-query'} value={value} onChange={e=>onChange(e.target.value)} maxLength={2000} autoFocus={started&&focusOnMount}
+    <textarea id={started?'research-message':'research-query'} value={value} onChange={e=>onChange(e.target.value)} maxLength={2000} autoFocus={started&&focusOnMount} readOnly={busy||disabled}
       placeholder={started?'Уточните условия или начните новый поиск':'Синие бутылки, 300 шт.'} rows={3}
       onKeyDown={e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.nativeEvent.isComposing){e.preventDefault();onSubmit();}}}/>
     <button className="studio-button primary" aria-busy={busy} disabled={busy||disabled||!value.trim()}><span className="button-stable-label"><span>{busy?'Отправляю…':'Отправить'}</span></span></button>

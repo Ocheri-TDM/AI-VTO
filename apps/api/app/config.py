@@ -66,6 +66,8 @@ class Settings(BaseSettings):
     api_host: str = "127.0.0.1"
     api_port: int = 8000
     api_http_concurrency: int = Field(default=64, ge=16, le=256)
+    request_activity_logging: bool = False
+    request_activity_log: Path = ROOT / ".local" / "request-activity.jsonl"
     search_json_max_bytes: int = Field(default=65536, ge=4096, le=262144)
     search_deadline_seconds: float = Field(default=45, ge=1, le=120)
     search_concurrency: int = Field(default=8, ge=1, le=16)

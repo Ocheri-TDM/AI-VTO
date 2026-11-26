@@ -10,11 +10,17 @@ from uuid import uuid4
 from sqlalchemy import select, text, update
 
 from app.application.product_grid import brand_key
-from app.database.models import Chat, HardRequestRecord, Message, Project, ProjectQuery
+from app.database.models import Chat, ConversationTurn, HardRequestRecord, Message, Project, ProjectQuery
 from app.domain.effective_filters import effective_intent
 from app.domain.models import ColorGroup, utcnow
 from app.domain.query_branches import branch_commands
-from app.domain.query_constraints import parse_constraints
+from app.domain.query_constraints import (
+    QueryClarification,
+    parse_constraints,
+    price_sorting,
+    sku_span,
+    validate_bounds,
+)
 from app.domain.services import ColorNormalizer
 from app.domain.taxonomy import UniversalCategoryResolver
 
@@ -193,6 +199,23 @@ class ProjectQueryService:
 
         return await run_request(self, project_id, message, owner, request_id)
 
+    async def receipt(self, project_id, request_id, owner):
+        if owner is None and not self.research.settings.auth_required:
+            owner = "00000000-0000-0000-0000-000000000001"
+        async with self.sessions() as db:
+            found = (await db.execute(select(ConversationTurn, Project.request_epoch)
+                .join(Chat, Chat.id == ConversationTurn.chat_id)
+                .join(Project, Project.id == Chat.project_id)
+                .where(Project.id == project_id, Project.user_id == owner,
+                       Chat.user_id == owner, ConversationTurn.request_key == request_id))).first()
+            if not found:
+                return None
+            turn, epoch = found
+            return {"id": turn.id, "request_id": turn.request_key, "status": turn.status,
+                    "research_id": turn.research_id,
+                    "error_code": turn.error_code if turn.error_code in QueryClarification.MESSAGES else None,
+                    "active": turn.request_epoch == epoch}
+
     async def change(self, project_id, *args, **kwargs):
         async with self.lock(project_id) as db:
             await self.check_epoch(db, project_id)
@@ -211,7 +234,7 @@ class ProjectQueryService:
         # edits. The accepted refinement becomes a new intent revision.
         current.intent = effective_intent(current)
         commands = branch_commands(message, current.intent)
-        if commands:
+        if commands is not None:
             r = await self.change(
                 project_id,
                 current.id,
@@ -238,9 +261,11 @@ class ProjectQueryService:
             return await self.create(project_id, message, owner)
         # An exact SKU has no product-category/model tokens. It still names a
         # new product and must not become a no-op refinement of the old model.
-        if parse_constraints(message)[0].sku:
+        if sku_span(message):
             return await self.create(project_id, message, owner)
         identity = await self.research.grid_identity(message)
+        attributes, _ = parse_constraints(identity.attribute_query, check_bounds=False)
+        sorting = price_sorting(identity.attribute_query)
         brands = identity.brands
         categories = UniversalCategoryResolver().resolve(identity.cleaned)
         identity_command = bool(
@@ -252,14 +277,23 @@ class ProjectQueryService:
             and not identity_command
         ):
             return await self.create(project_id, message, owner)
+        # A positive product subject may carry sorting and any number of
+        # attributes. Only explicit context actions retain the current grid.
+        contextual = bool(re.search(r"оставь|сделай|убери|добав|теперь|замени|поменяй|больше не|из\s+(?:текущ\w*|этой)\s+выдач", lower))
+        local_identity = bool(
+            "только" in lower and (brands or identity.models)
+            and set(categories) <= set(current.intent.categories)
+        )
         if re.search(r"^(?:теперь\s+)?(?:найди|ищи|подбери)|новый поиск|забудь", lower) or (
-            categories and not re.search(r"оставь|сделай|убери|добав|только|теперь|сначала|больше не", lower)
+            categories and not contextual and not local_identity
         ):
             return await self.create(project_id, message, owner)
         changes = {}
         filters = current.view.filters.model_copy(deep=True)
         action = "REFINE_CURRENT"
         intent_change = False
+        if sorting:
+            changes["sorting"] = sorting
         if re.search(r"сброс|без фильтров|покажи все", lower):
             changes["restore"] = "reset"
         elif re.search(r"отмен|назад|верни", lower):
@@ -372,7 +406,6 @@ class ProjectQueryService:
         else:
             parsed = await self.research.grid_plan(message) if categories else None
             color = ColorNormalizer().normalize(message).normalized_color
-            price = re.search(r"(?:до|дороже)\s*(\d[\d ]*)", lower)
             materials = next(
                 (
                     v
@@ -381,7 +414,7 @@ class ProjectQueryService:
                 ),
                 None,
             )
-            if re.search(r"сначала|желательно|предпочтительно|лучше", lower):
+            if not sorting and re.search(r"сначала|желательно|предпочтительно|лучше", lower):
                 filters.origins["preference"] = "chat"
                 current.view.preferences = [materials or color.value]
                 changes["sorting"] = "relevance"
@@ -399,10 +432,31 @@ class ProjectQueryService:
                     action = "MODIFY_CURRENT"
                 else:
                     filters.colors = [color]
-            elif price:
-                filters.max_price = int(price[1].replace(" ", ""))
-            elif re.search(r"(?:от|минимум)\s*(\d+)\s*шт", lower):
-                filters.minimum_quantity = int(re.search(r"(?:от|минимум)\s*(\d+)\s*шт", lower)[1])
+            elif any(getattr(attributes, field) is not None for field in ("price_min", "price_max", "quantity_min", "quantity_max")):
+                targets = [b for b in current.intent.branches if not categories or b.category in categories]
+                for inner, outer, filter_name in (
+                    ("price_min", "min_price", "min_price"), ("price_max", "max_price", "max_price"),
+                    ("quantity_min", "quantity", "minimum_quantity"), ("quantity_max", None, None),
+                ):
+                    number = getattr(attributes, inner)
+                    if number is None:
+                        continue
+                    for branch in targets:
+                        setattr(branch.constraints, inner, number)
+                        setattr(branch.constraints, inner + "_exclusive", getattr(attributes, inner + "_exclusive"))
+                        if outer:
+                            setattr(branch, outer, number)
+                            branch.origins[outer] = "chat"
+                    if filter_name and not categories:
+                        setattr(filters, filter_name, None)
+                if attributes.quantity_min is not None and not categories:
+                    current.intent.quantity = attributes.quantity_min
+                if attributes.price_min is not None or attributes.price_max is not None:
+                    current.intent.budget = None
+                for branch in targets:
+                    validate_bounds(branch.constraints)
+                intent_change = True
+                action = "MODIFY_CURRENT"
             elif materials:
                 if re.search(r"убери|без|исключ", lower):
                     filters.excluded_materials = [materials]
@@ -421,7 +475,7 @@ class ProjectQueryService:
             version=current.view.version,
             filters=filters if not changes.get("restore") else None,
             preferences=current.view.preferences
-            if re.search(r"сначала|желательно|предпочтительно|лучше", lower)
+            if not sorting and re.search(r"сначала|желательно|предпочтительно|лучше", lower)
             else None,
             message=message,
             origin="chat",

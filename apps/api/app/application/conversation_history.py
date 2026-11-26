@@ -9,6 +9,7 @@ from sqlalchemy import and_, or_, select
 
 from app.database.models import Chat, ConversationTurn, Message
 from app.domain.models import utcnow
+from app.domain.query_constraints import QueryClarification
 
 
 def cursor(chat_id, message):
@@ -89,6 +90,7 @@ async def page(service, chat_id, owner, before=None, after=None, limit=50):
                 "operation_id": m.operation_id,
                 "request_id": t.request_key if t else None,
                 "status": t.status if t else "COMPLETED",
+                "error_code": t.error_code if t and t.error_code in QueryClarification.MESSAGES else None,
                 "research_id": t.research_id if t else None,
                 "project_query_id": m.project_query_id,
                 "result_revision": m.result_revision,

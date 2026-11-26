@@ -44,7 +44,7 @@ const categories: Record<string, string> = {
 };
 
 const colors: Record<string, { label: string; swatch: string }> = {
-  NAVY: { label: "Тёмно-синий", swatch: "#263c63" },
+  NAVY: { label: "Тёмно-синий Navy", swatch: "#263c63" },
   DARK_BLUE: { label: "Тёмно-синий", swatch: "#234780" },
   BLUE: { label: "Синий", swatch: "#416da9" },
   LIGHT_BLUE: { label: "Голубой", swatch: "#83b5d6" },

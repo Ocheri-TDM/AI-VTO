@@ -14,23 +14,28 @@ export class ApiError extends Error {
     public status: number,
     message: string,
     public retryAfter: number = 0,
+    public code?: string,
   ) {
     super(message);
   }
 }
-function failure(status: number) {
+function failure(status: number, code?:string) {
   return new ApiError(
     status,
-    (
+    code==='BACKEND_NOT_CONFIGURED' ? "Backend API не настроен. Укажите API_BASE_URL и повторно разверните frontend." : (
       {
+        401: "Сессия завершилась. Войдите снова.",
+        502: "Сервер приложения временно недоступен. Повторите после восстановления связи.",
         404: "Проект или подборка больше не доступны.",
         410: "Результаты поиска устарели. История диалога сохранена.",
         409: "Подборка уже изменяется. Дождитесь завершения действия.",
         429: "Сервис занят. Повторите действие немного позже.",
         422: "Проверьте заполненные поля.",
-        503: "Backend API не настроен. Укажите API_BASE_URL и повторно разверните frontend.",
+        503: "Сервис временно недоступен. Повторите после восстановления связи.",
+        504: "Сервер не успел ответить. Проверьте состояние запроса перед повтором.",
       } as Record<number, string>
     )[status] ?? "Не удалось выполнить действие. Попробуйте ещё раз.",
+    0,code,
   );
 }
 
@@ -46,21 +51,25 @@ export async function request<T>(path: string, options: RequestInit = {}, readab
   } catch (error) {
     if (error instanceof DOMException && error.name === "AbortError")
       throw error;
-    throw new Error(
+    throw new ApiError(0,
       "Не удалось подключиться к серверу. Проверьте подключение и попробуйте ещё раз.",
+      0,"NETWORK_UNAVAILABLE",
     );
   }
   if (!response.ok) {
     const retryHeader=response.headers?.get('Retry-After');
     const retryAfter=retryHeader ? Math.max(0,Number.isFinite(Number(retryHeader))?Number(retryHeader):Math.ceil((Date.parse(retryHeader)-Date.now())/1000)):0;
-    if(readableErrors&&[409,413,422,429].includes(response.status)){
-      const body=await response.json().catch(()=>null);
-      if(typeof body?.detail==='string')throw new ApiError(response.status,body.detail.slice(0,300),Number.isFinite(retryAfter)?retryAfter:0);
+    const body=await response.json().catch(()=>null);
+    const code=typeof body?.detail?.code==='string'?body.detail.code:typeof body?.code==='string'?body.code:undefined;
+    const seconds=Number.isFinite(retryAfter)?retryAfter:0;
+    if(readableErrors&&[409,413,422,429,503,504].includes(response.status)){
+      const detail=typeof body?.detail==='string'?body.detail:body?.detail?.message;
+      if(typeof detail==='string'&&([409,413,422,429].includes(response.status)||['DATABASE_UNAVAILABLE','REQUEST_DEADLINE'].includes(code??'')))throw new ApiError(response.status,detail.slice(0,300),seconds,code);
     }
-    const error=failure(response.status);error.retryAfter=Number.isFinite(retryAfter)?retryAfter:0;throw error;
+    const error=failure(response.status,code);error.retryAfter=seconds;throw error;
   }
   if (response.status === 204) return undefined as T;
-  return response.json() as Promise<T>;
+  try{return await response.json() as T;}catch{throw new ApiError(response.status,"Сервер не подтвердил сохранение запроса. Проверьте связь и повторите.",0,"INVALID_RESPONSE");}
 }
 
 export const api = {

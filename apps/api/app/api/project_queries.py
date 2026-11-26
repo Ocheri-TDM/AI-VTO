@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from app.api.request_safety import validate_query
 from app.api.research import render
+from app.domain.query_constraints import QueryClarification
 
 router = APIRouter(tags=["project queries"])
 
@@ -29,6 +30,14 @@ async def history(project_id: UUID, request: Request):
     return value
 
 
+@router.get("/api/projects/{project_id}/requests/{request_id}")
+async def receipt(project_id: UUID, request_id: UUID, request: Request):
+    value = await request.app.state.project_queries.receipt(str(project_id), str(request_id), owner(request))
+    if value is None:
+        raise HTTPException(404, "Request not found")
+    return value
+
+
 @router.post("/api/projects/{project_id}/requests", status_code=202)
 @router.post("/api/projects/{project_id}/queries", status_code=201)
 async def submit(project_id: UUID, body: QueryCreate, request: Request):
@@ -37,6 +46,8 @@ async def submit(project_id: UUID, body: QueryCreate, request: Request):
             str(project_id), body.query, owner(request), body.request_id
         )
     except ValueError as exc:
+        if isinstance(exc, QueryClarification):
+            raise HTTPException(422, {"code": exc.code, "message": str(exc)}) from exc
         if str(exc) == "STATE_CONFLICT":
             raise HTTPException(409, "Подборка изменилась. Повторите уточнение.") from exc
         if str(exc) == "IDEMPOTENCY_CONFLICT":

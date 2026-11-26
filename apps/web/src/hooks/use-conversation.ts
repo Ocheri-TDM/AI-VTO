@@ -17,7 +17,7 @@ export function useConversation(chat:string|null){
     pending.current=promise;return promise;
   },[]);
   const invalidate=useCallback(()=>{generation.current++;},[]);
-  useEffect(()=>{invalidate();activeChat.current=chat;current.current=null;pending.current=null;queueMicrotask(()=>{setError('');setValue(null);});void refresh();const timer=setInterval(()=>void refresh(),10000);const focus=()=>void refresh();window.addEventListener('focus',focus);return()=>{invalidate();clearInterval(timer);window.removeEventListener('focus',focus);};},[chat,refresh,invalidate]);
+  useEffect(()=>{invalidate();activeChat.current=chat;current.current=null;pending.current=null;queueMicrotask(()=>{setError('');setValue(null);});void refresh();const timer=setInterval(()=>void refresh(),10000);const focus=()=>void refresh();window.addEventListener('focus',focus);window.addEventListener('online',focus);return()=>{invalidate();clearInterval(timer);window.removeEventListener('focus',focus);window.removeEventListener('online',focus);};},[chat,refresh,invalidate]);
   async function older(){const base=current.current;if(!chat||base?.chat!==chat||!base.before||loading)return;const epoch=generation.current;setLoading(true);try{const page=await conversationApi.page(chat,{before:base.before});if(epoch===generation.current){setValue(old=>old?.chat===chat?{...old,messages:mergeMessages(old.messages,page.messages),before:page.next_before}:old);setError('');}}catch(e){if(epoch===generation.current)setError((e as Error).message);}finally{if(epoch===generation.current)setLoading(false);}}
   return {messages:value?.chat===chat?value.messages:[],ready:!!(value?.chat===chat),hasOlder:!!(value?.chat===chat&&value.before),loading,error,older,refresh};
 }

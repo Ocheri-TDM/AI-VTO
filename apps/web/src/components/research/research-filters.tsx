@@ -136,6 +136,7 @@ export function CategoryCharacteristics({research,onChange,disabled}:{research:R
 
 export function ResearchConditions({research}:{research:Research}) {
   const conditions:{text:string;source:string}[]=[];
+  if(research.view.sorting==='price_asc'||research.view.sorting==='price_desc')conditions.push({text:research.view.sorting==='price_asc'?'Сначала дешёвые':'Сначала дорогие',source:'Сортировка по цене за единицу'});
   for(const branch of research.intent.branches??[]) {
     const values=[...(!research.effective_filters?[...branch.colors.map(colorLabel),...branch.materials,...(branch.brands??[]).map(v=>`Бренд: ${v}`),branch.quantity!==null?`от ${branch.quantity} шт.`:'',branch.max_price!==null?`до ${branch.max_price} ₸`:'',branch.min_price!==null?`от ${branch.min_price} ₸`:'']:[]),...(branch.excluded_brands??[]).map(v=>`Без бренда: ${v}`),...(branch.models??[]).map(v=>`Модель: ${v}`)].filter(Boolean);
     const label=research.query_categories?.find(b=>b.id===branch.id)?.label??(branch.category.startsWith('dynamic:')?branch.label:categoryLabel(branch.category));
@@ -160,10 +161,13 @@ export function ResearchConditions({research}:{research:Research}) {
     if(values.length&&(!research.effective_filters||field==='excluded_materials'||field==='required_terms'))conditions.push({text:`${label}: ${values.map(v=>field==='brands'?(research.brand_labels?.[v]??v)||'Бренд не указан':v).join(', ')}`,source:f.origins[field]==='chat'?'Уточнение в чате':'Дополнительный фильтр'});
   }
   if(!research.effective_filters)for(const [key,label,suffix] of [['min_price','Цена от','₸'],['max_price','Цена до','₸'],['minimum_quantity','Тираж от','шт.']] as const)if(f[key]!==null)conditions.push({text:`${label}: ${f[key]} ${suffix}`,source:f.origins[key]==='chat'?'Уточнение в чате':'Дополнительный фильтр'});
-  for(const branch of research.query_categories??[]){const a=branch.constraints?.constraints;if(!a)continue;
+  // Unrestricted searches (including exact SKU lookup) have no category
+  // chip, but their technical constraints are still part of the active intent.
+  const technical=[...(research.query_categories??[]).map(b=>({label:b.label,source_text:b.source_text,resolved:b.resolved,constraints:b.constraints?.constraints})),...(research.intent.branches??[]).filter(b=>b.category==='*').map(b=>({label:'',source_text:'',resolved:true,constraints:b.constraints}))];
+  for(const branch of technical){const a=branch.constraints;if(!a)continue;
     const features:Record<string,string>={ETERNAL:'Вечный пишущий элемент',HYBRID_2_IN_1:'2 в 1'};
-    const extras=[a.capacity_ml?`${a.capacity_ml} мл`:'',a.capacity_mah?`${a.capacity_mah} мАч`:'',a.sku?`Артикул: ${a.sku}`:'',a.quantity_max!=null?`${a.quantity_max_exclusive?'меньше':'не более'} ${a.quantity_max} шт.`:'',a.availability_only?'Только в наличии':'',a.allow_near_colors?'Близкие оттенки разрешены':'',...(a.features??[]).map(v=>features[v]??v),...(a.excluded_colors??[]).filter(v=>!research.intent.excluded_colors?.includes(v)).map(v=>`Без цвета: ${colorLabel(v)}`)].filter(Boolean);
-    if(extras.length)conditions.push({text:`${branch.label}: ${extras.join(', ')}`,source:'Техническое требование запроса'});
+    const extras=[a.capacity_ml?`${a.capacity_ml} мл`:'',a.capacity_mah?`${a.capacity_mah} мАч`:'',a.sku?`Артикул: ${a.sku}`:'',a.quantity_max!=null?`${a.quantity_max_exclusive?'меньше':'не более'} ${a.quantity_max} шт.`:'',a.availability_only?'Только в наличии':'',a.allow_near_colors?'Близкие оттенки разрешены':'',...(a.features??[]).map(v=>features[v]??v),...(a.excluded_color_shades??[]).map(v=>v==='BURGUNDY'?'Без бордового оттенка':v),...(a.excluded_colors??[]).filter(v=>!research.intent.excluded_colors?.includes(v)).map(v=>`Без цвета: ${colorLabel(v)}`)].filter(Boolean);
+    if(extras.length)conditions.push({text:(branch.label?`${branch.label}: `:'')+extras.join(', '),source:'Техническое требование запроса'});
     if(!branch.resolved)conditions.push({text:`Не распознано: ${branch.source_text}`,source:'Уточните категорию'});
   }
   if(!conditions.length)return null;

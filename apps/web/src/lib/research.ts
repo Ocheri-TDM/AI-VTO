@@ -12,9 +12,10 @@ export type EffectiveField='brands'|'colors'|'materials'|'sizes'|'min_price'|'ma
 export type EffectiveEdit={field:EffectiveField;action:'set'|'clear'|'inherit';branch_id?:string;values?:string[];number?:number};
 export interface EffectiveValue {mode:'none'|'common'|'mixed'|'complex'|'conflict';values:string[];number:number|null;exclusive:boolean;requirements?:string[][]}
 export interface EffectiveFilters {fields:Record<EffectiveField,EffectiveValue>;options?:Partial<Record<EffectiveField,string[]>>;branches:{id:string;label:string;category:string;fields:Record<EffectiveField,EffectiveValue>}[]}
+export interface TypedConstraints {quantity_min_exclusive?:boolean;quantity_max?:number|null;quantity_max_exclusive?:boolean;price_min_exclusive?:boolean;price_max_exclusive?:boolean;capacity_ml?:number|null;capacity_mah?:number|null;paper_format?:string|null;sizes?:string[];sku?:string|null;allow_near_colors?:boolean;availability_only?:boolean;features?:string[];excluded_colors?:string[];excluded_color_shades?:string[]}
 export interface QueryCategory {id:string;concept:string|null;label:string;source_text:string;order:number;hidden:boolean;count:number;resolved:boolean;
   constraints:{colors?:string[];brands?:string[];excluded_brands?:string[];models?:string[];materials?:string[];quantity?:number|null;min_price?:number|null;max_price?:number|null;
-    constraints?:{quantity_min_exclusive?:boolean;quantity_max?:number|null;quantity_max_exclusive?:boolean;price_min_exclusive?:boolean;price_max_exclusive?:boolean;capacity_ml?:number|null;capacity_mah?:number|null;sizes?:string[];sku?:string|null;allow_near_colors?:boolean;availability_only?:boolean;features?:string[];excluded_colors?:string[]}}}
+    constraints?:TypedConstraints}}
 export interface ResearchFilters {
   branch_attributes?:Record<string,Record<string,string[]>>;
   brands: string[]; materials: string[]; sizes: string[]; minimum_quantity: number|null;
@@ -29,7 +30,7 @@ export interface Research {
   effective_filters?:EffectiveFilters;
   color_state?:{mode:'none'|'uniform'|'mixed'|'conflict';values:string[];source_mode:'none'|'uniform'|'mixed';source_values:string[];additional_values:string[];conflicting_branch_ids:string[]};
   source_mode?: 'index' | 'live';
-  id: string; chat_id: string; intent: {raw_query: string; quantity: number | null; brands?:string[];excluded_brands?:string[];models?:string[]; excluded_materials?:string[]; excluded_categories?:string[];excluded_colors?:string[]; branches?:{id?:string;category:string;label:string;colors:string[];quantity:number|null;materials:string[];min_price:number|null;max_price:number|null;brands?:string[];excluded_brands?:string[];models?:string[]}[]};
+  id: string; chat_id: string; intent: {raw_query: string; quantity: number | null; brands?:string[];excluded_brands?:string[];models?:string[]; excluded_materials?:string[]; excluded_categories?:string[];excluded_colors?:string[]; branches?:{id?:string;category:string;label:string;colors:string[];quantity:number|null;materials:string[];min_price:number|null;max_price:number|null;brands?:string[];excluded_brands?:string[];models?:string[];constraints?:TypedConstraints}[]};
   brand_labels?:Record<string,string>;identity_notices?:string[];
   query_categories?:QueryCategory[];categories_unrestricted?:boolean;effective_title?:string;
   category_notice?:{id:string;label:string;branch_id:string}|null;

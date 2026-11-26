@@ -8,6 +8,7 @@ from sqlalchemy import func, select, update
 from app.database.models import ConversationTurn, Message, Project, ResearchRecord
 from app.domain.models import utcnow
 from app.domain.query_branches import branch_label
+from app.domain.query_constraints import QueryClarification, price_matches, without_price_bounds
 
 
 def title_for(intent):
@@ -87,6 +88,10 @@ async def complete(service, project_id, identifier, result, context, status, err
         )
         if status == "SUPERSEDED" and research:
             content += " Активной остаётся выдача более позднего запроса."
+        if error in QueryClarification.MESSAGES:
+            content = QueryClarification.MESSAGES[error]
+            if (await db.get(Project, project_id)).active_query_id:
+                content += " На экране сохранена предыдущая выдача."
         answer = Message(
             id=str(uuid4()),
             chat_id=turn.chat_id,
@@ -120,6 +125,7 @@ async def run_request(service, project_id, message, owner, request_id=None):
         return None
     chat_id = project[1].id
     key = str(request_id or uuid4())
+    effective_message = message
     async with service.lock(project_id) as db:
         turn = await db.scalar(
             select(ConversationTurn).where(
@@ -142,6 +148,17 @@ async def run_request(service, project_id, message, owner, request_id=None):
             active = turn.request_epoch == (await db.get(Project, project_id)).request_epoch
         else:
             p = await db.get(Project, project_id)
+            previous = await db.scalar(select(ConversationTurn).where(ConversationTurn.chat_id == chat_id)
+                                       .order_by(ConversationTurn.request_epoch.desc()).limit(1))
+            if previous and previous.error_code == QueryClarification.PRICE_RANGE and list(price_matches(message)):
+                import re
+                rest = without_price_bounds(message)
+                # Only a price-only reply repairs the immediately preceding
+                # rejected query. A fresh named subject remains independent.
+                if not re.sub(r"\b(?:теперь|цена|бюджет|да|нет|исправь|пусть|будет)\b", " ", rest, flags=re.I).strip(" ,.!?;"):
+                    original = await db.get(Message, previous.user_message_id)
+                    subject = without_price_bounds(original.content)
+                    effective_message = (subject + ", " + message).strip(" ,")
             p.request_epoch += 1
             epoch = p.request_epoch
             identifier = str(uuid4())
@@ -166,6 +183,8 @@ async def run_request(service, project_id, message, owner, request_id=None):
             db.add(turn)
             replay = None
     if replay:
+        if error in QueryClarification.MESSAGES:
+            raise QueryClarification(error)
         if status in ("FAILED", "SUPERSEDED", "CANCELLED", "INTERRUPTED"):
             raise ValueError(error or "REQUEST_FAILED")
         research = await service.research.repository.get(research_id, hydrate=False) if research_id else None
@@ -176,8 +195,11 @@ async def run_request(service, project_id, message, owner, request_id=None):
     context = {}
     ctx = _turn_result.set(context)
     try:
-        result = await service._request(project_id, message, owner)
+        result = await service._request(project_id, effective_message, owner)
         await complete(service, project_id, identifier, result, context, "COMPLETED")
+        async with service.sessions() as db:
+            project = await db.get(Project, project_id)
+            active = project is not None and project.request_epoch == epoch
         return result | {
             "turn": {
                 "id": identifier,
@@ -185,7 +207,7 @@ async def run_request(service, project_id, message, owner, request_id=None):
                 "status": "COMPLETED",
                 "user_message_id": user_message.id,
             },
-            "active": True,
+            "active": active,
         }
     except asyncio.CancelledError:
         await asyncio.shield(
@@ -201,7 +223,7 @@ async def run_request(service, project_id, message, owner, request_id=None):
             None,
             context,
             "SUPERSEDED" if superseded else "FAILED",
-            str(exc) if isinstance(exc, ValueError) else type(exc).__name__,
+            exc.code if isinstance(exc, QueryClarification) else str(exc) if isinstance(exc, ValueError) else type(exc).__name__,
         )
         raise
     finally:

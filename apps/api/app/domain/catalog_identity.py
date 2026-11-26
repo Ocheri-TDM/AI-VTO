@@ -7,7 +7,7 @@ from functools import lru_cache
 
 from app.domain.hard_request import _materials
 from app.domain.product_purpose import ROLES
-from app.domain.query_constraints import parse_constraints
+from app.domain.query_constraints import mask_price_sorting, parse_constraints
 from app.domain.services import ColorNormalizer
 from app.domain.taxonomy import QueryVocabulary, UniversalCategoryResolver
 
@@ -112,9 +112,9 @@ _GENERIC = re.compile(
 def resolve_identity(query, registry, family_rows=()):
     text = " ".join(unicodedata.normalize("NFKC", query).split())
     lower = text.casefold()
-    identity_text = list(text)
+    identity_text = list(mask_price_sorting(text))
     for preference in re.finditer(
-        r"\b(?:желательно|предпочтительно|покажи\s+сначала|сначала)\b[^,.!?;]*", text, re.I
+        r"\b(?:желательно|предпочтительно|покажи\s+сначала|сначала)\b[^,.!?;]*", "".join(identity_text), re.I
     ):
         identity_text[preference.start() : preference.end()] = " " * (preference.end() - preference.start())
     identity_text = "".join(identity_text)
@@ -160,7 +160,8 @@ def resolve_identity(query, registry, family_rows=()):
             start = masked.find(tail, match.end())
             masked = masked[:start] + key + masked[start + len(tail) :]
     resolver = UniversalCategoryResolver()
-    clauses = re.split(r"\s+(?:и|или)\s+|[,;]", masked, flags=re.I)
+    # A comma between digits is a decimal separator, not a product clause.
+    clauses = re.split(r"\s+(?:и|или)\s+|(?<!\d),|,(?!\d)|;", masked, flags=re.I)
     parsed = []
     for clause in clauses:
         labels = [entities[k] for k in re.findall(r"identitybrand\d+", clause)]
@@ -175,7 +176,9 @@ def resolve_identity(query, registry, family_rows=()):
             clean = clean[: explicit.start()]
             models = [model] if model else []
         else:
-            _, model_text = parse_constraints(clean)
+            # This stage only separates identity from attributes; price/stock
+            # ranges are validated after the terms are bound to product branches.
+            _, model_text = parse_constraints(clean, check_bounds=False)
             model_text = re.sub(
                 r"\b(?:собери|собрать|составь)\s+(?:ровно\s+)?\d*\s*(?:разных\s+)?(?:набор\w*|сет\w*|комплект\w*)\s*(?:из)?",
                 " ",

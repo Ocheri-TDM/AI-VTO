@@ -9,6 +9,91 @@ from pydantic import BaseModel, ConfigDict, Field
 from app.domain.services import ColorNormalizer
 
 
+class QueryClarification(ValueError):
+    """A recognized request whose hard constraints cannot be satisfied as written."""
+
+    PRICE_RANGE = "PRICE_RANGE_CONFLICT"
+    MESSAGES = {
+        PRICE_RANGE: "Минимальная цена выше максимальной. Какой диапазон использовать?",
+    }
+
+    def __init__(self, code):
+        self.code = code
+        super().__init__(self.MESSAGES[code])
+
+
+_NUMBER = r"-?\d+(?:\s+\d{3})*(?:[.,]\d+)?"
+_QUANTITY_OP = r"не\s+менее|не\s+меньше|не\s+больше|не\s+более|минимум|максимум|больше|более|меньше|менее|от|до|>=|<=|>|<"
+_QUANTITY_UNIT = r"(?:шт(?:ук|уки|ука)?\.?|pcs)\b"
+_PRICE_UNIT = r"(?:тенге|₸|тг|kzt)"
+_PRICE_OP = r"не\s+дороже|не\s+дешевле|дешевле|дороже|до|от|бюджет|цена"
+_PRICE_RANGE = re.compile(rf"\b(?:цена\s+)?от\s+({_NUMBER})\s+до\s+({_NUMBER})\s*{_PRICE_UNIT}", re.I)
+_PRICE_BOUND = re.compile(
+    rf"\b(?:цена\s+)?({_PRICE_OP})\s*({_NUMBER})\s*{_PRICE_UNIT}(?:\s+за\s+штук\w*)?", re.I
+)
+_IMPLICIT_PRICE = re.compile(
+    rf"\b(не\s+дороже|не\s+дешевле|дешевле|дороже)\s+({_NUMBER})(?=\s*(?:$|[,;.!?]))", re.I
+)
+_PRICE_EXCLUSION = re.compile(
+    r"\b(?:убери|исключи|скрой|не\s+показывай|отсей)\s+(?:(?:вс[её]|товар\w*|вариант\w*)\s+)*$", re.I
+)
+_PRICE_SORT = re.compile(
+    r"\b(?:покажи\s+)?сначала\s+(?:сам(?:ые|ых|ую|ый)\s+)?(?:более\s+)?(д[её]ш[её]в\w*|дорог\w*)"
+    r"|\b(?:сортируй|отсортируй|сортировка)\s+(?:по\s+цене\s+)?(?:по\s+)?(возрастани\w*|убывани\w*)\b"
+    r"|\b(?:по\s+цене\s+)?от\s+(д[её]ш[её]в\w*|дорог\w*)\s+к\s+(?:д[её]ш[её]в\w*|дорог\w*)\b"
+    r"|\b(?:price\s+(asc|desc)|cheapest\s+first|most\s+expensive\s+first)\b",
+    re.I,
+)
+_SKU_TOKEN = r"[\w]+(?:[-.][\w]+)+"
+_SKU_CUE = re.compile(r"\b(?:артикул\w*|sku)\s*[:№]?\s*([\w]+(?:[-.][\w]+)*)", re.I)
+_SKU_HEAD = re.compile(
+    rf"^\s*(?:(?:покажи|найди|подбери|show|find)\s+(?:мне\s+)?)?({_SKU_TOKEN})(?![\w.-])"
+    rf"(?=\s*(?:$|[,;.!?]|(?:от|до|тираж\w*|количеств\w*|цвет\w*|сначала|минимум)\b))",
+    re.I,
+)
+SHADE_MARKERS = {"BURGUNDY": ("бордов", "бургунд", "burgundy", "maroon", "bordeaux")}
+_SHADE = re.compile(r"\b(?:бордов\w*|бургунд\w*|burgundy|maroon|bordeaux)\b", re.I)
+
+
+def price_sorting(query):
+    match = _PRICE_SORT.search(query)
+    if not match:
+        return None
+    value = next((g for g in match.groups() if g), match[0]).casefold().replace("ё", "е")
+    return "price_desc" if value.startswith(("дорог", "убыван", "desc", "most expensive")) else "price_asc"
+
+
+def mask_price_sorting(query):
+    return _PRICE_SORT.sub(lambda match: " " * len(match[0]), query)
+
+
+def sku_span(query):
+    explicit = _SKU_CUE.search(query)
+    if explicit:
+        return explicit if any(c.isdigit() for c in explicit[1]) else None
+    implicit = _SKU_HEAD.search(query)
+    return implicit if implicit and "." in implicit[1] and any(c.isdigit() for c in implicit[1]) else None
+
+
+def price_matches(text):
+    """Yield nonoverlapping typed bounds; shared by parsing and clarification."""
+    found = []
+    for pattern in (_PRICE_RANGE, _PRICE_BOUND, _IMPLICIT_PRICE):
+        for match in pattern.finditer(text):
+            if any(match.start() < end and match.end() > start for start, end in found):
+                continue
+            found.append(match.span())
+            yield match, pattern is _PRICE_RANGE
+
+
+def without_price_bounds(query):
+    text = unicodedata.normalize("NFKC", query)
+    matches = sorted((m.span() for m, _ in price_matches(text)), reverse=True)
+    for start, end in matches:
+        text = text[:start] + " " + text[end:]
+    return re.sub(r"\s+", " ", text).strip(" ,.;")
+
+
 @dataclass(frozen=True)
 class ColorSpan:
     start: int
@@ -70,10 +155,12 @@ class AttributeConstraints(BaseModel):
     storage_gb: int | None = Field(default=None, ge=1, le=1_000_000)
     connectors: list[str] = Field(default_factory=list)
     sizes: list[str] = Field(default_factory=list)
+    paper_format: str | None = None
     subtypes: list[str] = Field(default_factory=list)
     sku: str | None = None
     colors: list[str] = Field(default_factory=list)
     excluded_colors: list[str] = Field(default_factory=list)
+    excluded_color_shades: list[str] = Field(default_factory=list)
     materials: list[str] = Field(default_factory=list)
     excluded_materials: list[str] = Field(default_factory=list)
     preferences: list[str] = Field(default_factory=list)
@@ -82,16 +169,36 @@ class AttributeConstraints(BaseModel):
     availability_only: bool = False
 
 
-def parse_constraints(query):
+def validate_bounds(value):
+    for kind in ("quantity", "price"):
+        low, high = getattr(value, kind + "_min"), getattr(value, kind + "_max")
+        if low is not None and high is not None and (
+            low > high or low == high and (
+                getattr(value, kind + "_min_exclusive") or getattr(value, kind + "_max_exclusive")
+            )
+        ):
+            if kind == "price":
+                raise QueryClarification(QueryClarification.PRICE_RANGE)
+            raise ValueError("Нижняя граница превышает верхнюю.")
+
+
+def parse_constraints(query, *, check_bounds=True):
     text = unicodedata.normalize("NFKC", query)
-    if re.search(r"\d+[.,]\d+\s*шт", text, re.I):
-        raise ValueError("Тираж должен быть целым числом.")
     value = AttributeConstraints()
     spans = []
-    number = r"-?\d+(?:\s+\d{3})*(?:[.,]\d+)?"
 
     def consume(match):
         spans.append(match.span())
+
+    # Protect the identifier before interpreting numbers embedded in it.
+    sku = sku_span(text)
+    if sku:
+        value.sku = sku[1]
+        consume(sku)
+        text = text[:sku.start()] + " " * (sku.end()-sku.start()) + text[sku.end():]
+    for match in reversed(list(_PRICE_SORT.finditer(text))):
+        consume(match)
+        text = text[:match.start()] + " " * (match.end()-match.start()) + text[match.end():]
 
     for match in re.finditer(r"\b(\d+)\s*(?:ГБ|GB)\b", text, re.I):
         value.storage_gb = int(match[1])
@@ -111,6 +218,8 @@ def parse_constraints(query):
 
     def bound(kind, op, number):
         number = float(re.sub(r"\s+", "", number).replace(",", "."))
+        if kind == "quantity" and not number.is_integer():
+            raise ValueError("Тираж должен быть целым числом.")
         if number < 0 or kind == "quantity" and number == 0:
             raise ValueError("Количество и цена должны быть положительными.")
         upper = op.casefold() in (
@@ -132,78 +241,76 @@ def parse_constraints(query):
         setattr(value, field, int(number) if kind == "quantity" else number)
         setattr(value, field + "_exclusive", exclusive)
 
-    for match in re.finditer(r"(?<!\w)(-?\d+(?:[.,]\d+)?)\s*(мл|ml|л|литр\w*|мАч|mAh)\b", text, re.I):
+    for match in re.finditer(
+        rf"(?<![\w.,])(?:\b(?:по|объ[её]мом|объ[её]м|вместимостью|[её]мкостью)\s*[:=]?\s+)?"
+        rf"({_NUMBER})\s*(мл|ml|л|l|литр\w*|мАч|mAh)\b", text, re.I
+    ):
         if re.search(r"(?:\b(?:от|до|больше|меньше|более|менее)|[<>]=?)\s*$", text[: match.start()], re.I):
             raise ValueError("Для вместимости укажите точное значение; диапазоны требуют уточнения.")
-        n = float(match[1].replace(",", "."))
+        n = float(re.sub(r"\s+", "", match[1]).replace(",", "."))
         unit = match[2].casefold()
         field = "capacity_mah" if unit in ("мач", "mah") else "capacity_ml"
-        n *= 1000 if unit == "л" or unit.startswith("литр") else 1
+        n *= 1000 if unit in ("л", "l") or unit.startswith("литр") else 1
         if n <= 0 or not n.is_integer():
             raise ValueError("Некорректная вместимость.")
         setattr(value, field, int(n))
         consume(match)
+    # Paper formats belong to paper, not to the model vocabulary. Explicit
+    # model designations (including "модель A5 Max") remain literal identities.
+    from app.domain.taxonomy import UniversalCategoryResolver
+    paper = "notebook" in UniversalCategoryResolver().resolve(text)
+    for match in re.finditer(r"(?<!\w)(?:(?:формат\w*|format|размер\w*)\s*[:=]?\s*)?([AАBВCС][0-8]\+?)(?![\w+])", text, re.I):
+        if re.search(r"\b(?:модель|model)\s*[:=]?\s*$", text[:match.start()], re.I):
+            continue
+        if paper or re.search(r"формат|format", match[0], re.I):
+            value.paper_format = match[1].upper().translate(str.maketrans("АВС", "ABC"))
+            consume(match)
     for match in re.finditer(r"\b(?:размер\w*|size)\s*[:=]?\s*(\d*[XSML]{1,4}|A[0-6]|\d{2,3})\b", text, re.I):
+        if any(match.start() < end and match.end() > start for start, end in spans):
+            continue
         value.sizes.append(match[1].upper())
         consume(match)
-    sku = re.fullmatch(r"\s*(?:(?:sku|артикул)\s*[:№]?\s*)?([\w]+(?:[-.][\w]+)+)\s*", text, re.I)
-    if sku and any(c.isdigit() for c in sku[1]) and ("." in sku[1] or re.search(r"sku|артикул", text, re.I)):
-        value.sku = sku[1]
-        consume(sku)
-    for match in re.finditer(
-        r"(?:(не\s+менее|не\s+меньше|не\s+больше|не\s+более|минимум|максимум|больше|более|меньше|менее|от|до|>=|<=|>|<)\s*)?(-?\d+)\s*(?:шт(?:ук|уки|ука)?\.?|pcs)\b",
-        text,
-        re.I,
-    ):
-        bound("quantity", re.sub(r"\s+", " ", match[1] or "от"), match[2])
-        consume(match)
-    for match in re.finditer(
-        r"\b(?:тираж\w*|количеств\w*)\s*(?:минимум|от|не\s+менее)?\s*(-?\d+)", text, re.I
-    ):
-        bound("quantity", "от", match[1])
-        consume(match)
-    for match in re.finditer(r"\b(?:штук|шт)\s+(-?\d+)\b", text, re.I):
-        bound("quantity", "от", match[1])
-        consume(match)
-    for match in re.finditer(r"\bот\s+(-?\d+)\s+до\s+(-?\d+)\s*шт", text, re.I):
+    for match in re.finditer(rf"\bот\s+({_NUMBER})\s+до\s+({_NUMBER})\s*{_QUANTITY_UNIT}", text, re.I):
         bound("quantity", "от", match[1])
         bound("quantity", "до", match[2])
         consume(match)
     for match in re.finditer(
-        rf"\b(?:цена\s+)?от\s+({number})\s+до\s+({number})\s*(?:тенге|₸|тг|kzt)", text, re.I
-    ):
-        bound("price", "от", match[1])
-        bound("price", "до", match[2])
-        consume(match)
-    for match in re.finditer(
-        rf"\b(?:цена\s+)?(не\s+дороже|не\s+дешевле|дешевле|дороже|до|от|бюджет|цена)\s*({number})\s*(?:тенге|₸|тг|kzt)(?:\s+за\s+штук\w*)?",
+        rf"(?<![\w.,])(?:({_QUANTITY_OP})\s*)?({_NUMBER})\s*{_QUANTITY_UNIT}",
         text,
         re.I,
     ):
-        bound("price", re.sub(r"\s+", " ", match[1]), match[2])
+        if any(match.start() < end and match.end() > start for start, end in spans):
+            continue
+        bound("quantity", re.sub(r"\s+", " ", match[1] or "от"), match[2])
         consume(match)
     for match in re.finditer(
-        rf"\b(не\s+дороже|не\s+дешевле|дешевле|дороже)\s+({number})(?=\s*(?:$|[,;.!?]))", text, re.I
+        rf"\b(?:тираж\w*|количеств\w*)\s*(?:({_QUANTITY_OP})\s*)?({_NUMBER})(?:\s*{_QUANTITY_UNIT})?", text, re.I
     ):
-        bound("price", re.sub(r"\s+", " ", match[1]), match[2])
+        bound("quantity", re.sub(r"\s+", " ", match[1] or "от"), match[2])
+        consume(match)
+    for match in re.finditer(rf"\b(?:штук|шт)\s+({_NUMBER})(?!\w)", text, re.I):
+        bound("quantity", "от", match[1])
+        consume(match)
+    for match, is_range in price_matches(text):
+        if is_range:
+            bound("price", "от", match[1])
+            bound("price", "до", match[2])
+        else:
+            op = re.sub(r"\s+", " ", match[1]).casefold()
+            # The comparative describes the products being excluded, not the
+            # accepted products: "убери всё дороже X" means price <= X.
+            if _PRICE_EXCLUSION.search(text[:match.start()]):
+                op = {"дороже": "не дороже", "дешевле": "не дешевле",
+                      "не дороже": "дороже", "не дешевле": "дешевле"}.get(op, op)
+            bound("price", op, match[2])
         consume(match)
     for match in re.finditer(
-        rf"\b(не\s+меньше|не\s+менее|больше|более)\s+({number})(?=\s*(?:$|[,;.!?]))", text, re.I
+        rf"\b(не\s+меньше|не\s+менее|больше|более)\s+({_NUMBER})(?=\s*(?:$|[,;.!?]))", text, re.I
     ):
         bound("quantity", re.sub(r"\s+", " ", match[1]), match[2])
         consume(match)
-    for kind in ("quantity", "price"):
-        low, high = getattr(value, kind + "_min"), getattr(value, kind + "_max")
-        if (
-            low is not None
-            and high is not None
-            and (
-                low > high
-                or low == high
-                and (getattr(value, kind + "_min_exclusive") or getattr(value, kind + "_max_exclusive"))
-            )
-        ):
-            raise ValueError("Нижняя граница превышает верхнюю.")
+    if check_bounds:
+        validate_bounds(value)
     # Non-product scopes terminate at punctuation or another role marker. Keep
     # the positive product head even when a preference shares its sentence.
     roles = r"(?:но\s+не\s+исключай|не\s+исключай|желательно|предпочтительно|покажи\s+сначала|сначала|но\s+не|не\s+показывай|исключи|исключая|кроме|без|никаких|не\s+(?=(?:бел|черн|чёрн|красн|пластик|металл)))"
@@ -221,9 +328,12 @@ def parse_constraints(query):
             for k, aliases in MATERIAL_ALIASES.items()
             if any(re.search(r"\b" + a, phrase, re.I) for a in aliases)
         ]
-        colors = [c.value for c in ColorNormalizer().extract(phrase)]
         soft = bool(re.search(r"желательно|предпочтительно|сначала", name))
         allowed = "исключай" in name
+        shades = bool(_SHADE.search(phrase)) and not soft and not allowed
+        colors = [c.value for c in ColorNormalizer().extract(_SHADE.sub(" ", phrase) if shades else phrase)]
+        if shades:
+            value.excluded_color_shades.append("BURGUNDY")
         if soft:
             value.preferences.extend(
                 materials + colors
@@ -237,7 +347,7 @@ def parse_constraints(query):
             value.excluded_materials.extend(materials)
             value.excluded_colors.extend(colors)
         # Remove only attribute spans, not category exclusions, from identity.
-        if materials or colors or allowed or soft:
+        if materials or colors or shades or allowed or soft:
             spans.append((marker.start(), end))
             hard_text = hard_text[: marker.start()] + " " * (end - marker.start()) + hard_text[end:]
     matched_colors = color_spans(hard_text)
