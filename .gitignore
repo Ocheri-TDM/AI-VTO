@@ -8,6 +8,7 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 .local/
+.migration/
 .research/
 node_modules/
 .next/

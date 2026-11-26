@@ -43,6 +43,24 @@ test('read-only offer renders SKU, independent line price, quantity, description
   assert.doesNotMatch(cover,/Рюкзак синий|35 224/);
 });
 
+test('offer uses the supplied banner photo and centered brand while retaining an uploaded banner',()=>{
+  const banner=offer=>{
+    const html=renderToStaticMarkup(React.createElement(OfferView,{value:offer}));
+    return html.slice(html.indexOf('<div class="offer-banner'),html.indexOf('<div class="offer-cover-copy'));
+  };
+  const initial=banner(value);
+  assert.match(initial,/<img class="offer-banner-photo" src="\/offer\/mainthing\.jpeg"/);
+  assert.match(initial,/<span class="offer-banner-logo"><img src="\/offer\/251\.png"/);
+  assert.doesNotMatch(initial,/offer-banner-mark/);
+  const uploaded=banner({...value,banner_url:'/custom-banner.png'});
+  assert.match(uploaded,/class="offer-banner has-image"/);
+  assert.match(uploaded,/<img class="offer-banner-photo" src="\/custom-banner\.png"/);
+  assert.match(uploaded,/<span class="offer-banner-logo"><img src="\/offer\/251\.png"/);
+  for(const filename of ['mainthing.jpeg','251.png']){
+    assert.ok(fs.readFileSync(path.join(__dirname,'../public/offer',filename)).equals(fs.readFileSync(path.join(__dirname,'../../..',filename))),filename);
+  }
+});
+
 test('variant rows remain separate and sensitive editor fields are never rendered in the shared view',()=>{
   const red={...value.items[0],id:'red-line',sku:'00002-A.02',title:'Рюкзак красный',main_image:'red-photo',images:[{id:'red-photo',url:'/api/public/offers/redacted/revisions/r/assets/red-photo'}],catalog_price:'PRIVATE_PURCHASE_PRICE',source_url:'PRIVATE_SUPPLIER_URL'};
   const html=renderToStaticMarkup(React.createElement(OfferView,{value:{...value,items:[...value.items,red]}}));
